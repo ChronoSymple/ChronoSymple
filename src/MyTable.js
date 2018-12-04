@@ -7,10 +7,11 @@ import Table from '@material-ui/core/Table';
 import { withStyles } from '@material-ui/core';
 
 const style = {
-  "selectable" : {
+  selectable : {
     "&:hover": {
-      background: "#00000011"
-    }
+      backgroundColor: "#00000011"
+    },
+    transition: "background-color .3s"
   }
 }
 
