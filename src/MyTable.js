@@ -4,12 +4,22 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import Table from '@material-ui/core/Table';
+import { withStyles } from '@material-ui/core';
 
-export default class MyTable extends PureComponent {
+const style = {
+  "selectable" : {
+    "&:hover": {
+      background: "#00000011"
+    }
+  }
+}
+
+class MyTable extends PureComponent {
   render() {
     const {
       cols,
-      data
+      data,
+      classes
     } = this.props;
     return (
         <Table>
@@ -24,7 +34,7 @@ export default class MyTable extends PureComponent {
         </TableHead>
         <TableBody>
           {data.map((e, i) =>
-            <TableRow key={i}>
+            <TableRow key={i} className={classes.selectable}>
               {cols.map((col, id) =>
                 <TableCell key={col.field}>{e[col.field]}</TableCell>
               )}
@@ -35,3 +45,5 @@ export default class MyTable extends PureComponent {
     )
   }
 }
+
+export default withStyles(style)(MyTable)

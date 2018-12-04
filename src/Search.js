@@ -56,8 +56,9 @@ class Search extends PureComponent {
               value={search}
               onChange={this.setSearchValue}/>
             </Typography>
-            <div style={{padding: "0px 4px", cursor: "pointer"}}>
-              <SearchIcon onClick={() => this.searchbar.focus()}/>
+            <div onClick={() => this.searchbar.focus()}
+                style={{padding: "4px 4px", cursor: "pointer"}}>
+              <SearchIcon/>
             </div>
           </div>
         </Card>
