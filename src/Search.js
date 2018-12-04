@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react'
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
 import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
 import MyTable from './MyTable';
-import { CardContent, Typography } from '@material-ui/core';
 
 const fakedata = [
   {firstname: "Carl", lastname: "DE GENTILE", birthdate: "XX/XX/XXXX"},
