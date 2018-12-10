@@ -20,21 +20,21 @@ const columns = [
 ];
 
 class Search extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      search: ""
-    };
-  }
+  state = {
+    search: ""
+  };
+
   setSearchRef = (searchBar) => {
     this.searchbar = searchBar
-  }
+  };
+
   setSearchValue = (event) => {
     const search = event.target.value;
     this.setState({
       search
     });
-  }
+  };
+
   render() {
     const {
       search
@@ -66,7 +66,7 @@ class Search extends Component {
           <MyTable cols={columns} data={tab}/>
         </Card>
       </div>
-    )
+    );
   }
 }
 
