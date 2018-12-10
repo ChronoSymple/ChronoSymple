@@ -1,7 +1,13 @@
 import React, { PureComponent } from 'react'
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
-import { CardContent } from '@material-ui/core';
+import CardContent from '@material-ui/core/CardContent';
+import DiseaseCard from './DiseaseCard';
+
+const fakedata= [
+  "Diabète",
+  "Obésité",
+];
 
 class Patient extends PureComponent {
   render() {
@@ -15,6 +21,7 @@ class Patient extends PureComponent {
             </Typography>
           </CardContent>
         </Card>
+        {fakedata.map(e => <DiseaseCard key={e} disease={e}/>)}
       </div>
     )
   }
