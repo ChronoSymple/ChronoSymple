@@ -15,7 +15,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import Search from './Search';
+//import Search from './Search/';
+import Search from './Patient/';
 
 const drawerWidth = 240;
 

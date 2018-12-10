@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import SearchIcon from '@material-ui/icons/Search';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
@@ -19,7 +19,7 @@ const columns = [
   {label:"Date de naissance", field:"birthdate"},
 ];
 
-class Search extends PureComponent {
+class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
