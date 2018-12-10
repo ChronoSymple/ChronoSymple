@@ -43,26 +43,33 @@ const styles = theme => ({
 class App extends React.Component {
   state = {
     mobileOpen: false,
+    client: null,
   };
+
+  setClient = (client) => this.setState({ client });
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
-  };
+  }
 
   render() {
     const {
       classes,
     } = this.props;
+    const {
+      client,
+      mobileOpen,
+    } = this.state;
     return (
       <div className={classes.root}>
         <CssBaseline />
         <MyAppBar classes={classes} handleDrawerToggle={this.handleDrawerToggle}/>
         <Navigation
           classes={classes}
-          mobileOpen={this.state.mobileOpen}
+          mobileOpen={mobileOpen}
           handleDrawerToggle={this.handleDrawerToggle}
         />
-        <Main classes={classes}/>
+        <Main classes={classes} client={client} setClient={this.setClient}/>
       </div>
     );
   }
