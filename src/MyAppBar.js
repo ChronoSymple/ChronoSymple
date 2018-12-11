@@ -13,7 +13,7 @@ class MyAppBar extends PureComponent {
       handleDrawerToggle,
     } = this.props;
     return (
-        <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -28,7 +28,7 @@ class MyAppBar extends PureComponent {
           </Typography>
         </Toolbar>
       </AppBar>
-    )
+    );
   }
 }
 

@@ -10,10 +10,10 @@ import { withStyles } from '@material-ui/core';
 
 const styles = {
   selectable : {
-    "&:hover": {
-      backgroundColor: "#00000011"
+    '&:hover': {
+      backgroundColor: '#00000011'
     },
-    transition: "background-color .3s"
+    transition: 'background-color .3s'
   },
   patientCard: {
     marginTop: 16
@@ -21,7 +21,7 @@ const styles = {
 };
 
 class PatientList extends PureComponent {
-  setClient = (e) => this.props.setClient(e);
+  setClient = e => this.props.setClient(e);
 
   render() {
     const {
@@ -36,29 +36,38 @@ class PatientList extends PureComponent {
               <TableCell>Nom</TableCell>
               <TableCell>Prénom</TableCell>
               <TableCell>Date de naissance</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((e, i) =>
-            <TableRow
-              key={e.id}
-              className={classes.selectable}
-              onClick={() => this.setClient(e)}
-            >
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.map(e =>
+              <TableRow
+                key={e.id}
+                className={classes.selectable}
+                onClick={() => this.setClient(e)}
+              >
                 <TableCell>{e.lastname}</TableCell>
                 <TableCell>{e.firstname}</TableCell>
                 <TableCell>{e.birthdate}</TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
       </Card>
-    )
+    );
   }
 }
 
 PatientList.propTypes = {
   setClient: PropTypes.func.isRequired,
+  classes: PropTypes.shape({
+    patientCard: PropTypes.string.isRequired,
+    selectable: PropTypes.string.isRequired,
+  }),
+  data: PropTypes.arrayOf(PropTypes.shape({
+    lastname: PropTypes.string.isRequired,
+    firstname: PropTypes.string.isRequired,
+    birthdate: PropTypes.string.isRequired,
+  }))
 };
 
 export default withStyles(styles)(PatientList);

@@ -9,7 +9,7 @@ class DiseaseCard extends PureComponent {
     const {
       disease,
       children,
-    } = this.props
+    } = this.props;
     return (
       <Card style={{marginTop: 16}}>
         <CardContent>

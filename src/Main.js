@@ -16,7 +16,7 @@ class Main extends PureComponent {
         <div className={classes.toolbar} />
         {client ? <Patient client={client}/> : <Search setClient={setClient}/>}
       </main>
-    )
+    );
   }
 }
 

@@ -21,7 +21,7 @@ class Navigation extends PureComponent {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          {['Patient', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          {['Patient', 'Starred', 'Send email', 'Drafts'].map(text => (
             <ListItem button key={text}>
               <ListItemIcon><MailIcon /></ListItemIcon>
               <ListItemText primary={text} />
@@ -66,7 +66,7 @@ class Navigation extends PureComponent {
 
 Navigation.defaultProps = {
   mobileOpen: false
-}
+};
 
 Navigation.propTypes = {
   classes: PropTypes.shape({

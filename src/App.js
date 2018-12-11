@@ -48,7 +48,7 @@ class App extends React.Component {
     login: false,
   };
 
-  setClient = (client) => this.setState({ client });
+  setClient = client => this.setState({ client });
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
