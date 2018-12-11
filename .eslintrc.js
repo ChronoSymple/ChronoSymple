@@ -52,6 +52,13 @@ module.exports = {
       "as-needed"
     ],
     "arrow-spacing": "error",
+    "comma-spacing": "error",
+    "space-before-blocks": "error",
+    "space-before-function-paren": [
+      "error",
+      "never",
+    ],
+    "space-infix-ops": "error",
   },
   "settings": {
     "react": {

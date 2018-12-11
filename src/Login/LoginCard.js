@@ -51,11 +51,12 @@ class LoginCard extends Component {
     this.setState({email});
   }
   login = e => {
+    e.preventDefault();
+    /*
     const {
       email,
       password,
     } = this.state;
-    e.preventDefault();
     fetch('/api/login', {
       method: 'POST',
       body: JSON.stringify({
@@ -67,18 +68,21 @@ class LoginCard extends Component {
         'Content-Type': 'application/json',
       }
     });
+    */
+    this.props.setLogged();
   }
 
   render() {
     const {
-      classes
+      classes,
+      open
     } = this.props;
     const {
       email,
       password
     } = this.state;
     return (
-      <div className={classes.login}>
+      <div className={classes.login} style={open ? {} : {display: 'none'}}>
         <div className={classes.loginCardContainer}>
           <Card className={classes.loginCard}>
             <CardContent>
@@ -118,6 +122,10 @@ class LoginCard extends Component {
   }
 }
 
+LoginCard.defaulProps = {
+  open: false,
+};
+
 LoginCard.propTypes = {
   classes: PropTypes.shape({
     login: PropTypes.string.isRequired,
@@ -125,6 +133,8 @@ LoginCard.propTypes = {
     loginCard: PropTypes.string.isRequired,
     loginButton: PropTypes.string.isRequired,
   }),
+  open: PropTypes.bool.isRequired,
+  setLogged: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(LoginCard);

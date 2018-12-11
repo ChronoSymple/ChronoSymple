@@ -61,11 +61,12 @@ class App extends React.Component {
     const {
       client,
       mobileOpen,
+      login
     } = this.state;
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <Login/>
+        <Login open={!login} setLogged={this.setLogged}/>
         <MyAppBar classes={classes} handleDrawerToggle={this.handleDrawerToggle}/>
         <Navigation
           classes={classes}
