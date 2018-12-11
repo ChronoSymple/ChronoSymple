@@ -15,36 +15,92 @@ const styles = {
     right: 0,
     backgroundColor: "#DDDDDD",
     zIndex: 10000,
-  }
+  },
+  loginCardContainer: {
+    position: "relative",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%,-50%)",
+    display: "flex",
+    justifyContent: "center",
+  },
+  loginCard: {
+    margin: 10,
+    maxWidth: 600,
+  },
 }
 
 class LoginCard extends Component {
+  state = {password: "", email: ""}
+
+  setPassword = (e) => {
+    const password = e.target.value;
+    this.setState({password});
+  }
+  setEmail = (e) => {
+    const email = e.target.value;
+    this.setState({email});
+  }
+  login = (e) => {
+    const {
+      email,
+      password,
+    } = this.state;
+    e.preventDefault();
+    fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify({
+        email,
+        password
+      }),
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json",
+      }
+    })
+  }
+
   render() {
     const {
       classes
     } = this.props;
+    const {
+      email,
+      password
+    } = this.state;
     return (
     <div className={classes.login}>
-        <Card>
+      <div className={classes.loginCardContainer}>
+        <Card className={classes.loginCard}>
           <CardContent>
             <Typography variant="h5">Connexion</Typography>
-            <TextField
-              label="Email"
-              //value={this.state.name}
-              //onChange={this.handleChange('name')}
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              label="Mot de passe"
-              //value={this.state.name}
-              //onChange={this.handleChange('name')}
-              margin="normal"
-              fullWidth
-            />
-            <Button color="primary" variant="contained">Se connecter</Button>
+            <form onSubmit={this.login}>
+              <TextField
+                label="Email"
+                value={email}
+                onChange={this.setEmail}
+                margin="normal"
+                fullWidth
+              />
+              <TextField
+                label="Mot de passe"
+                value={password}
+                onChange={this.setPassword}
+                margin="normal"
+                fullWidth
+              />
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                onClick={this.login}
+              >
+                Se connecter
+              </Button>
+            </form>
           </CardContent>
         </Card>
+      </div>
     </div>
     );
   }
