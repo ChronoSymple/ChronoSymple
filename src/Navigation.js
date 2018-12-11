@@ -10,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 
 class Navigation extends PureComponent {
+  click = () => this.props.setClient();
   render() {
     const {
       classes,
@@ -21,8 +22,8 @@ class Navigation extends PureComponent {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          {['Patient', 'Starred', 'Send email', 'Drafts'].map(text => (
-            <ListItem button key={text}>
+          {['Patient'].map(text => (
+            <ListItem button key={text} onClick={this.click}>
               <ListItemIcon><MailIcon /></ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>

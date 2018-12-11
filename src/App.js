@@ -50,6 +50,8 @@ class App extends React.Component {
 
   setClient = client => this.setState({ client });
 
+  setLogged = () => this.setState({ login:true });
+
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   }
@@ -72,6 +74,7 @@ class App extends React.Component {
           classes={classes}
           mobileOpen={mobileOpen}
           handleDrawerToggle={this.handleDrawerToggle}
+          setClient={this.setClient}
         />
         <Main classes={classes} client={client} setClient={this.setClient}/>
       </div>
