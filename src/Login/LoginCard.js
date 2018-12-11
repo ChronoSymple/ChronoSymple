@@ -27,6 +27,14 @@ const styles = {
   loginCard: {
     margin: 10,
     maxWidth: 600,
+    width: "100%",
+    justifyContent: "right",
+  },
+  loginButton: {
+    marginTop: 16,
+    display: "block",
+    marginLeft: "auto",
+    marginRight: 0,
   },
 }
 
@@ -89,14 +97,17 @@ class LoginCard extends Component {
                 margin="normal"
                 fullWidth
               />
-              <Button
-                type="submit"
-                color="primary"
-                variant="contained"
-                onClick={this.login}
-              >
-                Se connecter
-              </Button>
+              <div>
+                <Button
+                  className={classes.loginButton}
+                  type="submit"
+                  color="primary"
+                  variant="contained"
+                  onClick={this.login}
+                >
+                  Se connecter
+                </Button>
+              </div>
             </form>
           </CardContent>
         </Card>
