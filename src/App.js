@@ -4,6 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import MyAppBar from './MyAppBar';
 import Navigation from './Navigation';
 import Main from './Main';
+import Login from './Login';
 import { withStyles } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
@@ -44,6 +45,7 @@ class App extends React.Component {
   state = {
     mobileOpen: false,
     client: null,
+    login: false,
   };
 
   setClient = (client) => this.setState({ client });
@@ -63,6 +65,7 @@ class App extends React.Component {
     return (
       <div className={classes.root}>
         <CssBaseline />
+        <Login/>
         <MyAppBar classes={classes} handleDrawerToggle={this.handleDrawerToggle}/>
         <Navigation
           classes={classes}
