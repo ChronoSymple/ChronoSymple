@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 class DiseaseCard extends PureComponent {
   render() {
@@ -12,10 +15,13 @@ class DiseaseCard extends PureComponent {
     } = this.props;
     return (
       <Card style={{marginTop: 16}}>
-        <CardContent>
-          <Typography variant="h6">{disease}</Typography>
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="h6">{disease}</Typography>
+          </ExpansionPanelSummary>
           {children}
-        </CardContent>
+          <ExpansionPanelDetails></ExpansionPanelDetails>
+        </ExpansionPanel>
       </Card>
     );
   }
