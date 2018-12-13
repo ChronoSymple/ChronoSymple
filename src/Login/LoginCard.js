@@ -50,27 +50,31 @@ class LoginCard extends Component {
     const email = e.target.value;
     this.setState({email});
   }
-  login = e => {
+  login = async e => {
     e.preventDefault();
     const {
       email,
       password,
     } = this.state;
-    fetch('/api/login', {
-      method: 'POST',
-      body: JSON.stringify({
-        email,
-        password
-      }),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        body: JSON.stringify({
+          email,
+          password
+        }),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+      });
+      if (res.status === 200) {
+        const json = await res.json();
+        this.props.setToken(json.token);
       }
-    }).then(d => {
-      if (d.status === 200) {
-        this.props.setLogged();
-      }
-    });
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   render() {
@@ -135,7 +139,7 @@ LoginCard.propTypes = {
     loginButton: PropTypes.string.isRequired,
   }),
   open: PropTypes.bool.isRequired,
-  setLogged: PropTypes.func.isRequired,
+  setToken: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(LoginCard);

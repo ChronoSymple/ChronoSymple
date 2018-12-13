@@ -45,12 +45,11 @@ class App extends React.Component {
   state = {
     mobileOpen: false,
     client: null,
-    login: false,
+    token: null,
   };
 
-  setClient = client => this.setState({ client });
-
-  setLogged = () => this.setState({ login:true });
+  setClient = client => this.setState({client});
+  setToken = token => this.setState({token});
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -63,12 +62,12 @@ class App extends React.Component {
     const {
       client,
       mobileOpen,
-      login
+      token
     } = this.state;
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <Login open={!login} setLogged={this.setLogged}/>
+        <Login open={token === null} setToken={this.setToken}/>
         <MyAppBar classes={classes} handleDrawerToggle={this.handleDrawerToggle}/>
         <Navigation
           classes={classes}
