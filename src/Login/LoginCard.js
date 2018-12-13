@@ -52,7 +52,6 @@ class LoginCard extends Component {
   }
   login = e => {
     e.preventDefault();
-    /*
     const {
       email,
       password,
@@ -67,9 +66,11 @@ class LoginCard extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       }
+    }).then(d => {
+      if (d.status === 200) {
+        this.props.setLogged();
+      }
     });
-    */
-    this.props.setLogged();
   }
 
   render() {
