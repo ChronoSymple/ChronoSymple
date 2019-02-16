@@ -23,7 +23,11 @@ const fakedata = [
     name: 'Test',
     data: 2
   }]},
-  {id: 6, firstname: 'Laura', lastname: 'PEREIRA', birthdate: 'XX/XX/XXXX', civility: 'Mme', diseases: []}
+  {id: 6, firstname: 'Laura', lastname: 'PEREIRA', birthdate: 'XX/XX/XXXX', civility: 'Mme', diseases: []},
+  {id: 7, firstname: 'Mohamed', lastname: 'BELKACEM',birthdate: '20/04/1997', civility:'Mr', diseases: [{
+    name: 'cool',
+    value: 3
+  }]},
 ];
 
 class Search extends Component {

@@ -4,7 +4,7 @@ class NotImplemented extends PureComponent {
   render() {
     return (
       <div>
-        {'This diseases hasn\'t been implemented'}
+        {'This disease hasn\'t been implemented'}
       </div>
     );
   }
