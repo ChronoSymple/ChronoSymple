@@ -3,12 +3,8 @@ import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
-import DiseaseCard from './DiseaseCard';
+import DiseaseCard from './DiseaseCard/DiseaseCard';
 
-const fakedata = [
-  'Diabète',
-  'Obésité',
-];
 
 class Patient extends PureComponent {
   render() {
@@ -25,7 +21,7 @@ class Patient extends PureComponent {
             </Typography>
           </CardContent>
         </Card>
-        {fakedata.map(e => <DiseaseCard key={e} disease={e}/>)}
+        {client.diseases.map(e => <DiseaseCard key={e.name} disease={e}/>)}
       </div>
     );
   }
@@ -36,7 +32,11 @@ Patient.propTypes = {
     firstname: PropTypes.string,
     lastname: PropTypes.string,
     birthdate: PropTypes.string,
-    civility: PropTypes.oneOf(['Mr', 'Mme'])
+    civility: PropTypes.oneOf(['Mr', 'Mme']),
+    diseases: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      data: PropTypes.any,
+    })).isRequired
   })
 };
 
