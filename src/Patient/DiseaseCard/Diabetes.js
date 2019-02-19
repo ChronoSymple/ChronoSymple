@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import Chart from 'chart.js';
 import PropTypes from 'prop-types';
+import Notes from './Notes';
 
 class Diabetes extends PureComponent {
   setRef = ref => this.ref = ref;
@@ -24,7 +25,10 @@ class Diabetes extends PureComponent {
 
   render() {
     return (
-      <div><canvas ref={this.setRef} width="400" height="400"></canvas></div>
+      <div>
+        <canvas ref={this.setRef} width="400" height="400"></canvas>
+        <Notes/>
+      </div>
     );
   }
 }

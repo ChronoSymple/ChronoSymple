@@ -70,7 +70,7 @@ class LoginCard extends Component {
       });
       if (res.status === 200) {
         const json = await res.json();
-        this.props.setToken(json.token);
+        this.props.setToken(json.login_token);
       }
     } catch (e) {
       console.error(e);

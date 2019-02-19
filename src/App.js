@@ -45,11 +45,15 @@ class App extends React.Component {
   state = {
     mobileOpen: false,
     client: null,
-    token: null,
+    token: localStorage.getItem('myToken') || null,
   };
 
   setClient = client => this.setState({client});
-  setToken = token => this.setState({token});
+  setToken = token => {
+    localStorage.setItem('myToken', token);
+    console.log("token" + token);
+    this.setState({token});
+  }
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
