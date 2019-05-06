@@ -9,5 +9,4 @@ RUN npm run build
 
 FROM nginx:1.14
 COPY --from=builder /web/build /usr/share/nginx/html
-
-EXPOSE 3000:80
+EXPOSE 80
