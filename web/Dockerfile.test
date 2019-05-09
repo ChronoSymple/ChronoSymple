@@ -4,4 +4,4 @@ WORKDIR /web
 COPY . /web
 RUN npm install
 ENV CI=true
-CMD [ "npm test" ]
+CMD [ "npm", "test" ]
