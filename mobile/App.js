@@ -1,21 +1,15 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
-    );
-  }
+import React,{Component} from 'react';
+import Navigator from './Navigation/Navigation';
+import Store from './Redux/Store/configureStore'
+import { Provider } from 'react-redux'
+
+export default class App extends Component{
+	render(){
+		return(
+			<Provider store={Store}>
+				<Navigator/>
+			</Provider>
+		)
+	}
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
