@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import PatientList from './PatientList';
-import SearchBar from './Searchbar';
+import Search from '../Components/Search';
 
-const fakedata = [
+const data = [
   {id: 1, firstname: 'Carl', lastname: 'DE GENTILE', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: [{
     name: 'diabetes',
     data: [
@@ -24,17 +23,25 @@ const fakedata = [
     data: 2
   }]},
   {id: 6, firstname: 'Laura', lastname: 'PEREIRA', birthdate: 'XX/XX/XXXX', civility: 'Mme', diseases: []},
-  {id: 7, firstname: 'Mohamed', lastname: 'BELKACEM',birthdate: '20/04/1997', civility:'Mr', diseases: [{
+  {id: 7, firstname: 'Mohamed', lastname: 'BELKACEM', birthdate: '20/04/1997', civility:'Mr', diseases: [{
     name: 'cool',
-    value: 3
+    data: 3
   }]},
 ];
 
-class Search extends Component {
+class SearchController extends Component {
   
   state = { search: '' };
 
   setSearchValue = search => this.setState({ search });
+
+  filterData = () => {
+    const words = this.state.search.split(' ');
+    return data.filter(e => words.map(s =>
+      e.firstname.toLocaleLowerCase().includes(s.toLocaleLowerCase()) ||
+      e.lastname.toLocaleLowerCase().includes(s.toLocaleLowerCase())
+    ).reduce((p, c) => p && c, true));
+  };
 
   render() {
     const {
@@ -43,22 +50,18 @@ class Search extends Component {
     const {
       setClient
     } = this.props;
-    const searches = search.split(' ');
-    const data = fakedata.filter(e => searches.map(s =>
-      e.firstname.toLocaleLowerCase().includes(s.toLocaleLowerCase()) ||
-      e.lastname.toLocaleLowerCase().includes(s.toLocaleLowerCase())
-    ).reduce((p, c) => p && c, true));
     return (
-      <div>
-        <SearchBar search={search} setSearchValue={this.setSearchValue}/>
-        <PatientList data={data} setClient={setClient}/>
-      </div>
+      <Search search={search}
+        setSearchValue={this.setSearchValue}
+        data={this.filterData(data)}
+        setClient={setClient}
+      />
     );
   }
 }
 
-Search.propTypes = {
+SearchController.propTypes = {
   setClient: PropTypes.func.isRequired,
 };
 
-export default Search;
+export default SearchController;

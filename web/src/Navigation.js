@@ -10,12 +10,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListIcon from '@material-ui/icons/List';
 
 class Navigation extends PureComponent {
-  click = () => this.props.setClient();
   render() {
     const {
       classes,
       mobileOpen,
-      handleDrawerToggle
+      handleDrawerToggle,
+      setClient
     } = this.props;
     const drawer = (
       <div>
@@ -23,7 +23,7 @@ class Navigation extends PureComponent {
         <Divider />
         <List>
           {['Patient'].map(text => (
-            <ListItem button key={text} onClick={this.click}>
+            <ListItem button key={text} onClick={setClient}>
               <ListItemIcon><ListIcon /></ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
@@ -77,6 +77,7 @@ Navigation.propTypes = {
   }).isRequired,
   mobileOpen: PropTypes.bool.isRequired,
   handleDrawerToggle: PropTypes.func.isRequired,
+  setClient: PropTypes.func.isRequired
 };
 
 export default Navigation;
