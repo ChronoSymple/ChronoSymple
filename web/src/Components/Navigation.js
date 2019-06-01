@@ -9,6 +9,28 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListIcon from '@material-ui/icons/List';
 
+const MyDrawer = ({classes, setClient}) => (
+  <div>
+    <div className={classes.toolbar} />
+    <Divider />
+    <List>
+      {['Patient'].map(text => (
+        <ListItem button key={text} onClick={setClient}>
+          <ListItemIcon><ListIcon /></ListItemIcon>
+          <ListItemText primary={text} />
+        </ListItem>
+      ))}
+    </List>
+  </div>
+);
+
+MyDrawer.propTypes = {
+  setClient: PropTypes.func.isRequired,
+  classes: PropTypes.shape({
+    toolbar: PropTypes.string
+  })
+};
+
 class Navigation extends PureComponent {
   render() {
     const {
@@ -17,20 +39,7 @@ class Navigation extends PureComponent {
       handleDrawerToggle,
       setClient
     } = this.props;
-    const drawer = (
-      <div>
-        <div className={classes.toolbar} />
-        <Divider />
-        <List>
-          {['Patient'].map(text => (
-            <ListItem button key={text} onClick={setClient}>
-              <ListItemIcon><ListIcon /></ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-      </div>
-    );
+    
 
     return (
       <nav className={classes.drawer}>
@@ -46,7 +55,7 @@ class Navigation extends PureComponent {
               keepMounted: true, // Better open performance on mobile.
             }}
           >
-            {drawer}
+            <MyDrawer classes={classes} setClient={setClient}/>
           </Drawer>
         </Hidden>
         <Hidden xsDown implementation="css">
@@ -57,7 +66,7 @@ class Navigation extends PureComponent {
             variant="permanent"
             open
           >
-            {drawer}
+            <MyDrawer classes={classes} setClient={setClient}/>
           </Drawer>
         </Hidden>
       </nav>
