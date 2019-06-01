@@ -4,34 +4,43 @@ const loginUrl = `${prefix}/login`;
 const patientsUrl = `${prefix}/patients`;
 const noteUrl = `${patientsUrl}/notes`;
 
-const login = async(email, password) => {
-  const res = await fetch(loginUrl, {
-    method: 'POST',
-    body: JSON.stringify({
-      email,
-      password
-    }),
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
+const jsonRequest = async(baseUrl, options = {}) => {
+  try {
+    const req = await fetch(noteUrl, {
+      ...options,
+      headers: {
+        ...options.headers,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    });
+    if (req.status !== 200) {
+      throw new Error(`Invalid status code: ${req.status} ${req.statusText}`);
     }
-  });
-  if (res.status === 200) {
-    const json = await res.json();
-    return (json.login_token);
-  } else {
-    throw new Error('Invalid status number');
+    return req.json();
+  }
+  catch (e) {
+    throw new Error('Error with API');
   }
 };
 
-const getNotes = async token => {
-  const req = await fetch(noteUrl, {
+const loggedRequest = async(baseUrl, token, options = {}) => 
+  await(jsonRequest(baseUrl, {
+    ...options,
     headers: {
+      ...options.headers,
       'Authorization': token,
     }
+  }));
+
+const login = async(email, password) => {
+  return await jsonRequest(loginUrl, {
+    method: 'POST',
+    body: JSON.stringify({ email, password })
   });
-  return req.json();
 };
+
+const getNotes = async token => await loggedRequest(noteUrl, token);
 
 export default {
   login,
