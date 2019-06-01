@@ -15,15 +15,19 @@ class ModulePlace extends React.Component {
 			Dmodules: []
 		}
 		APIGetModules(this.props.token).then(data => {
-			this.setState({
-				Dmodules: [ ...this.state.Dmodules, ...data.modules ],
-			})
+			console.log(data)
+			if (data.status == 200) {
+				this.setState({
+					Dmodules: [ ...this.state.Dmodules, ...data.modules ],
+				})
+			}
 		})
 	}
 
 	_addModule = (idModule) => {
 		const action = { type: "CURRENT_MODULE", value: idModule }
 		this.props.dispatch(action)
+
 		APIAddModule(this.props.token, idModule).then(data => {
 			if (data.status != 401)
 				this.props.navigation.navigate('HomeModule', {idModule: idModule})

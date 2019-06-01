@@ -9,7 +9,7 @@ function toggleFavorite(state = initialState, action) {
 		case 'TOGGLE_FAVORITE': {
 			nextState = {
 				...state,
-				token: action.value
+				token: action.value,
 			}
 			return nextState
 		}
@@ -21,7 +21,7 @@ function toggleFavorite(state = initialState, action) {
 			}
 			return nextState
 		}
-		
+
 		default:
 			return state
 		}
