@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PatientList from './PatientList';
 import SearchBar from './Searchbar';
+import exact from 'prop-types-exact';
 
 const Search = ({
   search,
@@ -15,7 +16,7 @@ const Search = ({
   </div>
 );
 
-Search.propTypes = {
+Search.propTypes = exact({
   search: PropTypes.string.isRequired,
   setClient: PropTypes.func.isRequired,
   data: PropTypes.arrayOf(PropTypes.shape({
@@ -30,6 +31,6 @@ Search.propTypes = {
     })).isRequired
   })).isRequired,
   setSearchValue: PropTypes.func.isRequired
-};
+});
 
 export default Search;

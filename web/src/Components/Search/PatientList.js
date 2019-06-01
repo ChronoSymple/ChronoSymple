@@ -7,6 +7,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import Table from '@material-ui/core/Table';
 import { withStyles } from '@material-ui/core';
+import exact from 'prop-types-exact';
 
 const styles = {
   selectable : {
@@ -51,7 +52,7 @@ const PatientList = ({
   </Card>
 );
 
-PatientList.propTypes = {
+PatientList.propTypes = exact({
   setClient: PropTypes.func.isRequired,
   classes: PropTypes.shape({
     patientCard: PropTypes.string.isRequired,
@@ -62,6 +63,6 @@ PatientList.propTypes = {
     firstname: PropTypes.string.isRequired,
     birthdate: PropTypes.string.isRequired,
   }))
-};
+});
 
 export default withStyles(styles)(PatientList);
