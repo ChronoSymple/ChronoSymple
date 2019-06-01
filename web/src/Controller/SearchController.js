@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import Search from '../Components/Search';
 
@@ -29,7 +29,7 @@ const data = [
   }]},
 ];
 
-class SearchController extends Component {
+class SearchController extends PureComponent {
   
   state = { search: '' };
 
