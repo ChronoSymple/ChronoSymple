@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MyAppBar from './MyAppBar';
 import Navigation from './Navigation';
 import Main from './Main';
-import Login from './Login';
+import Login from './Controller/LoginController';
 import { withStyles } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
@@ -41,7 +41,7 @@ const styles = theme => ({
   },
 });
 
-class App extends React.Component {
+class App extends PureComponent {
   state = {
     mobileOpen: false,
     client: null,
@@ -51,7 +51,6 @@ class App extends React.Component {
   setClient = client => this.setState({client});
   setToken = token => {
     localStorage.setItem('myToken', token);
-    console.log("token" + token);
     this.setState({token});
   }
 
@@ -71,7 +70,7 @@ class App extends React.Component {
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <Login open={token === null} setToken={this.setToken}/>
+        {token ? null : <Login setToken={this.setToken}/>}
         <MyAppBar classes={classes} handleDrawerToggle={this.handleDrawerToggle}/>
         <Navigation
           classes={classes}

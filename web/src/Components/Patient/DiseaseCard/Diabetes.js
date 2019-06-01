@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Chart from 'chart.js';
 import PropTypes from 'prop-types';
-import Notes from './Notes';
+import Notes from '../../../Controller/NotesController';
 
 class Diabetes extends PureComponent {
   setRef = ref => this.ref = ref;

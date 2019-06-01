@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import PatientList from './PatientList';
-import SearchBar from './Searchbar';
+import 'jest-prop-type-error';
 
-const fakedata = [
+const data = [
   {id: 1, firstname: 'Carl', lastname: 'DE GENTILE', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: [{
     name: 'diabetes',
     data: [
@@ -24,41 +24,18 @@ const fakedata = [
     data: 2
   }]},
   {id: 6, firstname: 'Laura', lastname: 'PEREIRA', birthdate: 'XX/XX/XXXX', civility: 'Mme', diseases: []},
-  {id: 7, firstname: 'Mohamed', lastname: 'BELKACEM',birthdate: '20/04/1997', civility:'Mr', diseases: [{
+  {id: 7, firstname: 'Mohamed', lastname: 'BELKACEM', birthdate: '20/04/1997', civility:'Mr', diseases: [{
     name: 'cool',
-    value: 3
+    data: 3
   }]},
 ];
 
-class Search extends Component {
-  
-  state = { search: '' };
 
-  setSearchValue = search => this.setState({ search });
-
-  render() {
-    const {
-      search,
-    } = this.state;
-    const {
-      setClient
-    } = this.props;
-    const searches = search.split(' ');
-    const data = fakedata.filter(e => searches.map(s =>
-      e.firstname.toLocaleLowerCase().includes(s.toLocaleLowerCase()) ||
-      e.lastname.toLocaleLowerCase().includes(s.toLocaleLowerCase())
-    ).reduce((p, c) => p && c, true));
-    return (
-      <div>
-        <SearchBar search={search} setSearchValue={this.setSearchValue}/>
-        <PatientList data={data} setClient={setClient}/>
-      </div>
-    );
-  }
-}
-
-Search.propTypes = {
-  setClient: PropTypes.func.isRequired,
-};
-
-export default Search;
+it('renders without crashing', () => {
+  const div = document.createElement('div');
+  ReactDOM.render(<PatientList
+    setClient={() => 0}
+    data={data}
+  />, div);
+  ReactDOM.unmountComponentAtNode(div);
+});

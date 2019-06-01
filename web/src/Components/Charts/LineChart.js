@@ -57,8 +57,8 @@ LineChart.propTypes = {
     pointBorderColor: PropTypes.oneOf([PropTypesColor, PropTypes.arrayOf(PropTypesColor)]),
     pointBorderWidth: PropTypes.oneOf([PropTypes.number, PropTypes.arrayOf(PropTypes.number)]),
     pointRadius: PropTypes.oneOf([PropTypes.number, PropTypes.arrayOf(PropTypes.number)]),
-    
-  })
+  }),
+  options: PropTypes.any
 };
 
 export default LineChart;
