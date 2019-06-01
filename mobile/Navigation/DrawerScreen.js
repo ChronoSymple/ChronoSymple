@@ -40,6 +40,7 @@ class DrawerScreen extends Component {
 			if (data.status == 200) {
 				let response = await data.json()
 				if (JSON.stringify(this.state.Dmodules) != JSON.stringify(response.modules)) {
+					console.log(response.modules)
 					this.setState({
 						Dmodules: [ ...this.state.Dmodules, ...response.modules ],
 					})
@@ -48,11 +49,11 @@ class DrawerScreen extends Component {
 		})
 	}
 
-	/*_changeModule = (idModule) => {
+	changeModule = (idModule) => {
 		const action = { type: "CURRENT_MODULE", value: response.modules[0].id}
 		this.props.dispatch(action)
 		this.props.navigation.navigate('HomeModule', {idModule: idModule})
-	}*/
+	}
 
 	render () {
 		APIGetPatientModules(this.props.token).then(async data => {
