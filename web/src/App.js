@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import MyAppBar from './MyAppBar';
+import MyAppBar from './Components/MyAppBar';
 import Navigation from './Navigation';
 import Main from './Main';
 import Login from './Controller/LoginController';
