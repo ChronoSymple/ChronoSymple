@@ -10,7 +10,8 @@
     "prop-types-exact": "^1.2.0",
     "react-dom": "^16.8.6",
     "react-scripts": "2.1.1",
-    "typeface-roboto": "0.0.54"
+    "typeface-roboto": "0.0.54",
+    "eslint-plugin-react": "^7.13.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -31,7 +32,6 @@
   "devDependencies": {
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-jest": "^22.6.4",
-    "eslint-plugin-react": "^7.13.0",
     "jest-prop-type-error": "^1.1.0"
   }
 }
