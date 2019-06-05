@@ -6,27 +6,21 @@ import { Provider } from 'react-redux';
 import mockStore from 'redux-mock-store';
 import {createStackNavigator, createBottomTabNavigator, createAppContainer} from 'react-navigation';
 
-import Navigator from '../Navigation/Navigation';
 import Login from '../Components/Auth/Login';
 
 describe('Login screen', () => {
-  it('this is a test for a page', () => {
-
-	const LoginStack = createStackNavigator({
-		Login: { screen: Login },
-	})
+  it('Test of Login page', () => {
 
 	const StackNavigator = createStackNavigator({
-		LoginStack: {
-			screen: LoginStack, headerMode : 'none'
+		Login: {
+			screen: Login, headerMode : 'none'
 		}
 	},{
 		headerMode: 'none'
 	});
-	const App = createAppContainer(StackNavigator);
-	const tree = renderer.create(<Provider store={Store}> <App /> </Provider>).toJSON();
+	const LoginNav = createAppContainer(StackNavigator);
+	
+	const tree = renderer.create(<Provider store={Store}> <LoginNav /> </Provider>).toJSON();
   	expect(tree).toMatchSnapshot();
-
-
   });
 });
