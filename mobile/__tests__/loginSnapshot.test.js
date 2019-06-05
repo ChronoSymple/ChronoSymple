@@ -11,16 +11,8 @@ import Login from '../Components/Auth/Login';
 describe('Login screen', () => {
   it('Test of Login page', () => {
 
-	const StackNavigator = createStackNavigator({
-		Login: {
-			screen: Login, headerMode : 'none'
-		}
-	},{
-		headerMode: 'none'
-	});
-	const LoginNav = createAppContainer(StackNavigator);
-	
-	const tree = renderer.create(<Provider store={Store}> <LoginNav /> </Provider>).toJSON();
+	const navigation = {navigate: jest.fn()}
+	const tree = renderer.create(<Provider store={Store}> <Login navigation={navigation}/> </Provider>).toJSON();
   	expect(tree).toMatchSnapshot();
   });
 });
