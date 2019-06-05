@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Search from './Search/';
-import Patient from './Patient/';
+import Search from './SearchController';
+import Patient from '../Components/Patient';
 
-class Main extends PureComponent {
+class MainController extends PureComponent {
 
   render() {
     const {
@@ -20,7 +20,7 @@ class Main extends PureComponent {
   }
 }
 
-Main.propTypes = {
+MainController.propTypes = {
   classes: PropTypes.shape({
     content: PropTypes.string.isRequired,
     toolbar: PropTypes.string.isRequired,
@@ -30,4 +30,4 @@ Main.propTypes = {
   setClient: PropTypes.func.isRequired,
 };
 
-export default Main;
+export default MainController;

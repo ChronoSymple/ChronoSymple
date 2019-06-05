@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 import DiseaseCard from './DiseaseCard/DiseaseCard';
 
-
 class Patient extends PureComponent {
   render() {
     const {

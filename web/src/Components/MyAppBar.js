@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import exact from 'prop-types-exact';
 
 class MyAppBar extends PureComponent {
   render() {
@@ -32,12 +33,12 @@ class MyAppBar extends PureComponent {
   }
 }
 
-MyAppBar.propTypes = {
+MyAppBar.propTypes = exact({
   classes: PropTypes.shape({
     appBar: PropTypes.string.isRequired,
     menuButton: PropTypes.string.isRequired,
   }).isRequired,
   handleDrawerToggle: PropTypes.func.isRequired,
-};
+});
 
 export default MyAppBar;
