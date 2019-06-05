@@ -14,7 +14,6 @@ function toggleFavorite(state = initialState, action) {
 			return nextState
 		}
  		case 'CURRENT_MODULE': {
-			console.log(action.value)
 			nextState = {
 				...state,
 				idCurrentModule: action.value

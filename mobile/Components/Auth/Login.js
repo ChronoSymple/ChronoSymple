@@ -27,8 +27,10 @@ class Login extends React.Component {
 			return;
 		}
 		LoginAPatientWithApi(this.state.mail, this.state.password).then(async data => {
+			console.log(data);
 		 	if (data.status == 200) {
-		 		let response = await data.json()
+				 let response = await data.json()
+				 console.log(response);
 		 		let token = response.login_token
 		 		setToken(token);
 		 		const action = { type: "TOGGLE_FAVORITE", value: token }
@@ -45,14 +47,14 @@ class Login extends React.Component {
 		 					else
 		 						navigate('Home')
 		 				}
-		 			})
+					 })
+					 navigate('Home')
 		 		}
 		 	}
 		 	else {
 		 		this.setState({ isInvalid: true, errorText: "Problème de connection" })
 		 	}
-		}); 				// TO DECOMMENT 
-		navigate('Home') // TO RM NEXT EIP REUNION 
+		});
 	}
 	setMail = (text) => {
 

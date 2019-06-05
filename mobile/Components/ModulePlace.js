@@ -14,11 +14,11 @@ class ModulePlace extends React.Component {
 		this.state = {
 			Dmodules: []
 		}
-		APIGetModules(this.props.token).then(data => {
-			console.log(data)
+		APIGetModules(this.props.token).then(async data => {
+			let response = await data.json()
 			if (data.status == 200) {
 				this.setState({
-					Dmodules: [ ...this.state.Dmodules, ...data.modules ],
+					Dmodules: [ ...this.state.Dmodules, ...response.modules ],
 				})
 			}
 		})
@@ -29,6 +29,7 @@ class ModulePlace extends React.Component {
 		this.props.dispatch(action)
 
 		APIAddModule(this.props.token, idModule).then(data => {
+			console.log(data)
 			if (data.status != 401)
 				this.props.navigation.navigate('HomeModule', {idModule: idModule})
 			else

@@ -4,8 +4,9 @@ import { stringify } from "qs";
 const baseUrl = 'https://docapp-prod.herokuapp.com'
 
 export function APIAddModule (token, id) {
-	return fetch(baseUrl + '/api/patients/modules/' + id +"/add_module", {
-		method: 'PATCH',
+	console.log(baseUrl + 'api/patients/general_units/' + id +"/add_module")
+	return fetch(baseUrl + '/api/patients/general_units/' + id +"/add_unit" , {
+		method: 'PATCH',		
 		headers: {
 	    'Authorization': token
 		}
@@ -15,19 +16,19 @@ export function APIAddModule (token, id) {
 }
 
 export function APIGetModules(token) {
-	return fetch(baseUrl + '/api/modules', {
+	return fetch(baseUrl + '/api/patients/general_units', {
 	  method: 'GET',
 	  headers: {
 	    Accept: 'application/json',
 	    'Authorization': token,
 	  },
 	})
-	.then((response) => response.json())
+	.then((response) => response)
 	.catch((error) => error)
 }
 
 export function APIGetPatientModules(token) {
-	return fetch(baseUrl + '/api/patients/modules/my_modules', {
+	return fetch(baseUrl + '/api/patients/units', {
 	  method: 'GET',
 	  headers: {
 	    Accept: 'application/json',

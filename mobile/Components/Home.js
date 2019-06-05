@@ -37,13 +37,6 @@ class Home extends React.Component {
 	}
 
 	componentDidMount() {
-		APIGetPatientModules(this.props.token).then(async data => {
-			if (data.status == 200) {
-				let response = await data.json()
-				if (response.modules.length > 0)
-					this.props.navigation.navigate('HomeModule', {idModule: response.modules[0].id})
-			}
-		})
 		BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
 	}
 
