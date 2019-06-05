@@ -26,32 +26,32 @@ class Login extends React.Component {
 			this.setState({ isInvalid: true })
 			return;
 		}
-		// LoginAPatientWithApi(this.state.mail, this.state.password).then(async data => {
-		// 	if (data.status == 200) {
-		// 		let response = await data.json()
-		// 		let token = response.login_token
-		// 		setToken(token);
-		// 		const action = { type: "TOGGLE_FAVORITE", value: token }
-		// 		this.props.dispatch(action)
-		// 		if (token !== null) {
-		// 			APIGetPatientModules(this.props.token).then(async data => {
-		// 				if (data.status == 200) {
-		// 					let response = await data.json()
-		// 					if (response.modules.length > 0) {
-		// 						const action = { type: "CURRENT_MODULE", value: response.modules[0].id}
-		// 						this.props.dispatch(action)	
-		// 						this.props.navigation.navigate('HomeModule', {idModule: response.modules[0].id})
-		// 					}
-		// 					else
-		// 						navigate('Home')
-		// 				}
-		// 			})
-		// 		}
-		// 	}
-		// 	else {
-		// 		this.setState({ isInvalid: true, errorText: "Problème de connection" })
-		// 	}
-		// }); 				// TO DECOMMENT 
+		LoginAPatientWithApi(this.state.mail, this.state.password).then(async data => {
+		 	if (data.status == 200) {
+		 		let response = await data.json()
+		 		let token = response.login_token
+		 		setToken(token);
+		 		const action = { type: "TOGGLE_FAVORITE", value: token }
+		 		this.props.dispatch(action)
+		 		if (token !== null) {
+		 			APIGetPatientModules(this.props.token).then(async data => {
+		 				if (data.status == 200) {
+		 					let response = await data.json()
+		 					if (response.modules.length > 0) {
+		 						const action = { type: "CURRENT_MODULE", value: response.modules[0].id}
+		 						this.props.dispatch(action)	
+		 						this.props.navigation.navigate('HomeModule', {idModule: response.modules[0].id})
+		 					}
+		 					else
+		 						navigate('Home')
+		 				}
+		 			})
+		 		}
+		 	}
+		 	else {
+		 		this.setState({ isInvalid: true, errorText: "Problème de connection" })
+		 	}
+		}); 				// TO DECOMMENT 
 		navigate('Home') // TO RM NEXT EIP REUNION 
 	}
 	setMail = (text) => {

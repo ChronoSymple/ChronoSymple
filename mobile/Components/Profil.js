@@ -8,7 +8,6 @@ import { APIAddPatientNotes } from '../API/APIModule'
 class Profil extends React.Component {
 	constructor(props) {
 		super(props)
-		this.state = { glycemie: "", glucide: "", insulineavrepas: "", Insulineaprepas: "", insulineajeun: "", date: "", heure: "", isSend: false}
 	}
 
 	render() {

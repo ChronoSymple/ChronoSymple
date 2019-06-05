@@ -1,9 +1,8 @@
 //const baseUrl = 'http://192.168.0.11:3000'
-const baseUrl = 'http://10.41.160.84:3000'
+const baseUrl = 'https://docapp-prod.herokuapp.com'
 
 export function SiginAPatientWithApi (fname, lname, mail, password) {
-  console.log(fname)
-  return fetch(baseUrl + '/api/patient/signin', {
+  return fetch(baseUrl + '/api/patients/signin', {
     method: 'POST',
     headers: {
       Accept: 'application/json',

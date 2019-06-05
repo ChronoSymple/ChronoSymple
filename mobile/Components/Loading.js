@@ -9,13 +9,14 @@ class Loading extends React.Component {
 	async componentDidMount() {
 		let { navigate } = this.props.navigation;
 		token = await getToken();
+		console.log(token)
 		await APIGetPatientModules(token).then(async data => {
+			console.log(data)
 			if (data.status == 200) {
 				let response = await data.json()
 				setToken(token);
 				const action = { type: "TOGGLE_FAVORITE", value: token }
 				this.props.dispatch(action)
-				console.log(response)
 				if (response.modules.length > 0 && token !== null) {
 					const action = { type: "CURRENT_MODULE", value: response.modules[0].id}
 					this.props.dispatch(action)
@@ -23,13 +24,11 @@ class Loading extends React.Component {
 				}
 				else {
 					navigate('Home')
-					return "ok";
 				}
 			}
 			else {
 				navigate('LoginStack')
 			}
-			return "ko";
 		})
 	}
 

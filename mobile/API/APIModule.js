@@ -1,11 +1,10 @@
 import { stringify } from "qs";
 
 //const baseUrl = 'http://192.168.0.11:3000'
-const baseUrl = 'http://10.41.160.84:3000'
+const baseUrl = 'https://docapp-prod.herokuapp.com'
 
 export function APIAddModule (token, id) {
-	console.log('id ' + id, ' token ' + token)
-	return fetch(baseUrl + '/api/patients/add_module/' + id, {
+	return fetch(baseUrl + '/api/patients/modules/' + id +"/add_module", {
 		method: 'PATCH',
 		headers: {
 	    'Authorization': token
@@ -28,7 +27,7 @@ export function APIGetModules(token) {
 }
 
 export function APIGetPatientModules(token) {
-	return fetch(baseUrl + '/api/patients/modules', {
+	return fetch(baseUrl + '/api/patients/modules/my_modules', {
 	  method: 'GET',
 	  headers: {
 	    Accept: 'application/json',
