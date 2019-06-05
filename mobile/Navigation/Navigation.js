@@ -10,6 +10,8 @@ import Home from '../Components/Home';
 import DrawerScreen from './DrawerScreen';
 import ModulePlace from '../Components/ModulePlace';
 import HomeModule from '../Components/HomeModule';
+import Profil from '../Components/Profil';
+import SearchDoctors from '../Components/SearchDoctors';
 import Calendar from '../Components/Calendar';
 import DoctorChoice from '../Components/DoctorChoice';
 import ChooseModulesToSend from '../Components/ChooseModulesToSend';
@@ -52,6 +54,22 @@ const ExportStackNavigator = createStackNavigator({
 	Export: {
 	  screen: Export,
 	}
+})
+
+const ProfilStackNavigator = createStackNavigator({
+	Profil: {
+	  screen: Profil
+	},
+	SearchDoctors: {
+	  screen : SearchDoctors
+	},
+	Logout: { screen : Logout,
+		navigationOptions: {
+			headerMode: 'none'
+		},
+	}
+}, {
+		headerMode: 'none'
 })
 
 const DoctorChoiceStackNavigator = createStackNavigator({
@@ -116,6 +134,7 @@ const Tabs = createBottomTabNavigator({
 			)
 		},
 	},
+	
 },{
 	headerMode: 'none'
 });
@@ -148,8 +167,8 @@ const DrawerNavigator = createDrawerNavigator({
 					<MenuImage navigation={navigation}/>
 				</TouchableOpacity>,
 				headerRight:
-				<TouchableOpacity onPress={() => navigation.navigate('Logout') }>
-					<Icon color="white" name="exit-to-app" size={30} marginRight={10} />
+				<TouchableOpacity onPress={() => navigation.navigate('Profil') }>
+					<Icon color="white" name="people" size={30} marginRight={10} />
 				</TouchableOpacity>,
 				headerStyle: {
 					backgroundColor: '#58b57d',
@@ -168,6 +187,9 @@ const StackNavigtorWhithoutModule = createStackNavigator({
 	},
 	Stack: {
 		screen: ModulePlace, navigationOptions: { title:'ModulPlace' }
+	},
+	Profil: {
+		screen: ProfilStackNavigator, navigationOptions: { title:'Profil' }
 	},
 	CalendarStackNavigator: {
 		screen : CalendarStackNavigator
@@ -192,11 +214,6 @@ const StackNavigator = createStackNavigator({
 	},
 	Drawer: {
 		screen: StackNavigtorWhithoutModule
-	},
-	Logout: { screen : Logout,
-		navigationOptions: {
-			headerMode: 'none'
-		},
 	}
 },{
 	initialRouteName : 'Loading',

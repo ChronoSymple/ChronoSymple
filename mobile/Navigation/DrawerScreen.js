@@ -39,10 +39,11 @@ class DrawerScreen extends Component {
 		await APIGetPatientModules(this.props.token).then(async data => {
 			if (data.status == 200) {
 				let response = await data.json()
-				if (JSON.stringify(this.state.Dmodules) != JSON.stringify(response.modules)) {
+				console.log(response)
+				if (response.lenght > 0 && JSON.stringify(this.state.Dmodules) != JSON.stringify(response.modules)) {
 					console.log(response.modules)
 					this.setState({
-						Dmodules: [ ...this.state.Dmodules, ...response.modules ],
+						Dmodules: [ ...this.state.Dmodules, ...response ],
 					})
 				}
 			}
@@ -59,9 +60,9 @@ class DrawerScreen extends Component {
 		APIGetPatientModules(this.props.token).then(async data => {
 			if (data.status == 200) {
 				let response = await data.json()
-				if (response.modules.length > 0 && JSON.stringify(this.state.Dmodules) != JSON.stringify(response.modules)) {
+				if (response.length > 0 && JSON.stringify(this.state.Dmodules) != JSON.stringify(response.modules)) {
 					this.setState({
-						Dmodules: [ ...response.modules ],
+						Dmodules: [ ...response ],
 					})
 				}
 			}
@@ -74,10 +75,10 @@ class DrawerScreen extends Component {
         						data={this.state.Dmodules}
 							keyExtractor={(item) => item.id.toString()}
         						renderItem={({ item }) => (
-							<TouchableOpacity style={{flex: 1, justifyContent : 'center', alignItems: 'center', flexDirection : 'row', backgroundColor: item.color,
+							<TouchableOpacity style={{flex: 1, justifyContent : 'center', alignItems: 'center', flexDirection : 'row', backgroundColor: item.general_unit.color,
 							borderColor: 'black', borderRadius: 10, margin: 5, padding: 20, borderWidth: 3}}
-							onPress={this.navigateToScreen('HomeModule', {idModule: item.id})}>
-								<Text style={{fontSize: 20}}>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</Text>
+							onPress={this.navigateToScreen('HomeModule', {idModule: item.general_unit.id})}>
+								<Text style={{fontSize: 20}}>{item.general_unit.name.charAt(0).toUpperCase() + item.general_unit.name.slice(1)}</Text>
 							</TouchableOpacity>
         						)}
         					/>
