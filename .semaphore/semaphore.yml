@@ -1,0 +1,57 @@
+version: v1.0
+name: RType Pipeline
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+  - name: "Test"
+    task:
+      jobs:
+        - name: Mobile test
+          commands:
+            - checkout
+            - docker build web -f web/Dockerfile.test -t chronosymple/test
+            - docker run --rm -it chronosymple/test
+#  - name: "Docker"
+#    task:
+#      secrets:
+#        - name: docker
+#      prologue:
+#        commands:
+#          # Authenticate to the registry for all jobs in the block
+#          - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+#      jobs:
+#      - name: Create Image
+#        commands:
+#          - checkout
+#          - docker pull "${DOCKER_USERNAME}"/rtype || true
+#          - docker build --cache-from "${DOCKER_USERNAME}"/rtype . -t "${DOCKER_USERNAME}"/rtype
+#          - docker push ${DOCKER_USERNAME}/rtype
+#  - name: "Running"
+#    task:
+#      secrets:
+#        - name: docker
+#      prologue:
+#        commands:
+#          # Authenticate to the registry for all jobs in the block
+#          - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+#      jobs:
+#      - name: Build
+#        commands:
+#          - docker pull "${DOCKER_USERNAME}"/rtype
+#          - docker run --rm -it "${DOCKER_USERNAME}"/rtype
+#      - name: Tests
+#        commands:
+#          # Semaphore has cached the image so update it
+#          - docker pull "${DOCKER_USERNAME}"/rtype
+#          - docker run --rm -it "${DOCKER_USERNAME}"/rtype sh -c "cd build && make test"
+#
+#promotions:
+#  - name: BLIH deploy
+#    pipeline_file: blih-deploy.yml
+#    auto_promote_on:
+#      - result: passed
+#        branch:
+#          - ^master$
