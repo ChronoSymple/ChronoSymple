@@ -60,12 +60,14 @@ const LoginCard = ({
               onChange={setEmail}
               margin="normal"
               fullWidth
+              type="email"
             />
             <TextField
               label="Mot de passe"
               value={password}
               onChange={setPassword}
               margin="normal"
+              type="password"
               fullWidth
             />
             <div>
