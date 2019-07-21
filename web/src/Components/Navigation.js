@@ -9,13 +9,13 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListIcon from '@material-ui/icons/List';
 
-const MyDrawer = ({classes, setClient}) => (
+const MyDrawer = ({classes, setPatient}) => (
   <div>
     <div className={classes.toolbar} />
     <Divider />
     <List>
       {['Patient'].map(text => (
-        <ListItem button key={text} onClick={setClient}>
+        <ListItem button key={text} onClick={setPatient}>
           <ListItemIcon><ListIcon /></ListItemIcon>
           <ListItemText primary={text} />
         </ListItem>
@@ -25,7 +25,7 @@ const MyDrawer = ({classes, setClient}) => (
 );
 
 MyDrawer.propTypes = {
-  setClient: PropTypes.func.isRequired,
+  setPatient: PropTypes.func.isRequired,
   classes: PropTypes.shape({
     toolbar: PropTypes.string
   })
@@ -37,7 +37,7 @@ class Navigation extends PureComponent {
       classes,
       mobileOpen,
       handleDrawerToggle,
-      setClient
+      setPatient
     } = this.props;
     
 
@@ -55,7 +55,7 @@ class Navigation extends PureComponent {
               keepMounted: true, // Better open performance on mobile.
             }}
           >
-            <MyDrawer classes={classes} setClient={setClient}/>
+            <MyDrawer classes={classes} setPatient={setPatient}/>
           </Drawer>
         </Hidden>
         <Hidden xsDown implementation="css">
@@ -66,7 +66,7 @@ class Navigation extends PureComponent {
             variant="permanent"
             open
           >
-            <MyDrawer classes={classes} setClient={setClient}/>
+            <MyDrawer classes={classes} setPatient={setPatient}/>
           </Drawer>
         </Hidden>
       </nav>
@@ -86,7 +86,7 @@ Navigation.propTypes = {
   }).isRequired,
   mobileOpen: PropTypes.bool.isRequired,
   handleDrawerToggle: PropTypes.func.isRequired,
-  setClient: PropTypes.func.isRequired
+  setPatient: PropTypes.func.isRequired
 };
 
 export default Navigation;

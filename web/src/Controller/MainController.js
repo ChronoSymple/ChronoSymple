@@ -8,13 +8,13 @@ class MainController extends PureComponent {
   render() {
     const {
       classes,
-      client,
-      setClient,
+      patient,
+      setPatient,
     } = this.props;
     return (
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {client ? <Patient client={client}/> : <Search setClient={setClient}/>}
+        {patient ? <Patient client={patient}/> : <Search setClient={setPatient}/>}
       </main>
     );
   }
@@ -26,8 +26,8 @@ MainController.propTypes = {
     toolbar: PropTypes.string.isRequired,
   }).isRequired,
   // TODO: Improve object form
-  client: PropTypes.object,
-  setClient: PropTypes.func.isRequired,
+  patient: PropTypes.object,
+  setPatient: PropTypes.func.isRequired,
 };
 
 export default MainController;

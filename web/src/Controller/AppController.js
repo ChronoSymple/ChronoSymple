@@ -44,11 +44,11 @@ const styles = theme => ({
 class App extends PureComponent {
   state = {
     mobileOpen: false,
-    client: null,
+    patient: null,
     token: localStorage.getItem('myToken') || null,
   };
 
-  setClient = client => this.setState({client});
+  setPatient = patient => this.setState({patient});
   setToken = token => {
     localStorage.setItem('myToken', token);
     this.setState({token});
@@ -63,7 +63,7 @@ class App extends PureComponent {
       classes,
     } = this.props;
     const {
-      client,
+      patient,
       mobileOpen,
       token
     } = this.state;
@@ -76,9 +76,9 @@ class App extends PureComponent {
           classes={classes}
           mobileOpen={mobileOpen}
           handleDrawerToggle={this.handleDrawerToggle}
-          setClient={this.setClient}
+          setPatient={this.setPatient}
         />
-        <Main classes={classes} client={client} setClient={this.setClient}/>
+        <Main classes={classes} patient={patient} setPatient={this.setPatient}/>
       </div>
     );
   }
