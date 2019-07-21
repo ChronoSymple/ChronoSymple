@@ -34,7 +34,6 @@ const loggedRequest = async(baseUrl, token, options = {}) =>
   }));
 
 const login = async(email, password) => {
-  console.log("?");
   return await jsonRequest(loginUrl, {
     method: 'POST',
     body: JSON.stringify({ email, password })
