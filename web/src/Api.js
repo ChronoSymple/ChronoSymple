@@ -6,7 +6,7 @@ const noteUrl = `${patientsUrl}/notes`;
 
 const jsonRequest = async(baseUrl, options = {}) => {
   try {
-    const req = await fetch(noteUrl, {
+    const req = await fetch(baseUrl, {
       ...options,
       headers: {
         ...options.headers,
@@ -34,6 +34,7 @@ const loggedRequest = async(baseUrl, token, options = {}) =>
   }));
 
 const login = async(email, password) => {
+  console.log("?");
   return await jsonRequest(loginUrl, {
     method: 'POST',
     body: JSON.stringify({ email, password })
