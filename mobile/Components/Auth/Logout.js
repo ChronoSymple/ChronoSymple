@@ -3,7 +3,7 @@
 import React from 'react'
 import { View, Text, ActivityIndicator, StyleSheet} from 'react-native'
 import { LogOutAPatientWithApi } from '../../API/APIConnection'
-import { getToken, remove, removeToken } from './StoreToken'
+import { getToken, remove, removeToken } from './Cache'
 import { connect } from 'react-redux'
 
 class Logout extends React.Component {
