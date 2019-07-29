@@ -1,8 +1,8 @@
 const base = '';
 const prefix = `${base}/api`;
 const loginUrl = `${prefix}/login`;
-const patientsUrl = `${prefix}/patients`;
-const noteUrl = `${patientsUrl}/notes`;
+const doctorUrl = `${prefix}/doctors`;
+const patientsUrl = `${doctorUrl}/patients`;
 
 const jsonRequest = async(baseUrl, options = {}) => {
   try {
@@ -34,15 +34,16 @@ const loggedRequest = async(baseUrl, token, options = {}) =>
   }));
 
 const login = async(email, password) => {
-  return await jsonRequest(loginUrl, {
+  const res = await jsonRequest(loginUrl, {
     method: 'POST',
     body: JSON.stringify({ email, password })
   });
+  return res.login_token;
 };
 
-const getNotes = async token => await loggedRequest(noteUrl, token);
+const getPatients = async token => await loggedRequest(patientsUrl, token);
 
 export default {
   login,
-  getNotes
+  getPatients,
 };

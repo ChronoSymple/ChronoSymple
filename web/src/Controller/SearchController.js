@@ -1,6 +1,8 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import Search from '../Components/Search';
+import Api from '../Api';
+import Request from '../Components/Request';
 
 const data = [
   {id: 1, firstname: 'Carl', lastname: 'DE GENTILE', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: [{
@@ -31,11 +33,11 @@ const data = [
 
 class SearchController extends PureComponent {
   
-  state = { search: '' };
+  state = { search: '', data: [], error: null, init: false };
 
   setSearchValue = search => this.setState({ search });
 
-  filterData = () => {
+  filterData = data => {
     const words = this.state.search.split(' ');
     return data.filter(e => words.map(s =>
       e.firstname.toLocaleLowerCase().includes(s.toLocaleLowerCase()) ||
@@ -43,25 +45,47 @@ class SearchController extends PureComponent {
     ).reduce((p, c) => p && c, true));
   };
 
+  componentDidMount() {
+    this.init();
+  }
+
+  init = async() => {
+    try {
+      const res = await Api.getPatients(this.props.token);
+      console.log(res);
+      this.setState({init: true, data : res.patients});
+    } catch (e) {
+      this.setState({error : e.message});
+    }
+  }
+
   render() {
     const {
       search,
+      data,
+      error,
+      init
     } = this.state;
     const {
       setClient
     } = this.props;
+    console.log(data);
+    console.log(data.filter);
     return (
-      <Search search={search}
-        setSearchValue={this.setSearchValue}
-        data={this.filterData(data)}
-        setClient={setClient}
-      />
+      <Request error={error} loading={!init}>
+        <Search search={search}
+          setSearchValue={this.setSearchValue}
+          data={this.filterData(data)}
+          setClient={setClient}
+        />
+      </Request>
     );
   }
 }
 
 SearchController.propTypes = {
   setClient: PropTypes.func.isRequired,
+  token: PropTypes.string.isRequired
 };
 
 export default SearchController;

@@ -10,11 +10,12 @@ class MainController extends PureComponent {
       classes,
       patient,
       setPatient,
+      token
     } = this.props;
     return (
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {patient ? <Patient client={patient}/> : <Search setClient={setPatient}/>}
+        {patient ? <Patient client={patient}/> : <Search token={token} setClient={setPatient}/>}
       </main>
     );
   }
@@ -28,6 +29,7 @@ MainController.propTypes = {
   // TODO: Improve object form
   patient: PropTypes.object,
   setPatient: PropTypes.func.isRequired,
+  token: PropTypes.string.isRequired
 };
 
 export default MainController;

@@ -78,7 +78,7 @@ class App extends PureComponent {
           handleDrawerToggle={this.handleDrawerToggle}
           setPatient={this.setPatient}
         />
-        <Main classes={classes} patient={patient} setPatient={this.setPatient}/>
+        {token ? <Main classes={classes} token={token} patient={patient} setPatient={this.setPatient}/> : null}
       </div>
     );
   }
