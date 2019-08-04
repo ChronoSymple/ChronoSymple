@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import Search from '../Components/Search';
+import { SearchBar, PatientList } from '../Components/Search';
 import Api from '../Api';
 import Request from '../Components/Request';
 
@@ -44,13 +44,12 @@ class SearchController extends PureComponent {
     } = this.props;
     const filterData = this.filterData(data);
     return (
-      <Request error={error} loading={!init}>
-        <Search search={search}
-          setSearchValue={this.setSearchValue}
-          data={filterData}
-          setClient={setClient}
-        />
-      </Request>
+      <div>
+        <SearchBar search={search} setSearchValue={this.setSearchValue}/>
+        <Request error={error} loading={!init}>
+          <PatientList data={filterData} setClient={setClient}/>
+        </Request>
+      </div>
     );
   }
 }

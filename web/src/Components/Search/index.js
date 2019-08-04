@@ -1,3 +1,7 @@
-import Search from './Search';
+import SearchBar from './SearchBar';
+import PatientList from './PatientList';
 
-export default Search;
+export {
+  SearchBar,
+  PatientList
+};

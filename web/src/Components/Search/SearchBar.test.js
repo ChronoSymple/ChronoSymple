@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Searchbar from './Searchbar';
+import SearchBar from './SearchBar';
 import 'jest-prop-type-error';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<Searchbar
+  ReactDOM.render(<SearchBar
     search="a"
     setSearchValue={() => 0}
   />, div);
