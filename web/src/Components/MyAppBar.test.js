@@ -10,8 +10,6 @@ const classes = {
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<MyAppBar classes={classes}
-    handleDrawerToggle={() => 0}
-  />, div);
+  ReactDOM.render(<MyAppBar classes={classes} />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
