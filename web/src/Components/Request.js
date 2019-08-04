@@ -12,7 +12,7 @@ const styles = {
 };
 
 const Request = ({
-  childrens,
+  children,
   loading,
   error,
   classes
@@ -22,15 +22,15 @@ const Request = ({
   } else if (loading === true) {
     return <div className={classes.progress}><CircularProgress/></div>;
   }
-  if (childrens)
-    return childrens;
+  if (children)
+    return children;
   return null;
 };
 
 Request.propTypes = {
   error: PropTypes.string,
   loading: PropTypes.bool,
-  childrens: PropTypes.element,
+  children: PropTypes.element,
   classes: PropTypes.shape({
     progress: PropTypes.string.isRequired
   }).isRequired
