@@ -24,12 +24,16 @@ const Request = ({
   }
   if (childrens)
     return childrens;
-  return null
+  return null;
 };
 
 Request.propTypes = {
   error: PropTypes.string,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  childrens: PropTypes.element,
+  classes: PropTypes.shape({
+    progress: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export default withStyles(styles)(Request);
