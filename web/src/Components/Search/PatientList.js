@@ -7,6 +7,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import Table from '@material-ui/core/Table';
 import { withStyles } from '@material-ui/core';
+import { PatientPropTypes } from '../../MyPropTypes';
 
 const styles = {
   selectable : {
@@ -57,11 +58,7 @@ PatientList.propTypes = {
     patientCard: PropTypes.string.isRequired,
     selectable: PropTypes.string.isRequired,
   }),
-  data: PropTypes.arrayOf(PropTypes.shape({
-    lastname: PropTypes.string.isRequired,
-    firstname: PropTypes.string.isRequired,
-    birthdate: PropTypes.string.isRequired,
-  }))
+  data: PropTypes.arrayOf(PatientPropTypes.isRequired).isRequired
 };
 
 export default withStyles(styles)(PatientList);
