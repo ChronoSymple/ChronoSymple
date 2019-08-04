@@ -37,8 +37,8 @@ class Login extends React.Component {
 		LoginAPatientWithApi(this.state.mail, this.state.password).then(async data => {
 			console.log(data);
 		 	if (data.status == 200) {
-				 let response = await data.json()
-				 console.log(response);
+				let response = await data.json()
+				console.log(response);
 		 		let token = response.login_token
 		 		setToken(token);
 		 		const action = { type: "TOGGLE_FAVORITE", value: token }
@@ -49,8 +49,10 @@ class Login extends React.Component {
 		 					let response = await data.json()
 		 					if (response.modules.length > 0) {
 		 						const action = { type: "CURRENT_MODULE", value: response.modules[0].id}
+		 						console.log(action)
 		 						this.props.dispatch(action)	
-		 						this.props.navigation.navigate('HomeModule', {idModule: response.modules[0].id})
+		 						/*this.props.navigation.navigate('HomeModule', {idModule: response.modules[0].id})*/
+		 						navigate('Home')
 		 					}
 		 					else
 		 						navigate('Home')
@@ -129,14 +131,14 @@ class Login extends React.Component {
 						<View style={{ flex: 1, justifyContent: "center"}}>
 							<Button 
 								color={colors.secondary}
-								onPress={() => navigate('SignIn')} 
+								onPress={() => navigate('SignIn')}
 								title={notSubscribe}
 							/>
 						</View>
 						<View style={{ flex: 1, justifyContent: "center"}}>
 							<Button 
 								color={colors.primary}
-								onPress={() => this.checkLogin()} 
+								onPress={() => this.checkLogin()}
 								title={login}
 							/>
 						</View>
@@ -154,3 +156,4 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(Login)
+/*export default Login*/

@@ -107,7 +107,8 @@ class SignIn extends React.Component {
 	<Text>{"\n"}</Text>
 	<Button 
 		color="#62BE87"
-		onPress={() => this.checkSingIn()} 
+		onPress={() => {}}
+		onPress={() => this.checkSingIn()}
 		title="S'inscrire"
 		/*title="SI T'APPUIS SUR CE BOUTON CA DOIT SIGNUP LE GARS ET APRES CA REDIRECT LOGIN"*/
 	/>

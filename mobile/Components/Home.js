@@ -2,8 +2,8 @@
 
 import React from 'react'
 import { View, Text, Button, BackHandler, StyleSheet, TouchableOpacity} from 'react-native'
-import { APIGetPatientModules } from '../API/APIModule'
-import { connect } from 'react-redux'
+/*import { APIGetPatientModules } from '../API/APIModule'*/
+/*import { connect } from 'react-redux'*/
 
 const MenuImage = ({navigation}) => {
 	if(!navigation.state.isDrawerOpen){
@@ -29,7 +29,7 @@ class Home extends React.Component {
 				<Text style={{ marginBottom : 30, fontSize: 20 }}>Aucun module actif</Text>        
 				<Button 
 					color="#62BE87"
-					onPress={() => navigate('Stack')} 
+					onPress={() => navigate('Stack')}
 					title="ALLEZ SUR LE MODULE PLACE"
 				/>
 			</View>
@@ -60,10 +60,11 @@ const styles = StyleSheet.create({
 })
 
 
-const mapStateToProps = (state) => {
+/*const mapStateToProps = (state) => {
 	return {
 	  token: state.token
 	}
-      }
-      
-export default connect(mapStateToProps)(Home)
+}*/
+
+/*export default connect(mapStateToProps)(Home)*/
+export default Home
