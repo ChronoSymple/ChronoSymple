@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core';
-import exact from 'prop-types-exact';
 
 const styles = {
   login: {
@@ -88,7 +87,7 @@ const LoginCard = ({
   </div>
 );
 
-LoginCard.propTypes = exact({
+LoginCard.propTypes = {
   classes: PropTypes.shape({
     login: PropTypes.string.isRequired,
     loginCardContainer: PropTypes.string.isRequired,
@@ -100,6 +99,6 @@ LoginCard.propTypes = exact({
   setEmail: PropTypes.func.isRequired,
   setPassword: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
-});
+};
 
 export default withStyles(styles)(LoginCard);
