@@ -22,7 +22,9 @@ const Request = ({
   } else if (loading === true) {
     return <div className={classes.progress}><CircularProgress/></div>;
   }
-  return childrens;
+  if (childrens)
+    return childrens;
+  return null
 };
 
 Request.propTypes = {
