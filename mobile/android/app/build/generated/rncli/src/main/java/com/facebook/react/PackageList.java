@@ -17,6 +17,10 @@ import com.chronosymple.R;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-reanimated
 import com.swmansion.reanimated.ReanimatedPackage;
+// react-native-svg
+import com.horcrux.svg.SvgPackage;
+// react-native-vector-icons
+import com.oblador.vectoricons.VectorIconsPackage;
 
 public class PackageList {
   private Application application;
@@ -51,7 +55,9 @@ public class PackageList {
     return new ArrayList<>(Arrays.<ReactPackage>asList(
       new MainReactPackage(),
       new RNGestureHandlerPackage(),
-      new ReanimatedPackage()
+      new ReanimatedPackage(),
+      new SvgPackage(),
+      new VectorIconsPackage()
     ));
   }
 }

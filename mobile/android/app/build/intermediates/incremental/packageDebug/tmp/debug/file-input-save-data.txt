@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Sun Aug 04 11:52:12 CEST 2019
+#Sun Aug 04 18:52:47 CEST 2019
 56.path=lib/x86/libyoga.so
 5.base=C\:\\Users\\TheChinatoxe\\Desktop\\eip\\ChronoSymple\\mobile\\android\\app\\build\\intermediates\\transforms\\mergeJniLibs\\debug\\0
 42.base=C\:\\Users\\TheChinatoxe\\Desktop\\eip\\ChronoSymple\\mobile\\android\\app\\build\\intermediates\\transforms\\mergeJniLibs\\debug\\0

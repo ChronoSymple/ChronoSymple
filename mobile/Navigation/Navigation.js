@@ -6,56 +6,56 @@ import Login from '../Components/Auth/Login';
 import SignIn from '../Components/Auth/SignIn';
 /*import Logout from '../Components/Auth/Logout';*/
 import Home from '../Components/Home';
-/*import DrawerScreen from './DrawerScreen';*/
+import DrawerScreen from './DrawerScreen';
 import ModulePlace from '../Components/ModulePlace';
-/*import HomeModule from '../Components/HomeModule';*/
+import HomeModule from '../Components/HomeModule';
 /*import Profil from '../Components/Profil';*/
 /*import SearchDoctors from '../Components/SearchDoctors';*/
-/*import Calendar from '../Components/Calendar';*/
+import Calendar from '../Components/Calendar';
 /*import DoctorChoice from '../Components/DoctorChoice';*/
 /*import ChooseModulesToSend from '../Components/ChooseModulesToSend';*/
 /*import DetailNote from '../Components/DetailNote';*/
-/*import Statistic from '../Components/Statistic';
+import Statistic from '../Components/Statistic';
 import Export from '../Components/Export';
-import Note from '../Components/Note';*/
+import Note from '../Components/Note';
 /*import Loading from '../Components/Loading'*/
-/*import Icon from 'react-native-vector-icons/MaterialIcons';*/
-/*import { Button } from 'react-native-paper';*/
+import Icon from 'react-native-vector-icons/MaterialIcons';
+/*import { Button } from 'react-native-paper'; NOT USED */
 
-/*const HomeModuleStackNavigator = createStackNavigator({
+/* NOT USED !!!!
+const HomeModuleStackNavigator = createStackNavigator({
 	HomeModule: {
 	  screen: HomeModule,
 	}
+})*/
 
-})
-
-const NoteStackNavigator = createStackNavigator({
+/*const NoteStackNavigator = createStackNavigator({
 	Note: {
 	  screen: Note,
 	}
-})
+})*/
 
-const CalendarStackNavigator = createStackNavigator({
+/*const CalendarStackNavigator = createStackNavigator({
 	DetailNote: {
 		screen: DetailNote
 	}
 }, {
 	headerMode: 'none'
-})
+})*/
 
-const StatisticStackNavigator = createStackNavigator({
+/*const StatisticStackNavigator = createStackNavigator({
 	Statistic: {
 		screen: Statistic,
 	}
-})
+})*/
 
-const ExportStackNavigator = createStackNavigator({
+/*const ExportStackNavigator = createStackNavigator({
 	Export: {
 	  screen: Export,
 	}
 })
-
-const ProfilStackNavigator = createStackNavigator({
+*/
+/*const ProfilStackNavigator = createStackNavigator({
 	Profil: {
 	  screen: Profil
 	},
@@ -87,7 +87,7 @@ const ChooseModulesToSendStackNavigator = createStackNavigator({
 	headerMode: 'none'
 })
 */
-/*const Tabs = createBottomTabNavigator({
+const Tabs = createBottomTabNavigator({
 	Home: {
 		screen : HomeModule,
 		navigationOptions: {
@@ -96,8 +96,8 @@ const ChooseModulesToSendStackNavigator = createStackNavigator({
 			  <Icon name="home" size={20}/>
 			)
 		},
-	},*/
-/*	Note: {
+	},
+	Note: {
 		screen : Note,
 		navigationOptions: {
 			tabBarLabel:"Note",
@@ -105,8 +105,8 @@ const ChooseModulesToSendStackNavigator = createStackNavigator({
 			  <Icon name="note" size={20}/>
 			)
 		},
-	},*/
-	/*Calendar: {
+	},
+	Calendar: {
 		screen : Calendar,
 		navigationOptions: {
 			tabBarLabel:"Calendar",
@@ -114,8 +114,8 @@ const ChooseModulesToSendStackNavigator = createStackNavigator({
 			  <Icon name="perm-contact-calendar" size={20}/>
 			)
 		},
-	},*/
-	/*Statistic: {
+	},
+	Statistic: {
 		screen : Statistic,
 		navigationOptions: {
 			tabBarLabel:"Statistic",
@@ -123,8 +123,8 @@ const ChooseModulesToSendStackNavigator = createStackNavigator({
 			  <Icon name="timeline" size={20}/>
 			)
 		},
-	},*/
-	/*Export: {
+	},
+	Export: {
 		screen : Export,
 		navigationOptions: {
 			tabBarLabel:"Export",
@@ -132,13 +132,13 @@ const ChooseModulesToSendStackNavigator = createStackNavigator({
 			  <Icon name="import-export" size={20}/>
 			)
 		},
-	},*/
-	/*
+	},
+	
 },{
 	headerMode: 'none'
 });
-*/
-/*
+
+
 const MenuImage = ({navigation}) => {
 	if(!navigation.state.isDrawerOpen){
 		return <Icon color="white" name="menu" size={30} marginLeft={10} />
@@ -146,15 +146,15 @@ const MenuImage = ({navigation}) => {
 		return <Icon color="white" name="arrow-back" size={30} marginLeft={10} />
 	}
 }
-*/
+
 const DrawerNavigator = createDrawerNavigator({
 		Home: {
 			screen: Home
 		},
-		/*HomeModule: {
+		HomeModule: {
 			screen: Tabs
-		},*/
-	}/*,{
+		},
+	},{
 		contentComponent: DrawerScreen,
 		headerMode: 'none',
 		drawerWidth: 300,
@@ -166,7 +166,7 @@ const DrawerNavigator = createDrawerNavigator({
 					<MenuImage navigation={navigation}/>
 				</TouchableOpacity>,
 				headerRight:
-				<TouchableOpacity onPress={() => navigation.navigate('Profil') }>
+				<TouchableOpacity onPress={() => {}}>
 					<Icon color="white" name="people" size={30} marginRight={10} />
 				</TouchableOpacity>,
 				headerStyle: {
@@ -178,7 +178,9 @@ const DrawerNavigator = createDrawerNavigator({
 				},
 		
 			})
-}*/);
+});
+
+/*navigation.navigate('Profil')*/
 
 const StackNavigtorWhithoutModule = createStackNavigator({
 	Drawer: {
@@ -192,11 +194,11 @@ const StackNavigtorWhithoutModule = createStackNavigator({
 	},*/
 	/*CalendarStackNavigator: {
 		screen : CalendarStackNavigator
-	},*/
-	/*DoctorChoiceStackNavigator: {
+	},
+	DoctorChoiceStackNavigator: {
 		screen: DoctorChoiceStackNavigator
-	},*/
-	/*ChooseModulesToSendStackNavigator: {
+	},
+	ChooseModulesToSendStackNavigator: {
 		screen: ChooseModulesToSendStackNavigator
 	}*/
 })
