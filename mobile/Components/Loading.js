@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View, Button, Dimensions, ActivityIndicator } from 'react-native'
-import { getToken, setToken } from './Auth/StoreToken'
+import { getToken, setToken } from './Auth/Cache'
 import { connect } from 'react-redux'
 import { APIGetPatientModules, APIGetModules } from '../API/APIModule'
 import { LoginAPatientWithApi } from '../API/APIConnection'

@@ -4,28 +4,36 @@ import React from 'react'
 import { View, Text, Button, TextInput, Dimensions, AsyncStorage } from 'react-native'
 import { LoginAPatientWithApi } from '../../API/APIConnection'
 import { APIGetPatientModules } from '../../API/APIModule'
-import { getToken, setToken } from './StoreToken'
+import { getToken, setToken } from './Cache'
+import { styles, colors, windowSize } from '../StyleSheet'
 import { connect } from 'react-redux'
 
 class Login extends React.Component {
+	
 	static navigationOptions = {
-		headerStyle: {backgroundColor: '#58b57d'},
-	  title: 'Connection',
-	  headerTintColor: 'white'
+		headerStyle: styles.navBar,
+		title: "Connection",
+		headerTintColor: "white",
+		headerTitleStyle: {
+      		alignSelf: "center"
+    	}
 	}
 
 	constructor(props) {
 		super(props)
-		this.state = { mail: "", password: "fzer", isInvalid: false }
+		this.state = { 
+			mail: "", 
+			password: "", 
+			isInvalid: false,
+			textFiledFocusColor: colors.primary,
+			passwordFocused: false,
+			emailFocused: false
+		}
 	}
 
 	checkLogin = () => {
 		let { navigate } = this.props.navigation;
 
-		if (this.state.mail == "" || this.state.password == "") {
-			this.setState({ isInvalid: true })
-			return;
-		}
 		LoginAPatientWithApi(this.state.mail, this.state.password).then(async data => {
 			console.log(data);
 		 	if (data.status == 200) {
@@ -56,8 +64,8 @@ class Login extends React.Component {
 		 	}
 		});
 	}
-	setMail = (text) => {
 
+	setMail = (text) => {
 		this.setState({ mail: text })
 	}
 
@@ -65,43 +73,76 @@ class Login extends React.Component {
 		this.setState({ password: text })
 	}
 
+	textFieldFocused = (state) => {
+		console.log(state);
+		this.setState({[state]: true})
+	}
+
+	textFieldBlured = (state) => {
+		this.setState({[state]: false})
+	}
+
   	render() {
-	let { navigate } = this.props.navigation;
-	let deviceWidth = Dimensions.get('window').width
-	let errorMessage = "Mauvaise addresse mail ou mot de passe"
+		let { navigate } 			= this.props.navigation;
+		let placeholder_email 		= "myEmail@gmail.com";
+		let placeholder_password 	= "mySecurePassword";
+		let notSubscribe 			= "new account";
+		let login 					= "login";
+		let errorMessage 			= "email or password incorrect";
+		let emailFocused 			= "emailFocused";
+		let passwordFocused 		= "passwordFocused"
+
     	return (
-      		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-			<Text style={{fontSize: 24}}>Connection{"\n"}</Text>
-			<TextInput
-				placeholder="Addresse mail"
-				style={{ height: 40, width: deviceWidth / 3 * 2, borderBottomWidth: 1}}
-				onChangeText={(text) => this.setMail(text)}
-				value={this.mail}
-			/>
-			<Text>{"\n"}</Text>
-			<TextInput
-				placeholder="Mot de passe"
-				style={{ height: 40, width: deviceWidth / 3 * 2, borderBottomWidth: 1}}
-				onChangeText={(text) => this.setPassword(text)}
-				value={this.password}
-			/>
-			<Text>{"\n"}</Text>
-			<Button 
-				color="#62BE87"
-				style={{ height: 40, borderWidth: 2, borderColor: '#000000' }} 
-				onPress={() => this.checkLogin()} 
-				title="Se connecter"
-			/>
-			<Text>{"\n"}</Text>
-			<Button 
-				color="#62BE87"
-				style={{ height: 40, borderWidth: 2, borderColor: '#000000' }} 
-				onPress={() => navigate('SignIn')} 
-				title="je n'ai pas de compte"
-			/>
-			<Text>{"\n"}</Text>
-			{this.state.isInvalid && <Text style={{ color: 'red' }}>{errorMessage}</Text>}
-		</View>
+    		<View style={styles.mainContner}>
+	      		<View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
+	      			<View style={{ flex: 6, justifyContent: "center"}}>
+			      		<Text style={styles.label}>
+			      			Email
+			      		</Text>
+						<TextInput
+							onFocus={() => this.textFieldFocused(emailFocused)}
+							onBlur={() => this.textFieldBlured(emailFocused)}
+							placeholder={placeholder_email}
+							style={[this.state[emailFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5 }]}
+							autoCorrect={false}
+							onChangeText={(text) => this.setMail(text)}
+							value={this.mail}
+						/>
+						<Text style={styles.label}>
+			      			Password
+			      		</Text>
+						<TextInput
+							onFocus={() => this.textFieldFocused(passwordFocused)}
+							onBlur={() => this.textFieldBlured(passwordFocused)}
+							secureTextEntry={true}
+							placeholder={placeholder_password}
+							style={[this.state[passwordFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5 }]}
+							autoCorrect={false}
+							onChangeText={(text) => this.setPassword(text)}
+							value={this.password}
+						/>
+					</View>
+	      			<View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
+						{this.state.isInvalid && <Text style={{ color: colors.errorColor }}>{errorMessage}</Text>}
+					</View>
+					<View style={{ flex: 3, justifyContent: "center", width: windowSize.x / 1.5}}>
+						<View style={{ flex: 1, justifyContent: "center"}}>
+							<Button 
+								color={colors.secondary}
+								onPress={() => navigate('SignIn')} 
+								title={notSubscribe}
+							/>
+						</View>
+						<View style={{ flex: 1, justifyContent: "center"}}>
+							<Button 
+								color={colors.primary}
+								onPress={() => this.checkLogin()} 
+								title={login}
+							/>
+						</View>
+					</View>
+				</View>
+			</View>
 		)
 	}
 }

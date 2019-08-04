@@ -1,0 +1,10 @@
+{
+  "devToolsPort": 19002,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 9890,
+  "expoServerNgrokUrl": "https://rx-gcg.anonymous.mobile.exp.direct",
+  "packagerNgrokUrl": "https://packager.rx-gcg.anonymous.mobile.exp.direct",
+  "ngrokPid": 9962,
+  "webpackServerPort": null
+}
