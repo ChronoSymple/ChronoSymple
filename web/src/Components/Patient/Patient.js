@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 import DiseaseCard from './DiseaseCard/DiseaseCard';
+import { PatientPropTypes } from '../../MyPropTypes';
 
 class Patient extends PureComponent {
   render() {
@@ -27,16 +27,7 @@ class Patient extends PureComponent {
 }
 
 Patient.propTypes = {
-  client: PropTypes.shape({
-    firstname: PropTypes.string,
-    lastname: PropTypes.string,
-    birthdate: PropTypes.string,
-    civility: PropTypes.oneOf(['Mr', 'Mme']),
-    diseases: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      data: PropTypes.any,
-    })).isRequired
-  })
+  client: PatientPropTypes.isRequired
 };
 
 export default Patient;

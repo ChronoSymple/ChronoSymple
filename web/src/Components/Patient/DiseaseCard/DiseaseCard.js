@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -8,6 +7,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Diabetes from './Diabetes';
 import NotImplemented from './NotImplemented';
+import { DiseasePropTypes } from '../../../MyPropTypes';
 
 const diseases = [
   {name: 'diabetes', fullName: 'Diabète', component: Diabetes},
@@ -38,10 +38,7 @@ class DiseaseCard extends PureComponent {
 }
 
 DiseaseCard.propTypes = {
-  disease: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    data: PropTypes.any,
-  }).isRequired
+  disease: DiseasePropTypes.isRequired
 };
 
 export default DiseaseCard;
