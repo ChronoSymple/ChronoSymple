@@ -70,7 +70,6 @@ class SearchController extends PureComponent {
       setClient
     } = this.props;
     const filterData = this.filterData(data);
-    console.log(filterData);
     return (
       <Request error={error} loading={!init}>
         <Search search={search}
