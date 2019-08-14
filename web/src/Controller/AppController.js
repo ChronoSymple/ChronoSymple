@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import MyAppBar from '../Components/MyAppBar';
+import MyAppBarController from './MyAppBarController';
 import Main from './MainController';
 import Login from './LoginController';
 import { withStyles } from '@material-ui/core/styles';
@@ -28,7 +28,11 @@ class App extends PureComponent {
     localStorage.setItem('myToken', token);
     this.setState({token});
   }
-
+  disconnect = () => {
+    localStorage.removeItem('myToken');
+    this.setState({token: null});
+  }
+  openProfile = () => {}
   render() {
     const {
       classes,
@@ -41,7 +45,7 @@ class App extends PureComponent {
       <div className={classes.root}>
         <CssBaseline />
         {token ? null : <Login setToken={this.setToken}/>}
-        <MyAppBar/>
+        <MyAppBarController disconnect={this.disconnect} openProfile={this.openProfile}/>
         {token ? <Main classes={classes} token={token} patient={patient} setPatient={this.setPatient}/> : null}
       </div>
     );
