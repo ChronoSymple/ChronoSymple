@@ -24,8 +24,7 @@ class SearchController extends PureComponent {
 
   init = async() => {
     try {
-      const res = await Api.getPatients(this.props.token);
-      const data = JSON.parse(res.patients);
+      const data = await Api.getPatients(this.props.token);
       this.setState({init: true, data});
     } catch (e) {
       this.setState({error : e.message});
