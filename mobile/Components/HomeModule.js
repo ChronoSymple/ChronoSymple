@@ -27,12 +27,12 @@ class HomeModule extends React.Component {
 				</TouchableOpacity>
 				<TouchableOpacity
 				style={styles.StatisticModule}
-				onPress={() => {}}>
+				onPress={() => navigate('Statistic')}>
 					<Text style={styles.moduleText}>Statistic</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 				style={styles.ExportModule}
-				onPress={() => {}}>
+				onPress={() => navigate('Export')}>
 					<Text style={styles.moduleText}>Export</Text>
 				</TouchableOpacity>
 			</View>

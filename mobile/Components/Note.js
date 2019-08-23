@@ -34,7 +34,10 @@ class Note extends React.Component {
 			"date": date,
 			"heure": horaire
 		}
-		APIAddPatientNotes(this.props.token, myTab, this.props.idCurrentModule).then(data => {})
+		APIAddPatientNotes(this.props.token, myTab, this.props.idCurrentModule).then(data => {
+			console.log("Note - APIAddPatientNotes - data: ")
+			console.log(data)
+		})
 		this.setState({ isSend: true })
 	}
 

@@ -35,7 +35,6 @@ class Login extends React.Component {
 		let { navigate } = this.props.navigation;
 
 		LoginAPatientWithApi(this.state.mail, this.state.password).then(async data => {
-			console.log(data);
 		 	if (data.status == 200) {
 				let response = await data.json()
 				console.log(response);
@@ -45,20 +44,29 @@ class Login extends React.Component {
 		 		this.props.dispatch(action)
 		 		if (token !== null) {
 		 			APIGetPatientModules(this.props.token).then(async data => {
+						console.log(data);
 		 				if (data.status == 200) {
 		 					let response = await data.json()
-		 					if (response.modules.length > 0) {
+		 					console.log("Login - APIGetPatientModules - response: ")
+		 					console.log(response)
+		 					if (response.length > 0) {
+		 						const action = { type: "CURRENT_MODULE", value: response[0].id}
+		 						console.log(action)
+		 						this.props.dispatch(action)	
+		 						this.props.navigation.navigate('HomeModule', {idModule: response[0].id})
+		 					}
+		 					/*if (response.modules.length > 0) {
 		 						const action = { type: "CURRENT_MODULE", value: response.modules[0].id}
 		 						console.log(action)
 		 						this.props.dispatch(action)	
-		 						/*this.props.navigation.navigate('HomeModule', {idModule: response.modules[0].id})*/
-		 						navigate('Home')
+		 						this.props.navigation.navigate('HomeModule', {idModule: response.modules[0].id})
 		 					}
+		 					*/
 		 					else
 		 						navigate('Home')
 		 				}
 					 })
-					 navigate('Home')
+					 navigate('SignIn')
 		 		}
 		 	}
 		 	else {

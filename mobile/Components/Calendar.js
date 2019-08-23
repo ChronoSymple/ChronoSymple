@@ -30,6 +30,8 @@ class Calendar extends React.Component {
 		APIGetPatientNotesByModule(this.props.token, this.props.idCurrentModule).then(data => {
 			if (data.status == 200) {
 				let response = data.json()
+				console.log("Calendar - APIGetPatientNotesByModule - response: ")
+				console.log(response)
 				if (response.modules.length > 0 && JSON.stringify(this.state.DNotes) != JSON.stringify(response.modules)) {
 					this.setState({
 						DNotes: [ ...response.notes ],
