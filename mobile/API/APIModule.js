@@ -67,7 +67,11 @@ export function APIAddPatientNotes(token, datJson, idModule) {
 	.catch((error) => error)
 }
 
-export function APIGetDoctors(token) {
+
+/* WTF THIS FUNCTION ?!!!! aussi presente sur APIDoctor file 
+/* cette fonction a l'air fuck up
+
+/*export function APIGetDoctors(token) {
 	return fetch(baseUrl + '/api/doctors', {
 		method: 'GET',
 		headers: {
@@ -77,4 +81,4 @@ export function APIGetDoctors(token) {
 	})
 	.then((response) => response)
 	.catch((error) => error)
-}
+}*/

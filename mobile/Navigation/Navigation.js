@@ -12,7 +12,7 @@ import HomeModule from '../Components/HomeModule';
 /*import Profil from '../Components/Profil';*/
 /*import SearchDoctors from '../Components/SearchDoctors';*/
 import Calendar from '../Components/Calendar';
-/*import DoctorChoice from '../Components/DoctorChoice';*/
+import DoctorChoice from '../Components/DoctorChoice';
 /*import ChooseModulesToSend from '../Components/ChooseModulesToSend';*/
 /*import DetailNote from '../Components/DetailNote';*/
 import Statistic from '../Components/Statistic';
@@ -71,7 +71,9 @@ const HomeModuleStackNavigator = createStackNavigator({
 		headerMode: 'none'
 })
 */
-/*const DoctorChoiceStackNavigator = createStackNavigator({
+/* END NOT USED */
+
+const DoctorChoiceStackNavigator = createStackNavigator({
 	DoctorChoice: {
 		screen: DoctorChoice,
 	}
@@ -79,6 +81,7 @@ const HomeModuleStackNavigator = createStackNavigator({
 	headerMode: 'none'
 })
 
+/*
 const ChooseModulesToSendStackNavigator = createStackNavigator({
 	ChooseModulesToSend: {
 		screen: ChooseModulesToSend,
@@ -188,15 +191,15 @@ const StackNavigtorWhithoutModule = createStackNavigator({
 	},
 	Stack: {
 		screen: ModulePlace, navigationOptions: { title:'ModulPlace' }
+	},
+	DoctorChoiceStackNavigator: {
+		screen: DoctorChoiceStackNavigator
 	}
 	/*Profil: {
 		screen: ProfilStackNavigator, navigationOptions: { title:'Profil' }
 	},*/
 	/*CalendarStackNavigator: {
 		screen : CalendarStackNavigator
-	},
-	DoctorChoiceStackNavigator: {
-		screen: DoctorChoiceStackNavigator
 	},
 	ChooseModulesToSendStackNavigator: {
 		screen: ChooseModulesToSendStackNavigator
