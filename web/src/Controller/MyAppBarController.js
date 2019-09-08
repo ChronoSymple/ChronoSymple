@@ -25,13 +25,26 @@ class MyAppBarController extends React.Component {
     this.props.openProfile();
   }
   render() {
+    const {
+      title,
+      closeProfile,
+      closePatient
+    } = this.props;
+    let back;
+    if (title === "Patient") {
+      back = closePatient
+    }
+    if (title === "Profile") {
+      back = closeProfile
+    }
     return <MyAppBar
       disconnect={this.disconnect}
       openProfile={this.openProfile}
       openMenu={this.openMenu}
       closeMenu={this.closeMenu}
       anchorEl={this.state.anchorEl}
-      title={this.props.title}
+      title={title}
+      back={back}
     />;
   }
 }
@@ -39,7 +52,9 @@ class MyAppBarController extends React.Component {
 MyAppBarController.propTypes = {
   disconnect: PropTypes.func.isRequired,
   openProfile: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  closeProfile: PropTypes.func.isRequired,
+  closePatient: PropTypes.func.isRequired
 };
 
 export default MyAppBarController;

@@ -6,6 +6,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import ArrowBack from '@material-ui/icons/ArrowBack';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -28,13 +29,15 @@ class MyAppBar extends PureComponent {
       openMenu,
       closeMenu,
       anchorEl,
-      title
+      title,
+      back
     } = this.props;
     const open = anchorEl !== null;
     return (
       <div>
         <AppBar position="fixed">
           <Toolbar className={classes.root}>
+            {back && <IconButton onClick={back} color="inherit"><ArrowBack/></IconButton>}
             <Typography variant="h6" color="inherit" noWrap className={classes.title}>
               {title}
             </Typography>
@@ -79,6 +82,7 @@ MyAppBar.propTypes = {
   openMenu: PropTypes.func.isRequired,
   closeMenu: PropTypes.func.isRequired,
   anchorEl: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  back: PropTypes.func
 };
 export default withStyles(styles)(MyAppBar);
