@@ -20,7 +20,7 @@ class Patient extends PureComponent {
             </Typography>
           </CardContent>
         </Card>
-        {client.diseases.map(e => <DiseaseCard key={e.name} disease={e}/>)}
+        {client.diseases && client.diseases.map(e => <DiseaseCard key={e.name} disease={e}/>)}
       </div>
     );
   }

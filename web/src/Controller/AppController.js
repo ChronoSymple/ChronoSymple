@@ -45,7 +45,7 @@ class App extends PureComponent {
       <div className={classes.root}>
         <CssBaseline />
         {token ? null : <Login setToken={this.setToken}/>}
-        <MyAppBarController disconnect={this.disconnect} openProfile={this.openProfile}/>
+        <MyAppBarController title="Patients" disconnect={this.disconnect} openProfile={this.openProfile}/>
         {token ? <Main classes={classes} token={token} patient={patient} setPatient={this.setPatient}/> : null}
       </div>
     );

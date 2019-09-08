@@ -27,7 +27,8 @@ class MyAppBar extends PureComponent {
       disconnect,
       openMenu,
       closeMenu,
-      anchorEl
+      anchorEl,
+      title
     } = this.props;
     const open = anchorEl !== null;
     return (
@@ -35,7 +36,7 @@ class MyAppBar extends PureComponent {
         <AppBar position="fixed">
           <Toolbar className={classes.root}>
             <Typography variant="h6" color="inherit" noWrap className={classes.title}>
-              Patients
+              {title}
             </Typography>
             <IconButton
               onClick={openMenu}
