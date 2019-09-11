@@ -16,7 +16,7 @@ class Calendar extends React.Component {
 		APIGetPatientNotesByModule(this.props.token, this.props.idCurrentModule).then(data => {
 			console.log(data)
 			this.setState({
-				DNotes: [ ...data.notes ]
+				DNotes: [ ...data ]
 			})
 		})
 	}
@@ -27,18 +27,20 @@ class Calendar extends React.Component {
 	}
 
 	render() {
-		APIGetPatientNotesByModule(this.props.token, this.props.idCurrentModule).then(data => {
+		/*A quoi sert cette function ? ?? */
+		/*APIGetPatientNotesByModule(this.props.token, this.props.idCurrentModule).then(data => {
 			if (data.status == 200) {
 				let response = data.json()
 				console.log("Calendar - APIGetPatientNotesByModule - response: ")
 				console.log(response)
-				if (response.modules.length > 0 && JSON.stringify(this.state.DNotes) != JSON.stringify(response.modules)) {
+				if (response.length > 0 && JSON.stringify(this.state.DNotes) != JSON.stringify(response.modules)) {
 					this.setState({
 						DNotes: [ ...response.notes ],
 					})
 				}
 			}
-		})
+		})*/
+		/* end - a quoi sert la fonctio nau dessus ? */
 		return (
 			<View style={styles.main_container}>
 				<FlatList

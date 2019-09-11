@@ -39,6 +39,7 @@ export function APIGetPatientModules(token) {
 	.catch((error) => error)
 }
 
+/*
 export function APIGetPatientNotesByModule(token, idmodule) {
 	return fetch(baseUrl + '/api/notes', {
 	  method: 'GET',
@@ -50,6 +51,7 @@ export function APIGetPatientNotesByModule(token, idmodule) {
 	.then((response) => response.json())
 	.catch((error) => error)
 }
+*/
 
 /*export function APIAddPatientNotes(token, datJson, idModule) {
 	return fetch(baseUrl + '/api/notes', {
@@ -67,6 +69,20 @@ export function APIGetPatientNotesByModule(token, idmodule) {
 	.catch((error) => error)
 }
 */
+
+
+export function APIGetPatientNotesByModule(token, idmodule) {
+	return fetch(baseUrl + '/api/patients/units/' + idmodule + '/notes', {
+	  method: 'GET',
+	  headers: {
+	    Accept: 'application/json',
+			'Authorization': token
+		}
+	})
+	.then((response) => response.json())
+	.catch((error) => error)
+}
+
 export function APIAddPatientNotes(token, datJson, idModule) {
 	return fetch(baseUrl + '/api/patients/units/' + idModule + '/add_note', {
 	  method: 'POST',
