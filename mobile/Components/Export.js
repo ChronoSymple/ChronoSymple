@@ -15,7 +15,7 @@ export default class Export extends React.Component {
         <Button 
           color="#62BE87"
           style={{width: deviceWidth / 2, borderRadius: 15}}
-          onPress={() => navigate('DoctorChoiceStackNavigator')}
+          onPress={() => navigate('MyDoctorChoiceStackNavigator')}
           title="Choisir le docteur"
         />
         <Text>{'\n\n'}</Text>

@@ -23,7 +23,7 @@ export function APIGetDoctors(token) {
 	.catch((error) => error)
 }
 
-export function APIGetPatientModules(token) {
+export function APIGetMyDoctors(token) {
 	return fetch(baseUrl + '/api/patients/doctors/my_doctors', {
 	  method: 'GET',
 	  headers: {

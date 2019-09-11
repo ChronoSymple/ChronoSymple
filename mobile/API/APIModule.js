@@ -51,7 +51,7 @@ export function APIGetPatientNotesByModule(token, idmodule) {
 	.catch((error) => error)
 }
 
-export function APIAddPatientNotes(token, datJson, idModule) {
+/*export function APIAddPatientNotes(token, datJson, idModule) {
 	return fetch(baseUrl + '/api/notes', {
 	  method: 'POST',
 	  headers: {
@@ -61,6 +61,21 @@ export function APIAddPatientNotes(token, datJson, idModule) {
 		body: JSON.stringify({
 				data: datJson,
 				module_id: idModule
+		})
+	})
+	.then((response) => response)
+	.catch((error) => error)
+}
+*/
+export function APIAddPatientNotes(token, datJson, idModule) {
+	return fetch(baseUrl + '/api/patients/units/' + idModule + '/add_note', {
+	  method: 'POST',
+	  headers: {
+      'Content-Type': 'application/json',			
+	    'Authorization': token,
+		},
+		body: JSON.stringify({
+				data: datJson
 		})
 	})
 	.then((response) => response)

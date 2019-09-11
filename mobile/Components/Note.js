@@ -66,12 +66,12 @@ class Note extends React.Component {
 		let successMessage = "La note a bien été envoyé."
 		return (
 		<View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-			<Text style={{ fontSize: 20, fontWeight: 'bold' }}>Declaration de symptome{'\n\n\n'}</Text>
+			<Text style={{ fontSize: 20, fontWeight: 'bold' }}>Declaration de symptome{'\n\n'}</Text>
 			<View style={{flexDirection: 'row', marginLeft: deviceWidth / 7, marginRight: deviceWidth / 7}}>
 				<Text style={{flex: 1}}> Glycemie:</Text>
 				<TextInput
 				placeholder="Glycémie"
-				style={{ flex: 1, height: 25, width: deviceWidth / 3, borderBottomWidth: 1}}
+				style={{ flex: 1, height: 35, width: deviceWidth / 3, borderBottomWidth: 1}}
 				onChangeText={(text) => this.setGlicemie(text)}
 				value={this.glicemie}
 			/>
@@ -81,7 +81,7 @@ class Note extends React.Component {
 				<Text style={{flex: 1}}> Glucide:</Text>
 				<TextInput
 				placeholder="Glucide"
-				style={{ flex: 1, height: 25, width: deviceWidth / 3, borderBottomWidth: 1}}
+				style={{ flex: 1, height: 35, width: deviceWidth / 3, borderBottomWidth: 1}}
 				onChangeText={(text) => this.setGlucide(text)}
 				value={this.glucide}
 			/>
@@ -91,7 +91,7 @@ class Note extends React.Component {
 	        	<Text style={{flex: 1}}> Insuline av. repas</Text>
 	        	<TextInput
 				placeholder="Insuline av. repas:"
-				style={{ flex: 1, height: 25, width: deviceWidth / 3, borderBottomWidth: 1}}
+				style={{ flex: 1, height: 35, width: deviceWidth / 3, borderBottomWidth: 1}}
 				onChangeText={(text) => this.setInsulineavrepas(text)}
 				value={this.insulineavrepas}
 			/>
@@ -101,7 +101,7 @@ class Note extends React.Component {
 	        	<Text style={{flex: 1}}> Insuline ap. repas:</Text>
 	        	<TextInput
 				placeholder="Insuline ap. repas:"
-				style={{ flex: 1, height: 25, width: deviceWidth / 3, borderBottomWidth: 1}}
+				style={{ flex: 1, height: 35, width: deviceWidth / 3, borderBottomWidth: 1}}
 				onChangeText={(text) => this.setInsulineaprepas(text)}
 				value={this.Insulineaprepas}
 			/>
@@ -111,7 +111,7 @@ class Note extends React.Component {
 				<Text style={{flex: 1}}> Insuline a jeun:</Text>
 				<TextInput
 				placeholder="Insuline a jeun"
-				style={{ flex: 1, height: 25, width: deviceWidth / 3, borderBottomWidth: 1}}
+				style={{ flex: 1, height: 35, width: deviceWidth / 3, borderBottomWidth: 1}}
 				onChangeText={(text) => this.setInsulineajeun(text)}
 				value={this.insulineajeun}
 			/>

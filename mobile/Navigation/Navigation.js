@@ -13,6 +13,7 @@ import HomeModule from '../Components/HomeModule';
 /*import SearchDoctors from '../Components/SearchDoctors';*/
 import Calendar from '../Components/Calendar';
 import DoctorChoice from '../Components/DoctorChoice';
+import MyDoctorChoice from '../Components/MyDoctorChoice';
 /*import ChooseModulesToSend from '../Components/ChooseModulesToSend';*/
 /*import DetailNote from '../Components/DetailNote';*/
 import Statistic from '../Components/Statistic';
@@ -76,6 +77,14 @@ const HomeModuleStackNavigator = createStackNavigator({
 const DoctorChoiceStackNavigator = createStackNavigator({
 	DoctorChoice: {
 		screen: DoctorChoice,
+	}
+}, {
+	headerMode: 'none'
+})
+
+const MyDoctorChoiceStackNavigator = createStackNavigator({
+	MyDoctorChoice: {
+		screen: MyDoctorChoice,
 	}
 }, {
 	headerMode: 'none'
@@ -194,6 +203,9 @@ const StackNavigtorWhithoutModule = createStackNavigator({
 	},
 	DoctorChoiceStackNavigator: {
 		screen: DoctorChoiceStackNavigator
+	},
+	MyDoctorChoiceStackNavigator: {
+		screen: MyDoctorChoiceStackNavigator
 	}
 	/*Profil: {
 		screen: ProfilStackNavigator, navigationOptions: { title:'Profil' }

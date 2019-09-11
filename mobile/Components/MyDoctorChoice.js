@@ -14,10 +14,10 @@ import { View,
 	TouchableOpacity,
 	Image} from 'react-native'
 import { Icon } from 'react-native-elements'
-import { APIGetDoctors, APIAddDoctor } from '../API/APIDoctor';
+import { APIGetMyDoctors } from '../API/APIDoctor';
 import { connect } from 'react-redux';
 
-class DoctorChoice extends React.Component {
+class MyDoctorChoice extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -28,25 +28,11 @@ class DoctorChoice extends React.Component {
 	}
 
 	componentWillMount () {
-		APIGetDoctors(this.props.token).then(async data => {
-			console.log("DoctorChoice - APIGetDoctors - data")
+		APIGetMyDoctors(this.props.token).then(async data => {
+			console.log("MyDoctorChoice - APIGetMyDoctors - data")
 			console.log(data)
 			let response = await data.json()
-			console.log("DoctorChoice - APIGetDoctors response: ")
-			console.log(response)
-			this.setState({
-				data: response,
-			})
-		})
-	}
-
-	_addDoctor = (item) => {
-		console.log("clicked on add doctor ! in Doctor choice page")
-		APIAddDoctor(this.props.token, item.id).then(async data => {
-			console.log("DoctorChoice - APIAddDoctor - data")
-			console.log(data)
-			let response = await data.json()
-			console.log("DoctorChoice - APIAddDoctor response: ")
+			console.log("MyDoctorChoice - APIGetMyDoctors response: ")
 			console.log(response)
 			this.setState({
 				data: response,
@@ -66,20 +52,20 @@ class DoctorChoice extends React.Component {
   					renderItem={({item, separators}) => (
     					<TouchableHighlight
     						key={item.id}
-							onPress={() => {this._addDoctor(item)}} 
+      						onPress={() => {}}
       						onShowUnderlay={separators.highlight}
       						onHideUnderlay={separators.unhighlight}>
       						<View key={item.id} style={{backgroundColor: 'white', borderBottomWidth: 1, justifyContent: 'center'}}>
         						<Text style={{margin: 15}}>{item.user.first_name} {item.user.last_name}</Text>
-        						<Button
-									color="#62BE87"
-									style={{borderRadius: 15}}
-									onPress={() => {}}
-									title="Ajouter"
-          						/>
       						</View>
     					</TouchableHighlight>
   					)}
+				/>
+				<Button 
+					color="#62BE87"
+					style={{ height: 40, borderWidth: 2, borderColor: '#000000' }} 
+		          	onPress={() => navigate('DoctorChoiceStackNavigator')}
+					title="ajouter un doctor"
 				/>
       		</View>
 		)
@@ -113,6 +99,6 @@ const mapStateToProps = (state) => {
 	}
       }
       
-export default connect(mapStateToProps)(DoctorChoice)
+export default connect(mapStateToProps)(MyDoctorChoice)
 
 /*navigate('ChooseModulesToSendStackNavigator')*/
