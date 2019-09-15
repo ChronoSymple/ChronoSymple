@@ -20,7 +20,7 @@ class LoginCardController extends PureComponent {
       const token = await Api.login(this.state.email, this.state.password);
       this.props.setToken(token);
     } catch (e) {
-      console.error(e); // WIP Error to display
+      // TODO: Error to display
     }
   }
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
@@ -40,7 +40,7 @@ function ScrollDialog() {
         scroll={scroll}
         aria-labelledby="scroll-dialog-title"
       >
-        <DialogTitle id="scroll-dialog-title">Termes d'utilisation</DialogTitle>
+        <DialogTitle id="scroll-dialog-title">{'Termes d\'utilisation'}</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           <DialogContentText>
             {'Chronosymple, une startup (projet étudiant) a mis en place pour les medecins un site web qui leur permettent de suivre un patient atteint de maladie chronique de manière fluide et chronologique.\n'}
@@ -143,9 +143,9 @@ class SignupCard extends Component {
                 label="Accepter les"
                 onChange={() => {
                   if (this.state.isButtonDisabled === true)
-                    this.setState({ isButtonDisabled: false })
+                    this.setState({ isButtonDisabled: false });
                   else
-                    this.setState({ isButtonDisabled: true })
+                    this.setState({ isButtonDisabled: true });
                 }}
               />
               <ScrollDialog />
