@@ -10,6 +10,14 @@ const classes = {
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<MyAppBar classes={classes} />, div);
+  ReactDOM.render(<MyAppBar
+    classes={classes}
+    openProfile={() => 0}
+    openMenu={() => 0}
+    closeMenu={() => 0}
+    title='Hello'
+    disconnect={() => 0}
+    anchorEl={null}
+  />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
