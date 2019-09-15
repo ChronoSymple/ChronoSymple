@@ -28,7 +28,7 @@ class SearchController extends PureComponent {
       const data = rawdata.map(e => {
         const {first_name, last_name, ...others} = e.user;
         return {...others, firstname: first_name, lastname: last_name};
-      })
+      });
       this.setState({init: true, data});
     } catch (e) {
       this.setState({error : e.message});

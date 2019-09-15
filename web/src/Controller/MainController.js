@@ -18,11 +18,11 @@ class MainController extends PureComponent {
         <div className={classes.toolbar} />
         {(() => {
           if (profile) {
-            return <Profile/>
+            return <Profile/>;
           } else if (patient) {
-            return <Patient client={patient}/>
+            return <Patient client={patient}/>;
           } else { 
-            return <Search token={token} setClient={setPatient}/>
+            return <Search token={token} setClient={setPatient}/>;
           } 
         })()}
       </main>

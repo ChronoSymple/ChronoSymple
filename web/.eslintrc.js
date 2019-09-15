@@ -43,7 +43,7 @@ module.exports = {
     "no-template-curly-in-string": "error",
     "array-callback-return": "error",
     "no-alert": "error",
-    "camelcase": "error",
+    "camelcase": "warn",
     "no-duplicate-imports": "error",
     "prefer-template": "error",
     "keyword-spacing": "error",

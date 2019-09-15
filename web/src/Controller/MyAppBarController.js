@@ -31,11 +31,11 @@ class MyAppBarController extends React.Component {
       closePatient
     } = this.props;
     let back;
-    if (title === "Patient") {
-      back = closePatient
+    if (title === 'Patient') {
+      back = closePatient;
     }
-    if (title === "Profile") {
-      back = closeProfile
+    if (title === 'Profile') {
+      back = closeProfile;
     }
     return <MyAppBar
       disconnect={this.disconnect}
