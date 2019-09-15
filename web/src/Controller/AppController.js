@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MyAppBarController from './MyAppBarController';
 import Main from './MainController';
-import Login from './LoginController';
+import LoginController from './LoginController';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -49,15 +49,15 @@ class App extends PureComponent {
       token,
       profile
     } = this.state;
-    let title = "Patients";
+    let title = 'Patients';
     if (patient)
-      title = "Patient"
+      title = 'Patient';
     if (profile)
-      title = "Profile"
+      title = 'Profile';
     return (
       <div className={classes.root}>
         <CssBaseline />
-        {token ? null : <Login setToken={this.setToken}/>}
+        {token ? null : <LoginController setToken={this.setToken}/>}
         <MyAppBarController title={title} disconnect={this.disconnect} openProfile={this.openProfile} closeProfile={this.closeProfile} closePatient={this.closePatient}/>
         {token ? <Main classes={classes} token={token} patient={patient} setPatient={this.setPatient} profile={profile}/> : null}
       </div>

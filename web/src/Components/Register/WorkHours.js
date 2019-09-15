@@ -1,14 +1,17 @@
 import React, {Component} from 'react'
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import { withStyles } from '@material-ui/core';
+import { withStyles, /*Input*/ } from '@material-ui/core';
 
 const styles = {
     bloc: {
-        margin: 2,
+        position: 'relative',
+        margin: 10,
         maxWidth: 600,
         width: '50%',
         justifyContent: 'right',
+        alignContent: 'center',
+        textAlign: 'center !important',
     }
 };
 
@@ -99,7 +102,6 @@ class WorkHours extends Component {
                 value={this.state.sunday}
                 onChange={this.setSunday}
                 />
-
             </div>
         )
     }
