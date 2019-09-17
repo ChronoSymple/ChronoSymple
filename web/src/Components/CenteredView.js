@@ -10,7 +10,7 @@ const styles = {
     left: 0,
     right: 0,
     backgroundColor: '#DDDDDD',
-    zIndex: 10000,
+    zIndex: 1000,
     overflow: 'scroll'
   },
   horizontalCenter: {
