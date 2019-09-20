@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { SearchBar, PatientList } from '../Components/Search';
 import Api from '../Api';
 import Request from '../Components/Request';
+import Chip from '@material-ui/core/Chip';
 
+const diseases = ['Diabète', 'Cancer'];
 class SearchController extends PureComponent {
   
-  state = { search: '', data: [], error: null, init: false };
+  state = { search: '', data: [], error: null, init: false, selected: {} };
 
   setSearchValue = search => this.setState({ search });
 
@@ -35,6 +37,14 @@ class SearchController extends PureComponent {
     }
   }
 
+  chipClick = e => {
+    const disease = e.target.innerText;
+    this.setState(state => ({selected: {
+      ...state.selected,
+      [disease]: !state.selected[disease]
+    }}));
+  }
+
   render() {
     const {
       search,
@@ -49,6 +59,14 @@ class SearchController extends PureComponent {
     return (
       <div>
         <SearchBar search={search} setSearchValue={this.setSearchValue}/>
+        <br/>
+        {
+          diseases.map(disease => <Chip
+            key={disease}
+            color={this.state.selected[disease] ? 'primary' : 'default'}
+            label={disease}
+            onClick={this.chipClick}/>)
+        }
         <Request error={error} loading={!init}>
           <PatientList data={filterData} setClient={setClient}/>
         </Request>
