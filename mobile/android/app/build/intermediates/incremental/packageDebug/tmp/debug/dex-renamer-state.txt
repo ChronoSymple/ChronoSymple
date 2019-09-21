@@ -1,4 +1,4 @@
-#Sun Aug 04 18:52:44 CEST 2019
-base.0=C\:\\Users\\TheChinatoxe\\Desktop\\eip\\ChronoSymple\\mobile\\android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+#Sat Sep 21 20:29:02 CEST 2019
+base.0=/home/mfourtane/Documents/ChronoSymple/mobile/android/app/build/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex

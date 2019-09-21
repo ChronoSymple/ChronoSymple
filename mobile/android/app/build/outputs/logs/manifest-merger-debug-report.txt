@@ -1,235 +1,235 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:1:1-26:12
-INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:1:1-26:12
-INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:1:1-26:12
-INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:1:1-26:12
-MERGED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:1:1-26:12
-MERGED from [:react-native-reanimated] C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\node_modules\react-native-reanimated\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
-MERGED from [:react-native-svg] C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\node_modules\react-native-svg\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
-MERGED from [:react-native-vector-icons] C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\node_modules\react-native-vector-icons\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
-MERGED from [com.facebook.react:react-native:0.60.4] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\96e090bb64d525a8851cd0c8b3821b89\AndroidManifest.xml:2:1-13:12
-MERGED from [org.webkit:android-jsc:r245459] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\77411ca4f02041499b9b88bd7c6779c6\AndroidManifest.xml:2:1-11:12
-MERGED from [:react-native-gesture-handler] C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\node_modules\react-native-gesture-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-11:12
-MERGED from [androidx.appcompat:appcompat:1.0.2] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\65bdc972afaccddaed6b94929828609d\AndroidManifest.xml:17:1-22:12
-MERGED from [com.facebook.fresco:fresco:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\7823e23fc1fc002ffb793b00c3552a77\AndroidManifest.xml:2:1-9:12
-MERGED from [com.facebook.fresco:imagepipeline-okhttp3:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\10e948845f32effe85362d9ebf7c9a6a\AndroidManifest.xml:2:1-9:12
-MERGED from [com.facebook.fresco:drawee:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\5898dfb1237b43b518d0316cc6977351\AndroidManifest.xml:2:1-9:12
-MERGED from [com.facebook.fresco:nativeimagefilters:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\098cc6cc5d9ab10bd84c0b91bf777409\AndroidManifest.xml:2:1-9:12
-MERGED from [com.facebook.fresco:imagepipeline:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\5e1b71ef4572867300434e7503220e93\AndroidManifest.xml:2:1-9:12
-MERGED from [com.facebook.fresco:nativeimagetranscoder:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\e224f2132df515597097271e996bdc15\AndroidManifest.xml:2:1-9:12
-MERGED from [com.facebook.fresco:imagepipeline-base:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\7e3f037ab4b499766f3ba67016e59b05\AndroidManifest.xml:2:1-9:12
-MERGED from [com.facebook.soloader:soloader:0.6.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\514b3c9b7a7887cf29625a689f6e904d\AndroidManifest.xml:2:1-13:12
-MERGED from [androidx.transition:transition:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\9d20897ec95a1a920714ae80a65309b1\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.fragment:fragment:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\825b4a5ce94b63d6f819f560b9dc43a1\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\02326f7167a3f106f9b87d525d1f22a5\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\4ed97918e8106bfd5bc465cddd9aa7f9\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\ae30ed37d7add1ce127b0e7217275e82\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\e4c334b5c3cf85a62200f77decb5a74b\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.loader:loader:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\55426d82c39036a2f62a74936beebf66\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\fea099917d22617f82e618081d538057\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\55017f3df18b7a05b00d865b6ffb0341\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\45d3a390207bda0fb1ca1c76edc1f245\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\cf54ac5193643c6fa5eb9b42802859e9\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.customview:customview:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\53c90ee9ae2f2829f01ba6f9ca32e852\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\ad03954735c40c5594d5569767541c39\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\7261ab9a05b92f2114c3204335f19373\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.core:core:1.0.1] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\0ab9db70b0daa7c0901ddcd963f3ac8c\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\41e81536d3d9159ef6cefb54f5b9a9b2\AndroidManifest.xml:17:1-25:12
-MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\10f056945f9c6c407359a9ea739b370c\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\97ba95805fcb99b750309bcb9885fdc1\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\0e655ae04263b3459695703946b92801\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\7de74b96ad05e1d9247aa6f1358d7b56\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.print:print:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\19d503cf26edd9e4ba5d52c90defbf8d\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\dd164d95684064fcc85c98713206265e\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\0af2c04c98475eee8f824f4c9c6d6d84\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\64ba65d87da427b6fef6e70e1ba36c86\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\a0d8826fa7089bce5ee53651f1a98e72\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\6b5148257b67d261ab74a03e2e214eb9\AndroidManifest.xml:17:1-22:12
-MERGED from [com.facebook.fresco:fbcore:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\d8d3fdfb7a3f6a37bd655c47cfa18aa9\AndroidManifest.xml:2:1-9:12
-INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\debug\AndroidManifest.xml:2:1-8:12
-INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\debug\AndroidManifest.xml:2:1-8:12
-INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\debug\AndroidManifest.xml:2:1-8:12
+ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:1:1-26:12
+INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:1:1-26:12
+INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:1:1-26:12
+INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:1:1-26:12
+MERGED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:1:1-26:12
+MERGED from [:react-native-reanimated] /home/mfourtane/Documents/ChronoSymple/mobile/node_modules/react-native-reanimated/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
+MERGED from [:react-native-svg] /home/mfourtane/Documents/ChronoSymple/mobile/node_modules/react-native-svg/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:react-native-vector-icons] /home/mfourtane/Documents/ChronoSymple/mobile/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
+MERGED from [com.facebook.react:react-native:0.60.4] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/348abec4b64a4b18c94290fa496bc31c/AndroidManifest.xml:2:1-13:12
+MERGED from [org.webkit:android-jsc:r245459] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/579b695ebfc834496a715c13613c4199/AndroidManifest.xml:2:1-11:12
+MERGED from [:react-native-gesture-handler] /home/mfourtane/Documents/ChronoSymple/mobile/node_modules/react-native-gesture-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.appcompat:appcompat:1.0.2] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/09fdd5166509966179e46d3d0f40124b/AndroidManifest.xml:17:1-22:12
+MERGED from [com.facebook.fresco:fresco:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/54fa97c4077aaa9eb3c42ebca99272ea/AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.fresco:imagepipeline-okhttp3:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/a56e2df4e34550ab00ad804b0456ed9b/AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.fresco:drawee:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/74a43929535db563e21cd18127cdb063/AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.fresco:nativeimagefilters:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/eeeb8ebde712b16b5b8a0a0dd9d24dda/AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.fresco:imagepipeline:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/6bf56417074f083d83a0fc90289d220c/AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.fresco:nativeimagetranscoder:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/9183c8da18cca4c292cc17f544acc4ed/AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.fresco:imagepipeline-base:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/a06255c624439edf6e4ff8768a5348c5/AndroidManifest.xml:2:1-9:12
+MERGED from [com.facebook.soloader:soloader:0.6.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/9fe4e2df3f18d458ee34988924ea11f2/AndroidManifest.xml:2:1-13:12
+MERGED from [androidx.transition:transition:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/dfb4d826cecb922c8bf0a1ef3fb27c8b/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.fragment:fragment:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/71df0a5bab594dbd5e29ad04e882cef7/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/c53099ff73d9e664fa9ce9c44ebf856c/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/6bc07a8d0a5d1a03fc49cc5cdd24460b/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/888b10d7675803890b8df31ec9d3aebf/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/b8ce480c6b1a348c70f9ced7911d3b92/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/80c53310ad25e2e32c3dd2bd4cfeb9d1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/70c3fc9b4a76f721a5ce49e3b6b1f4e4/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/4f8913e6080ef639a72259b94eb76a75/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/44b202f2b907e6de8aea635625ef9570/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/bcce85e6e68369ffabce56e34b38516f/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/43ec3e5c20ca30fe88fa4fd02fc59411/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/1ace67f37594da81f2865e17f3fef5d8/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/632c0e58320f153d513f3b110e7eb02e/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.0.1] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/f5d9bf3fbcbd0ad8566b37ae20897705/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/af80c87d81b9e99e3e701e9474b0a1b4/AndroidManifest.xml:17:1-25:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/beb9cfab222e93710d114bd159dd2f47/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/2cf590820331a5702082b209b721790b/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/5820a17a8a57646720bb4523db076f7d/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/bac91303deb74438eb8f7f3b4b6f4474/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/9c2109911ba521e69c7aad15c62ae62a/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/df6835d6835f56692fcf52c98b7df2a9/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/bed1276c93bf0804fe948b9bcf2e4951/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/24f1c2a24cffa58c777f320fbdf3a53a/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/7cd88b9d95e97b3ea5414a64409f1f2f/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/ab0067fea7504ebb7141365eaca2bd31/AndroidManifest.xml:17:1-22:12
+MERGED from [com.facebook.fresco:fbcore:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/50763d150e9c78f75377d28033c9e4cc/AndroidManifest.xml:2:1-9:12
+INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml:2:1-8:12
+INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml:2:1-8:12
+INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml:2:1-8:12
 	package
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:2:3-29
-		INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:2:3-29
-		INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\debug\AndroidManifest.xml
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:2:3-29
+		INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:2:3-29
+		INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml
 	android:versionName
-		INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:1:1-26:12
-		INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\debug\AndroidManifest.xml
+		INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:1:1-26:12
+		INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml
 	xmlns:tools
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\debug\AndroidManifest.xml:3:5-51
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml:3:5-51
 	android:versionCode
-		INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:1:1-26:12
-		INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\debug\AndroidManifest.xml
+		INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:1:1-26:12
+		INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml
 	xmlns:android
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:1:11-69
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:1:11-69
 uses-permission#android.permission.INTERNET
-ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:4:5-67
+ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:4:5-67
 	android:name
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:4:22-64
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:4:22-64
 application
-ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:6:5-24:19
-MERGED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:6:5-24:19
-MERGED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:6:5-24:19
-MERGED from [com.facebook.react:react-native:0.60.4] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\96e090bb64d525a8851cd0c8b3821b89\AndroidManifest.xml:11:5-20
-MERGED from [com.facebook.react:react-native:0.60.4] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\96e090bb64d525a8851cd0c8b3821b89\AndroidManifest.xml:11:5-20
-MERGED from [com.facebook.soloader:soloader:0.6.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\514b3c9b7a7887cf29625a689f6e904d\AndroidManifest.xml:11:5-20
-MERGED from [com.facebook.soloader:soloader:0.6.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\514b3c9b7a7887cf29625a689f6e904d\AndroidManifest.xml:11:5-20
-MERGED from [androidx.core:core:1.0.1] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\0ab9db70b0daa7c0901ddcd963f3ac8c\AndroidManifest.xml:22:5-89
-MERGED from [androidx.core:core:1.0.1] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\0ab9db70b0daa7c0901ddcd963f3ac8c\AndroidManifest.xml:22:5-89
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\41e81536d3d9159ef6cefb54f5b9a9b2\AndroidManifest.xml:22:5-23:19
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\41e81536d3d9159ef6cefb54f5b9a9b2\AndroidManifest.xml:22:5-23:19
+ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:6:5-24:19
+MERGED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:6:5-24:19
+MERGED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:6:5-24:19
+MERGED from [com.facebook.react:react-native:0.60.4] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/348abec4b64a4b18c94290fa496bc31c/AndroidManifest.xml:11:5-20
+MERGED from [com.facebook.react:react-native:0.60.4] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/348abec4b64a4b18c94290fa496bc31c/AndroidManifest.xml:11:5-20
+MERGED from [com.facebook.soloader:soloader:0.6.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/9fe4e2df3f18d458ee34988924ea11f2/AndroidManifest.xml:11:5-20
+MERGED from [com.facebook.soloader:soloader:0.6.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/9fe4e2df3f18d458ee34988924ea11f2/AndroidManifest.xml:11:5-20
+MERGED from [androidx.core:core:1.0.1] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/f5d9bf3fbcbd0ad8566b37ae20897705/AndroidManifest.xml:22:5-89
+MERGED from [androidx.core:core:1.0.1] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/f5d9bf3fbcbd0ad8566b37ae20897705/AndroidManifest.xml:22:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/af80c87d81b9e99e3e701e9474b0a1b4/AndroidManifest.xml:22:5-23:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/af80c87d81b9e99e3e701e9474b0a1b4/AndroidManifest.xml:22:5-23:19
 	android:appComponentFactory
-		ADDED from [androidx.core:core:1.0.1] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\0ab9db70b0daa7c0901ddcd963f3ac8c\AndroidManifest.xml:22:18-86
+		ADDED from [androidx.core:core:1.0.1] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/f5d9bf3fbcbd0ad8566b37ae20897705/AndroidManifest.xml:22:18-86
 	android:label
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:8:7-39
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:8:7-39
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:8:7-39
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:8:7-39
 	tools:ignore
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\debug\AndroidManifest.xml:7:75-114
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml:7:75-114
 	android:roundIcon
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:10:7-52
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:10:7-52
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:10:7-52
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:10:7-52
 	tools:targetApi
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\debug\AndroidManifest.xml:7:54-74
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml:7:54-74
 	android:icon
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:9:7-41
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:9:7-41
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:9:7-41
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:9:7-41
 	android:allowBackup
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:11:7-34
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:11:7-34
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:11:7-34
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:11:7-34
 	android:theme
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:12:7-38
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:12:7-38
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:12:7-38
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:12:7-38
 	android:usesCleartextTraffic
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\debug\AndroidManifest.xml:7:18-53
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml:7:18-53
 	android:name
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:7:7-38
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:7:7-38
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:7:7-38
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:7:7-38
 activity#com.chronosymple.MainActivity
-ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:13:7-22:18
+ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:13:7-22:18
 	android:label
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:15:9-41
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:15:9-41
 	android:windowSoftInputMode
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:17:9-51
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:17:9-51
 	android:configChanges
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:16:9-79
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:16:9-79
 	android:name
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:14:9-37
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:14:9-37
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:18:9-21:25
+ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:18:9-21:25
 action#android.intent.action.MAIN
-ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:19:13-65
+ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:19:13-65
 	android:name
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:19:21-62
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:19:21-62
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:20:13-73
+ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:20:13-73
 	android:name
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:20:23-70
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:20:23-70
 activity#com.facebook.react.devsupport.DevSettingsActivity
-ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:23:7-84
+ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:23:7-84
 	android:name
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml:23:17-81
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:23:17-81
 uses-sdk
-INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml
-INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml
-MERGED from [:react-native-reanimated] C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\node_modules\react-native-reanimated\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-reanimated] C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\node_modules\react-native-reanimated\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-svg] C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\node_modules\react-native-svg\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:react-native-svg] C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\node_modules\react-native-svg\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:react-native-vector-icons] C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\node_modules\react-native-vector-icons\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-vector-icons] C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\node_modules\react-native-vector-icons\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
-MERGED from [com.facebook.react:react-native:0.60.4] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\96e090bb64d525a8851cd0c8b3821b89\AndroidManifest.xml:7:5-9:41
-MERGED from [com.facebook.react:react-native:0.60.4] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\96e090bb64d525a8851cd0c8b3821b89\AndroidManifest.xml:7:5-9:41
-MERGED from [org.webkit:android-jsc:r245459] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\77411ca4f02041499b9b88bd7c6779c6\AndroidManifest.xml:7:5-9:41
-MERGED from [org.webkit:android-jsc:r245459] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\77411ca4f02041499b9b88bd7c6779c6\AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-gesture-handler] C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\node_modules\react-native-gesture-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-gesture-handler] C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\node_modules\react-native-gesture-handler\android\build\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-9:41
-MERGED from [androidx.appcompat:appcompat:1.0.2] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\65bdc972afaccddaed6b94929828609d\AndroidManifest.xml:20:5-44
-MERGED from [androidx.appcompat:appcompat:1.0.2] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\65bdc972afaccddaed6b94929828609d\AndroidManifest.xml:20:5-44
-MERGED from [com.facebook.fresco:fresco:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\7823e23fc1fc002ffb793b00c3552a77\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:fresco:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\7823e23fc1fc002ffb793b00c3552a77\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:imagepipeline-okhttp3:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\10e948845f32effe85362d9ebf7c9a6a\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:imagepipeline-okhttp3:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\10e948845f32effe85362d9ebf7c9a6a\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:drawee:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\5898dfb1237b43b518d0316cc6977351\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:drawee:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\5898dfb1237b43b518d0316cc6977351\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:nativeimagefilters:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\098cc6cc5d9ab10bd84c0b91bf777409\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:nativeimagefilters:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\098cc6cc5d9ab10bd84c0b91bf777409\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:imagepipeline:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\5e1b71ef4572867300434e7503220e93\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:imagepipeline:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\5e1b71ef4572867300434e7503220e93\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:nativeimagetranscoder:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\e224f2132df515597097271e996bdc15\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:nativeimagetranscoder:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\e224f2132df515597097271e996bdc15\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:imagepipeline-base:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\7e3f037ab4b499766f3ba67016e59b05\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:imagepipeline-base:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\7e3f037ab4b499766f3ba67016e59b05\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.soloader:soloader:0.6.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\514b3c9b7a7887cf29625a689f6e904d\AndroidManifest.xml:7:5-9:41
-MERGED from [com.facebook.soloader:soloader:0.6.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\514b3c9b7a7887cf29625a689f6e904d\AndroidManifest.xml:7:5-9:41
-MERGED from [androidx.transition:transition:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\9d20897ec95a1a920714ae80a65309b1\AndroidManifest.xml:20:5-44
-MERGED from [androidx.transition:transition:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\9d20897ec95a1a920714ae80a65309b1\AndroidManifest.xml:20:5-44
-MERGED from [androidx.fragment:fragment:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\825b4a5ce94b63d6f819f560b9dc43a1\AndroidManifest.xml:20:5-44
-MERGED from [androidx.fragment:fragment:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\825b4a5ce94b63d6f819f560b9dc43a1\AndroidManifest.xml:20:5-44
-MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\02326f7167a3f106f9b87d525d1f22a5\AndroidManifest.xml:20:5-44
-MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\02326f7167a3f106f9b87d525d1f22a5\AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\4ed97918e8106bfd5bc465cddd9aa7f9\AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\4ed97918e8106bfd5bc465cddd9aa7f9\AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\ae30ed37d7add1ce127b0e7217275e82\AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\ae30ed37d7add1ce127b0e7217275e82\AndroidManifest.xml:20:5-44
-MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\e4c334b5c3cf85a62200f77decb5a74b\AndroidManifest.xml:20:5-44
-MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\e4c334b5c3cf85a62200f77decb5a74b\AndroidManifest.xml:20:5-44
-MERGED from [androidx.loader:loader:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\55426d82c39036a2f62a74936beebf66\AndroidManifest.xml:20:5-44
-MERGED from [androidx.loader:loader:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\55426d82c39036a2f62a74936beebf66\AndroidManifest.xml:20:5-44
-MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\fea099917d22617f82e618081d538057\AndroidManifest.xml:20:5-44
-MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\fea099917d22617f82e618081d538057\AndroidManifest.xml:20:5-44
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\55017f3df18b7a05b00d865b6ffb0341\AndroidManifest.xml:20:5-44
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\55017f3df18b7a05b00d865b6ffb0341\AndroidManifest.xml:20:5-44
-MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\45d3a390207bda0fb1ca1c76edc1f245\AndroidManifest.xml:20:5-44
-MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\45d3a390207bda0fb1ca1c76edc1f245\AndroidManifest.xml:20:5-44
-MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\cf54ac5193643c6fa5eb9b42802859e9\AndroidManifest.xml:20:5-44
-MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\cf54ac5193643c6fa5eb9b42802859e9\AndroidManifest.xml:20:5-44
-MERGED from [androidx.customview:customview:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\53c90ee9ae2f2829f01ba6f9ca32e852\AndroidManifest.xml:20:5-44
-MERGED from [androidx.customview:customview:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\53c90ee9ae2f2829f01ba6f9ca32e852\AndroidManifest.xml:20:5-44
-MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\ad03954735c40c5594d5569767541c39\AndroidManifest.xml:20:5-44
-MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\ad03954735c40c5594d5569767541c39\AndroidManifest.xml:20:5-44
-MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\7261ab9a05b92f2114c3204335f19373\AndroidManifest.xml:20:5-44
-MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\7261ab9a05b92f2114c3204335f19373\AndroidManifest.xml:20:5-44
-MERGED from [androidx.core:core:1.0.1] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\0ab9db70b0daa7c0901ddcd963f3ac8c\AndroidManifest.xml:20:5-44
-MERGED from [androidx.core:core:1.0.1] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\0ab9db70b0daa7c0901ddcd963f3ac8c\AndroidManifest.xml:20:5-44
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\41e81536d3d9159ef6cefb54f5b9a9b2\AndroidManifest.xml:20:5-44
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\41e81536d3d9159ef6cefb54f5b9a9b2\AndroidManifest.xml:20:5-44
-MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\10f056945f9c6c407359a9ea739b370c\AndroidManifest.xml:20:5-44
-MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\10f056945f9c6c407359a9ea739b370c\AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\97ba95805fcb99b750309bcb9885fdc1\AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\97ba95805fcb99b750309bcb9885fdc1\AndroidManifest.xml:20:5-44
-MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\0e655ae04263b3459695703946b92801\AndroidManifest.xml:20:5-44
-MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\0e655ae04263b3459695703946b92801\AndroidManifest.xml:20:5-44
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\7de74b96ad05e1d9247aa6f1358d7b56\AndroidManifest.xml:20:5-44
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\7de74b96ad05e1d9247aa6f1358d7b56\AndroidManifest.xml:20:5-44
-MERGED from [androidx.print:print:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\19d503cf26edd9e4ba5d52c90defbf8d\AndroidManifest.xml:20:5-44
-MERGED from [androidx.print:print:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\19d503cf26edd9e4ba5d52c90defbf8d\AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\dd164d95684064fcc85c98713206265e\AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\dd164d95684064fcc85c98713206265e\AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\0af2c04c98475eee8f824f4c9c6d6d84\AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\0af2c04c98475eee8f824f4c9c6d6d84\AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\64ba65d87da427b6fef6e70e1ba36c86\AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\64ba65d87da427b6fef6e70e1ba36c86\AndroidManifest.xml:20:5-44
-MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\a0d8826fa7089bce5ee53651f1a98e72\AndroidManifest.xml:20:5-44
-MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\a0d8826fa7089bce5ee53651f1a98e72\AndroidManifest.xml:20:5-44
-MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\6b5148257b67d261ab74a03e2e214eb9\AndroidManifest.xml:20:5-44
-MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\6b5148257b67d261ab74a03e2e214eb9\AndroidManifest.xml:20:5-44
-MERGED from [com.facebook.fresco:fbcore:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\d8d3fdfb7a3f6a37bd655c47cfa18aa9\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.fresco:fbcore:2.0.0] C:\Users\TheChinatoxe\.gradle\caches\transforms-2\files-2.1\d8d3fdfb7a3f6a37bd655c47cfa18aa9\AndroidManifest.xml:5:5-7:41
-INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\debug\AndroidManifest.xml
-INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\debug\AndroidManifest.xml
+INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml
+INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml
+MERGED from [:react-native-reanimated] /home/mfourtane/Documents/ChronoSymple/mobile/node_modules/react-native-reanimated/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-reanimated] /home/mfourtane/Documents/ChronoSymple/mobile/node_modules/react-native-reanimated/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-svg] /home/mfourtane/Documents/ChronoSymple/mobile/node_modules/react-native-svg/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-svg] /home/mfourtane/Documents/ChronoSymple/mobile/node_modules/react-native-svg/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-vector-icons] /home/mfourtane/Documents/ChronoSymple/mobile/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-vector-icons] /home/mfourtane/Documents/ChronoSymple/mobile/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [com.facebook.react:react-native:0.60.4] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/348abec4b64a4b18c94290fa496bc31c/AndroidManifest.xml:7:5-9:41
+MERGED from [com.facebook.react:react-native:0.60.4] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/348abec4b64a4b18c94290fa496bc31c/AndroidManifest.xml:7:5-9:41
+MERGED from [org.webkit:android-jsc:r245459] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/579b695ebfc834496a715c13613c4199/AndroidManifest.xml:7:5-9:41
+MERGED from [org.webkit:android-jsc:r245459] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/579b695ebfc834496a715c13613c4199/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-gesture-handler] /home/mfourtane/Documents/ChronoSymple/mobile/node_modules/react-native-gesture-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-gesture-handler] /home/mfourtane/Documents/ChronoSymple/mobile/node_modules/react-native-gesture-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [androidx.appcompat:appcompat:1.0.2] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/09fdd5166509966179e46d3d0f40124b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.0.2] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/09fdd5166509966179e46d3d0f40124b/AndroidManifest.xml:20:5-44
+MERGED from [com.facebook.fresco:fresco:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/54fa97c4077aaa9eb3c42ebca99272ea/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:fresco:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/54fa97c4077aaa9eb3c42ebca99272ea/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline-okhttp3:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/a56e2df4e34550ab00ad804b0456ed9b/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline-okhttp3:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/a56e2df4e34550ab00ad804b0456ed9b/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:drawee:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/74a43929535db563e21cd18127cdb063/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:drawee:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/74a43929535db563e21cd18127cdb063/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:nativeimagefilters:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/eeeb8ebde712b16b5b8a0a0dd9d24dda/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:nativeimagefilters:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/eeeb8ebde712b16b5b8a0a0dd9d24dda/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/6bf56417074f083d83a0fc90289d220c/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/6bf56417074f083d83a0fc90289d220c/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:nativeimagetranscoder:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/9183c8da18cca4c292cc17f544acc4ed/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:nativeimagetranscoder:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/9183c8da18cca4c292cc17f544acc4ed/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline-base:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/a06255c624439edf6e4ff8768a5348c5/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline-base:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/a06255c624439edf6e4ff8768a5348c5/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.soloader:soloader:0.6.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/9fe4e2df3f18d458ee34988924ea11f2/AndroidManifest.xml:7:5-9:41
+MERGED from [com.facebook.soloader:soloader:0.6.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/9fe4e2df3f18d458ee34988924ea11f2/AndroidManifest.xml:7:5-9:41
+MERGED from [androidx.transition:transition:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/dfb4d826cecb922c8bf0a1ef3fb27c8b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.transition:transition:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/dfb4d826cecb922c8bf0a1ef3fb27c8b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/71df0a5bab594dbd5e29ad04e882cef7/AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/71df0a5bab594dbd5e29ad04e882cef7/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/c53099ff73d9e664fa9ce9c44ebf856c/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/c53099ff73d9e664fa9ce9c44ebf856c/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/6bc07a8d0a5d1a03fc49cc5cdd24460b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/6bc07a8d0a5d1a03fc49cc5cdd24460b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/888b10d7675803890b8df31ec9d3aebf/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/888b10d7675803890b8df31ec9d3aebf/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/b8ce480c6b1a348c70f9ced7911d3b92/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/b8ce480c6b1a348c70f9ced7911d3b92/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/80c53310ad25e2e32c3dd2bd4cfeb9d1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/80c53310ad25e2e32c3dd2bd4cfeb9d1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/70c3fc9b4a76f721a5ce49e3b6b1f4e4/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/70c3fc9b4a76f721a5ce49e3b6b1f4e4/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/4f8913e6080ef639a72259b94eb76a75/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/4f8913e6080ef639a72259b94eb76a75/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/44b202f2b907e6de8aea635625ef9570/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/44b202f2b907e6de8aea635625ef9570/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/bcce85e6e68369ffabce56e34b38516f/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/bcce85e6e68369ffabce56e34b38516f/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/43ec3e5c20ca30fe88fa4fd02fc59411/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/43ec3e5c20ca30fe88fa4fd02fc59411/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/1ace67f37594da81f2865e17f3fef5d8/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/1ace67f37594da81f2865e17f3fef5d8/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/632c0e58320f153d513f3b110e7eb02e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/632c0e58320f153d513f3b110e7eb02e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.0.1] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/f5d9bf3fbcbd0ad8566b37ae20897705/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.0.1] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/f5d9bf3fbcbd0ad8566b37ae20897705/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/af80c87d81b9e99e3e701e9474b0a1b4/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/af80c87d81b9e99e3e701e9474b0a1b4/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/beb9cfab222e93710d114bd159dd2f47/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/beb9cfab222e93710d114bd159dd2f47/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/2cf590820331a5702082b209b721790b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/2cf590820331a5702082b209b721790b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/5820a17a8a57646720bb4523db076f7d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/5820a17a8a57646720bb4523db076f7d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/bac91303deb74438eb8f7f3b4b6f4474/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/bac91303deb74438eb8f7f3b4b6f4474/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/9c2109911ba521e69c7aad15c62ae62a/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/9c2109911ba521e69c7aad15c62ae62a/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/df6835d6835f56692fcf52c98b7df2a9/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/df6835d6835f56692fcf52c98b7df2a9/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/bed1276c93bf0804fe948b9bcf2e4951/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/bed1276c93bf0804fe948b9bcf2e4951/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/24f1c2a24cffa58c777f320fbdf3a53a/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/24f1c2a24cffa58c777f320fbdf3a53a/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/7cd88b9d95e97b3ea5414a64409f1f2f/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/7cd88b9d95e97b3ea5414a64409f1f2f/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/ab0067fea7504ebb7141365eaca2bd31/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/ab0067fea7504ebb7141365eaca2bd31/AndroidManifest.xml:20:5-44
+MERGED from [com.facebook.fresco:fbcore:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/50763d150e9c78f75377d28033c9e4cc/AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:fbcore:2.0.0] /home/mfourtane/.gradle/caches/transforms-2/files-2.1/50763d150e9c78f75377d28033c9e4cc/AndroidManifest.xml:5:5-7:41
+INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml
+INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\debug\AndroidManifest.xml
+		INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml
+		INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\debug\AndroidManifest.xml
+		INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml
+		INJECTED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml
 uses-permission#android.permission.SYSTEM_ALERT_WINDOW
-ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\debug\AndroidManifest.xml:5:5-77
+ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml:5:5-77
 	android:name
-		ADDED from C:\Users\TheChinatoxe\Desktop\eip\ChronoSymple\mobile\android\app\src\debug\AndroidManifest.xml:5:22-75
+		ADDED from /home/mfourtane/Documents/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml:5:22-75
