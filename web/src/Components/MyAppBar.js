@@ -9,6 +9,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import ContactUs from './Contact/ContactUs'
 
 const styles = {
   root: {
@@ -41,6 +42,7 @@ class MyAppBar extends PureComponent {
             <Typography variant="h6" color="inherit" noWrap className={classes.title}>
               {title}
             </Typography>
+            <ContactUs/>
             <IconButton
               onClick={openMenu}
               color="inherit"
