@@ -1,7 +1,5 @@
-// Components/SignIn.js
-
 import React from 'react'
-import { View, Text, Button, TextInput, Dimensions, AsyncStorage } from 'react-native'
+import { View, Text, Button, TextInput, Dimensions, StyleSheet } from 'react-native'
 import { LoginAPatientWithApi } from '../../API/APIConnection'
 import { APIGetPatientModules } from '../../API/APIModule'
 import { getToken, setToken } from './Cache'
@@ -9,15 +7,6 @@ import { styles, colors, windowSize } from '../StyleSheet'
 import { connect } from 'react-redux'
 
 class Login extends React.Component {
-	
-	static navigationOptions = {
-		headerStyle: styles.navBar,
-		title: "Connection",
-		headerTintColor: "white",
-		headerTitleStyle: {
-      		alignSelf: "center"
-    	}
-	}
 
 	constructor(props) {
 		super(props)
@@ -36,11 +25,10 @@ class Login extends React.Component {
 
 		LoginAPatientWithApi(this.state.mail, this.state.password).then(async data => {
 		 	if (data.status == 200) {
-				let response = await data.json()
-				console.log(response);
+				 let response = await data.json()
 		 		let token = response.login_token
 		 		setToken(token);
-		 		const action = { type: "TOGGLE_FAVORITE", value: token }
+		 		const action = { type: "REGISTER_TOKEN", value: token }
 		 		this.props.dispatch(action)
 		 		if (token !== null) {
 		 			APIGetPatientModules(this.props.token).then(async data => {
@@ -53,15 +41,8 @@ class Login extends React.Component {
 		 						const action = { type: "CURRENT_MODULE", value: response[0].id}
 		 						console.log(action)
 		 						this.props.dispatch(action)	
-		 						this.props.navigation.navigate('HomeModule', {idModule: response[0].id})
+		 						this.props.navigation.navigate('Home', {idModule: response[0].id})
 		 					}
-		 					/*if (response.modules.length > 0) {
-		 						const action = { type: "CURRENT_MODULE", value: response.modules[0].id}
-		 						console.log(action)
-		 						this.props.dispatch(action)	
-		 						this.props.navigation.navigate('HomeModule', {idModule: response.modules[0].id})
-		 					}
-		 					*/
 		 					else
 		 						navigate('Home')
 		 				}
@@ -72,7 +53,8 @@ class Login extends React.Component {
 		 	else {
 		 		this.setState({ isInvalid: true, errorText: "Problème de connection" })
 		 	}
-		});
+		}); 				// TO DECOMMENT 
+		//navigate('Home') // TO RM NEXT EIP REUNION 
 	}
 
 	setMail = (text) => {
@@ -84,7 +66,6 @@ class Login extends React.Component {
 	}
 
 	textFieldFocused = (state) => {
-		console.log(state);
 		this.setState({[state]: true})
 	}
 
@@ -93,22 +74,24 @@ class Login extends React.Component {
 	}
 
   	render() {
-		let { navigate } 			= this.props.navigation;
-		let placeholder_email 		= "myEmail@gmail.com";
-		let placeholder_password 	= "mySecurePassword";
-		let notSubscribe 			= "new account";
-		let login 					= "login";
-		let errorMessage 			= "email or password incorrect";
-		let emailFocused 			= "emailFocused";
+		let { navigate } 		= this.props.navigation;
+		let placeholder_email 		= "E-mail";
+		let placeholder_password 	= "Mot de passe";
+		let notSubscribe 		= "Créer un compte";
+		let login 			= "Se connecter";
+		let errorMessage 		= "email ou mot de passe incorrect";
+		let emailFocused 		= "emailFocused";
 		let passwordFocused 		= "passwordFocused"
 
-    	return (
-    		<View style={styles.mainContner}>
-	      		<View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
-	      			<View style={{ flex: 6, justifyContent: "center"}}>
-			      		<Text style={styles.label}>
-			      			Email
-			      		</Text>
+    		return (
+			<View style={styles.AuthBackgroundContainer}>
+    				<View style={styles.AuthMainContainer}>
+	      				<View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
+					      	<View style={{ flex: 2, justifyContent: "center"}}></View>
+						<View style={{ flex: 1, justifyContent: "center"}}>
+							<Text style={styles.label}>CONNECTION</Text>
+						</View>
+	      					<View style={{ flex: 6, justifyContent: "center"}}>
 						<TextInput
 							onFocus={() => this.textFieldFocused(emailFocused)}
 							onBlur={() => this.textFieldBlured(emailFocused)}
@@ -118,9 +101,6 @@ class Login extends React.Component {
 							onChangeText={(text) => this.setMail(text)}
 							value={this.mail}
 						/>
-						<Text style={styles.label}>
-			      			Password
-			      		</Text>
 						<TextInput
 							onFocus={() => this.textFieldFocused(passwordFocused)}
 							onBlur={() => this.textFieldBlured(passwordFocused)}
@@ -132,23 +112,25 @@ class Login extends React.Component {
 							value={this.password}
 						/>
 					</View>
-	      			<View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
-						{this.state.isInvalid && <Text style={{ color: colors.errorColor }}>{errorMessage}</Text>}
-					</View>
-					<View style={{ flex: 3, justifyContent: "center", width: windowSize.x / 1.5}}>
-						<View style={{ flex: 1, justifyContent: "center"}}>
-							<Button 
-								color={colors.secondary}
-								onPress={() => navigate('SignIn')}
-								title={notSubscribe}
-							/>
+	      				<View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
+							{this.state.isInvalid && <Text style={{ color: colors.errorColor }}>{errorMessage}</Text>}
 						</View>
-						<View style={{ flex: 1, justifyContent: "center"}}>
-							<Button 
-								color={colors.primary}
-								onPress={() => this.checkLogin()}
-								title={login}
-							/>
+						<View style={{ flex: 3, justifyContent: "center", width: windowSize.x / 1.5}}>
+							{/* <View style={{ flex: 1, justifyContent: "center"}}>
+								<Button 
+									color={colors.secondary}
+									onPress={() => navigate('SignIn')}
+									title={notSubscribe}
+								/>
+							</View> */}
+							<View style={{ flex: 1, justifyContent: "center"}}>
+								<Button 
+									color={colors.primary}
+									onPress={() => this.checkLogin()}
+									title={login}
+								/>
+							</View>
+							<View style={{ flex: 2, justifyContent: "center"}}></View>
 						</View>
 					</View>
 				</View>
@@ -164,4 +146,3 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(Login)
-/*export default Login*/
