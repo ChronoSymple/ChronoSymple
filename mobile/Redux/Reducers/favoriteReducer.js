@@ -6,7 +6,7 @@ idCurrentModule: -1 }
 function toggleFavorite(state = initialState, action) {
 	let nextState
 	switch (action.type) {
-		case 'TOGGLE_FAVORITE': {
+		case 'REGISTER_TOKEN': {
 			nextState = {
 				...state,
 				token: action.value,

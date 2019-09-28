@@ -4,17 +4,18 @@ import React from 'react'
 import { StyleSheet, FlatList, View} from 'react-native'
 import ModuleItem from './ModuleItem'
 import NoteItem from './NoteItem'
-import { APIGetModules, APIAddModule } from '../API/APIModule'
+import { APIGetModules, APIAddModule } from '../../API/APIModule'
 import { connect } from 'react-redux'
 
 class ModulePlace extends React.Component {
 	constructor (props) {
 		super(props)
-
 		this.state = {
 			Dmodules: []
 		}
+		console.log(this.props.token)
 		APIGetModules(this.props.token).then(async data => {
+			console.log(data)
 			let response = await data.json()
 			if (data.status == 200) {
 				this.setState({
@@ -29,16 +30,14 @@ class ModulePlace extends React.Component {
 		this.props.dispatch(action)
 
 		APIAddModule(this.props.token, idModule).then(data => {
-			console.log(data)
 			if (data.status != 401)
-				this.props.navigation.navigate('HomeModule', {idModule: idModule})
+				this.props.navigation.navigate('Module', {idModule: idModule})
 			else
 				this.props.navigation.navigate('Login', {idModule: idModule})
 		})
 	}
 	
 	_searchModule = () => {
-		console.log('faire le filtre ici')
 	}
 
 	render() {

@@ -1,27 +1,40 @@
-import React, { Component } from 'react';
-import {createStackNavigator, createDrawerNavigator, createBottomTabNavigator, createAppContainer, DrawerActions} from 'react-navigation';
-import {TouchableOpacity, StyleSheet, Image, Text} from 'react-native';
+import React from 'react'
+import {createStackNavigator, createDrawerNavigator, createBottomTabNavigator, createAppContainer} from 'react-navigation';
 
 import Login from '../Components/Auth/Login';
 import SignIn from '../Components/Auth/SignIn';
 /*import Logout from '../Components/Auth/Logout';*/
 import Home from '../Components/Home';
-import DrawerScreen from './DrawerScreen';
-import ModulePlace from '../Components/ModulePlace';
-import HomeModule from '../Components/HomeModule';
-/*import Profil from '../Components/Profil';*/
-/*import SearchDoctors from '../Components/SearchDoctors';*/
-import Calendar from '../Components/Calendar';
-import DoctorChoice from '../Components/DoctorChoice';
-import MyDoctorChoice from '../Components/MyDoctorChoice';
-/*import ChooseModulesToSend from '../Components/ChooseModulesToSend';*/
-/*import DetailNote from '../Components/DetailNote';*/
-import Statistic from '../Components/Statistic';
-import Export from '../Components/Export';
-import Note from '../Components/Note';
-/*import Loading from '../Components/Loading'*/
+import ModulePlace from '../Components/Modules/ModulePlace';
+import HomeModule from '../Components/Modules/HomeModule';
+import Profil from '../Components/Auth/Profil';
+import SearchDoctors from '../Components/Doctors/SearchDoctors';
+import Calendar from '../Components/Modules/Calendar';
+import DoctorChoice from '../Components/Doctors/DoctorChoice';
+import ChooseModulesToSend from '../Components/Doctors/ChooseModulesToSend';
+import DetailNote from '../Components/Modules/DetailNote';
+import Statistic from '../Components/Modules/Statistic';
+import Export from '../Components/Modules/Export';
+import Note from '../Components/Modules/Note';
+import Logout from '../Components/Auth/Logout'
+import Loading from '../Components/Loading'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-/*import { Button } from 'react-native-paper'; NOT USED */
+import MyDoctorChoice from '../Components/MyDoctorChoice'
+import { styles, colors, windowSize } from '../Components/StyleSheet'
+
+_menu = null;
+ 
+setMenuRef = ref => {
+  this._menu = ref;
+};
+
+hideMenu = () => {
+  this._menu.hide();
+};
+
+showMenu = () => {
+  this._menu.show();
+};
 
 /* NOT USED !!!!
 const HomeModuleStackNavigator = createStackNavigator({
@@ -36,13 +49,13 @@ const HomeModuleStackNavigator = createStackNavigator({
 	}
 })*/
 
-/*const CalendarStackNavigator = createStackNavigator({
+const CalendarStackNavigator = createStackNavigator({
 	DetailNote: {
 		screen: DetailNote
 	}
 }, {
 	headerMode: 'none'
-})*/
+})
 
 /*const StatisticStackNavigator = createStackNavigator({
 	Statistic: {
@@ -56,7 +69,7 @@ const HomeModuleStackNavigator = createStackNavigator({
 	}
 })
 */
-/*const ProfilStackNavigator = createStackNavigator({
+const ProfilStackNavigator = createStackNavigator({
 	Profil: {
 	  screen: Profil
 	},
@@ -71,7 +84,7 @@ const HomeModuleStackNavigator = createStackNavigator({
 }, {
 		headerMode: 'none'
 })
-*/
+
 /* END NOT USED */
 
 const DoctorChoiceStackNavigator = createStackNavigator({
@@ -90,7 +103,7 @@ const MyDoctorChoiceStackNavigator = createStackNavigator({
 	headerMode: 'none'
 })
 
-/*
+
 const ChooseModulesToSendStackNavigator = createStackNavigator({
 	ChooseModulesToSend: {
 		screen: ChooseModulesToSend,
@@ -98,141 +111,144 @@ const ChooseModulesToSendStackNavigator = createStackNavigator({
 }, {
 	headerMode: 'none'
 })
-*/
+
 const Tabs = createBottomTabNavigator({
-	Home: {
-		screen : HomeModule,
-		navigationOptions: {
-			tabBarLabel:"Home",
-			tabBarIcon: ({ tintColor }) => (
-			  <Icon name="home" size={20}/>
-			)
-		},
+
+	Statistic: {
+		screen : Statistic,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="show-chart"
+				color={tintColor}
+				size={40}
+			    />
+		)})
 	},
 	Note: {
 		screen : Note,
-		navigationOptions: {
-			tabBarLabel:"Note",
-			tabBarIcon: ({ tintColor }) => (
-			  <Icon name="note" size={20}/>
-			)
-		},
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="note-add"
+				color={tintColor}
+				size={40}
+			    />
+		)})
 	},
 	Calendar: {
 		screen : Calendar,
-		navigationOptions: {
-			tabBarLabel:"Calendar",
-			tabBarIcon: ({ tintColor }) => (
-			  <Icon name="perm-contact-calendar" size={20}/>
-			)
-		},
-	},
-	Statistic: {
-		screen : Statistic,
-		navigationOptions: {
-			tabBarLabel:"Statistic",
-			tabBarIcon: ({ tintColor }) => (
-			  <Icon name="timeline" size={20}/>
-			)
-		},
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="archive"
+				color={tintColor}
+				size={40}
+			    />
+		)})
 	},
 	Export: {
 		screen : Export,
-		navigationOptions: {
-			tabBarLabel:"Export",
-			tabBarIcon: ({ tintColor }) => (
-			  <Icon name="import-export" size={20}/>
-			)
-		},
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="cloud-upload"
+				color={tintColor}
+				size={40}
+			    />
+		)})
 	},
-	
+	Profil: {
+		screen : Profil,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="person"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+}, {
+	tabBarOptions: {
+	    showLabel: false, // hide labels
+	    activeTintColor: colors.secondary, // active icon color
+	    inactiveTintColor: '#F8F8F8',  // inactive icon color
+	    style: {
+		backgroundColor: colors.primary // TabBar background
+	    }
+	},
+});
+
+const StackNavigtorWhithModule = createStackNavigator({
+	HomeModule: {
+		screen: Tabs
+	},
 },{
 	headerMode: 'none'
-});
+})
 
-
-const MenuImage = ({navigation}) => {
-	if(!navigation.state.isDrawerOpen){
-		return <Icon color="white" name="menu" size={30} marginLeft={10} />
-	} else {
-		return <Icon color="white" name="arrow-back" size={30} marginLeft={10} />
-	}
-}
-
-const DrawerNavigator = createDrawerNavigator({
-		Home: {
-			screen: Home
-		},
-		HomeModule: {
-			screen: Tabs
-		},
-	},{
-		contentComponent: DrawerScreen,
-		headerMode: 'none',
-		drawerWidth: 300,
+const StackNavigtorGlobalHome = createStackNavigator({
+	Home: {
+		screen: Home,
 		navigationOptions: ({ navigation }) => ({
-				title : 'Home',
-				  // Title to appear in status bar
-				headerLeft: 
-				<TouchableOpacity  onPress={() => {navigation.dispatch(DrawerActions.toggleDrawer())} }>
-					<MenuImage navigation={navigation}/>
-				</TouchableOpacity>,
-				headerRight:
-				<TouchableOpacity onPress={() => {}}>
-					<Icon color="white" name="people" size={30} marginRight={10} />
-				</TouchableOpacity>,
-				headerStyle: {
-					backgroundColor: '#58b57d',
-				},
-				headerTintColor: '#fff',
-				headerTitleStyle: {
-				  fontWeight: 'bold',
-				},
-		
-			})
-});
+			title:'Home',
+			headerStyle: {backgroundColor: '#58b57d'},
+			headerTintColor: 'white',
+			textAlign: 'center',
 
-/*navigation.navigate('Profil')*/
-
-const StackNavigtorWhithoutModule = createStackNavigator({
-	Drawer: {
-		screen: DrawerNavigator
+		}),
+	},
+	Module: {
+		screen: StackNavigtorWhithModule,
+		navigationOptions: { 
+			title:'Diabètes',
+			headerStyle: {backgroundColor: '#58b57d'},
+			headerTintColor: 'white',
+			textAlign: 'center'
+		}
 	},
 	Stack: {
 		screen: ModulePlace, navigationOptions: { title:'ModulPlace' }
 	},
+	Profil: {
+		screen: ProfilStackNavigator, navigationOptions: { title:'Profil' }
+	},
+	CalendarStackNavigator : {
+		screen : CalendarStackNavigator
+	},
+	ChooseModulesToSendStackNavigator : ChooseModulesToSendStackNavigator,
 	DoctorChoiceStackNavigator: {
 		screen: DoctorChoiceStackNavigator
 	},
 	MyDoctorChoiceStackNavigator: {
 		screen: MyDoctorChoiceStackNavigator
 	}
-	/*Profil: {
-		screen: ProfilStackNavigator, navigationOptions: { title:'Profil' }
-	},*/
-	/*CalendarStackNavigator: {
-		screen : CalendarStackNavigator
-	},
-	ChooseModulesToSendStackNavigator: {
-		screen: ChooseModulesToSendStackNavigator
-	}*/
-})
+}, {
+	navigationOptions: () => ({
+		headerRight: ({tintColor}) => (
+			<Button
+			title="Click to Alert"
+		    /> 
+	)})
+});
+
+
 
 const LoginStack = createStackNavigator({
-	Login: { screen: Login },
-	SignIn: { screen: SignIn },
+	Login : Login,
+	SignIn : SignIn,
+}, {
+	headerMode : 'none'
 })
 
 const StackNavigator = createStackNavigator({
-	/*Loading: Loading,*/
-	LoginStack: {
-		screen: LoginStack, headerMode : 'none'
-	},
+	Loading : Loading,
+	LoginStack : LoginStack,
 	Drawer: {
-		screen: StackNavigtorWhithoutModule
+		screen: StackNavigtorGlobalHome
 	}
 },{
-	/*initialRouteName : 'Loading',*/
 	headerMode: 'none'
 });
 	  

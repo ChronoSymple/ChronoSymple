@@ -24,6 +24,7 @@ class Login extends React.Component {
 		let { navigate } = this.props.navigation;
 
 		LoginAPatientWithApi(this.state.mail, this.state.password).then(async data => {
+			console.log(data);
 		 	if (data.status == 200) {
 				 let response = await data.json()
 		 		let token = response.login_token
@@ -32,7 +33,6 @@ class Login extends React.Component {
 		 		this.props.dispatch(action)
 		 		if (token !== null) {
 		 			APIGetPatientModules(this.props.token).then(async data => {
-						console.log(data);
 		 				if (data.status == 200) {
 		 					let response = await data.json()
 		 					console.log("Login - APIGetPatientModules - response: ")
