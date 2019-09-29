@@ -10,12 +10,13 @@ const styles = {
     left: 0,
     right: 0,
     backgroundColor: '#DDDDDD',
-    zIndex: 1000,
-    overflow: 'scroll'
+    zIndex: 5000,
+    overflow: 'auto'
   },
   horizontalCenter: {
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    padding: 10
   },
   verticalCenter: {
     display: 'flex',
