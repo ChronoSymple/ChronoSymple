@@ -3,10 +3,8 @@ import {createStackNavigator, createDrawerNavigator, createBottomTabNavigator, c
 
 import Login from '../Components/Auth/Login';
 import SignIn from '../Components/Auth/SignIn';
-/*import Logout from '../Components/Auth/Logout';*/
 import Home from '../Components/Home';
 import ModulePlace from '../Components/Modules/ModulePlace';
-import HomeModule from '../Components/Modules/HomeModule';
 import Profil from '../Components/Auth/Profil';
 import SearchDoctors from '../Components/Doctors/SearchDoctors';
 import Calendar from '../Components/Modules/Calendar';
@@ -19,7 +17,7 @@ import Note from '../Components/Modules/Note';
 import Logout from '../Components/Auth/Logout'
 import Loading from '../Components/Loading'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import MyDoctorChoice from '../Components/MyDoctorChoice'
+import MyDoctorChoice from '../Components/Doctors/MyDoctorChoice'
 import { styles, colors, windowSize } from '../Components/StyleSheet'
 
 _menu = null;

@@ -1,19 +1,13 @@
 
 import React from 'react'
 import { View,
-	List,
 	Text,
 	Button,
 	Dimensions,
-	ListItem,
 	StyleSheet,
 	TouchableHighlight,
-	TextInput,
 	FlatList,
-	ScrollView,
-	TouchableOpacity,
-	Image} from 'react-native'
-import { Icon } from 'react-native-elements'
+} from 'react-native'
 import { APIGetDoctors, APIAddDoctor } from '../../API/APIDoctor';
 import { connect } from 'react-redux';
 

@@ -1,36 +1,58 @@
 import React from 'react'
-import { ScrollView, FlatList, View, Text, Button, BackHandler, StyleSheet, TouchableOpacity, ActivityIndicator} from 'react-native'
 import { APIGetPatientModules } from '../API/APIModule'
-import { connect } from 'react-redux'
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-vector-icons'
 //import CustomMenu from './CustomMenu';
 //import our Custom menu component
 //import CustomMenuIcon from './CustomMenuIcon';
+import {
+	ActivityIndicator,
+	StyleSheet,
+	View,
+	ScrollView,
+	FlatList,
+	Text,
+	Button,
+	BackHandler,
+	TouchableOpacity
+} from 'react-native';
+import { connect } from 'react-redux';
+import { getUserToken } from '../Redux/Action/action';
 
 class Home extends React.Component {
+
 	constructor(props) {
 		super(props)
 		this.state = {
 			Dmodules: [],
 			loading: true
 		}
-		APIGetPatientModules(this.props.token).then(async data => {
-			this.setState({
-				loading: false
-			})
-			if (data.status == 200) {
-				let response = await data.json()
-				if (response.length > 0 && JSON.stringify(this.state.Dmodules) != JSON.stringify(response.modules)) {
-					this.setState({
-						Dmodules: [ ...response ],
-					})
-				}
-			}
-		})
+		this._bootstrapAsync();
 	}
 
-	_menu = null;
- 
+	// Fetch the token from storage then navigate to our appropriate place
+	_bootstrapAsync = () => {
+		this.props.getUserToken().then(() => {
+			APIGetPatientModules(this.props.token.token).then(async data => {
+				this.setState({
+					loading: false							
+				})
+				if (data.status == 200) {
+					let response = await data.json()
+					if (response.length > 0 && JSON.stringify(this.state.Dmodules) != JSON.stringify(response.modules)) {
+						this.setState({
+							Dmodules: [ ...response ],
+						})
+					}
+				}
+			})
+		}).catch(error => {
+			this.setState({ error })
+		})
+	}
+		
+	/* _menu = null;
+	
+};
 	setMenuRef = ref => {
 	  this._menu = ref;
 	};
@@ -42,13 +64,8 @@ class Home extends React.Component {
 	showMenu = () => {
 	  this._menu.show();
 	};
-	static navigationOptions = ({ navigation }) => {
-		
-	};
-
+ */
 	changeModule = (idModule) => {
-		const action = { type: "CURRENT_MODULE", value: idModule}
-		this.props.dispatch(action)
 		this.props.navigation.navigate('HomeModule', {idModule: idModule})
 	}
 
@@ -57,7 +74,7 @@ class Home extends React.Component {
 		return (
 			<View style={styles.container}>
 				{this.state.loading && <ActivityIndicator size='large' color='black' />}
-				{ !this.stateloading && !this.state.Dmodules
+				{ !this.state.loading && !this.state.Dmodules
 					?	
 					<View style={styles.WhithoutModule}>
 						<Text style={{ marginBottom : 30, fontSize: 20 }}>
@@ -83,7 +100,7 @@ class Home extends React.Component {
 						<View style={{flex: 1, justifyContent : 'center', alignItems: 'center'}}>
 							<TouchableOpacity style={{ margin: 20, flexDirection : 'row'}}
 								onPress={() => navigate('Stack')}>
-								<Icon style={{ flex: 1}} size='20' color="grey" name="add-circle-outline" size={30}/>
+								<Icon style={{ flex: 1}} size='20' color="grey" name="add-circle" size={30}/>
 								<Text style={{ flex: 2, marginLeft: 20 , backgroundColor: '#fff', fontSize: 20}}>
 									Ajouter un module
 								</Text>
@@ -120,13 +137,15 @@ const styles = StyleSheet.create({
 	},
 })
 
-const mapStateToProps = (state) => {
-	return {
-	  token: state.token
-	}
-      }
-      
-export default connect(mapStateToProps)(Home)
+const mapStateToProps = state => ({
+	token: state.token,
+});
+
+const mapDispatchToProps = dispatch => ({
+	getUserToken: () => dispatch(getUserToken()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 {/* <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 				<Menu

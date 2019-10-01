@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 		borderColor: colors.primary
 	},
 	label: {
-		fontSize: 20,
+		fontSize: 25,
 		fontWeight: 'bold',
 		color: colors.labelColor
 	}, mainContner: {
@@ -51,23 +51,29 @@ const styles = StyleSheet.create({
 		marginBottom: 30
 	},
 	AuthBackgroundContainer: {
-		backgroundColor: colors.primary,
 		flex: 1
 	},
+	LoginMainContainer: {
+		marginTop: 80, 
+		marginBottom: 80,
+		width: windowSize.x / 1.2,
+	},
+	SigninMainContainer: {
+		marginTop: 40, 
+		marginBottom: 40,
+		width: windowSize.x / 1.1,
+	},
 	AuthMainContainer: {
-		backgroundColor: 'white',
+		backgroundColor: 'rgba(255,255,255,0.75)',
 		flex: 1,
 		alignSelf: "center",
-		width: windowSize.x / 1.2,
-		marginTop: 120,
-		marginBottom: 120,
 		borderRadius: 15,
 		borderWidth: 1,
 		borderColor: 'white',
-		shadowColor: '#000',
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.8,
-		shadowRadius: 2,
+		//shadowColor: '#000',
+		//shadowOffset: { width: 0, height: 2 },
+		//shadowOpacity: 0.8,
+		//shadowRadius: 2,
 		elevation: 10
   	}
 });

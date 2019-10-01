@@ -3,8 +3,8 @@
 import React from 'react'
 import { View, Text, ActivityIndicator, StyleSheet} from 'react-native'
 import { LogOutAPatientWithApi } from '../../API/APIConnection'
-import { getToken, remove, removeToken } from './Cache'
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { removeUserToken } from '../../Redux/Action/action';
 
 class Logout extends React.Component {
 	constructor (props) {
@@ -12,20 +12,20 @@ class Logout extends React.Component {
 	}
 		
 	componentDidMount() {
-		// LogOutAPatientWithApi(this.props.token).then(async data => {
-		// 	if (data.status == 200) {
-		// 		await removeToken()
-		// 		this.props.navigation.navigate('LoginStack');
-		// 	}
-		// 	else {
-		// 		this.props.navigation.goBack();
-		// 	}
-		// })
-		// .catch() // TO DECOMMENT NEXT EIP REU
-		removeToken()
-		this.props.navigation.navigate('LoginStack'); // TO RM NEXT EIP REU
+		this._bootstrapAsync();
 	}
-
+	
+	_bootstrapAsync = () => {
+		this.props.removeUserToken().then(() => {
+			console.log(this.props.token.token)
+			this.props.navigation.navigate(this.props.token.token !== null ? 'LoginStack' : 'Profil');
+		})
+		.catch(error => {
+			this.setState({ error })
+		})
+	
+	};
+	
 	render() {
 		return (
 			<View style={styles.main_container}>
@@ -46,10 +46,13 @@ const styles = StyleSheet.create({
 	},
 })
 
-const mapStateToProps = (state) => {
-	return {
-	  token: state.token
-	}
-      }
-      
-export default connect(mapStateToProps)(Logout)
+const mapStateToProps = state => ({
+	token: state.token,
+});
+
+
+const mapDispatchToProps = dispatch => ({
+	removeUserToken: () => dispatch(removeUserToken()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Logout);

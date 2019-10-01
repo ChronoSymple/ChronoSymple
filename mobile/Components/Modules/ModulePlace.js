@@ -1,59 +1,85 @@
 // Components/ModulePlace.js
 
 import React from 'react'
-import { StyleSheet, FlatList, View} from 'react-native'
 import ModuleItem from './ModuleItem'
 import NoteItem from './NoteItem'
 import { APIGetModules, APIAddModule } from '../../API/APIModule'
-import { connect } from 'react-redux'
+import {
+	ActivityIndicator,
+	AsyncStorage,
+	StatusBar,
+	StyleSheet,
+	View,
+	Dimensions,
+	FlatList,
+	ScrollView
+} from 'react-native';
+import { connect } from 'react-redux';
+import { getUserToken } from '../../Redux/Action/action';
 
 class ModulePlace extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
-			Dmodules: []
+			Dmodules: [],
+			loading: true
 		}
-		console.log(this.props.token)
-		APIGetModules(this.props.token).then(async data => {
-			console.log(data)
-			let response = await data.json()
-			if (data.status == 200) {
-				this.setState({
-					Dmodules: [ ...this.state.Dmodules, ...response.modules ],
-				})
-			}
+		this._bootstrapAsync();
+	}
+
+	_bootstrapAsync = () => {
+		this.props.getUserToken().then(() => {
+			APIGetModules(this.props.token.token).then(async data => {
+				let response = await data.json()
+				if (data.status == 200) {
+					this.setState({
+						Dmodules: [ ...this.state.Dmodules, ...response.modules ],
+						loading: false,
+					})
+				}
+			})
+		}).catch(error => {
+			this.setState({ error })
 		})
 	}
 
 	_addModule = (idModule) => {
-		const action = { type: "CURRENT_MODULE", value: idModule }
-		this.props.dispatch(action)
-
-		APIAddModule(this.props.token, idModule).then(data => {
-			if (data.status != 401)
-				this.props.navigation.navigate('Module', {idModule: idModule})
-			else
-				this.props.navigation.navigate('Login', {idModule: idModule})
+		this.props.getUserToken().then(() => {
+			APIAddModule(this.props.token.token, idModule).then(data => {
+				if (data.status != 401)
+					this.props.navigation.navigate('Module', {idModule: idModule})
+				else
+					this.props.navigation.navigate('Login', {idModule: idModule})
+			})
+		}).catch(error => {
+			this.setState({ error })
 		})
 	}
-	
+
 	_searchModule = () => {
 	}
 
 	render() {
 		return(
 			<View style={styles.main_container}>
-			<FlatList
-				style={styles.list}
-				data={this.state.Dmodules}
-				keyExtractor={(item) => item.id.toString()}
-				renderItem={({item}) => (
-				  <ModuleItem
-				    dModule={item}
-				    _addModule={this._addModule}
-				  />
-				)}
-			/>
+				{this.state.loading
+					?	
+					<ActivityIndicator size='large' color='black' />
+					:
+						<ScrollView style={{flex: 1}}>
+							<FlatList
+								style={styles.list}
+								data={this.state.Dmodules}
+								keyExtractor={(item) => item.id.toString()}
+								renderItem={({item}) => (
+									<ModuleItem
+										dModule={item}
+										_addModule={this._addModule}
+									/>
+								)}
+							/>
+						</ScrollView>
+				}
 			</View>
 		)
 	}
@@ -73,22 +99,25 @@ const styles = StyleSheet.create({
 		borderWidth: 0.5,
 		paddingLeft: 5
 	},
-	module: { 
-		flex: 9,
-		height: 50,
-	},
-	searchelem: {
-		flex: 1,
-	},
 	list: {
 		flex: 1,
-  	}
+  	},
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		flexDirection: 'column',
+	},
 })
 
-const mapStateToProps = (state) => {
-	return {
-	  token: state.token
-	}
-      }
-      
-export default connect(mapStateToProps)(ModulePlace)
+const mapStateToProps = state => ({
+	token: state.token,
+});
+
+
+const mapDispatchToProps = dispatch => ({
+	getUserToken: () => dispatch(getUserToken()),
+	getUserToken: () => dispatch(getUserToken())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModulePlace);

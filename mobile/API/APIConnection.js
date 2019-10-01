@@ -2,6 +2,7 @@
 const baseUrl = 'https://docapp-prod.herokuapp.com'
 
 export function SiginAPatientWithApi (fname, lname, mail, password) {
+  console.log(fname, lname, mail, password)
   return fetch(baseUrl + '/api/patients/signin', {
     method: 'POST',
     headers: {
@@ -15,7 +16,7 @@ export function SiginAPatientWithApi (fname, lname, mail, password) {
       password: password
     }),
   })
-  .then((response) => response.json())
+  .then((response) => response)
   .catch((error) => error)
 }
 
