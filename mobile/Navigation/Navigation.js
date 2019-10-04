@@ -111,7 +111,6 @@ const ChooseModulesToSendStackNavigator = createStackNavigator({
 })
 
 const Tabs = createBottomTabNavigator({
-
 	Statistic: {
 		screen : Statistic,
 		navigationOptions: () => ({
@@ -123,12 +122,12 @@ const Tabs = createBottomTabNavigator({
 			    />
 		)})
 	},
-	Note: {
-		screen : Note,
+	Home: {
+		screen : Statistic,
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
-				name="note-add"
+				name="show-chart"
 				color={tintColor}
 				size={40}
 			    />
@@ -167,6 +166,7 @@ const Tabs = createBottomTabNavigator({
 			    />
 		)})
 	},
+	headerMode: 'none',
 }, {
 	tabBarOptions: {
 	    showLabel: false, // hide labels
@@ -178,8 +178,43 @@ const Tabs = createBottomTabNavigator({
 	},
 });
 
+const HomePrincipaleTabs = createBottomTabNavigator({
+	Home: {
+		screen: Home,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="show-chart"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+	Profil: {
+		screen: Profil,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="show-chart"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+}, {
+	headerMode: 'none',
+	tabBarOptions: {
+	    showLabel: false, // hide labels
+	    activeTintColor: colors.secondary, // active icon color
+	    inactiveTintColor: '#F8F8F8',  // inactive icon color
+	    style: {
+		backgroundColor: colors.primary // TabBar background
+	    }
+	},
+});
+
 const StackNavigtorWhithModule = createStackNavigator({
-	HomeModule: {
+	Module: {
 		screen: Tabs
 	},
 },{
@@ -188,29 +223,13 @@ const StackNavigtorWhithModule = createStackNavigator({
 
 const StackNavigtorGlobalHome = createStackNavigator({
 	Home: {
-		screen: Home,
-		navigationOptions: ({ navigation }) => ({
-			title:'Home',
-			headerStyle: {backgroundColor: '#58b57d'},
-			headerTintColor: 'white',
-			textAlign: 'center',
-
-		}),
+		screen: HomePrincipaleTabs,
 	},
 	Module: {
 		screen: StackNavigtorWhithModule,
-		navigationOptions: { 
-			title:'Diabètes',
-			headerStyle: {backgroundColor: '#58b57d'},
-			headerTintColor: 'white',
-			textAlign: 'center'
-		}
 	},
 	Stack: {
 		screen: ModulePlace, navigationOptions: { title:'ModulPlace' }
-	},
-	Profil: {
-		screen: ProfilStackNavigator, navigationOptions: { title:'Profil' }
 	},
 	CalendarStackNavigator : {
 		screen : CalendarStackNavigator
@@ -223,14 +242,8 @@ const StackNavigtorGlobalHome = createStackNavigator({
 		screen: MyDoctorChoiceStackNavigator
 	}
 }, {
-	navigationOptions: () => ({
-		headerRight: ({tintColor}) => (
-			<Button
-			title="Click to Alert"
-		    /> 
-	)})
+	headerMode: 'none'
 });
-
 
 
 const LoginStack = createStackNavigator({

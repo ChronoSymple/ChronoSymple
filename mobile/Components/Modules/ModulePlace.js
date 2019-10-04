@@ -12,7 +12,8 @@ import {
 	View,
 	Dimensions,
 	FlatList,
-	ScrollView
+	ScrollView,
+	Text
 } from 'react-native';
 import { connect } from 'react-redux';
 import { getUserToken } from '../../Redux/Action/action';
@@ -62,6 +63,7 @@ class ModulePlace extends React.Component {
 	render() {
 		return(
 			<View style={styles.main_container}>
+        			<Text style={{color:"#62BE87", textAlign:'center', fontWeight: "bold", justifyContent: 'center', fontSize:30, margin: 30}}>Tous les modules</Text>
 				{this.state.loading
 					?	
 					<ActivityIndicator size='large' color='black' />
@@ -74,7 +76,8 @@ class ModulePlace extends React.Component {
 								renderItem={({item}) => (
 									<ModuleItem
 										dModule={item}
-										_addModule={this._addModule}
+										triggerModule={this._addModule}
+										generalUnit={false}
 									/>
 								)}
 							/>

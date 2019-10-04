@@ -14,7 +14,7 @@ class Statistic extends React.Component {
   	// faudra remplacer la data par ce que renverra la BDD
     return (
       <View style={{ flex: 1 }}>
-        <Text style={{ backgroundColor:colors.secondary, color:'white', textAlign:'center', fontWeight: "bold", justifyContent: 'center', fontSize:25}}>STATISTIQUE</Text>
+        <Text style={{ backgroundColor:colors.secondary, color:'white', textAlign:'center', fontWeight: "bold", justifyContent: 'center', fontSize:25}}>Diabete</Text>
         <Text style={{ marginLeft: deviceWidth / 10 * 4, marginTop: 20}}>Glycémie</Text>
         <AreaChart
             style={{ height: 200, margin: 20, marginTop : 5, borderWidth: 1, borderColor: colors.secondary}}
