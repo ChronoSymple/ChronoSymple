@@ -38,8 +38,13 @@ const data = [
 
 class SearchController extends PureComponent {
   
-  state = { search: '', data: [], error: null, init: false, selected: {} };
-
+  state = {
+    search: '',
+    data: [],
+    error: null,
+    init: false,
+    selected: JSON.parse(localStorage.getItem('diseases') || '{}')
+  };
   setSearchValue = search => this.setState({ search });
 
   filterData = data => {
