@@ -110,6 +110,41 @@ const ChooseModulesToSendStackNavigator = createStackNavigator({
 	headerMode: 'none'
 })
 
+const HomePrincipaleTabs = createBottomTabNavigator({
+	Home: {
+		screen: Home,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="show-chart"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+	Profil: {
+		screen: Profil,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="show-chart"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+}, {
+	headerMode: 'none',
+	tabBarOptions: {
+	    showLabel: false, // hide labels
+	    activeTintColor: colors.secondary, // active icon color
+	    inactiveTintColor: '#F8F8F8',  // inactive icon color
+	    style: {
+		backgroundColor: colors.primary // TabBar background
+	    }
+	},
+});
+
 const Tabs = createBottomTabNavigator({
 	Statistic: {
 		screen : Statistic,
@@ -123,7 +158,7 @@ const Tabs = createBottomTabNavigator({
 		)})
 	},
 	Home: {
-		screen : Statistic,
+		screen : HomePrincipaleTabs,
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
@@ -178,41 +213,6 @@ const Tabs = createBottomTabNavigator({
 	},
 });
 
-const HomePrincipaleTabs = createBottomTabNavigator({
-	Home: {
-		screen: Home,
-		navigationOptions: () => ({
-			tabBarIcon: ({tintColor}) => (
-			    <Icon
-				name="show-chart"
-				color={tintColor}
-				size={40}
-			    />
-		)})
-	},
-	Profil: {
-		screen: Profil,
-		navigationOptions: () => ({
-			tabBarIcon: ({tintColor}) => (
-			    <Icon
-				name="show-chart"
-				color={tintColor}
-				size={40}
-			    />
-		)})
-	},
-}, {
-	headerMode: 'none',
-	tabBarOptions: {
-	    showLabel: false, // hide labels
-	    activeTintColor: colors.secondary, // active icon color
-	    inactiveTintColor: '#F8F8F8',  // inactive icon color
-	    style: {
-		backgroundColor: colors.primary // TabBar background
-	    }
-	},
-});
-
 const StackNavigtorWhithModule = createStackNavigator({
 	Module: {
 		screen: Tabs
@@ -222,7 +222,7 @@ const StackNavigtorWhithModule = createStackNavigator({
 })
 
 const StackNavigtorGlobalHome = createStackNavigator({
-	Home: {
+	HomeTabs: {
 		screen: HomePrincipaleTabs,
 	},
 	Module: {

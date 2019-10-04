@@ -79,7 +79,7 @@ export function APIGetPatientNotesByModule(token, idmodule) {
 			'Authorization': token
 		}
 	})
-	.then((response) => response.json())
+	.then((response) => response)
 	.catch((error) => error)
 }
 

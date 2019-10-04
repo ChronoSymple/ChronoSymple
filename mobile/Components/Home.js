@@ -72,11 +72,6 @@ class Home extends React.Component {
 					</View>
 					:
 					<ScrollView style={{flex: 1}}>
-						<View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: "black", borderStyle: "dashed", borderRadius: 15, margin: 10}}>
-							<TouchableOpacity style={{ margin: 20, flexDirection : 'row', alignItems: 'center', justifyContent: 'center', width: "100%", height: "100%"}} onPress={() => navigate('Stack')}>
-								<Text style={{fontSize: 20}}>Ajouter un module</Text>						
-							</TouchableOpacity>
-						</View>
 						<FlatList
 							style={styles.list}
 							data={this.state.Dmodules}
@@ -89,6 +84,11 @@ class Home extends React.Component {
 								/>
 							)}
 						/>
+						<View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: "black", borderStyle: "dashed", borderRadius: 15, margin: 10}}>
+							<TouchableOpacity style={{ margin: 20, flexDirection : 'row', alignItems: 'center', justifyContent: 'center', width: "100%", height: "100%"}} onPress={() => navigate('Stack')}>
+								<Text style={{fontSize: 20}}>Ajouter un module</Text>						
+							</TouchableOpacity>
+						</View>
 					</ScrollView>
 				}
 			</View>

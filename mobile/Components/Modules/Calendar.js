@@ -4,6 +4,7 @@ import React from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList} from 'react-native'
 import { APIGetPatientNotesByModule } from '../../API/APIModule'
 import { connect } from 'react-redux'
+import { getUserToken } from '../../Redux/Action/action';
 /*import { NoteItem } from './NoteItem' NOT USED*/
 
 class Calendar extends React.Component {
@@ -13,35 +14,38 @@ class Calendar extends React.Component {
 		this.state = {
 			DNotes: []
 		}
-		APIGetPatientNotesByModule(this.props.token, this.props.idCurrentModule).then(data => {
-			this.setState({
-				DNotes: [ ...data ]
-			})
-		})
+		this._bootstrapAsync();
 	}
 	
+	_bootstrapAsync = () => {
+		this.props.getUserToken().then(() => {
+			APIGetPatientNotesByModule(this.props.token.token, 1).then(async data => {
+				console.log(data)
+				let response = await data.json()
+				if (data.status == 200) {
+					this.setState({
+						DNotes: [ ...this.state.DNotes, ...response ],
+						loading: false,
+					})
+				}
+			})
+		}).catch(error => {
+			this.setState({ error })
+		})
+	}
+
 	_accessDetailNote = (DataNote) => {
 
 		this.props.navigation.navigate('DetailNote', {data: JSON.parse(DataNote)})
 	}
 
 	render() {
-		/*A quoi sert cette function ? ?? */
-		/*APIGetPatientNotesByModule(this.props.token, this.props.idCurrentModule).then(data => {
-			if (data.status == 200) {
-				let response = data.json()
-				console.log("Calendar - APIGetPatientNotesByModule - response: ")
-				console.log(response)
-				if (response.length > 0 && JSON.stringify(this.state.DNotes) != JSON.stringify(response.modules)) {
-					this.setState({
-						DNotes: [ ...response.notes ],
-					})
-				}
-			}
-		})*/
-		/* end - a quoi sert la fonctio nau dessus ? */
 		return (
 			<View style={styles.main_container}>
+				<View style={{flex: 1, justifyContent: 'space-between', flexDirection: "row", alignItems: "stretch", flexWrap: "wrap"}}>
+        				<Text style={{color:"#62BE87", fontWeight: "bold", fontSize:30, alignSelf: "center"}}>Historique</Text>
+					<Image source={require("../../assets/36962.png")} style={{width: 35, height: 35}}/>
+				</View>
 				<FlatList
 				style={styles.list}
 				data={this.state.DNotes}
@@ -52,7 +56,6 @@ class Calendar extends React.Component {
 						onPress={() => this._accessDetailNote(item.data)}>
 							<Text style={styles.moduleText}>{JSON.parse(item.data).date} {JSON.parse(item.data).heure}</Text>
 					</TouchableOpacity>
-					//<NoteItem/>
 					)}
 				/>
 			</View>
@@ -81,11 +84,12 @@ const styles = StyleSheet.create({
 	}
 })
 
-const mapStateToProps = (state) => {
-	return {
-	  token: state.token,
-	  idCurrentModule: state.idCurrentModule
-	}
-      }
-      
-export default connect(mapStateToProps)(Calendar)
+const mapStateToProps = state => ({
+	token: state.token,
+});
+
+const mapDispatchToProps = dispatch => ({
+	getUserToken: () => dispatch(getUserToken()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar);

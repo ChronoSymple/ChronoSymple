@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { getUserToken } from '../../Redux/Action/action';
+//import SearchBar from 'react-native-search-bar';
 
 class ModulePlace extends React.Component {
 	constructor (props) {
@@ -68,20 +69,27 @@ class ModulePlace extends React.Component {
 					?	
 					<ActivityIndicator size='large' color='black' />
 					:
-						<ScrollView style={{flex: 1}}>
-							<FlatList
-								style={styles.list}
-								data={this.state.Dmodules}
-								keyExtractor={(item) => item.id.toString()}
-								renderItem={({item}) => (
-									<ModuleItem
-										dModule={item}
-										triggerModule={this._addModule}
-										generalUnit={false}
-									/>
-								)}
-							/>
-						</ScrollView>
+//					<SearchBar
+//						ref="searchBar"
+//						placeholder="Search"
+//						onChangeText={this._searchModule}
+//						onSearchButtonPress={this._searchModule}
+//						onCancelButtonPress={this._searchModule}
+//					/>
+					<ScrollView style={{flex: 1}}>
+						<FlatList
+							style={styles.list}
+							data={this.state.Dmodules}
+							keyExtractor={(item) => item.id.toString()}
+							renderItem={({item}) => (
+								<ModuleItem
+									dModule={item}
+									triggerModule={this._addModule}
+									generalUnit={false}
+								/>
+							)}
+						/>
+					</ScrollView>
 				}
 			</View>
 		)
