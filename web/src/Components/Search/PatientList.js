@@ -24,7 +24,7 @@ const styles = {
 const PatientList = ({
   classes,
   data,
-  setClient
+  setPatient
 }) => (
   <Card className={classes.patientCard}>
     <Table>
@@ -40,7 +40,7 @@ const PatientList = ({
           <TableRow
             key={e.id}
             className={classes.selectable}
-            onClick={() => setClient(e)}
+            onClick={() => setPatient(e)}
           >
             <TableCell>{e.lastname}</TableCell>
             <TableCell>{e.firstname}</TableCell>
@@ -53,7 +53,7 @@ const PatientList = ({
 );
 
 PatientList.propTypes = {
-  setClient: PropTypes.func.isRequired,
+  setPatient: PropTypes.func.isRequired,
   classes: PropTypes.shape({
     patientCard: PropTypes.string.isRequired,
     selectable: PropTypes.string.isRequired,

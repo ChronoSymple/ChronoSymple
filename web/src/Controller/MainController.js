@@ -22,7 +22,7 @@ class MainController extends PureComponent {
           } else if (patient) {
             return <Patient client={patient}/>;
           } else { 
-            return <Search token={token} setClient={setPatient}/>;
+            return <Search token={token} setPatient={setPatient}/>;
           } 
         })()}
       </main>

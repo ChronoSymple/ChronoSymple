@@ -7,8 +7,8 @@ class NotesController extends PureComponent {
     data: []
   };
   componentDidMount() {
-    const data = Api.getNotes(localStorage.getItem('myToken'));
-    this.setState({data: data.notes});
+    //const data = Api.getNotes(localStorage.getItem('myToken'));
+    //this.setState({data: data.notes});
   }
 
   render() {

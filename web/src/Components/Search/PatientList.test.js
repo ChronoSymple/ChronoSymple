@@ -34,7 +34,7 @@ const data = [
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(<PatientList
-    setClient={() => 0}
+    setPatient={() => 0}
     data={data}
   />, div);
   ReactDOM.unmountComponentAtNode(div);
