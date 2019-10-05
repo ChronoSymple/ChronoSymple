@@ -116,7 +116,7 @@ const HomePrincipaleTabs = createBottomTabNavigator({
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
-				name="show-chart"
+				name="apps"
 				color={tintColor}
 				size={40}
 			    />
@@ -127,7 +127,7 @@ const HomePrincipaleTabs = createBottomTabNavigator({
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
-				name="show-chart"
+				name="account-circle"
 				color={tintColor}
 				size={40}
 			    />
