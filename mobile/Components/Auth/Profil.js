@@ -30,6 +30,7 @@ class Profil extends React.Component {
 				<Button 
 					color="#62BE87"
 					style={{ height: 40, borderWidth: 2, borderColor: '#000000'}}
+					onPress={() => navigate('ModuleProfil')} 
 					title="mes modules"
 				/>
 				<Button 

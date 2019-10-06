@@ -6,6 +6,7 @@ import SignIn from '../Components/Auth/SignIn';
 import Home from '../Components/Home';
 import ModulePlace from '../Components/Modules/ModulePlace';
 import Profil from '../Components/Auth/Profil';
+import ModuleProfil from '../Components/Auth/ModuleProfil';
 import SearchDoctors from '../Components/Doctors/SearchDoctors';
 import Calendar from '../Components/Modules/Calendar';
 import DoctorChoice from '../Components/Doctors/DoctorChoice';
@@ -68,16 +69,8 @@ const CalendarStackNavigator = createStackNavigator({
 })
 */
 const ProfilStackNavigator = createStackNavigator({
-	Profil: {
-	  screen: Profil
-	},
-	SearchDoctors: {
-	  screen : SearchDoctors
-	},
-	Logout: { screen : Logout,
-		navigationOptions: {
-			headerMode: 'none'
-		},
+	ModuleProfil: {
+		screen: ModuleProfil,
 	}
 }, {
 		headerMode: 'none'
@@ -230,6 +223,9 @@ const StackNavigtorGlobalHome = createStackNavigator({
 	},
 	Stack: {
 		screen: ModulePlace, navigationOptions: { title:'ModulPlace' }
+	},
+	ProfilStackNavigator : {
+		screen: ProfilStackNavigator
 	},
 	CalendarStackNavigator : {
 		screen : CalendarStackNavigator
