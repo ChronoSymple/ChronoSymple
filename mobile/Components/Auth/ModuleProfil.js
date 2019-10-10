@@ -14,7 +14,8 @@ class ModuleProfil extends React.Component {
 		super(props)
 		this.state = {
 			Dmodules: [],
-			loading: true
+			loading: true,
+			moduleSelected: -1
 		}
 		this._getPatientModule()
 	}
@@ -41,8 +42,20 @@ class ModuleProfil extends React.Component {
 		})
 	}
 
-	modulePressed = () => {
-		console.log('module pressed may remove this module')
+	modulePressed = (item) => {
+		this.setState({
+			moduleSelected: item.id
+		})
+	}
+
+	cancelPressed = (item) => {
+		this.setState({
+			moduleSelected: -1
+		})
+	}
+	removePressed = (item) => {
+		console.log('user pressed remove. Need to remove this module')
+		console.log(item)
 	}
 
 	render() {
@@ -58,13 +71,29 @@ class ModuleProfil extends React.Component {
 						<FlatList
 							style={styles.list}
 							data={this.state.Dmodules}
+							extraData={this.state.moduleSelected}
 							keyExtractor={(item) => item.id.toString()}
 							renderItem={({item}) => (
-								<View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: colors.secondary, borderRadius: 15, backgroundColor : 'white', margin: 10}}>					
-									<TouchableOpacity style={ styles.module }
-										onPress={() => this.modulePressed() }>
-											<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>{item.general_unit.name}</Text>
-									</TouchableOpacity>
+								<View>
+									{this.state.moduleSelected != item.id ?
+									<View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: colors.secondary, borderRadius: 15, backgroundColor : 'white', margin: 10}}>
+										<TouchableOpacity style={ styles.module }
+											onPress={() => this.modulePressed(item) }>
+												<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>{item.general_unit.name}</Text>
+										</TouchableOpacity>
+									</View>
+									:
+									<View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: colors.secondary, borderRadius: 15, backgroundColor : 'white', margin: 10}}>
+										<TouchableOpacity style={ styles.module }
+											onPress={() => this.cancelPressed(item) }>
+												<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>cancel</Text>
+										</TouchableOpacity>
+										<TouchableOpacity style={ styles.module, {backgroundColor : 'rgba(255, 110, 110, 0.5)'}}
+											onPress={() => this.removePressed(item) }>
+												<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>remove</Text>
+										</TouchableOpacity>
+									</View>
+									}
 								</View>
 							)}
 						/>
