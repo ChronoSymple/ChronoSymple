@@ -4,7 +4,7 @@ import React from 'react'
 import { colors, windowSize } from '../StyleSheet'
 import { View, ScrollView, FlatList, StyleSheet, Button, Image, Text, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { connect } from 'react-redux'
-import { APIGetPatientModules, APIAddModule } from '../../API/APIModule'
+import { APIGetPatientModules, APIAddModule, APIRemoveUnit } from '../../API/APIModule'
 import { getUserToken } from '../../Redux/Action/action';
 import ModuleItem from '../Modules/ModuleItem'
 
@@ -56,6 +56,12 @@ class ModuleProfil extends React.Component {
 	removePressed = (item) => {
 		console.log('user pressed remove. Need to remove this module')
 		console.log(item)
+		console.log(this.props.token)
+		console.log("test")
+		APIRemoveUnit(this.props.token.token, item.id).then(data => {
+			console.log("ModuleProfil - APIRemoveUnit - data: ")
+			console.log(data)
+		})
 	}
 
 	render() {

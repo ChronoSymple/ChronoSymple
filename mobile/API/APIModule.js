@@ -39,6 +39,7 @@ export function APIGetPatientModules(token) {
 	.catch((error) => error)
 }
 
+
 /*
 export function APIGetPatientNotesByModule(token, idmodule) {
 	return fetch(baseUrl + '/api/notes', {
@@ -98,6 +99,17 @@ export function APIAddPatientNotes(token, datJson, idModule) {
 	.catch((error) => error)
 }
 
+export function APIRemoveUnit(token, id) {
+	return fetch(baseUrl + '/api/patients/units/' + id, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': token,
+		}
+	})
+	.then((response) => response)
+	.catch((error) => error)
+}
 
 /* WTF THIS FUNCTION ?!!!! aussi presente sur APIDoctor file 
 /* cette fonction a l'air fuck up
