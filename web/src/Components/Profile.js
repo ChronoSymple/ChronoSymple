@@ -3,11 +3,7 @@ import Chip from '@material-ui/core/Chip';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-
-const diseases = [
-  {name: 'diabetes', fullName: 'Diabète'},
-  {name: 'cancer', fullName: 'Cancer'},
-];
+import diseases from '../diseases';
 
 class Profile extends React.Component {
   constructor(props) {
@@ -34,11 +30,11 @@ class Profile extends React.Component {
           {'Spécialités: Admin'}
         </Typography>
         {
-          diseases.map(disease => <Chip
-            key={disease.name}
-            color={this.state.selected[disease.name] ? 'primary' : 'default'}
-            label={disease.fullName}
-            onClick={() => this.chipClick(disease.name)}/>)
+          Object.keys(diseases).map(key => <Chip
+            key={key}
+            color={this.state.selected[key] ? 'primary' : 'default'}
+            label={diseases[key].fullName}
+            onClick={() => this.chipClick(key)}/>)
         }
       </CardContent>
     </Card>);

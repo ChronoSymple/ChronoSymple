@@ -22,7 +22,9 @@ class Patient extends PureComponent {
             </Typography>
           </CardContent>
         </Card>
-        {patient.diseases && patient.diseases.map(e => <DiseaseCard key={e.name} disease={e} defaultOpen={client.selected[e.name] === true}/>)}
+        {patient.diseases && Object.keys(patient.diseases).map(key => 
+          <DiseaseCard key={key} diseaseName={key} data={patient.diseases[key]} defaultOpen={client.selected[key] === true}/>)
+        }
       </div>
     );
   }

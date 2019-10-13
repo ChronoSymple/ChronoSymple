@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import Notes from '../Components/Patient/DiseaseCard/Notes';
-import Api from '../Api';
+//import Api from '../Api';
 
 class NotesController extends PureComponent {
   state = {

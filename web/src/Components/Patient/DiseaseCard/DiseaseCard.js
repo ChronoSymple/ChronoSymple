@@ -5,33 +5,28 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Diabetes from './Diabetes';
 import NotImplemented from './NotImplemented';
 import PropTypes from 'prop-types';
-import { DiseasePropTypes } from '../../../MyPropTypes';
-
-const diseases = [
-  {name: 'diabetes', fullName: 'Diabète', component: Diabetes},
-  {default: true, component: NotImplemented}
-];
+import diseases from '../../../diseases';
 
 class DiseaseCard extends PureComponent {
   
   render() {
     const {
-      disease,
+      diseaseName,
+      data,
       defaultOpen,
     } = this.props;
-    const diseasesData = diseases.find(e => e.default || e.name === disease.name);
-    const Component = diseasesData.component;
+    const diseasesData = diseases[diseaseName];
+    const Component = (diseasesData !== undefined && diseasesData.component !== undefined) ? diseasesData.component : NotImplemented;
     return (
       <Card style={{marginTop: 16}}>
         <ExpansionPanel defaultExpanded={defaultOpen}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="h6">{diseasesData.fullName || disease.name}</Typography>
+            <Typography variant="h6">{diseasesData.fullName || diseaseName}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Component data={disease.data}/>
+            <Component data={data}/>
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </Card>
@@ -40,7 +35,8 @@ class DiseaseCard extends PureComponent {
 }
 
 DiseaseCard.propTypes = {
-  disease: DiseasePropTypes.isRequired,
+  diseaseName: PropTypes.string.isRequired,
+  data: PropTypes.any.isRequired,
   defaultOpen: PropTypes.bool,
 };
 
