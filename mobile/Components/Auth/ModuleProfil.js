@@ -57,11 +57,16 @@ class ModuleProfil extends React.Component {
 		console.log('user pressed remove. Need to remove this module')
 		console.log(item)
 		console.log(this.props.token)
-		console.log("test")
 		APIRemoveUnit(this.props.token.token, item.id).then(data => {
 			console.log("ModuleProfil - APIRemoveUnit - data: ")
 			console.log(data)
 		})
+	}
+
+	doctorListPressed = (item) => {
+		console.log('doctorListPressed')
+		console.log(item)
+		this.props.navigation.navigate('MyDoctorChoiceStackNavigator');
 	}
 
 	render() {
@@ -92,11 +97,15 @@ class ModuleProfil extends React.Component {
 									<View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: colors.secondary, borderRadius: 15, backgroundColor : 'white', margin: 10}}>
 										<TouchableOpacity style={ styles.module }
 											onPress={() => this.cancelPressed(item) }>
-												<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>cancel</Text>
+												<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>retour</Text>
+										</TouchableOpacity>
+										<TouchableOpacity style={ styles.module, {backgroundColor : 'rgba(91, 232, 245, 0.5)'}}
+											onPress={() => this.doctorListPressed(item) }>
+												<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>Liste des docteurs</Text>
 										</TouchableOpacity>
 										<TouchableOpacity style={ styles.module, {backgroundColor : 'rgba(255, 110, 110, 0.5)'}}
 											onPress={() => this.removePressed(item) }>
-												<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>remove</Text>
+												<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>supprimer</Text>
 										</TouchableOpacity>
 									</View>
 									}

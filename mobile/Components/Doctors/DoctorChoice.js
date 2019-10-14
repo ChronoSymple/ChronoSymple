@@ -8,7 +8,7 @@ import { View,
 	TouchableHighlight,
 	FlatList,
 } from 'react-native'
-import { APIGetDoctors, APIAddDoctor } from '../../API/APIDoctor';
+import { APIGetDoctors, APIAddDoctor, APIRemoveDoctor } from '../../API/APIDoctor';
 import { connect } from 'react-redux';
 
 class DoctorChoice extends React.Component {
@@ -22,7 +22,7 @@ class DoctorChoice extends React.Component {
 	}
 
 	componentWillMount () {
-		APIGetDoctors(this.props.token).then(async data => {
+		APIGetDoctors(this.props.token.token).then(async data => {
 			console.log("DoctorChoice - APIGetDoctors - data")
 			console.log(data)
 			let response = await data.json()
@@ -36,16 +36,27 @@ class DoctorChoice extends React.Component {
 
 	_addDoctor = (item) => {
 		console.log("clicked on add doctor ! in Doctor choice page")
-		APIAddDoctor(this.props.token, item.id).then(async data => {
+		APIAddDoctor(this.props.token.token, item.id).then(async data => {
 			console.log("DoctorChoice - APIAddDoctor - data")
 			console.log(data)
 			let response = await data.json()
 			console.log("DoctorChoice - APIAddDoctor response: ")
 			console.log(response)
-			this.setState({
-				data: response,
-			})
 		})
+		this.props.navigation.navigate('MyDoctorChoiceStackNavigator')
+	}
+
+	_removeDoctor = (item) => {
+		console.log('user want to remove the doctor')
+		console.log(item)
+		APIRemoveDoctor(this.props.token.token, item.id).then(async data => {
+			console.log("DoctorChoice - APIRemoveDoctor - data")
+			console.log(data)
+			let response = await data.json()
+			console.log("DoctorChoice - APIRemoveDoctor response: ")
+			console.log(response)
+		})
+		this.props.navigation.navigate('MyDoctorChoiceStackNavigator')
 	}
 
 	render() {
@@ -60,7 +71,6 @@ class DoctorChoice extends React.Component {
   					renderItem={({item, separators}) => (
     					<TouchableHighlight
     						key={item.id}
-							onPress={() => {this._addDoctor(item)}} 
       						onShowUnderlay={separators.highlight}
       						onHideUnderlay={separators.unhighlight}>
       						<View key={item.id} style={{backgroundColor: 'white', borderBottomWidth: 1, justifyContent: 'center'}}>
@@ -68,8 +78,14 @@ class DoctorChoice extends React.Component {
         						<Button
 									color="#62BE87"
 									style={{borderRadius: 15}}
-									onPress={() => {}}
-									title="Ajouter"
+									onPress={() => {this._addDoctor(item)}}
+									title="Ajouter ce docteur"
+          						/>
+          						<Button
+									color="#FF8787"
+									style={{borderRadius: 15}}
+									onPress={() => {this._removeDoctor(item)}}
+									title="Retirer ce docteur"
           						/>
       						</View>
     					</TouchableHighlight>

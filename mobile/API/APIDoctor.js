@@ -11,6 +11,17 @@ export function APIAddDoctor (token, id) {
 	.catch((error) => error)
 }
 
+export function APIRemoveDoctor (token, id) {
+	return fetch(baseUrl + '/api/patients/units/' + id +"/remove_doctor" , {
+		method: 'PATCH',		
+		headers: {
+	    'Authorization': token
+		}
+	})
+	.then((response) => response)
+	.catch((error) => error)
+}
+
 export function APIGetDoctors(token) {
 	return fetch(baseUrl + '/api/patients/doctors', {
 	  method: 'GET',
