@@ -72,8 +72,8 @@ export function APIGetPatientNotesByModule(token, idmodule) {
 */
 
 
-export function APIGetPatientNotesByModule(token, idmodule) {
-	return fetch(baseUrl + '/api/patients/units/' + idmodule + '/notes', {
+export function APIGetPatientNotesByModule(token, idModule) {
+	return fetch(baseUrl + '/api/patients/units/' + idModule + '/notes', {
 	  method: 'GET',
 	  headers: {
 	    Accept: 'application/json',
@@ -99,6 +99,19 @@ export function APIAddPatientNotes(token, datJson, idModule) {
 	.catch((error) => error)
 }
 
+export function APIRemovePatientNotes(token, idNote) {
+	return fetch(baseUrl + '/api/patients/units/' + idNote + '/add_note', {
+	  method: 'DELETE',
+	  headers: {
+      'Content-Type': 'application/json',			
+	    'Authorization': token,
+		}
+	})
+	.then((response) => response)
+	.catch((error) => error)
+}
+
+
 export function APIRemoveUnit(token, id) {
 	return fetch(baseUrl + '/api/patients/units/' + id, {
 		method: 'DELETE',
@@ -110,18 +123,3 @@ export function APIRemoveUnit(token, id) {
 	.then((response) => response)
 	.catch((error) => error)
 }
-
-/* WTF THIS FUNCTION ?!!!! aussi presente sur APIDoctor file 
-/* cette fonction a l'air fuck up
-
-/*export function APIGetDoctors(token) {
-	return fetch(baseUrl + '/api/doctors', {
-		method: 'GET',
-		headers: {
-			Accept: 'application/json',
-			'Authorization': token,
-		},
-	})
-	.then((response) => response)
-	.catch((error) => error)
-}*/

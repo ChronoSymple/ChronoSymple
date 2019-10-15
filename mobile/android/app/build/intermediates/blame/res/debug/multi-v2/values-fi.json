@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/mfourtane/Documents/ChronoSymple/mobile/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-fi/values-fi.xml",
+            "outputFile": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-fi/values-fi.xml",
             "map": [
                 {
-                    "source": "/home/mfourtane/.gradle/caches/transforms-2/files-2.1/f5d9bf3fbcbd0ad8566b37ae20897705/res/values-fi/values-fi.xml",
+                    "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/57c526cd26f387f4220953dfdf33ffe8/res/values-fi/values-fi.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/home/mfourtane/.gradle/caches/transforms-2/files-2.1/09fdd5166509966179e46d3d0f40124b/res/values-fi/values-fi.xml",
+                    "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/values-fi/values-fi.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

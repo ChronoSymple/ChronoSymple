@@ -1,10 +1,20 @@
 {
     "logs": [
         {
-            "outputFile": "/home/mfourtane/Documents/ChronoSymple/mobile/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v16/values-v16.xml",
+            "outputFile": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v16/values-v16.xml",
             "map": [
                 {
-                    "source": "/home/mfourtane/.gradle/caches/transforms-2/files-2.1/09fdd5166509966179e46d3d0f40124b/res/values-v16/values-v16.xml",
+                    "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/57c526cd26f387f4220953dfdf33ffe8/res/values-v16/values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    }
+                },
+                {
+                    "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/values-v16/values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -20,16 +30,6 @@
                         "endLines": "6",
                         "endColumns": "12",
                         "endOffsets": "289"
-                    }
-                },
-                {
-                    "source": "/home/mfourtane/.gradle/caches/transforms-2/files-2.1/f5d9bf3fbcbd0ad8566b37ae20897705/res/values-v16/values-v16.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "65",
-                        "endOffsets": "116"
                     }
                 }
             ]

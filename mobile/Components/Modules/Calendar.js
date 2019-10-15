@@ -1,10 +1,13 @@
 // Components/Calendar.js
 
 import React from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList} from 'react-native'
+import { ActivityIndicator, View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView} from 'react-native'
 import { APIGetPatientNotesByModule } from '../../API/APIModule'
 import { connect } from 'react-redux'
 import { getUserToken } from '../../Redux/Action/action';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { colors, windowSize } from '../StyleSheet'
+
 /*import { NoteItem } from './NoteItem' NOT USED*/
 
 class Calendar extends React.Component {
@@ -12,15 +15,16 @@ class Calendar extends React.Component {
 		super(props)
 
 		this.state = {
-			DNotes: []
+			DNotes: [],
+			loading: true
 		}
 		this._bootstrapAsync();
 	}
 	
 	_bootstrapAsync = () => {
 		this.props.getUserToken().then(() => {
-			APIGetPatientNotesByModule(this.props.token.token, 1).then(async data => {
-				console.log(data)
+			APIGetPatientNotesByModule(this.props.token.token, 7).then(async data => {
+				console.log(data)			
 				let response = await data.json()
 				if (data.status == 200) {
 					this.setState({
@@ -35,29 +39,48 @@ class Calendar extends React.Component {
 	}
 
 	_accessDetailNote = (DataNote) => {
-
 		this.props.navigation.navigate('DetailNote', {data: JSON.parse(DataNote)})
 	}
 
 	render() {
 		return (
 			<View style={styles.main_container}>
-				<View style={{flex: 1, justifyContent: 'space-between', flexDirection: "row", alignItems: "stretch", flexWrap: "wrap"}}>
-        				<Text style={{color:"#62BE87", fontWeight: "bold", fontSize:30, alignSelf: "center"}}>Historique</Text>
-					<Image source={require("../../assets/36962.png")} style={{width: 35, height: 35}}/>
+				<View style={{flexDirection: "row", justifyContent: 'space-between'}}>
+					<Text style={{color:colors.secondary, fontWeight: "bold", fontSize:30}}>Prise de notes</Text>
+					<Icon
+						name="add-circle"
+						color={colors.secondary}
+						size={45}
+						onPress={() => this.props.navigation.navigate('AddNote')}
+					/>
 				</View>
-				<FlatList
-				style={styles.list}
-				data={this.state.DNotes}
-				keyExtractor={(item) => item.id.toString()}			
-				renderItem={({item}) => (
-					<TouchableOpacity
-						style={styles.note}
-						onPress={() => this._accessDetailNote(item.data)}>
-							<Text style={styles.moduleText}>{JSON.parse(item.data).date} {JSON.parse(item.data).heure}</Text>
-					</TouchableOpacity>
-					)}
-				/>
+				<ScrollView style={{marginTop: 30, marginBottom: 30}}>
+					{this.state.loading && <ActivityIndicator style={{alignSelf: "center"}} size='large' color='black' />}
+					<FlatList
+						data={this.state.DNotes}
+						keyExtractor={(item) => item.id.toString()}			
+						renderItem={({item}) => (
+							<TouchableOpacity
+								onPress={() => this.props.navigation.navigate('DetailNote')}
+								style={styles.note}
+								onPress={() => this._accessDetailNote(item.data)}>
+									<Text style={styles.noteText}>{JSON.parse(item.data).date} {JSON.parse(item.data).heure}</Text>
+									<Text style={styles.description}>description de la note</Text>
+									<TouchableOpacity>
+										<View style={styles.editBorder}>
+											<Icon
+												name="edit"
+												color={"#874C90"}
+												size={15}
+												onPress={() => this.props.navigation.navigate('EditNote')}
+			    							/>
+											<Text style={styles.edit}>Edit</Text>
+										</View>
+									</TouchableOpacity>
+							</TouchableOpacity>
+						)}
+					/>
+				</ScrollView>
 			</View>
 		)
 	}
@@ -67,20 +90,44 @@ const styles = StyleSheet.create({
 	main_container: {
 		margin: 10
 	},
-  note: {
+	note: {
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
-		borderWidth: 3,
-		borderColor: 'black',
-		backgroundColor: '#62BE87',
+		borderWidth: 3.5,
+		borderColor: '#F1F1F1',
 		borderRadius: 10,
-		padding: 30,
+		padding: 15,
 		color: '#000',
-		marginBottom: 30
+		marginBottom: 15
 	},
-	moduleText: {
-		fontSize: 20
+	noteText: {
+		fontSize: 20,
+		color: "#62BE87",
+		fontWeight: "bold"
+	},
+	list: {
+		marignTop: 30,
+	},
+	description: {
+		marginTop: 15,
+		fontSize: 14,
+		color: "E9E9E9"
+	},
+	editBorder: {
+		marginTop: 15,
+		paddingLeft: 13,
+		paddingRight: 15,
+		paddingTop: 3,
+		paddingBottom: 3,
+		flexDirection: "row",
+		borderColor: "#874C90",
+		borderWidth: 1.5,
+	},
+	edit: {
+		paddingLeft: 3,
+		fontSize: 13,
+		color: "#874C90"
 	}
 })
 

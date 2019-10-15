@@ -1,4 +1,4 @@
-#Sat Sep 28 17:38:17 CEST 2019
-base.0=/home/mfourtane/Documents/ChronoSymple/mobile/android/app/build/intermediates/transforms/dexMerger/debug/0
-path.0=classes.dex
+#Tue Oct 15 11:24:13 CEST 2019
+base.0=/home/marie/ChronoSymple/mobile/android/app/build/intermediates/transforms/dexMerger/debug/0
 renamed.0=classes.dex
+path.0=classes.dex

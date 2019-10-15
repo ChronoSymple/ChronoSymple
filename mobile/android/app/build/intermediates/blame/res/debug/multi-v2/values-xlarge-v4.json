@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/mfourtane/Documents/ChronoSymple/mobile/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-xlarge-v4/values-xlarge-v4.xml",
+            "outputFile": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-xlarge-v4/values-xlarge-v4.xml",
             "map": [
                 {
-                    "source": "/home/mfourtane/.gradle/caches/transforms-2/files-2.1/09fdd5166509966179e46d3d0f40124b/res/values-xlarge-v4/values-xlarge-v4.xml",
+                    "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/values-xlarge-v4/values-xlarge-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7",
                         "startColumns": "4,4,4,4,4,4",

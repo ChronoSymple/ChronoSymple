@@ -17,8 +17,7 @@ class Logout extends React.Component {
 	
 	_bootstrapAsync = () => {
 		this.props.removeUserToken().then(() => {
-			console.log(this.props.token.token)
-			this.props.navigation.navigate(this.props.token.token !== null ? 'LoginStack' : 'Profil');
+			this.props.navigation.navigate("Login");
 		})
 		.catch(error => {
 			this.setState({ error })

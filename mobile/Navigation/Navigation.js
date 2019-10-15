@@ -12,6 +12,7 @@ import Calendar from '../Components/Modules/Calendar';
 import DoctorChoice from '../Components/Doctors/DoctorChoice';
 import ChooseModulesToSend from '../Components/Doctors/ChooseModulesToSend';
 import DetailNote from '../Components/Modules/DetailNote';
+import EditNote from '../Components/Modules/EditNote';
 import Statistic from '../Components/Modules/Statistic';
 import Export from '../Components/Modules/Export';
 import Note from '../Components/Modules/Note';
@@ -49,8 +50,17 @@ const HomeModuleStackNavigator = createStackNavigator({
 })*/
 
 const CalendarStackNavigator = createStackNavigator({
+	Calendar: {
+		screen : Calendar
+	},
+	AddNote: {
+		screen: Note
+	},
 	DetailNote: {
 		screen: DetailNote
+	},
+	EditNote: {
+		screen: EditNote
 	}
 }, {
 	headerMode: 'none'
@@ -75,8 +85,6 @@ const ProfilStackNavigator = createStackNavigator({
 }, {
 		headerMode: 'none'
 })
-
-/* END NOT USED */
 
 const DoctorChoiceStackNavigator = createStackNavigator({
 	DoctorChoice: {
@@ -130,8 +138,8 @@ const HomePrincipaleTabs = createBottomTabNavigator({
 	headerMode: 'none',
 	tabBarOptions: {
 	    showLabel: false, // hide labels
-	    activeTintColor: colors.secondary, // active icon color
-	    inactiveTintColor: '#F8F8F8',  // inactive icon color
+	    activeTintColor: '#F8F8F8', // active icon color
+	    inactiveTintColor: colors.secondary,  // inactive icon color
 	    style: {
 		backgroundColor: colors.primary // TabBar background
 	    }
@@ -150,19 +158,8 @@ const Tabs = createBottomTabNavigator({
 			    />
 		)})
 	},
-	Home: {
-		screen : HomePrincipaleTabs,
-		navigationOptions: () => ({
-			tabBarIcon: ({tintColor}) => (
-			    <Icon
-				name="show-chart"
-				color={tintColor}
-				size={40}
-			    />
-		)})
-	},
 	Calendar: {
-		screen : Calendar,
+		screen : CalendarStackNavigator,
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
@@ -188,18 +185,28 @@ const Tabs = createBottomTabNavigator({
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
-				name="person"
+				name="account-circle"
 				color={tintColor}
 				size={40}
 			    />
 		)})
 	},
-	headerMode: 'none',
+	Home: {
+		screen : HomePrincipaleTabs,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="home"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
 }, {
 	tabBarOptions: {
 	    showLabel: false, // hide labels
-	    activeTintColor: colors.secondary, // active icon color
-	    inactiveTintColor: '#F8F8F8',  // inactive icon color
+	    activeTintColor: '#F8F8F8', // active icon color
+	    inactiveTintColor: colors.secondary,  // inactive icon color
 	    style: {
 		backgroundColor: colors.primary // TabBar background
 	    }
@@ -245,6 +252,7 @@ const StackNavigtorGlobalHome = createStackNavigator({
 const LoginStack = createStackNavigator({
 	Login : Login,
 	SignIn : SignIn,
+	Logout : Logout
 }, {
 	headerMode : 'none'
 })
