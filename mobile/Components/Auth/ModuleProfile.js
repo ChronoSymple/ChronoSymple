@@ -1,4 +1,4 @@
-// Components/ModuleProfil.js
+// Components/ModuleProfile.js
 
 import React from 'react'
 import { colors, windowSize } from '../StyleSheet'
@@ -9,7 +9,7 @@ import { getUserToken } from '../../Redux/Action/action';
 import ModuleItem from '../Modules/ModuleItem'
 
 
-class ModuleProfil extends React.Component {
+class ModuleProfile extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -23,10 +23,10 @@ class ModuleProfil extends React.Component {
 	_getPatientModule = () => {
 		this.props.getUserToken().then(() => {
 			APIGetPatientModules(this.props.token.token).then(async data => {
-				console.log("ModuleProfil - APIGetPatientModules - data :")
+				console.log("ModuleProfile - APIGetPatientModules - data :")
 				console.log(data)
 				let response = await data.json()
-				console.log("ModuleProfil - APIGetPatientModules - response :")
+				console.log("ModuleProfile - APIGetPatientModules - response :")
 				console.log(response)
 				if (data.status == 200) {
 					if (response.length > 0 && JSON.stringify(this.state.Dmodules) != JSON.stringify(response.modules)) {
@@ -58,7 +58,7 @@ class ModuleProfil extends React.Component {
 		console.log(item)
 		console.log(this.props.token)
 		APIRemoveUnit(this.props.token.token, item.id).then(data => {
-			console.log("ModuleProfil - APIRemoveUnit - data: ")
+			console.log("ModuleProfile - APIRemoveUnit - data: ")
 			console.log(data)
 		})
 	}
@@ -162,4 +162,4 @@ const mapDispatchToProps = dispatch => ({
 	getUserToken: () => dispatch(getUserToken())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModuleProfil)
+export default connect(mapStateToProps, mapDispatchToProps)(ModuleProfile)

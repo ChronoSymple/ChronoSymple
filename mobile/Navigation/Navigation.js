@@ -5,8 +5,8 @@ import Login from '../Components/Auth/Login';
 import SignIn from '../Components/Auth/SignIn';
 import Home from '../Components/Home';
 import ModulePlace from '../Components/Modules/ModulePlace';
-import Profil from '../Components/Auth/Profil';
-import ModuleProfil from '../Components/Auth/ModuleProfil';
+import Profile from '../Components/Auth/Profile';
+import ModuleProfile from '../Components/Auth/ModuleProfile';
 import SearchDoctors from '../Components/Doctors/SearchDoctors';
 import Calendar from '../Components/Modules/Calendar';
 import DoctorChoice from '../Components/Doctors/DoctorChoice';
@@ -18,6 +18,7 @@ import Export from '../Components/Modules/Export';
 import Note from '../Components/Modules/Note';
 import Logout from '../Components/Auth/Logout'
 import Loading from '../Components/Loading'
+import PasswordProfile from '../Components/Auth/Profile/PasswordProfile';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyDoctorChoice from '../Components/Doctors/MyDoctorChoice'
 import { styles, colors, windowSize } from '../Components/StyleSheet'
@@ -78,9 +79,12 @@ const CalendarStackNavigator = createStackNavigator({
 	}
 })
 */
-const ProfilStackNavigator = createStackNavigator({
-	ModuleProfil: {
-		screen: ModuleProfil,
+const ProfileStackNavigator = createStackNavigator({
+	ModuleProfile: {
+		screen: ModuleProfile,
+	},
+	PasswordProfile: {
+		screen: PasswordProfile,
 	}
 }, {
 		headerMode: 'none'
@@ -123,8 +127,8 @@ const HomePrincipaleTabs = createBottomTabNavigator({
 			    />
 		)})
 	},
-	Profil: {
-		screen: Profil,
+	Profile: {
+		screen: Profile,
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
@@ -180,8 +184,8 @@ const Tabs = createBottomTabNavigator({
 			    />
 		)})
 	},
-	Profil: {
-		screen : Profil,
+	Profile: {
+		screen : Profile,
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
@@ -229,10 +233,10 @@ const StackNavigtorGlobalHome = createStackNavigator({
 		screen: StackNavigtorWhithModule,
 	},
 	Stack: {
-		screen: ModulePlace, navigationOptions: { title:'ModulPlace' }
+		screen: ModulePlace, navigationOptions: { title:'ModulePlace' }
 	},
-	ProfilStackNavigator : {
-		screen: ProfilStackNavigator
+	ProfileStackNavigator : {
+		screen: ProfileStackNavigator
 	},
 	CalendarStackNavigator : {
 		screen : CalendarStackNavigator
