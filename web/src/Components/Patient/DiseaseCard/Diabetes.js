@@ -29,6 +29,7 @@ const dateToProbs = (table, step = 1) => {
 class Diabetes extends PureComponent {
   setRef = ref => this.ref = ref;
   setRef2 = ref => this.ref2 = ref;
+  chart2 = null;
   state = {step:1}
   componentDidMount() {
     const table = this.props.data;
@@ -115,9 +116,12 @@ class Diabetes extends PureComponent {
     this.generateProbsGraph();
   }
   generateProbsGraph = () => {
+    if (this.chart2 !== null) {
+      this.chart2.destroy();
+    }
     const probs = dateToProbs(this.props.data, this.state.step);
 
-    new Chart(this.ref2.getContext('2d'), {
+    this.chart2 = new Chart(this.ref2.getContext('2d'), {
       type: 'bar',
       plugins: [ChartAnnotation],
       data: {
