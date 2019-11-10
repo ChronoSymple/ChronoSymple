@@ -9,13 +9,28 @@ import diseases from '../diseases';
 const data = [
   {id: 1, firstname: 'Carl', lastname: 'DE GENTILE', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: {
     diabetes: [
-      { date: '20/10', data: 20 },
-      { date: '21/10', data: 14 },
-      { date: '22/10', data: 15 },
-      { date: '23/10', data: 12 },
-      { date: '24/10', data: 19 },
-      { date: '25/10', data: 17 },
-      { date: '26/10', data: 14 },
+      { date: new Date('2019-10-20T09:00:00Z'), data: 80 },
+      { date: new Date('2019-10-20T12:00:00Z'), data: 90 },
+      { date: new Date('2019-10-20T13:00:00Z'), data: 135 },
+      { date: new Date('2019-10-20T20:00:00Z'), data: 100 },
+      { date: new Date('2019-10-21T09:00:00Z'), data: 65 },
+      { date: new Date('2019-10-21T12:00:00Z'), data: 74 },
+      { date: new Date('2019-10-21T20:00:00Z'), data: 85 },
+      { date: new Date('2019-10-22T09:00:00Z'), data: 97 },
+      { date: new Date('2019-10-22T12:00:00Z'), data: 95 },
+      { date: new Date('2019-10-22T20:00:00Z'), data: 71 },
+      { date: new Date('2019-10-23T09:00:00Z'), data: 93 },
+      { date: new Date('2019-10-23T12:00:00Z'), data: 81 },
+      { date: new Date('2019-10-23T20:00:00Z'), data: 73 },
+      { date: new Date('2019-10-24T09:00:00Z'), data: 96 },
+      { date: new Date('2019-10-24T12:00:00Z'), data: 71 },
+      { date: new Date('2019-10-24T20:00:00Z'), data: 76 },
+      { date: new Date('2019-10-25T09:00:00Z'), data: 94 },
+      { date: new Date('2019-10-25T12:00:00Z'), data: 97 },
+      { date: new Date('2019-10-25T20:00:00Z'), data: 88 },
+      { date: new Date('2019-10-26T09:00:00Z'), data: 55 },
+      { date: new Date('2019-10-26T12:00:00Z'), data: 78 },
+      { date: new Date('2019-10-26T20:00:00Z'), data: 90 },
     ]
   }},
   {id: 2, firstname: 'Marie-Aimée', lastname: 'FOURTANE', birthdate: 'XX/XX/XXXX', civility: 'Mme', diseases: {}},
@@ -62,8 +77,7 @@ class SearchController extends PureComponent {
   init = async() => {
     return this.setState({init: true, data});
     // TODO: Remove fake data
-    /*
-    try {
+    /*try {
       const rawdata = await Api.getPatients(this.props.token);
       const data = rawdata.map(e => {
         const {first_name, last_name, ...others} = e.user;
@@ -72,8 +86,7 @@ class SearchController extends PureComponent {
       this.setState({init: true, data});
     } catch (e) {
       this.setState({error : e.message});
-    }
-    */
+    }*/
   }
 
   chipClick = disease => {
