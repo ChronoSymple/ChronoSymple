@@ -39,6 +39,12 @@ class Profile extends React.Component {
 				<Button 
 					color="#62BE87"
 					style={{ height: 40, borderWidth: 2, borderColor: '#000000'}}
+					onPress={() => navigate('InfoProfile')} 
+					title="info"
+				/>
+				<Button 
+					color="#62BE87"
+					style={{ height: 40, borderWidth: 2, borderColor: '#000000'}}
 					onPress={() => navigate('ModuleProfile')} 
 					title="mes modules"
 				/>
@@ -51,6 +57,7 @@ class Profile extends React.Component {
 				<Button 
 					color="#62BE87"
 					style={{ height: 40, borderWidth: 2, borderColor: '#000000'}}
+					onPress={() => navigate('SupportProfile')}
 					title="support"
 				/>
 				<Button 

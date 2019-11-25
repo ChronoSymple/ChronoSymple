@@ -18,7 +18,12 @@ import Export from '../Components/Modules/Export';
 import Note from '../Components/Modules/Note';
 import Logout from '../Components/Auth/Logout'
 import Loading from '../Components/Loading'
+import InfoProfile from '../Components/Auth/Profile/InfoProfile';
 import PasswordProfile from '../Components/Auth/Profile/PasswordProfile';
+import SupportProfile from '../Components/Auth/Profile/SupportProfile';
+import ContactProfile from '../Components/Auth/Profile/ContactProfile';
+import AProposProfile from '../Components/Auth/Profile/AProposProfile';
+import FAQProfile from '../Components/Auth/Profile/FAQProfile';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyDoctorChoice from '../Components/Doctors/MyDoctorChoice'
 import { styles, colors, windowSize } from '../Components/StyleSheet'
@@ -80,11 +85,26 @@ const CalendarStackNavigator = createStackNavigator({
 })
 */
 const ProfileStackNavigator = createStackNavigator({
+	InfoProfile: {
+		screen: InfoProfile,
+	},
 	ModuleProfile: {
 		screen: ModuleProfile,
 	},
 	PasswordProfile: {
 		screen: PasswordProfile,
+	},
+	SupportProfile: {
+		screen: SupportProfile,
+	},
+	FAQProfile: {
+		screen: FAQProfile,
+	},
+	ContactProfile: {
+		screen: ContactProfile,
+	},
+	AProposProfile: {
+		screen: AProposProfile,
 	}
 }, {
 		headerMode: 'none'

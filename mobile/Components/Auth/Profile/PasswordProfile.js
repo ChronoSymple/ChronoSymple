@@ -28,12 +28,12 @@ class PasswordProfile extends React.Component {
 
   setNewPassword = (text) => {
     this.setState({ newPassword: text })
-    console.log(this.state.confirmPassword)
+    console.log(this.state.newPassword)
   }
 
   setConfirmPassword = (text) => {
     this.setState({ confirmPassword: text })
-    console.log(this.state.newPassword)
+    console.log(this.state.confirmPassword)
   }
 
   render() {
@@ -68,7 +68,6 @@ class PasswordProfile extends React.Component {
             <Button 
               color="#62BE87"
               style={{ height: 40, width: 50, borderWidth: 2, borderColor: '#000000'}}
-              onPress={() => this.newPasswordSubmitted()}
               title="Retour"
             />
           </View>
