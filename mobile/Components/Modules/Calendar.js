@@ -23,9 +23,9 @@ class Calendar extends React.Component {
 	
 	_bootstrapAsync = () => {
 		this.props.getUserToken().then(() => {
-			APIGetPatientNotesByModule(this.props.token.token, 7).then(async data => {
-				console.log(data)			
+			APIGetPatientNotesByModule(this.props.token.token, 9).then(async data => {
 				let response = await data.json()
+
 				if (data.status == 200) {
 					this.setState({
 						DNotes: [ ...this.state.DNotes, ...response ],
@@ -61,18 +61,16 @@ class Calendar extends React.Component {
 						keyExtractor={(item) => item.id.toString()}			
 						renderItem={({item}) => (
 							<TouchableOpacity
-								onPress={() => this.props.navigation.navigate('DetailNote')}
-								style={styles.note}
-								onPress={() => this._accessDetailNote(item.data)}>
+								onPress={() => this.props.navigation.navigate('DetailNote', item)}
+								style={styles.note}>
 									<Text style={styles.noteText}>{JSON.parse(item.data).date} {JSON.parse(item.data).heure}</Text>
 									<Text style={styles.description}>description de la note</Text>
-									<TouchableOpacity>
+									<TouchableOpacity onPress={() => this.props.navigation.navigate('EditNote',  {itemDetail: item })}>
 										<View style={styles.editBorder}>
 											<Icon
 												name="edit"
 												color={"#874C90"}
 												size={15}
-												onPress={() => this.props.navigation.navigate('EditNote')}
 			    							/>
 											<Text style={styles.edit}>Edit</Text>
 										</View>

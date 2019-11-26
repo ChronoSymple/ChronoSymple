@@ -2,34 +2,47 @@
 
 import React from 'react'
 import { View, Text, Button, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native'
+import { styles, colors, windowSize } from '../StyleSheet'
 
 class ModulePlace extends React.Component {
 	render() {
 		let item = this.props.navigation.getParam('data')
+		console.log(item.date)
 		return (
-			<View style={styles.main_container}>
-				<Text style={styles.moduleText}>Glycemie : {item.Glycemie}</Text>
-				<Text>{"\n"}</Text>
-				<Text style={styles.moduleText}>Glucide : {item.Glucide}</Text>
-				<Text>{"\n"}</Text>
-				<Text style={styles.moduleText}>Insuline a jeun : {item.InsulineAvRepas}</Text>
-				<Text>{"\n"}</Text>
-				<Text style={styles.moduleText}>Insuline avant repas : {item.InsulineApRepas}</Text>
-				<Text>{"\n"}</Text>			
-				<Text style={styles.moduleText}>Insuline après repas : {item.InsulineAJeun}</Text>
+			<View style={styles2.main_container}>
+                <View style={{ flex: 2, justifyContent: "center"}}>
+					<Text style={styles.label_green}>Detail</Text>
+				</View>
+                <View style={{ flex: 7, alignContent: "center"}}>
+					<Text style={styles2.moduleText}>Date : {item.date}</Text>
+				    <Text>{"\n"}</Text>			
+				    <Text style={styles2.moduleText}>Heure : {item.time}</Text>
+				    <Text>{"\n"}</Text>			
+				    <Text style={styles2.moduleText}>Glucose : {item.BloodGlucose}</Text>
+				    <Text>{"\n"}</Text>
+				    <Text style={styles2.moduleText}>Insuline (Nourriture) : {item.InsulineFood}</Text>
+				    <Text>{"\n"}</Text>
+				    <Text style={styles2.moduleText}>Insuline (Corr.) : {item.InsulineCorr}</Text>
+				    <Text>{"\n"}</Text>			
+				    <Text style={styles2.moduleText}>Description : {item.description}</Text>
+					<Text>{"\n"}</Text>			
+				    <Text style={styles2.moduleText}>Quel repas : {item.wichLunch}</Text>
+                </View>
 			</View>
 		)
 	}
 }
 
-const styles = StyleSheet.create({
+const styles2 = StyleSheet.create({
 	main_container: {
 		flex: 1, 
 		justifyContent: "center", 
-		alignItems: "center"
+		alignItems: "center",
+		width: windowSize.x
 	},
 	moduleText: {
-		fontSize: 20
+		fontSize: 17,
+		width: windowSize.x / 1.2
 	}
 })
 

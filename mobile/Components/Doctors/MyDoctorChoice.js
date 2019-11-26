@@ -28,14 +28,8 @@ class MyDoctorChoice extends React.Component {
 	}
 
 	componentWillMount () {
-		console.log("MyDoctorChoice => valuer de this.props.token")
-		console.log(this.props.token)
 		APIGetMyDoctors(this.props.token.token).then(async data => {
-			console.log("MyDoctorChoice - APIGetMyDoctors - data")
-			console.log(data)
 			let response = await data.json()
-			console.log("MyDoctorChoice - APIGetMyDoctors response: ")
-			console.log(response)
 			this.setState({
 				data: response,
 			})

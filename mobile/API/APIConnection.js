@@ -1,8 +1,7 @@
 //const baseUrl = 'http://192.168.0.11:3000'
-const baseUrl = 'https://docapp-prod.herokuapp.com'
+const baseUrl = 'https://docapp-preprod.herokuapp.com'
 
-export function SiginAPatientWithApi (fname, lname, mail, password) {
-  console.log(fname, lname, mail, password)
+export function SiginAPatientWithApi (fname, lname, mail, password, civility, birthdate, phonenumber) {
   return fetch(baseUrl + '/api/patients/signin', {
     method: 'POST',
     headers: {
@@ -13,7 +12,10 @@ export function SiginAPatientWithApi (fname, lname, mail, password) {
       first_name: fname,
       last_name: lname,
       email: mail,
-      password: password
+      password: password,
+      civility: civility,
+      birthdate: birthdate,
+      phonenumber: phonenumber
     }),
   })
   .then((response) => response)

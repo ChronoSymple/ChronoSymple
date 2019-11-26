@@ -1,10 +1,9 @@
 import { stringify } from "qs";
 
 //const baseUrl = 'http://192.168.0.11:3000'
-const baseUrl = 'https://docapp-prod.herokuapp.com'
+const baseUrl = 'https://docapp-preprod.herokuapp.com'
 
 export function APIAddModule (token, id) {
-	console.log(baseUrl + 'api/patients/general_units/' + id +"/add_module")
 	return fetch(baseUrl + '/api/patients/general_units/' + id +"/add_unit" , {
 		method: 'PATCH',		
 		headers: {
@@ -84,7 +83,7 @@ export function APIGetPatientNotesByModule(token, idModule) {
 	.catch((error) => error)
 }
 
-export function APIAddPatientNotes(token, datJson, idModule) {
+export function APIAddPatientNotes(token, myTab, idModule) {
 	return fetch(baseUrl + '/api/patients/units/' + idModule + '/add_note', {
 	  method: 'POST',
 	  headers: {
@@ -92,7 +91,7 @@ export function APIAddPatientNotes(token, datJson, idModule) {
 	    'Authorization': token,
 		},
 		body: JSON.stringify({
-				data: datJson
+				data: myTab
 		})
 	})
 	.then((response) => response)
@@ -100,11 +99,11 @@ export function APIAddPatientNotes(token, datJson, idModule) {
 }
 
 export function APIRemovePatientNotes(token, idNote) {
-	return fetch(baseUrl + '/api/patients/units/' + idNote + '/add_note', {
-	  method: 'DELETE',
-	  headers: {
-      'Content-Type': 'application/json',			
-	    'Authorization': token,
+	return fetch(baseUrl + '/api/patients/notes/' + idNote, {
+		method: 'DELETE',
+		headers: {
+      		'Content-Type': 'application/json',			
+		    'Authorization': token,
 		}
 	})
 	.then((response) => response)

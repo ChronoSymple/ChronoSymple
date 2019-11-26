@@ -23,11 +23,7 @@ class ModuleProfil extends React.Component {
 	_getPatientModule = () => {
 		this.props.getUserToken().then(() => {
 			APIGetPatientModules(this.props.token.token).then(async data => {
-				console.log("ModuleProfil - APIGetPatientModules - data :")
-				console.log(data)
 				let response = await data.json()
-				console.log("ModuleProfil - APIGetPatientModules - response :")
-				console.log(response)
 				if (data.status == 200) {
 					if (response.length > 0 && JSON.stringify(this.state.Dmodules) != JSON.stringify(response.modules)) {
 						this.setState({
@@ -54,18 +50,11 @@ class ModuleProfil extends React.Component {
 		})
 	}
 	removePressed = (item) => {
-		console.log('user pressed remove. Need to remove this module')
-		console.log(item)
-		console.log(this.props.token)
 		APIRemoveUnit(this.props.token.token, item.id).then(data => {
-			console.log("ModuleProfil - APIRemoveUnit - data: ")
-			console.log(data)
 		})
 	}
 
 	doctorListPressed = (item) => {
-		console.log('doctorListPressed')
-		console.log(item)
 		this.props.navigation.navigate('MyDoctorChoiceStackNavigator');
 	}
 

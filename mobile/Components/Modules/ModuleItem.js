@@ -5,8 +5,6 @@ import { styles, colors, windowSize } from '../StyleSheet'
 class ModuleItem extends React.Component {
 	render() {
     		const { dModule, triggerModule, generalUnit} = this.props	
-		console.log(dModule)
-		console.log(generalUnit)
 		return (
 			<View>
 			{ !generalUnit

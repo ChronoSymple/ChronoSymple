@@ -17,7 +17,7 @@ class Loading extends React.Component {
 	
 	_bootstrapAsync = () => {
 		this.props.getUserToken().then(() => {
-			this.props.navigation.navigate(this.props.token.token !== null ? 'Home' : 'LoginStack');
+			this.props.navigation.navigate(this.props.token.token !== null ? 'Home' : 'Login');
 		})
 		.catch(error => {
 			this.setState({ error })

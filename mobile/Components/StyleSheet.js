@@ -37,15 +37,18 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		borderColor: colors.primary
 	},
+	label_green: {
+		fontSize: 30,
+		fontWeight: 'bold',
+		color: colors.secondary
+	},
 	label: {
 		fontSize: 25,
 		fontWeight: 'bold',
 		color: colors.labelColor
 	}, mainContner: {
 		flex: 1,
-		// alignItems: "center", 
 		alignSelf: "center",
-		// justifyContent: "center",
 		width: windowSize.x / 1.1,
 		marginTop: 40,
 		marginBottom: 30

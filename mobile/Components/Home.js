@@ -36,6 +36,7 @@ class Home extends React.Component {
 				})
 				if (data.status == 200) {
 					let response = await data.json()
+					console.log(response)
 					if (response.length > 0 && JSON.stringify(this.state.Dmodules) != JSON.stringify(response.modules)) {
 						this.setState({
 							Dmodules: [ ...response ],

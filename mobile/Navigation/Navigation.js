@@ -19,7 +19,9 @@ import Note from '../Components/Modules/Note';
 import Logout from '../Components/Auth/Logout'
 import Loading from '../Components/Loading'
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import MyDoctorChoice from '../Components/Doctors/MyDoctorChoice'
+import MyDoctorChoice from '../Components/Doctors/MyDoctorChoice';
+import Icon2 from 'react-native-vector-icons/FontAwesome5';
+import AccountValidation from "../Components/Auth/AccountValidation";
 import { styles, colors, windowSize } from '../Components/StyleSheet'
 
 _menu = null;
@@ -152,7 +154,7 @@ const Tabs = createBottomTabNavigator({
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
-				name="show-chart"
+				name="insert-chart"
 				color={tintColor}
 				size={40}
 			    />
@@ -162,8 +164,8 @@ const Tabs = createBottomTabNavigator({
 		screen : CalendarStackNavigator,
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
-			    <Icon
-				name="archive"
+			    <Icon2
+				name="notes-medical"
 				color={tintColor}
 				size={40}
 			    />
@@ -252,7 +254,8 @@ const StackNavigtorGlobalHome = createStackNavigator({
 const LoginStack = createStackNavigator({
 	Login : Login,
 	SignIn : SignIn,
-	Logout : Logout
+	Logout : Logout,
+	AccountValidation : AccountValidation,
 }, {
 	headerMode : 'none'
 })
