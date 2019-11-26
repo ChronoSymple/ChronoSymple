@@ -1,4 +1,4 @@
-// Components/ModuleProfil.js
+// Components/ModuleProfile.js
 
 import React from 'react'
 import { colors, windowSize } from '../StyleSheet'
@@ -9,7 +9,7 @@ import { getUserToken } from '../../Redux/Action/action';
 import ModuleItem from '../Modules/ModuleItem'
 
 
-class ModuleProfil extends React.Component {
+class ModuleProfile extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -151,4 +151,4 @@ const mapDispatchToProps = dispatch => ({
 	getUserToken: () => dispatch(getUserToken())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModuleProfil)
+export default connect(mapStateToProps, mapDispatchToProps)(ModuleProfile)
