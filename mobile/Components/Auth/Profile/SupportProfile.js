@@ -9,25 +9,6 @@ class SupportProfile extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      supportData: [
-        {
-          id: '1',
-          title: 'FAQ',
-        },
-        {
-          id: '2',
-          title: 'Nous contacter',
-        },
-        {
-          id: '3',
-          title: 'A propos',
-        },
-      ]
-    }
-
-
-
   }
 
   render() {

@@ -3,10 +3,32 @@
 import React from 'react'
 import { View, Button, Image, Text } from 'react-native'
 import { connect } from 'react-redux'
+import { getPatientInfoWithApi } from '../../API/APIConnection'
+
 
 class Profile extends React.Component {
 	constructor(props) {
 		super(props)
+		this.state = {
+			firstName: "",
+			lastName: "",
+			email: "",
+			picture: "https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png",
+		}
+
+		getPatientInfoWithApi(this.props.token.token).then(async data => {
+			console.log("Profile - data :")
+			console.log(data)
+			let response = await data.json()
+			console.log("Profile - response: ")
+			console.log(response)
+			this.setState({
+				firstName: response.first_name,
+				lastName: response.last_name,
+				email: response.email,
+				picture: response.picture ? response.picture : 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png',
+			})
+		})
 	}
 
 	changeProfilePhoto = () => {
@@ -21,7 +43,7 @@ class Profile extends React.Component {
 			<View style={{ flex: 3, alignItems: "center", justifyContent : "center" }}>
 				<Image
 				/* 	source={require('../../Images/profile-2398782_960_720.png')} */
-				 	source={{uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png'}} 
+				 	source={{uri: this.state.picture}}
 					style={{ width: 140, height: 140, borderRadius: 140 / 2, borderWidth : 1, borderColor: '#000000'}}
 				/>
 				<Button
@@ -29,10 +51,10 @@ class Profile extends React.Component {
 					title="changer"
 				/>
 				<Text style={{margin: 10}}>
-					mail: uneAdresse@mail.com
+					email: {this.state.email}
 				</Text>
 				<Text>
-					Nom Prenom
+					{this.state.lastName} {this.state.firstName}
 				</Text>
 			</View>
 			<View style={{ flex: 3, alignItems: "center", justifyContent : "space-around"}}>
