@@ -49,3 +49,29 @@ export function LogOutAPatientWithApi (token) {
   .then((response) => response)
   .catch((error) => error)
 }
+
+export function getPatientInfoWithApi (token) {
+  return fetch(baseUrl + '/api/patients/profiles', {
+    methos: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Authorization': token,
+    },
+  })
+  .then((response) => response)
+  .catch((error) => error)
+}
+
+/*
+export function APIGetDoctors(token) {
+  return fetch(baseUrl + '/api/patients/doctors', {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Authorization': token,
+    },
+  })
+  .then((response) => response)
+  .catch((error) => error)
+}
+*/
