@@ -1,7 +1,7 @@
 import { stringify } from "qs";
 
 //const baseUrl = 'http://192.168.0.11:3000'
-const baseUrl = 'https://docapp-preprod.herokuapp.com'
+const baseUrl = 'https://docapp-prod.herokuapp.com'
 
 export function APIAddModule (token, id) {
 	return fetch(baseUrl + '/api/patients/general_units/' + id +"/add_unit" , {

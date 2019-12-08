@@ -18,17 +18,34 @@ class Statistic extends React.Component {
     super(props)
 
     this.state = {
-      DNotes: [],
+      Glycemie: [],
+      GlycemieAverage: 0,
+      Date: [],
       loading: true
     }
     this._bootstrapAsync();
   }
 
-
   create_stats = async (response) => {
-    obj = JSON.parse(response[0].data)
-    console.log(obj.BloodGlucose)
+    for (var i = 0; i < response.length; i++) {
+      obj = JSON.parse(response[i].data);
+      this.setState({
+        Glycemie: this.state.Glycemie.concat([parseInt(obj.BloodGlucose, 10)]),
+        Date: this.state.Date.concat([obj.date])
+      })
+    }
+  }
 
+  AverageMaker() {
+    var average = 0
+    var glycemieArraySize = this.state.Glycemie.length
+    for (var i = 0; i < glycemieArraySize; i++) {
+      average += this.state.Glycemie[i];
+    }
+    average /= glycemieArraySize;
+    this.setState({
+      GlycemieAverage: Math.round(average)
+    })
   }
 
   _bootstrapAsync = () => {
@@ -37,6 +54,7 @@ class Statistic extends React.Component {
         let response = await data.json()
         if (data.status == 200) {
           this.create_stats(response)
+          this.AverageMaker();
           this.setState({
             loading: false,
           })
@@ -48,55 +66,37 @@ class Statistic extends React.Component {
   }
 
   render() {
-    let deviceWidth = Dimensions.get('window').width
-    data= {
-      labels: ['January', 'February', 'March', 'April'],
-      datasets: [
-        {
-          data: [
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-            Math.random() * 100,
-          ],
-        },
-      ],
+    if(typeof 3 == 'number'){
+      console.log(3)
+      console.log("ouioui");
     }
-
-    showDateTimePicker = () => {
-      this.setState({ isDateTimePickerVisible: true });
-    };
-     
-    hideDateTimePicker = () => {
-      this.setState({ isDateTimePickerVisible: false });
-    };
-     
-    handleDatePicked = date => {
-      var date = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
-      this.setState({ date: date });
-      this.hideDateTimePicker();
-    };
-  
-    showTimePicker = () => {
-      this.setState({ isTimePickerVisible: true });
-    };
-     
-    hideTimePicker = () => {
-      this.setState({ isTimePickerVisible: false });
-    };
-     
-    handleTimePicked = time => {
-      if (time.getMinutes() > 9)
-        var horaire = time.getHours() + ':' + time.getMinutes()
-      else
-        var horaire = time.getHours() + ':' + "0" + time.getMinutes()
-      this.setState({ time: horaire });
-      this.hideTimePicker();
-    };
-
-  	// faudra remplacer la data par ce que renverra la BDD
+    if(typeof this.state.Glycemie[0] == 'number'){
+      console.log(this.state.Glycemie[0])
+      console.log("ouioui");
+     }
+    var oui = this.state.Glycemie[0];
+    var data= {
+      labels: this.state.Date,
+      datasets: [{
+        data: [
+          oui,
+          25
+        ]
+      }]
+    }
+    var data2 = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+      datasets: [{
+        data: [
+          Math.random() * 100,
+          Math.random() * 100,
+          Math.random() * 100,
+          Math.random() * 100,
+          Math.random() * 100,
+          Math.random() * 100
+        ]
+      }]
+    }
     return (
       <View style={styles.container}>
         <View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
@@ -119,7 +119,7 @@ class Statistic extends React.Component {
                      borderRadius:50,
                      marginLeft: "30%"
                   }}>
-                <Text style={{fontSize: 25, color:"white"}}>14</Text>
+                <Text style={{fontSize: 25, color:"white"}}>{this.state.GlycemieAverage}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{
@@ -139,28 +139,39 @@ class Statistic extends React.Component {
                 <Text style={{marginTop: 20, textAlign: "center"}}>Glycémie</Text>
                 <LineChart
                   data={data}
-                  width={Dimensions.get('window').width - 16} // from react-native
+                  width={Dimensions.get('window').width} // from react-native
                   height={220}
-                  yAxisLabel={'Rs'}
                   chartConfig={{
-                    backgroundColor: '#000',
-                    backgroundGradientFrom: '#eff3ff',
-                    backgroundGradientTo: '#efefef',
+                    backgroundColor: '#e26a00',
+                    backgroundGradientFrom: '#fb8c00',
+                    backgroundGradientTo: '#ffa726',
                     decimalPlaces: 2, // optional, defaults to 2dp
-                    color: (opacity = 255) => `rgba(0, 0, 0, ${opacity})`,
+                    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                     style: {
-                      borderRadius: 16,
-                    },
+                      borderRadius: 16
+                    }
                   }}
                   bezier
                   style={{
                     marginVertical: 8,
-                    borderRadius: 16,
-                  }}
+                    borderRadius: 16
+                  }}              
                 />
                 <Text style={{marginTop: 20, textAlign: "center"}}>Insuline (Nourriture)</Text>
                 <LineChart
-                  data={data}
+                  data={{
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                    datasets: [{
+                      data: [
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100
+                      ]
+                    }]
+                  }}
                   width={Dimensions.get('window').width - 16} // from react-native
                   height={220}
                   yAxisLabel={'Rs'}
@@ -182,7 +193,19 @@ class Statistic extends React.Component {
                 />
                 <Text style={{marginTop: 20, textAlign: "center"}}>Insuline (Corr.)</Text>
                 <LineChart
-                  data={data}
+                  data={{
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                    datasets: [{
+                      data: [
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100
+                      ]
+                    }]
+                  }}
                   width={Dimensions.get('window').width - 16} // from react-native
                   height={220}
                   yAxisLabel={'Rs'}
