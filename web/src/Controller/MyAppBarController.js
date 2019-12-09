@@ -28,11 +28,15 @@ class MyAppBarController extends React.Component {
     const {
       title,
       closeProfile,
-      closePatient
+      closePatient,
+      closeDoctor
     } = this.props;
     let back;
     if (title === 'Patient') {
       back = closePatient;
+    }
+    if (title === 'Doctor') {
+      back = closeDoctor;
     }
     if (title === 'Profile') {
       back = closeProfile;
@@ -54,7 +58,8 @@ MyAppBarController.propTypes = {
   openProfile: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   closeProfile: PropTypes.func.isRequired,
-  closePatient: PropTypes.func.isRequired
+  closePatient: PropTypes.func.isRequired,
+  closeDoctor: PropTypes.func.isRequired
 };
 
 export default MyAppBarController;

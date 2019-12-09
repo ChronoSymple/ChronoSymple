@@ -1,10 +1,9 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import { SearchBar, PatientList } from '../Components/Search';
+import { SearchBar } from '../Components/Search';
+import AdminPatientList from '../Components/Admin/AdminPatientList';
 //import Api from '../Api';
 import Request from '../Components/Request';
-import Chip from '@material-ui/core/Chip';
-import diseases from '../diseases';
 
 const data = [
   {id: 1, firstname: 'Carl', lastname: 'DE GENTILE', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: {
@@ -45,7 +44,7 @@ const data = [
   }},
 ];
 
-class SearchController extends PureComponent {
+class AdminSearchControllerPatient extends PureComponent {
   
   state = {
     search: '',
@@ -62,11 +61,6 @@ class SearchController extends PureComponent {
       e.firstname.toLocaleLowerCase().includes(s.toLocaleLowerCase()) ||
       e.lastname.toLocaleLowerCase().includes(s.toLocaleLowerCase())
     ).reduce((p, c) => p && c, true));
-    Object.keys(this.state.selected).forEach(key => {
-      if (this.state.selected[key] === true) {
-        filtered = filtered.filter(e => e.diseases[key] !== undefined);
-      }
-    });
     return filtered;
   };
 
@@ -89,12 +83,6 @@ class SearchController extends PureComponent {
     }*/
   }
 
-  chipClick = disease => {
-    this.setState(state => ({selected: {
-      ...state.selected,
-      [disease]: !state.selected[disease]
-    }}));
-  }
 
   setPatient = patient => this.props.setPatient({patient, selected : this.state.selected});
 
@@ -116,24 +104,17 @@ class SearchController extends PureComponent {
       <div>
         <SearchBar search={search} setSearchValue={this.setSearchValue}/>
         <br/>
-        {
-          Object.keys(diseases).map(disease => <Chip
-            key={diseases[disease].fullName}
-            color={this.state.selected[disease] ? 'primary' : 'default'}
-            label={diseases[disease].fullName}
-            onClick={() => this.chipClick(disease)}/>)
-        }
         <Request error={error} loading={!init}>
-          <PatientList data={filterData} setPatient={this.setPatient} deletePatient={this.deletePatient}/>
+          <AdminPatientList data={filterData} setPatient={this.setPatient} deletePatient={this.deletePatient}/>
         </Request>
       </div>
     );
   }
 }
 
-SearchController.propTypes = {
+AdminSearchControllerPatient.propTypes = {
   setPatient: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired
 };
 
-export default SearchController;
+export default AdminSearchControllerPatient;

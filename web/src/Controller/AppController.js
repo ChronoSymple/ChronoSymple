@@ -25,7 +25,9 @@ class App extends PureComponent {
   };
 
   setPatient = patient => this.setState({patient});
+  setDoctor = doctor => this.setState({doctor});
   closePatient = () => this.setState({patient: null});
+  closeDoctor = () => this.setState({doctor: null});
   setToken = token => {
     localStorage.setItem('myToken', token);
     this.setState({token});
@@ -47,19 +49,29 @@ class App extends PureComponent {
     const {
       patient,
       token,
-      profile
+      profile,
+      doctor
     } = this.state;
-    let title = 'Patients';
+    let title = 'Liste';
     if (patient)
       title = 'Patient';
+    if (doctor)
+      title = 'Doctor';
     if (profile)
       title = 'Profile';
+    const admin = localStorage.getItem('admin') === 'true';
     return (
       <div className={classes.root}>
         <CssBaseline />
         {token ? null : <LoginController setToken={this.setToken}/>}
-        <MyAppBarController title={title} disconnect={this.disconnect} openProfile={this.openProfile} closeProfile={this.closeProfile} closePatient={this.closePatient}/>
-        {token ? <Main classes={classes} token={token} patient={patient} setPatient={this.setPatient} profile={profile}/> : null}
+        <MyAppBarController title={title}
+          admin={admin}
+          disconnect={this.disconnect}
+          openProfile={this.openProfile}
+          closeProfile={this.closeProfile}
+          closePatient={this.closePatient}
+          closeDoctor={this.closeDoctor}/>
+        {token ? <Main classes={classes} token={token} doctor={doctor} patient={patient} setDoctor={this.setDoctor} setPatient={this.setPatient} profile={profile} admin={admin}/> : null}
       </div>
     );
   }

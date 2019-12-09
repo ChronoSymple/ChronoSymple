@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Search from './SearchController';
+import AdminSearch from './AdminSearchController';
+import AdminPatient from '../Components/Admin/AdminPatient';
+import AdminDoctor from '../Components/Admin/AdminDoctor';
 import Patient from '../Components/Patient';
 import Profile from '../Components/Profile';
 class MainController extends PureComponent {
@@ -9,9 +12,12 @@ class MainController extends PureComponent {
     const {
       classes,
       patient,
+      doctor,
       setPatient,
+      setDoctor,
       token,
-      profile
+      profile,
+      admin
     } = this.props;
     return (
       <main className={classes.content}>
@@ -20,8 +26,16 @@ class MainController extends PureComponent {
           if (profile) {
             return <Profile/>;
           } else if (patient) {
+            if (admin === true) {
+              return <AdminPatient client={patient}/>;
+            }
             return <Patient client={patient}/>;
-          } else { 
+          } else if (doctor && admin) {
+            return <AdminDoctor doctor={doctor}/>
+          } else {
+            if (admin === true) {
+              return <AdminSearch token={token} setPatient={setPatient} setDoctor={setDoctor}/>;
+            }
             return <Search token={token} setPatient={setPatient}/>;
           } 
         })()}
@@ -37,9 +51,12 @@ MainController.propTypes = {
   }).isRequired,
   // TODO: Improve object form
   patient: PropTypes.object,
+  doctor: PropTypes.object,
   setPatient: PropTypes.func.isRequired,
+  setDoctor: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
-  profile: PropTypes.bool.isRequired
+  profile: PropTypes.bool.isRequired,
+  admin: PropTypes.bool
 };
 
 export default MainController;
