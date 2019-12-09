@@ -15,7 +15,7 @@ export function SiginAPatientWithApi (fname, lname, mail, password, civility, bi
       password: password,
       civility: civility,
       birthdate: birthdate,
-      phonenumber: phonenumber
+      phone_number: phonenumber
     }),
   })
   .then((response) => response)
@@ -57,6 +57,39 @@ export function getPatientInfoWithApi (token) {
       Accept: 'application/json',
       'Authorization': token,
     },
+  })
+  .then((response) => response)
+  .catch((error) => error)
+}
+
+export function updatePatientProfile(name, value, password) {
+  content = JSON.stringify({
+    password: password
+  })
+  if (name == "phoneNumber") {
+    content = JSON.stringify({
+      phone_number: value,
+      password: password,
+    })
+  } else if (name == "email") {
+    content = JSON.stringify({
+      email: value,
+      password: password,
+    })
+  } else if (name == "picture") {
+    content = JSON.stringify({
+      picture: value,
+      password: password,
+    })
+  }
+  console.log(content)
+  return fetch(baseUrl + '/api/patients/profiles/update', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: content,
   })
   .then((response) => response)
   .catch((error) => error)
