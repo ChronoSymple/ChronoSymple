@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity,  Button, TextInput, Modal, TouchableHighli
 import { styles, colors, windowSize } from '../../StyleSheet';
 import { connect } from 'react-redux';
 import { getUserToken } from '../../../Redux/Action/action';
-import { getPatientInfoWithApi } from '../../../API/APIConnection'
+import { getPatientInfoWithApi, updatePatientProfile } from '../../../API/APIConnection'
 
 class InfoProfile extends React.Component {
 	constructor(props) {
@@ -70,6 +70,17 @@ class InfoProfile extends React.Component {
 	confirmNewPhonePressed = () => {
 		if (this.state.phoneRegExp.test(this.state.tmpPhoneNumber) == true) {
 			this.setState({ isPhoneNumberValid: true})
+			updatePatientProfile("phoneNumber", this.state.tmpPhoneNumber, this.state.password).then(async data => {
+				console.log("infoProfile - updatePatientProfile - data")
+				console.log(data)
+				if (data.status == 401) {
+					console.log("refus")
+				} else {
+					let response = await data.json()
+					console.log("infoProfile - updatePatientProfile - response")
+					console.log("response")
+				}
+			})
 		}
 		else {
 			this.setState({ isPhoneNumberValid: false})
@@ -79,6 +90,17 @@ class InfoProfile extends React.Component {
 	confirmNewAdressMailPressed = () => {
 		if (this.state.emailRegExp.test(this.state.tmpEmail) == true) {
 			this.setState({ isMailValid: true })
+			updatePatientProfile("phoNumber", this.state.tmpEmail, this.state.password).then(async data => {
+				console.log("infoProfile - updatePatientProfile - data")
+				console.log(data)
+				if (data.status == 401) {
+					console.log("refus")
+				} else {
+					let response = await data.json()
+					console.log("infoProfile - updatePatientProfile - response")
+					console.log("response")
+				}
+			})
 		} else {
 			this.setState({ isMailValid: false })
 		}
