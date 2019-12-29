@@ -19,8 +19,8 @@ class Login extends React.Component {
 		}
 	}
 
-	_signInAsync = (oui) => {
-		this.props.saveUserToken(oui)
+	_signInAsync = (token) => {
+		this.props.saveUserToken(token)
 		    .then(() => {
 			this.props.navigation.navigate('Home');
 		    })
@@ -153,7 +153,7 @@ const mapStateToProps = state => ({
 
 
 const mapDispatchToProps = dispatch => ({
-	saveUserToken: (oui1) => dispatch(saveUserToken(oui1)),
+	saveUserToken: (token) => dispatch(saveUserToken(token)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

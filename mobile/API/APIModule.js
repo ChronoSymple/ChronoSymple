@@ -38,40 +38,8 @@ export function APIGetPatientModules(token) {
 	.catch((error) => error)
 }
 
-
-/*
-export function APIGetPatientNotesByModule(token, idmodule) {
-	return fetch(baseUrl + '/api/notes', {
-	  method: 'GET',
-	  headers: {
-	    Accept: 'application/json',
-			'Authorization': token
-		}
-	})
-	.then((response) => response.json())
-	.catch((error) => error)
-}
-*/
-
-/*export function APIAddPatientNotes(token, datJson, idModule) {
-	return fetch(baseUrl + '/api/notes', {
-	  method: 'POST',
-	  headers: {
-      'Content-Type': 'application/json',			
-	    'Authorization': token,
-		},
-		body: JSON.stringify({
-				data: datJson,
-				module_id: idModule
-		})
-	})
-	.then((response) => response)
-	.catch((error) => error)
-}
-*/
-
-
 export function APIGetPatientNotesByModule(token, idModule) {
+	console.log(token, idModule)
 	return fetch(baseUrl + '/api/patients/units/' + idModule + '/notes', {
 	  method: 'GET',
 	  headers: {
@@ -84,6 +52,7 @@ export function APIGetPatientNotesByModule(token, idModule) {
 }
 
 export function APIAddPatientNotes(token, myTab, idModule) {
+	console.log(myTab)
 	return fetch(baseUrl + '/api/patients/units/' + idModule + '/add_note', {
 	  method: 'POST',
 	  headers: {

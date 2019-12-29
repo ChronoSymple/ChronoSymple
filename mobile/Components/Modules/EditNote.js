@@ -16,8 +16,6 @@ class EditNote extends React.Component {
 		super(props)
 		let item = this.props.navigation.getParam("itemDetail")
 		obj = JSON.parse(item.data)
-		console.log(obj.InsulineFood)
-		console.log(item)
 		this.state = {
 			BloodGlucose: obj.BloodGlucose, 
 			InsulineFood: obj.InsulineFood, 

@@ -16,8 +16,7 @@ import {
 	Text
 } from 'react-native';
 import { connect } from 'react-redux';
-import { getUserToken } from '../../Redux/Action/action';
-//import SearchBar from 'react-native-search-bar';
+import { getUserToken, saveUserCurrentModule } from '../../Redux/Action/action';
 
 class ModulePlace extends React.Component {
 	constructor (props) {
@@ -48,8 +47,16 @@ class ModulePlace extends React.Component {
 	_addModule = (idModule) => {
 		this.props.getUserToken().then(() => {
 			APIAddModule(this.props.token.token, idModule).then(data => {
-				if (data.status != 401)
-					this.props.navigation.navigate('Module', {idModule: idModule})
+				if (data.status == 200 || data.status == 422)
+				{
+					this.props.saveUserCurrentModule(idModule.toString())
+					.then(() => {
+						this.props.navigation.navigate('Module', {idModule: idModule})
+					})
+					.catch((error) => {
+						this.setState({ error })
+					})
+				}
 				else
 					this.props.navigation.navigate('Login', {idModule: idModule})
 			})
@@ -69,13 +76,6 @@ class ModulePlace extends React.Component {
 					?	
 					<ActivityIndicator size='large' color='black' />
 					:
-//					<SearchBar
-//						ref="searchBar"
-//						placeholder="Search"
-//						onChangeText={this._searchModule}
-//						onSearchButtonPress={this._searchModule}
-//						onCancelButtonPress={this._searchModule}
-//					/>
 					<ScrollView style={{flex: 1}}>
 						<FlatList
 							style={styles.list}
@@ -123,12 +123,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
 	token: state.token,
+	currentModule: state.currentModule
 });
-
 
 const mapDispatchToProps = dispatch => ({
 	getUserToken: () => dispatch(getUserToken()),
-	getUserToken: () => dispatch(getUserToken())
+	saveUserCurrentModule: (currentModule) => dispatch(saveUserCurrentModule(currentModule))	
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModulePlace);

@@ -4,7 +4,7 @@ import { LoginAPatientWithApi } from '../../API/APIConnection'
 import { styles, colors, windowSize } from '../StyleSheet'
 import { connect } from 'react-redux';
 import { APIAddPatientNotes } from '../../API/APIModule'
-import { getUserToken } from '../../Redux/Action/action';
+import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon_Ant from 'react-native-vector-icons/AntDesign';
@@ -42,27 +42,32 @@ class Note extends React.Component {
 			InsulineaprepasFocused: false,
 			descriptionFocused: false
 		}
+		this.props.getUserCurrentModule().then(() => {
+			console.log(this.props.currentModule.currentModule);
+		})
 	}
 
 	_bootstrapAsync = () => {
 		let { navigate } = this.props.navigation;
-		console.log(this.state.insulineFood)
-		console.log(this.state.insulineCorr)
 		let myTab = {
 			"BloodGlucose" : this.state.glycemie,
 			"InsulineFood" : this.state.insulineFood,
 			"InsulineCorr" : this.state.insulineCorr,
 			"description"  : this.state.description,
 			"wichLunch"    : this.state.wichLunch,
-			"date"		 : this.state.date,
+			"date"		   : this.state.date,
 			"time"         : this.state.time
 		}
 		this.props.getUserToken().then(() => {
-			APIAddPatientNotes(this.props.token.token, myTab, 9).then(data => {
-				if (data.status == 200) {
-					this.setState({ isSend: true })
-					navigate("Calendar")
-				}
+			this.props.getUserCurrentModule().then(() => {
+				APIAddPatientNotes(this.props.token.token, myTab, this.props.currentModule.currentModule).then(data => {
+					if (data.status == 200) {
+						this.setState({ isSend: true })
+						navigate("Calendar")
+					}
+				}).catch(error => {
+						this.setState({ error })
+				})
 			})
 		}).catch(error => {
 			this.setState({ error })
@@ -356,11 +361,12 @@ class Note extends React.Component {
 
 const mapStateToProps = state => ({
 	token: state.token,
+	currentModule: state.currentModule
 });
 
-
 const mapDispatchToProps = dispatch => ({
-	getUserToken: (oui1) => dispatch(getUserToken(oui1)),
+	getUserToken: () => dispatch(getUserToken()),
+	getUserCurrentModule: () => dispatch(getUserCurrentModule())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Note);

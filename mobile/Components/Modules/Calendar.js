@@ -4,9 +4,9 @@ import React from 'react'
 import { ActivityIndicator, View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView} from 'react-native'
 import { APIGetPatientNotesByModule } from '../../API/APIModule'
 import { connect } from 'react-redux'
-import { getUserToken } from '../../Redux/Action/action';
+import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { colors, windowSize } from '../StyleSheet'
+import { colors } from '../StyleSheet'
 
 /*import { NoteItem } from './NoteItem' NOT USED*/
 
@@ -23,16 +23,20 @@ class Calendar extends React.Component {
 	
 	_bootstrapAsync = () => {
 		this.props.getUserToken().then(() => {
-			APIGetPatientNotesByModule(this.props.token.token, 9).then(async data => {
-				let response = await data.json()
-
-				if (data.status == 200) {
-					this.setState({
-						DNotes: [ ...this.state.DNotes, ...response ],
-						loading: false,
+			this.props.getUserCurrentModule().then(() => {
+				APIGetPatientNotesByModule(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
+					let response = await data.json()
+					console.log(data)
+					if (data.status == 200) {
+						this.setState({
+							DNotes: [ ...this.state.DNotes, ...response ],
+							loading: false,
+						})
+					}
+					}).catch(error => {
+						this.setState({ error })
 					})
-				}
-			})
+				})
 		}).catch(error => {
 			this.setState({ error })
 		})
@@ -131,10 +135,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
 	token: state.token,
+	currentModule: state.currentModule
 });
 
 const mapDispatchToProps = dispatch => ({
 	getUserToken: () => dispatch(getUserToken()),
+	getUserCurrentModule: () => dispatch(getUserCurrentModule())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar);

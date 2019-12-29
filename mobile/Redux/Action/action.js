@@ -19,24 +19,30 @@ export const loading = bool => ({
     isLoading: bool,
 });
 
+export const loadingModule = bool => ({
+    type: 'LOADING_MODULE',
+    isLoadingModule: bool,
+});
+
 export const error = error => ({
     type: 'ERROR',
     error,
 });
 
-export const getCurrentModule = (token) => ({
+export const getCurrentModule = (currentModule) => ({
     type: 'GET_CURRENT_MODULE',
-    moduleId
+    currentModule
 });
 
-export const saveCurrentModule = token => ({
+export const saveCurrentModule = (currentModule) => ({
     type: 'SAVE_CURRENT_MODULE',
-    moduleId
+    currentModule
 });
 
 export const removeCurrentModule = () => ({
     type: 'REMOVE_CURRENT_MODULE',
 });
+
 
 
 
@@ -52,11 +58,9 @@ export const getUserToken = () => dispatch =>
             dispatch(error(err.message || 'ERROR'));
         })
 
-
-
 export const saveUserToken = (oui3) => dispatch =>
     AsyncStorage.setItem('userToken', oui3)
-        .then((data) => {
+        .then(() => {
             dispatch(loading(false));
             dispatch(saveToken('token saved'));
         })
@@ -78,36 +82,36 @@ export const removeUserToken = () => dispatch =>
 
 
 
+
 export const getUserCurrentModule = () => dispatch => 
-
- AsyncStorage.getItem('userToken')
+    AsyncStorage.getItem('currentModule')
         .then((data) => {
-            dispatch(loading(false));
-            dispatch(getToken(data));
+            dispatch(loadingModule(false));
+            dispatch(getCurrentModule(data));
         })
         .catch((err) => {
-            dispatch(loading(false));
-            dispatch(error(err.message || 'ERROR'));
-        })
-
-export const saveUSerCurrentModule = (oui3) => dispatch =>
-    AsyncStorage.setItem('userToken', oui3)
-        .then((data) => {
-            dispatch(loading(false));
-            dispatch(saveToken('token saved'));
-        })
-        .catch((err) => {
-            dispatch(loading(false));
+            dispatch(loadingModule(false));
             dispatch(error(err.message || 'ERROR'));
 })
 
+export const saveUserCurrentModule = (moduleId) => dispatch =>
+    AsyncStorage.setItem('currentModule', moduleId)
+    .then(() => {
+        dispatch(loadingModule(false));
+        dispatch(saveCurrentModule('module saved'));
+    })
+    .catch((err) => {
+        dispatch(loadingModule(false));
+        dispatch(error(err.message || 'ERROR'));
+})
+
 export const removeUserCurrentModule = () => dispatch =>
-    AsyncStorage.removeItem('userToken')
+    AsyncStorage.removeItem('currentModule')
         .then((data) => {
-            dispatch(loading(false));
-            dispatch(removeToken(data));
+            dispatch(loadingModule(false));
+            dispatch(removeCurrentModule(data));
         })
         .catch((err) => {
-            dispatch(loading(false));
+            dispatch(loadingModule(false));
             dispatch(error(err.message || 'ERROR'));
 })

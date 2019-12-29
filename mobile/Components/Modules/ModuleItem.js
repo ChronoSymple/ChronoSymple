@@ -4,7 +4,7 @@ import { styles, colors, windowSize } from '../StyleSheet'
 
 class ModuleItem extends React.Component {
 	render() {
-    		const { dModule, triggerModule, generalUnit} = this.props	
+			const { dModule, triggerModule, generalUnit} = this.props
 		return (
 			<View>
 			{ !generalUnit
@@ -18,7 +18,8 @@ class ModuleItem extends React.Component {
 						width: "100%", 
 						height: "100%",
 						margin: 20, 
-						}} onPress={() => triggerModule(dModule.id)}>
+						}}
+						onPress={() => triggerModule(dModule.id)}>
 							<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>{dModule.name}</Text>
 					</TouchableOpacity>
 				</View>
@@ -32,7 +33,8 @@ class ModuleItem extends React.Component {
 						width: "100%", 
 						height: "100%",
 						margin: 20, 
-						}} onPress={() => triggerModule(dModule.general_unit.id)}>
+						}}
+						onPress={() => triggerModule(dModule.id)}>
 							<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>{dModule.general_unit.name}</Text>
 					</TouchableOpacity>
 				</View>

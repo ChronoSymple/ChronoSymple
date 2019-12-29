@@ -218,7 +218,7 @@ const Tabs = createBottomTabNavigator({
 		)})
 	},
 	Home: {
-		screen : HomePrincipaleTabs,
+		screen : Home,
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
@@ -229,6 +229,7 @@ const Tabs = createBottomTabNavigator({
 		)})
 	},
 }, {
+	
 	tabBarOptions: {
 	    showLabel: false, // hide labels
 	    activeTintColor: '#F8F8F8', // active icon color

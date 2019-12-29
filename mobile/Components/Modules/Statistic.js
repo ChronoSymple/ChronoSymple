@@ -7,7 +7,7 @@ import * as shape from 'd3-shape'
 import { colors, windowSize } from '../StyleSheet'
 import { connect } from 'react-redux';
 import { APIGetPatientNotesByModule } from '../../API/APIModule'
-import { getUserToken } from '../../Redux/Action/action';
+import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import {
   LineChart
 } from 'react-native-chart-kit'
@@ -48,38 +48,33 @@ class Statistic extends React.Component {
     })
   }
 
-  _bootstrapAsync = () => {
-    this.props.getUserToken().then(() => {
-      APIGetPatientNotesByModule(this.props.token.token, 9).then(async data => {
-        let response = await data.json()
-        if (data.status == 200) {
-          this.create_stats(response)
-          this.AverageMaker();
-          this.setState({
-            loading: false,
-          })
-        }
-      })
-    }).catch(error => {
-      this.setState({ error })
-    })
-  }
+	_bootstrapAsync = () => {
+		this.props.getUserToken().then(() => {
+			this.props.getUserCurrentModule().then(() => {
+				APIGetPatientNotesByModule(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
+					let response = await data.json()
+					console.log(data)
+					if (data.status == 200) {
+						this.setState({
+							DNotes: [ ...this.state.DNotes, ...response ],
+							loading: false,
+						})
+					}
+					}).catch(error => {
+						this.setState({ error })
+					})
+				})
+		}).catch(error => {
+			this.setState({ error })
+		})
+	}
 
   render() {
-    if(typeof 3 == 'number'){
-      console.log(3)
-      console.log("ouioui");
-    }
-    if(typeof this.state.Glycemie[0] == 'number'){
-      console.log(this.state.Glycemie[0])
-      console.log("ouioui");
-     }
-    var oui = this.state.Glycemie[0];
     var data= {
       labels: this.state.Date,
       datasets: [{
         data: [
-          oui,
+          0,
           25
         ]
       }]
@@ -97,6 +92,7 @@ class Statistic extends React.Component {
         ]
       }]
     }
+    const data3 = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
     return (
       <View style={styles.container}>
         <View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
@@ -139,13 +135,13 @@ class Statistic extends React.Component {
                 <Text style={{marginTop: 20, textAlign: "center"}}>Glycémie</Text>
                 <LineChart
                   data={data}
-                  width={Dimensions.get('window').width} // from react-native
+                  width={Dimensions.get('window').width}
                   height={220}
                   chartConfig={{
                     backgroundColor: '#e26a00',
                     backgroundGradientFrom: '#fb8c00',
                     backgroundGradientTo: '#ffa726',
-                    decimalPlaces: 2, // optional, defaults to 2dp
+                    decimalPlaces: 2,
                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                     style: {
                       borderRadius: 16
@@ -172,14 +168,14 @@ class Statistic extends React.Component {
                       ]
                     }]
                   }}
-                  width={Dimensions.get('window').width - 16} // from react-native
+                  width={Dimensions.get('window').width - 16}
                   height={220}
                   yAxisLabel={'Rs'}
                   chartConfig={{
                     backgroundColor: '#FFF',
                     backgroundGradientFrom: '#eff3ff',
                     backgroundGradientTo: '#efefef',
-                    decimalPlaces: 2, // optional, defaults to 2dp
+                    decimalPlaces: 2,
                     color: (opacity = 255) => `rgba(0, 0, 0, ${opacity})`,
                     style: {
                       borderRadius: 16,
@@ -206,14 +202,14 @@ class Statistic extends React.Component {
                       ]
                     }]
                   }}
-                  width={Dimensions.get('window').width - 16} // from react-native
+                  width={Dimensions.get('window').width - 16}
                   height={220}
                   yAxisLabel={'Rs'}
                   chartConfig={{
                     backgroundColor: '#FFF',
                     backgroundGradientFrom: '#eff3ff',
                     backgroundGradientTo: '#efefef',
-                    decimalPlaces: 2, // optional, defaults to 2dp
+                    decimalPlaces: 2,
                     color: (opacity = 255) => `rgba(0, 0, 0, ${opacity})`,
                     style: {
                       borderRadius: 16,
@@ -225,6 +221,15 @@ class Statistic extends React.Component {
                     borderRadius: 16,
                   }}
                 />
+                <AreaChart
+                style={{ height: 200 }}
+                data={ this.state.Glycemie }
+                contentInset={{ top: 30, bottom: 30 }}
+                curve={ shape.curveNatural }
+                svg={{ fill: 'rgba(134, 65, 244, 0.8)' }}
+                >
+                  <Grid/>
+                </AreaChart>
           </ScrollView>
         </View>
       </View>
@@ -242,8 +247,8 @@ const styles = StyleSheet.create({
   myButton:{
     padding: 5,
     height: 200,
-    width: 200,  //The Width must be the same as the height
-    borderRadius:400, //Then Make the Border Radius twice the size of width or Height   
+    width: 200,
+    borderRadius:400,
     backgroundColor:'rgb(195, 125, 198)',
 
   }
@@ -251,10 +256,13 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
 	token: state.token,
+	currentModule: state.currentModule
 });
 
 const mapDispatchToProps = dispatch => ({
 	getUserToken: () => dispatch(getUserToken()),
+	getUserCurrentModule: () => dispatch(getUserCurrentModule())
 });
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Statistic);

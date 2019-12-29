@@ -7,7 +7,6 @@ import { styles, colors, windowSize } from '../StyleSheet'
 class ModulePlace extends React.Component {
 	render() {
 		let item = this.props.navigation.getParam('data')
-		console.log(item.date)
 		return (
 			<View style={styles2.main_container}>
                 <View style={{ flex: 2, justifyContent: "center"}}>

@@ -11,10 +11,9 @@ import {
 	Button,
 	BackHandler,
 	TouchableOpacity,
-	Image
 } from 'react-native';
 import { connect } from 'react-redux';
-import { getUserToken } from '../Redux/Action/action';
+import { getUserToken, saveUserCurrentModule } from '../Redux/Action/action';
 
 class Home extends React.Component {
 
@@ -36,7 +35,6 @@ class Home extends React.Component {
 				})
 				if (data.status == 200) {
 					let response = await data.json()
-					console.log(response)
 					if (response.length > 0 && JSON.stringify(this.state.Dmodules) != JSON.stringify(response.modules)) {
 						this.setState({
 							Dmodules: [ ...response ],
@@ -50,7 +48,13 @@ class Home extends React.Component {
 	}
 
 	changeModule = (idModule) => {
-		this.props.navigation.navigate('Module', {idModule: idModule})
+		this.props.saveUserCurrentModule(idModule.toString())
+		.then(() => {
+			this.props.navigation.navigate('Module', {idModule: idModule})
+		})
+		.catch((error) => {
+			this.setState({ error })
+		})
 	}
 
 	render() {
@@ -123,10 +127,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
 	token: state.token,
+	currentModule: state.currentModule
 });
 
 const mapDispatchToProps = dispatch => ({
 	getUserToken: () => dispatch(getUserToken()),
+	saveUserCurrentModule: (currentModule) => dispatch(saveUserCurrentModule(currentModule))	
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

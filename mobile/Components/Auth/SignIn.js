@@ -109,7 +109,6 @@ class SignIn extends React.Component {
 		birthDate = this.state.PickerDay + "/" + this.state.PickerMonth + "/" + this.state.PickerYear;
 		SiginAPatientWithApi(this.state.fname, this.state.lname, this.state.mail, this.state.password, this.state.Gender, birthDate, this.state.phoneNumber).then(async data => {
 			if (data.status == 201) {
-				console.log("l'inscription a été effectué")
 				let response = await data.json()
 				this._signInAsync(response.login_token)
 				if (response.login_token !== null) {

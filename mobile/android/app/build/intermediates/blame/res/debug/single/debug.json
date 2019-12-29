@@ -708,6 +708,10 @@
         "source": "/home/marie/ChronoSymple/mobile/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_materialicons.json"
     },
     {
+        "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/drawable-mdpi_assets_clock.png.flat",
+        "source": "/home/marie/ChronoSymple/mobile/android/app/src/main/res/drawable-mdpi/assets_clock.png"
+    },
+    {
         "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_abc_ic_commit_search_api_mtrl_alpha.png.flat",
         "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/drawable-mdpi-v4/abc_ic_commit_search_api_mtrl_alpha.png"
     },
@@ -798,6 +802,10 @@
     {
         "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_btn_check_to_on_mtrl_000.png.flat",
         "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/drawable-xhdpi-v4/abc_btn_check_to_on_mtrl_000.png"
+    },
+    {
+        "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnativepaper_lib_module_assets_backchevron.png.flat",
+        "source": "/home/marie/ChronoSymple/mobile/android/app/src/main/res/drawable-mdpi/node_modules_reactnativepaper_lib_module_assets_backchevron.png"
     },
     {
         "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/color_abc_tint_seek_thumb.xml.flat",
@@ -1108,6 +1116,10 @@
         "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/drawable/abc_seekbar_thumb_material.xml"
     },
     {
+        "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_fontawesome5free.json.flat",
+        "source": "/home/marie/ChronoSymple/mobile/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_fontawesome5free.json"
+    },
+    {
         "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_notification_bg_low_normal.9.png.flat",
         "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/57c526cd26f387f4220953dfdf33ffe8/res/drawable-xhdpi-v4/notification_bg_low_normal.9.png"
     },
@@ -1180,6 +1192,10 @@
         "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/color/switch_thumb_material_light.xml"
     },
     {
+        "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/drawable-mdpi_assets_calendar.png.flat",
+        "source": "/home/marie/ChronoSymple/mobile/android/app/src/main/res/drawable-mdpi/assets_calendar.png"
+    },
+    {
         "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_list_focused_holo.9.png.flat",
         "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/drawable-xhdpi-v4/abc_list_focused_holo.9.png"
     },
@@ -1226,6 +1242,10 @@
     {
         "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_btn_switch_to_on_mtrl_00001.9.png.flat",
         "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/drawable-hdpi-v4/abc_btn_switch_to_on_mtrl_00001.9.png"
+    },
+    {
+        "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_fontawesome5free_meta.json.flat",
+        "source": "/home/marie/ChronoSymple/mobile/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_fontawesome5free_meta.json"
     },
     {
         "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_menu_paste_mtrl_am_alpha.png.flat",
