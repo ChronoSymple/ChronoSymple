@@ -25,6 +25,10 @@ class InfoProfile extends React.Component {
 			phoneRegExp: new RegExp("^[0-9]{8,12}$", 'g'),
 			emailRegExp: new  RegExp(".*@.*\..*", 'g'),
 			}
+			this.getPatientInfo()
+	}
+
+	getPatientInfo = () => {
 		getPatientInfoWithApi(this.props.token.token).then(async data => {
 			console.log("infoProfile - data :")
 			console.log(data)
@@ -70,11 +74,12 @@ class InfoProfile extends React.Component {
 	confirmNewPhonePressed = () => {
 		if (this.state.phoneRegExp.test(this.state.tmpPhoneNumber) == true) {
 			this.setState({ isPhoneNumberValid: true})
-			updatePatientProfile("phoneNumber", this.state.tmpPhoneNumber, this.state.password).then(async data => {
+			updatePatientProfile(this.props.token.token, "phoneNumber", this.state.tmpPhoneNumber, this.state.password).then(async data => {
 				console.log("infoProfile - updatePatientProfile - data")
 				console.log(data)
-				if (data.status == 401) {
-					console.log("refus")
+				if (data.status == 200) {
+					this.getPatientInfo()
+					this.setModalPhoneVisible(!this.state.modalPhoneVisible)
 				} else {
 					let response = await data.json()
 					console.log("infoProfile - updatePatientProfile - response")
@@ -90,11 +95,12 @@ class InfoProfile extends React.Component {
 	confirmNewAdressMailPressed = () => {
 		if (this.state.emailRegExp.test(this.state.tmpEmail) == true) {
 			this.setState({ isMailValid: true })
-			updatePatientProfile("phoNumber", this.state.tmpEmail, this.state.password).then(async data => {
+			updatePatientProfile(this.props.token.token, "email", this.state.tmpEmail, this.state.password).then(async data => {
 				console.log("infoProfile - updatePatientProfile - data")
 				console.log(data)
-				if (data.status == 401) {
-					console.log("refus")
+				if (data.status == 200) {
+					this.getPatientInfo()
+					this.setModalMailVisible(!this.state.modalMailVisible)
 				} else {
 					let response = await data.json()
 					console.log("infoProfile - updatePatientProfile - response")
