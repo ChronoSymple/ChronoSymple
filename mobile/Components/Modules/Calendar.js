@@ -157,12 +157,12 @@ const styles = StyleSheet.create({
 		fontWeight: "bold"
 	},
 	list: {
-		marignTop: 30,
+		marginTop: 30,
 	},
 	description: {
 		marginTop: 15,
 		fontSize: 14,
-		color: "E9E9E9"
+		color: "#E9E9E9"
 	},
 	editBorder: {
 		marginTop: 15,

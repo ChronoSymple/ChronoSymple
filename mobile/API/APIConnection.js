@@ -50,6 +50,39 @@ export function LogOutAPatientWithApi (token) {
   .catch((error) => error)
 }
 
+export function updatePatientPassword (token, oldPassword, newPassword) {
+  return fetch(baseUrl + '/api/patients/profiles/change_password', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    },
+    body: JSON.stringify({
+      old_password: oldPassword,
+      new_password: newPassword,
+    }),
+  })
+  .then((response) => response)
+  .catch((error) => error)
+}
+
+export function checkPatientPassword(token, password) {
+  return fetch(baseUrl + '/api/patients/profiles/check_password', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    },
+    body: JSON.stringify({
+      password: password,
+    }),
+  })
+  .then((response) => response)
+  .catch((error) => error)
+}
+
 export function getPatientInfoWithApi (token) {
   return fetch(baseUrl + '/api/patients/profiles', {
     methos: 'GET',
@@ -62,7 +95,7 @@ export function getPatientInfoWithApi (token) {
   .catch((error) => error)
 }
 
-export function updatePatientProfile(name, value, password) {
+export function updatePatientProfile(token, name, value, password) {
   content = JSON.stringify({
     password: password
   })
@@ -86,8 +119,8 @@ export function updatePatientProfile(name, value, password) {
   return fetch(baseUrl + '/api/patients/profiles/update', {
     method: 'POST',
     headers: {
-      Accept: 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': token,
     },
     body: content,
   })

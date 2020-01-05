@@ -4,9 +4,9 @@ import { View, Button, Text, TextInput } from 'react-native'
 import { styles, colors, windowSize } from '../../StyleSheet'
 import { connect } from 'react-redux'
 import { getUserToken } from '../../../Redux/Action/action';
+import { checkPatientPassword, updatePatientPassword } from '../../../API/APIConnection';
 
 class PasswordProfile extends React.Component {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -19,6 +19,20 @@ class PasswordProfile extends React.Component {
 
   newPasswordSubmitted = () => {
     console.log("newPasswordSubmitted")
+    if (this.state.newPassword == this.state.confirmPassword && this.state.newPassword != "" && this.state.confirmPassword != "") {
+      console.log("OK same new password")
+      checkPatientPassword(this.props.token.token, this.state.oldPassword).then(async data => {
+        console.log("checkPatientPassword - PasswordProfile - data")
+        console.log(data)
+        updatePatientPassword(this.props.token.token, this.state.oldPassword, this.state.newPassword).then(async data => {
+          console.log("updatePatientPassword - PasswordProfile - data")
+          console.log(data)
+          this.setState({ sameNewPassword: true })
+        })
+      })
+    } else {
+      this.setState({ sameNewPassword: false })
+    }
   }
 
   setOldPassword = (text) => {
@@ -63,11 +77,17 @@ class PasswordProfile extends React.Component {
             />
           </View>
         </View>
+        { this.state.sameNewPassword ?
+          null
+          :
+          <Text style={{color: colors.errorColor}}> /!\ Invalid password or new password doesn't match ! /!\ </Text>
+        }
         <View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
           <View>
             <Button 
               color="#62BE87"
               style={{ height: 40, width: 50, borderWidth: 2, borderColor: '#000000'}}
+              onPress={() => navigate('Profile')}
               title="Retour"
             />
           </View>
