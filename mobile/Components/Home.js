@@ -13,7 +13,7 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { getUserToken, saveUserCurrentModule } from '../Redux/Action/action';
+import { getUserToken, saveUserCurrentModule, saveUserCurrentModuleName } from '../Redux/Action/action';
 
 class Home extends React.Component {
 
@@ -24,6 +24,14 @@ class Home extends React.Component {
 			loading: true
 		}
 		this._bootstrapAsync();
+		const { navigation } = this.props;
+    	this.focusListener = navigation.addListener('didFocus', () => {
+			this.state = {
+				Dmodules: null,
+				loading: true
+			}
+      		this._bootstrapAsync();
+    	});
 	}
 
 	// Fetch the token from storage then navigate to our appropriate place
@@ -47,10 +55,16 @@ class Home extends React.Component {
 		})
 	}
 
-	changeModule = (idModule) => {
+	changeModule = (idModule, moduleName) => {
 		this.props.saveUserCurrentModule(idModule.toString())
 		.then(() => {
-			this.props.navigation.navigate('Module', {idModule: idModule})
+			this.props.saveUserCurrentModuleName(moduleName)
+			.then(() => {
+				this.props.navigation.navigate('Module', {idModule: idModule})
+			})
+			.catch((error) => {
+				this.setState({ error })
+			})
 		})
 		.catch((error) => {
 			this.setState({ error })
@@ -132,7 +146,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 	getUserToken: () => dispatch(getUserToken()),
-	saveUserCurrentModule: (currentModule) => dispatch(saveUserCurrentModule(currentModule))	
+	saveUserCurrentModule: (currentModule) => dispatch(saveUserCurrentModule(currentModule)),	
+	saveUserCurrentModuleName: (currentModuleName) => dispatch(saveUserCurrentModuleName(currentModuleName))	
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -39,7 +39,6 @@ export function APIGetPatientModules(token) {
 }
 
 export function APIGetPatientNotesByModule(token, idModule) {
-	console.log(token, idModule)
 	return fetch(baseUrl + '/api/patients/units/' + idModule + '/notes', {
 	  method: 'GET',
 	  headers: {
@@ -52,7 +51,6 @@ export function APIGetPatientNotesByModule(token, idModule) {
 }
 
 export function APIAddPatientNotes(token, myTab, idModule) {
-	console.log(myTab)
 	return fetch(baseUrl + '/api/patients/units/' + idModule + '/add_note', {
 	  method: 'POST',
 	  headers: {
@@ -79,6 +77,20 @@ export function APIRemovePatientNotes(token, idNote) {
 	.catch((error) => error)
 }
 
+export function APIEditPatientNotes(token, myTab, idNote) {
+	return fetch(baseUrl + '/api/patients/notes/' + idNote, {
+		method: 'PUT',
+		headers: {
+      		'Content-Type': 'application/json',	
+		    'Authorization': token,
+		},
+		body: JSON.stringify({
+				data: myTab
+		})
+	})
+	.then((response) => response)
+	.catch((error) => error)
+}
 
 export function APIRemoveUnit(token, id) {
 	return fetch(baseUrl + '/api/patients/units/' + id, {

@@ -3,11 +3,11 @@
 import React from 'react'
 import ModuleItem from './ModuleItem'
 import NoteItem from './NoteItem'
-import { APIGetModules, APIAddModule } from '../../API/APIModule'
+import { APIGetModules, APIAddModule, APIGetPatientModules } from '../../API/APIModule'
 import {
 	ActivityIndicator,
 	AsyncStorage,
-	StatusBar,
+	BackHandler,
 	StyleSheet,
 	View,
 	Dimensions,
@@ -16,7 +16,7 @@ import {
 	Text
 } from 'react-native';
 import { connect } from 'react-redux';
-import { getUserToken, saveUserCurrentModule } from '../../Redux/Action/action';
+import { getUserToken, saveUserCurrentModule, saveUserCurrentModuleName } from '../../Redux/Action/action';
 
 class ModulePlace extends React.Component {
 	constructor (props) {
@@ -44,17 +44,29 @@ class ModulePlace extends React.Component {
 		})
 	}
 
-	_addModule = (idModule) => {
+	_addModule = (idModule, moduleName) => {
 		this.props.getUserToken().then(() => {
 			APIAddModule(this.props.token.token, idModule).then(data => {
 				if (data.status == 200 || data.status == 422)
 				{
-					this.props.saveUserCurrentModule(idModule.toString())
-					.then(() => {
-						this.props.navigation.navigate('Module', {idModule: idModule})
-					})
-					.catch((error) => {
-						this.setState({ error })
+					APIGetPatientModules(this.props.token.token).then(async data => {
+						let response = await data.json()
+						for (var i = 0; i < response.length; i++) {
+							if (response[i].general_unit.name == moduleName)
+								this.props.saveUserCurrentModule(response[i].id.toString())
+								.then(() => {
+									this.props.saveUserCurrentModuleName(moduleName)
+									.then(() => {
+										this.props.navigation.navigate('Module', {idModule: idModule})
+									})
+									.catch((error) => {
+										this.setState({ error })
+									})
+								})
+								.catch((error) => {
+									this.setState({ error })
+								})
+						}
 					})
 				}
 				else
@@ -94,6 +106,19 @@ class ModulePlace extends React.Component {
 			</View>
 		)
 	}
+
+	componentDidMount() {
+		BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+	}
+
+	componentWillUnmount() {
+		BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+	}
+
+	handleBackPress = () => {
+		this.props.navigation.navigate('Home')
+		return true;
+	}
 }
 
 const styles = StyleSheet.create({
@@ -128,7 +153,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 	getUserToken: () => dispatch(getUserToken()),
-	saveUserCurrentModule: (currentModule) => dispatch(saveUserCurrentModule(currentModule))	
+	saveUserCurrentModule: (currentModule) => dispatch(saveUserCurrentModule(currentModule)),
+	saveUserCurrentModuleName: (currentModuleName) => dispatch(saveUserCurrentModuleName(currentModuleName))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModulePlace);

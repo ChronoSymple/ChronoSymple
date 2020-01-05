@@ -43,7 +43,6 @@ class Note extends React.Component {
 			descriptionFocused: false
 		}
 		this.props.getUserCurrentModule().then(() => {
-			console.log(this.props.currentModule.currentModule);
 		})
 	}
 
@@ -79,7 +78,8 @@ class Note extends React.Component {
 	}
 
 	setInsulineFood = (text) => {
-	    this.setState({ insulineFood: text})
+		this.setState({ insulineFood: text})
+
 	}
 
 	setInsulineCorr = (text) => {
@@ -133,12 +133,12 @@ class Note extends React.Component {
   	render() {
 		let { navigate } = this.props.navigation;
 		let placeholder_glycemie			= "mmol/L";
-		let placeholder_insuline 		= "Unité";
+		let placeholder_insuline 			= "Unité";
 		let placeholder_description		 	= "ex: j'ai mangé...";
 		let errorMessage 					= "Ne message n'a pas été envoyé";
 		let bloodGlucoseFocused				= "bloodGlucoseFocused";
-		let insulineFoodFocused 			= "insulineFood";
-		let insulineCorrFocused 			= "insulineCorr";
+		let insulineFoodFocused 			= "insulineFoodFocused";
+		let insulineCorrFocused 			= "insulineCorrFocused";
 		let descriptionFocused				= "descriptionFocused";
 
     		return (
@@ -214,7 +214,7 @@ class Note extends React.Component {
 					<View style={{ flex: 5, justifyContent: "center"}}>
 							<View style={{flexDirection: "row"}}>
 								<View style={{flex:0.5}}></View>
-								<Text style={{flex:4, fontSize: 22}}>
+								<Text style={{fontSize: 15, textAlign: "center"}}>
 									Glucose
 								</Text>
 								<View style={{flex:0.5}}></View>
@@ -232,17 +232,17 @@ class Note extends React.Component {
 									onFocus={() => this.textFieldFocused(bloodGlucoseFocused)}
 									onBlur={() => this.textFieldBlured(bloodGlucoseFocused)}
 									placeholder={placeholder_glycemie}
-									style={[this.state[bloodGlucoseFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5, flex:4 }]}
+									style={[this.state[bloodGlucoseFocused] ? styles.textFieldFocus : styles.textField, { flex:4, fontSize: 15 }]}
 									autoCorrect={false}
 									onChangeText={(text) => this.setBloodGlucose(text)}
-									value={this.mail}
+									value={this.state.glycemie}
 								/>
 								<View style={{flex:0.5}}></View>
 
 							</View>
 							<View style={{flexDirection: "row"}}>
 								<View style={{flex:0.5}}></View>
-								<Text style={{flex:4, fontSize: 22}}>
+								<Text style={{fontSize: 15, textAlign: "center"}}>
 									Insuline (Nourr.)
 								</Text>
 								<View style={{flex:0.5}}></View>
@@ -254,6 +254,7 @@ class Note extends React.Component {
 								/>
 								<View style={{flex:0.5}}></View>
 								<TextInput
+									pattern="[0-9]{10}"
 									keyboardType="numeric"
 									onFocus={() => this.textFieldFocused(insulineFoodFocused)}
 									onBlur={() => this.textFieldBlured(insulineFoodFocused)}
@@ -261,13 +262,13 @@ class Note extends React.Component {
 									style={[this.state[insulineFoodFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5, flex:4 }]}
 									autoCorrect={false}
 									onChangeText={(text) => this.setInsulineFood(text)}
-									value={this.mail}
+									value={this.state.insulineFood}
 								/>
 								<View style={{flex:0.5}}></View>
 							</View>
 							<View style={{flexDirection: "row"}}>
 								<View style={{flex:0.5}}></View>
-								<Text style={{flex:4, fontSize: 22}}>
+								<Text style={{fontSize: 15, textAlign: "center"}}>
 									Insuline (Corr.)
 								</Text>
 								<View style={{flex:0.5}}></View>
@@ -279,6 +280,7 @@ class Note extends React.Component {
 								/>
 								<View style={{flex:0.5}}></View>
 								<TextInput
+									pattern="[0-9]{10}"
 									keyboardType="numeric"
 									onFocus={() => this.textFieldFocused(insulineCorrFocused)}
 									onBlur={() => this.textFieldBlured(insulineCorrFocused)}
@@ -286,14 +288,14 @@ class Note extends React.Component {
 									style={[this.state[insulineCorrFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5, flex:4 }]}
 									autoCorrect={false}
 									onChangeText={(text) => this.setInsulineCorr(text)}
-									value={this.mail}
+									value={this.state.insulineCorr}
 								/>
 								<View style={{flex:0.5}}></View>
 							</View>
 							<View style={{flexDirection: "row"}}>
 								<View style={{flex:0.5}}></View>
 
-								<Text style={{flex:4, fontSize: 22}}>
+								<Text style={{fontSize: 15, textAlign: "center"}}>
 									Description
 								</Text>
 								<View style={{flex:0.5}}></View>
@@ -310,16 +312,16 @@ class Note extends React.Component {
 									onBlur={() => this.textFieldBlured(descriptionFocused)}
 									placeholder={placeholder_description}
 									style={[this.state[descriptionFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5, flex:4 }]}
-									autoCorrect={false}
+									autoCorrect={true}
 									onChangeText={(text) => this.setDescription(text)}
-									value={this.mail}
+									value={this.state.description}
 								/>
 								<View style={{flex:0.5}}></View>
 							</View>
 							<View style={{flexDirection: "row"}}>
 								<View style={{flex:0.5}}></View>
-								<Text style={{flex:4, fontSize: 22}}>
-									Quelle période de la journée ?
+								<Text style={{flex:4, fontSize: 15, paddingTop: 20}}>
+									Quelle période ?
 								</Text>
 								<View style={{flex:0.5}}></View>
 								<Picker
@@ -354,7 +356,7 @@ class Note extends React.Component {
 	}
 
 	handleBackPress = () => {
-		BackHandler.exitApp();
+		this.props.navigation.navigate('Calendar')
 		return true;
 	}
 }

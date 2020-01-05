@@ -24,10 +24,18 @@ export const loadingModule = bool => ({
     isLoadingModule: bool,
 });
 
+export const loadingModuleName = bool => ({
+    type: 'LOADING_MODULE_NAME',
+    isLoadingModule: bool,
+});
+
 export const error = error => ({
     type: 'ERROR',
     error,
 });
+
+
+
 
 export const getCurrentModule = (currentModule) => ({
     type: 'GET_CURRENT_MODULE',
@@ -46,9 +54,25 @@ export const removeCurrentModule = () => ({
 
 
 
-export const getUserToken = () => dispatch => 
+export const getCurrentModuleName = (currentModuleName) => ({
+    type: 'GET_CURRENT_MODULE_NAME',
+    currentModuleName
+});
 
- AsyncStorage.getItem('userToken')
+export const savecurrentModuleName = (currentModuleName) => ({
+    type: 'SAVE_CURRENT_MODULE_NAME',
+    currentModuleName
+});
+
+export const removeCurrentModuleName = () => ({
+    type: 'REMOVE_CURRENT_MODULE_NAME',
+});
+
+
+
+
+export const getUserToken = () => dispatch => 
+    AsyncStorage.getItem('userToken')
         .then((data) => {
             dispatch(loading(false));
             dispatch(getToken(data));
@@ -113,5 +137,41 @@ export const removeUserCurrentModule = () => dispatch =>
         })
         .catch((err) => {
             dispatch(loadingModule(false));
+            dispatch(error(err.message || 'ERROR'));
+})
+
+
+
+
+export const getUserCurrentModuleName = () => dispatch => 
+    AsyncStorage.getItem('currentModuleName')
+        .then((data) => {
+            dispatch(loadingModuleName(false));
+            dispatch(getCurrentModuleName(data));
+        })
+        .catch((err) => {
+            dispatch(loadingModuleName(false));
+            dispatch(error(err.message || 'ERROR'));
+})
+
+export const saveUserCurrentModuleName = (moduleName) => dispatch =>
+    AsyncStorage.setItem('currentModuleName', moduleName)
+    .then(() => {
+        dispatch(loadingModuleName(false));
+        dispatch(saveCurrentModuleName('module saved'));
+    })
+    .catch((err) => {
+        dispatch(loadingModuleName(false));
+        dispatch(error(err.message || 'ERROR'));
+})
+
+export const removeUserCurrentModuleName = () => dispatch =>
+    AsyncStorage.removeItem('currentModuleName')
+        .then((data) => {
+            dispatch(loadingModuleName(false));
+            dispatch(removeCurrentModuleName(data));
+        })
+        .catch((err) => {
+            dispatch(loadingModuleName(false));
             dispatch(error(err.message || 'ERROR'));
 })
