@@ -2,13 +2,15 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import { SearchBar } from '../Components/Search';
 import AdminDoctorList from '../Components/Admin/AdminDoctorList';
-//import Api from '../Api';
+import Api from '../Api';
 import Request from '../Components/Request';
 
+/*
 const data = [
   {id: 1, firstname: 'Henry', lastname: 'MARTIN', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: {
   }},
 ];
+*/
 
 class AdminSearchController extends PureComponent {
   
@@ -35,26 +37,29 @@ class AdminSearchController extends PureComponent {
   }
 
   init = async() => {
-    return this.setState({init: true, data});
+    
+    //return this.setState({init: true, data});
     // TODO: Remove fake data
-    /*try {
-      const rawdata = await Api.getPatients(this.props.token);
+    try {
+      const rawdata = await Api.getDoctorsAsAdmin(this.props.token);
       const data = rawdata.map(e => {
-        const {first_name, last_name, ...others} = e.user;
+        const {first_name, last_name, ...others} = e;
         return {...others, firstname: first_name, lastname: last_name};
       });
       this.setState({init: true, data});
     } catch (e) {
       this.setState({error : e.message});
-    }*/
+    }
   }
 
 
-  deleteDoctor = (e, id) => {
-    console.log(id);
-    alert('Not Implemented');
-    e.stopPropagation();
-    return false;
+  deleteDoctor = async id => {
+    try {
+      await Api.deleteDoctor(this.props.token, id);
+    }
+    catch (e) {
+      console.error(e);
+    }
   }
 
   render() {

@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Table from '@material-ui/core/Table';
 import { withStyles } from '@material-ui/core';
-import { PatientPropTypes } from '../../MyPropTypes';
+import { UserPropTypes } from '../../MyPropTypes';
 
 const styles = {
   selectable : {
@@ -33,9 +33,11 @@ class AdminPatientList extends React.Component {
     e.stopPropagation();
     return false;
   }
-  deletePatient = (...args) => {
-    this.setState({anchor: null})
-    this.props.deletePatient(...args);
+  deletePatient = e => {
+    this.setState({anchor: null});
+    this.props.deletePatient(this.state.selected);
+    e.stopPropagation();
+    return false;
   }
   closeMenu = () => this.setState({anchor: null})
   render = () => (
@@ -59,7 +61,7 @@ class AdminPatientList extends React.Component {
               <TableCell>{e.lastname}</TableCell>
               <TableCell>{e.firstname}</TableCell>
               <TableCell>{e.birthdate}</TableCell>
-              <TableCell padding="none" align="right" onClick={ev => this.openOptions(ev, e)}>
+              <TableCell padding="none" align="right" onClick={ev => this.openOptions(ev, e.id)}>
                 <IconButton>
                   <MoreVertIcon/>
                 </IconButton>
@@ -96,7 +98,7 @@ AdminPatientList.propTypes = {
     patientCard: PropTypes.string.isRequired,
     selectable: PropTypes.string.isRequired,
   }),
-  data: PropTypes.arrayOf(PatientPropTypes.isRequired).isRequired
+  data: PropTypes.arrayOf(UserPropTypes.isRequired).isRequired
 };
 
 export default withStyles(styles)(AdminPatientList);

@@ -7,8 +7,9 @@ import AdminSearchControllerPatient from './AdminSearchControllerPatient';
 import AdminSearchControllerDoctor from './AdminSearchControllerDoctor';
 
 class AdminSearchController extends PureComponent {
-  state = {value: 0}
+  state = {value: Number(localStorage.getItem('adminTab', 0))}
   handleChange = (event, newValue) => {
+    localStorage.setItem('adminTab', newValue);
     this.setState({value: newValue});
   };
   render() {

@@ -9,7 +9,17 @@ const PatientPropTypes = PropTypes.shape({
   diseases: PropTypes.object.isRequired
 });
 
+const UserPropTypes = PropTypes.shape({
+  id: PropTypes.number,
+  firstname: PropTypes.string.isRequired,
+  lastname: PropTypes.string.isRequired,
+  birthdate: PropTypes.string.isRequired,
+  civility: PropTypes.oneOf(['Mr', 'Mme']),
+});
+
+
 export {
   PatientPropTypes,
+  UserPropTypes
 };
 

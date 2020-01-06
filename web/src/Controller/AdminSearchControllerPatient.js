@@ -2,9 +2,10 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import { SearchBar } from '../Components/Search';
 import AdminPatientList from '../Components/Admin/AdminPatientList';
-//import Api from '../Api';
+import Api from '../Api';
 import Request from '../Components/Request';
 
+/*
 const data = [
   {id: 1, firstname: 'Carl', lastname: 'DE GENTILE', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: {
     diabetes: [
@@ -43,6 +44,7 @@ const data = [
     cancer: 3
   }},
 ];
+*/
 
 class AdminSearchControllerPatient extends PureComponent {
   
@@ -69,27 +71,29 @@ class AdminSearchControllerPatient extends PureComponent {
   }
 
   init = async() => {
-    return this.setState({init: true, data});
+    //return this.setState({init: true, data});
     // TODO: Remove fake data
-    /*try {
-      const rawdata = await Api.getPatients(this.props.token);
-      const data = rawdata.map(e => {
-        const {first_name, last_name, ...others} = e.user;
+    try {
+      const rawdata = await Api.getPatientsAsAdmin(this.props.token);
+      const data = rawdata.filter(e => e !== null).map(e => {
+        const {first_name, last_name, ...others} = e;
         return {...others, firstname: first_name, lastname: last_name};
       });
       this.setState({init: true, data});
     } catch (e) {
       this.setState({error : e.message});
-    }*/
+    }
   }
 
 
   setPatient = patient => this.props.setPatient({patient, selected : this.state.selected});
 
-  deletePatient = (e, id) => {
-    console.log(id);
-    e.stopPropagation();
-    return false;
+  deletePatient = async id => {
+    try {
+      await Api.deletePatient(this.props.token, id);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   render() {
