@@ -72,7 +72,7 @@ const updateProfile = async(url, token, profile) => {
   if (Object.keys(profile).reduce((p, c) => profileProperties.includes(c), true) === false) {
     throw Error('Invalid key in the set');
   }
-  if (typeof(profile.id) !== 'number') {
+  if (profile.id !== undefined && typeof(profile.id) !== 'number') {
     throw Error('No ID given');
   }
   await loggedRequest(url, token, {
