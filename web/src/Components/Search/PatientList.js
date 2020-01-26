@@ -8,6 +8,7 @@ import TableBody from '@material-ui/core/TableBody';
 import Table from '@material-ui/core/Table';
 import { withStyles } from '@material-ui/core';
 import { PatientPropTypes } from '../../MyPropTypes';
+import Alert from '../Alert/Alert'
 
 const styles = {
   selectable : {
@@ -33,6 +34,8 @@ const PatientList = ({
           <TableCell>Nom</TableCell>
           <TableCell>Prénom</TableCell>
           <TableCell>Date de naissance</TableCell>
+          <TableCell>état du patient</TableCell>
+        {/* <Alert/> */}
         </TableRow>
       </TableHead>
       <TableBody>
@@ -45,6 +48,7 @@ const PatientList = ({
             <TableCell>{e.lastname}</TableCell>
             <TableCell>{e.firstname}</TableCell>
             <TableCell>{e.birthdate}</TableCell>
+            <TableCell><Alert/></TableCell>
           </TableRow>
         )}
       </TableBody>

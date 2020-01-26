@@ -85,7 +85,7 @@ const updatePatient = async(token, patientProfile) =>
   updateProfile(`${prefix}/admins/patients/update`, token, patientProfile);
 
 const updateDoctor = async(token, doctorProfile) =>
-  updateProfile(`${prefix}/admins/doctors/update`, token, doctorProfile);
+  updateProfile(`${prefix}/doctors/profiles/update`, token, doctorProfile);
 
 const getPatientsAsAdmin = (token) =>
   loggedRequest(`${prefix}/admins/patients`, token);

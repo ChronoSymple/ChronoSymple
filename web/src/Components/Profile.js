@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import diseases from '../diseases';
 import { withStyles, Divider, Button, TextField } from '@material-ui/core';
 import gecko from '../assets/Img/Gecko.png';
+import Api from '../Api';
+import Alert from '../Components/Alert/Alert'
 
 const classes = theme => ({
   container: {
@@ -48,6 +50,19 @@ class Profile extends React.Component {
       return ({ selected });
     });
   }
+  uploadImageProfile(e) {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener("load", async () => {
+            const base = reader.result;
+            await Api.updateDoctor(localStorage.getItem('myToken'), {picture: base});
+    }, false);
+
+    if (file) {
+            reader.readAsDataURL(file);
+    }
+  }
   render() {
     const {
       classes
@@ -61,7 +76,9 @@ class Profile extends React.Component {
             <div className={classes.contentImage}>
               <img src={gecko} width="200" height="200" alt="profilePicture" />
             </div>
-            <Button color='primary'>Changer de photo de profile</Button>
+            <input type="file" onChange={this.uploadImageProfile} />
+            {/* <br/>
+            <Alert/> */}
           </div>
           <div className={classes.contentSeparator}></div>
           <div className={classes.contentRight}>
