@@ -8,7 +8,7 @@ import diseases from '../diseases';
 import { withStyles, Divider, Button, TextField } from '@material-ui/core';
 import gecko from '../assets/Img/Gecko.png';
 import Api from '../Api';
-import Alert from '../Components/Alert/Alert'
+//import Alert from '../Components/Alert/Alert';
 
 const classes = theme => ({
   container: {
@@ -40,9 +40,21 @@ class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: JSON.parse(localStorage.getItem('diseases') || '{}')
+      selected: JSON.parse(localStorage.getItem('diseases') || '{}'),
+      profile: {}
     };
   }
+
+  setPassword = e => {
+    const password = e.target.value;
+    this.setState(s => ({
+      profile: {
+        ...s.profile,
+        password
+      }
+    }));
+  }
+
   chipClick = disease => {
     this.setState(state => {
       const selected = { ...state.selected, [disease]: !state.selected[disease] };
@@ -50,23 +62,35 @@ class Profile extends React.Component {
       return ({ selected });
     });
   }
-  uploadImageProfile(e) {
+  uploadImageProfile = e => {
     const file = e.target.files[0];
     const reader = new FileReader();
 
-    reader.addEventListener("load", async () => {
-            const base = reader.result;
-            await Api.updateDoctor(localStorage.getItem('myToken'), {picture: base});
+    reader.addEventListener('load', async() => {
+      const picture = reader.result;
+      this.setState(s => ({ profile : { ...s.profile, picture } }));
     }, false);
 
     if (file) {
-            reader.readAsDataURL(file);
+      reader.readAsDataURL(file);
     }
   }
+
+  save = async() => {
+    try {
+      await Api.updateMyProfile(localStorage.getItem('myToken'), this.state.profile);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   render() {
     const {
       classes
     } = this.props;
+    const {
+      profile
+    } = this.state;
     return (<Card>
       <CardContent>
         <Typography variant="h4">Profile</Typography>
@@ -98,10 +122,10 @@ class Profile extends React.Component {
               }
             </div>
             <br />
-            <TextField fullWidth label="Mot de passe"/>
+            <TextField fullWidth value={profile.password || ''} label="Mot de passe" onChange={this.setPassword} />
             <TextField fullWidth label="Email"/>
             <br/><br/>
-            <Button variant='contained' color="primary">Modifiez</Button>
+            <Button variant='contained' color="primary" onClick={this.save}>Modifiez</Button>
           </div>
         </div>
       </CardContent>

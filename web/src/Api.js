@@ -65,14 +65,16 @@ const profileProperties = [
   'picture'
 ];
 
-const updateProfile = async(url, token, profile) => {
+const myProfileProperties = [...profileProperties, 'password'];
+
+const updateProfile = async(url, token, profile, authorized, idRequired) => {
   if (typeof(profile) !== 'object' && profile !== null) {
     throw Error('Not an object');
   }
-  if (Object.keys(profile).reduce((p, c) => profileProperties.includes(c), true) === false) {
+  if (Object.keys(profile).reduce((p, c) => authorized.includes(c), true) === false) {
     throw Error('Invalid key in the set');
   }
-  if (profile.id !== undefined && typeof(profile.id) !== 'number') {
+  if (idRequired && (profile.id === undefined || typeof(profile.id) !== 'number')) {
     throw Error('No ID given');
   }
   await loggedRequest(url, token, {
@@ -81,16 +83,19 @@ const updateProfile = async(url, token, profile) => {
   });
 };
 
+const updateMyProfile = async(token, profile) =>
+  updateProfile(`${prefix}/doctors/profiles/update`, token, profile, myProfileProperties, false);
+
 const updatePatient = async(token, patientProfile) =>
-  updateProfile(`${prefix}/admins/patients/update`, token, patientProfile);
+  updateProfile(`${prefix}/admins/patients/update`, token, patientProfile, profileProperties, true);
 
 const updateDoctor = async(token, doctorProfile) =>
-  updateProfile(`${prefix}/doctors/profiles/update`, token, doctorProfile);
+  updateProfile(`${prefix}/admins/doctors/update`, token, doctorProfile, profileProperties, true);
 
-const getPatientsAsAdmin = (token) =>
+const getPatientsAsAdmin = token =>
   loggedRequest(`${prefix}/admins/patients`, token);
 
-const getDoctorsAsAdmin = (token) =>
+const getDoctorsAsAdmin = token =>
   loggedRequest(`${prefix}/admins/doctors`, token);
 
 
@@ -108,5 +113,6 @@ export default {
   updateDoctor,
   getPatient,
   getDoctorsAsAdmin,
-  getPatientsAsAdmin
+  getPatientsAsAdmin,
+  updateMyProfile
 };
