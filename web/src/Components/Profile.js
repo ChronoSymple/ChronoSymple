@@ -41,7 +41,9 @@ class Profile extends React.Component {
     super(props);
     this.state = {
       selected: JSON.parse(localStorage.getItem('diseases') || '{}'),
-      profile: {}
+      profile: {},
+      defaultProfile: {},
+      askingApi: true
     };
   }
 
@@ -62,7 +64,7 @@ class Profile extends React.Component {
       return ({ selected });
     });
   }
-  uploadImageProfile = e => {
+  changeImageProfile = e => {
     const file = e.target.files[0];
     const reader = new FileReader();
 
@@ -76,9 +78,28 @@ class Profile extends React.Component {
     }
   }
 
+  changeEmail = e => {
+    const email = e.target.value;
+    this.setState(s => ({ profile : { ...s.profile, email } }));
+
+  }
+
   save = async() => {
     try {
-      await Api.updateMyProfile(localStorage.getItem('myToken'), this.state.profile);
+      this.setState({askingApi: true});
+      const profile = await Api.updateMyProfile(localStorage.getItem('myToken'), this.state.profile);
+      console.log(profile);
+      this.setState({defaultProfile: profile, profile: {}, askingApi: false});
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  
+  async componentDidMount() {
+    try {
+      const profile = await Api.getMyProfile(localStorage.getItem('myToken'));
+      this.setState({defaultProfile: profile, askingApi: false});
+      console.log(profile);
     } catch (err) {
       console.error(err);
     }
@@ -89,7 +110,9 @@ class Profile extends React.Component {
       classes
     } = this.props;
     const {
-      profile
+      profile,
+      defaultProfile,
+      askingApi
     } = this.state;
     return (<Card>
       <CardContent>
@@ -98,16 +121,16 @@ class Profile extends React.Component {
         <div className={classes.container}>
           <div className={classes.contentLeft}>
             <div className={classes.contentImage}>
-              <img src={gecko} width="200" height="200" alt="profilePicture" />
+              <img src={profile.picture || defaultProfile.picture || gecko} width="200" height="200" alt="profilePicture" />
             </div>
-            <input type="file" onChange={this.uploadImageProfile} />
+            <input type="file" onChange={this.changeImageProfile} />
             {/* <br/>
             <Alert/> */}
           </div>
           <div className={classes.contentSeparator}></div>
           <div className={classes.contentRight}>
             <Typography variant="h5">
-              {'Mr. Test Doctor'}
+              {`${defaultProfile.civility || ''} ${defaultProfile.last_name || ''} ${defaultProfile.first_name || ''}`}
             </Typography>
             <Typography variant="subtitle1" color="textSecondary">
               {'Spécialités: Admin'}
@@ -123,9 +146,9 @@ class Profile extends React.Component {
             </div>
             <br />
             <TextField fullWidth value={profile.password || ''} label="Mot de passe" onChange={this.setPassword} />
-            <TextField fullWidth label="Email"/>
+            <TextField fullWidth value={profile.email || defaultProfile.email || ''}label="Email" onChange={this.changeEmail}/>
             <br/><br/>
-            <Button variant='contained' color="primary" onClick={this.save}>Modifiez</Button>
+            <Button variant='contained' color="primary" onClick={this.save} disabled={askingApi}>Modifiez</Button>
           </div>
         </div>
       </CardContent>

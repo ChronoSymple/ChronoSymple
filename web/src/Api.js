@@ -77,11 +77,14 @@ const updateProfile = async(url, token, profile, authorized, idRequired) => {
   if (idRequired && (profile.id === undefined || typeof(profile.id) !== 'number')) {
     throw Error('No ID given');
   }
-  await loggedRequest(url, token, {
+  return await loggedRequest(url, token, {
     method: 'POST',
     body: JSON.stringify(profile)
   });
 };
+
+const getMyProfile = token =>
+  loggedRequest(`${prefix}/doctors/profiles`, token);
 
 const updateMyProfile = async(token, profile) =>
   updateProfile(`${prefix}/doctors/profiles/update`, token, profile, myProfileProperties, false);
@@ -114,5 +117,6 @@ export default {
   getPatient,
   getDoctorsAsAdmin,
   getPatientsAsAdmin,
-  updateMyProfile
+  updateMyProfile,
+  getMyProfile
 };
