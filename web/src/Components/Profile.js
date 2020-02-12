@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Chip from '@material-ui/core/Chip';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import diseases from '../diseases';
 import { withStyles, Divider, Button, TextField } from '@material-ui/core';
@@ -145,10 +146,12 @@ class Profile extends React.Component {
               }
             </div>
             <br />
-            <TextField fullWidth value={profile.password || ''} label="Mot de passe" onChange={this.setPassword} />
+            <TextField type='password' fullWidth value={profile.password || ''} label="Mot de passe" onChange={this.setPassword} />
             <TextField fullWidth value={profile.email || defaultProfile.email || ''}label="Email" onChange={this.changeEmail}/>
             <br/><br/>
-            <Button variant='contained' color="primary" onClick={this.save} disabled={askingApi}>Modifiez</Button>
+            <Button variant='contained' color="primary" onClick={this.save} disabled={askingApi || profile.password === '' || profile.password === undefined}>Modifiez</Button>
+            {askingApi && <CircularProgress style={{marginLeft: 10}} size={30} />}
+            <p>* To change any information you need to enter your password</p>
           </div>
         </div>
       </CardContent>
