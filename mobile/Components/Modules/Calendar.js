@@ -1,9 +1,9 @@
 // Components/Calendar.js
 
 import React from 'react'
-import { ActivityIndicator, View, Text, StyleSheet, Image, Modal, Button, TouchableOpacity, TouchableHighlight, FlatList, ScrollView} from 'react-native'
+import { ActivityIndicator, View, Text, StyleSheet, Image, Modal, Button, TouchableOpacity, TouchableHighlight, FlatList, ScrollView, BackHandler} from 'react-native'
 import { windowSize } from '../StyleSheet';
-import { APIGetPatientNotesByModule } from '../../API/APIModule'
+import { APIGetPatientNotesByModule, APIRemovePatientNotes } from '../../API/APIModule'
 import { connect } from 'react-redux'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -26,6 +26,10 @@ class Calendar extends React.Component {
 			modalCheckboxVisible: false
 		}
 		this._bootstrapAsync();
+		const { navigation } = this.props;
+    	this.focusListener = navigation.addListener('didFocus', () => {
+      		this._bootstrapAsync();
+    	});
 	}
 	
 	_bootstrapAsync = () => {
@@ -35,7 +39,7 @@ class Calendar extends React.Component {
 					let response = await data.json()
 					if (data.status == 200) {
 						this.setState({
-							DNotes: [ ...this.state.DNotes, ...response ],
+							DNotes: [ ...response ],
 							loading: false,
 						})
 						console.log("dsqdqsd 2 ")
@@ -60,6 +64,7 @@ class Calendar extends React.Component {
 			this.setState({ error })
 		})
 	}
+
 
 	_accessDetailNote = (DataNote) => {
 		this.props.navigation.navigate('DetailNote', {data: JSON.parse(DataNote)})
@@ -105,6 +110,15 @@ class Calendar extends React.Component {
 		}
 		this.setState({ refreshing: true })
 		
+	_deletelNote = (id) => {
+		this.props.getUserToken().then(() => {
+            APIRemovePatientNotes(this.props.token.token, id).then(data => {
+				if (data.status == 200)
+					this._bootstrapAsync();
+            })
+        }).catch(error => {
+            this.setState({ error })
+        })
 	}
 
 	render() {
@@ -195,12 +209,57 @@ class Calendar extends React.Component {
 											<Text style={styles.edit}>Edit</Text>
 										</View>
 									</TouchableOpacity>
+									<Text style={styles.noteText}>{item.data.date} {item.data.time}</Text>
+									{ !item.data.description
+									?
+									<Text style={styles.description}>Pas de description</Text>
+									: (item.data.description.length > 20)
+									?
+									<Text style={styles.description}>{item.data.description.substr(0, 20)}...</Text>
+									:
+									<Text style={styles.description}>{item.data.description}</Text>
+									}
+									<View style={{flexDirection: "row"}}>
+										<TouchableOpacity onPress={() => this.props.navigation.navigate('EditNote',  {itemDetail: item })}>
+											<View style={styles.editBorder}>
+												<Icon
+													name="edit"
+													color={"#874C90"}
+													size={18}
+			    								/>
+												<Text style={styles.edit}>Edit</Text>
+											</View>
+										</TouchableOpacity>
+										<TouchableOpacity onPress={() => this._deletelNote(item.id)}>
+											<View style={styles.deleteBorder}>
+												<Icon
+													name="delete"
+													color={"#ad0f0f"}
+													size={18}
+			    								/>
+												<Text style={styles.delete}>Supprimer</Text>
+											</View>
+										</TouchableOpacity>
+									</View>
 							</TouchableOpacity>
 						)}
 					/>
 				</ScrollView>
 			</View>
 		)
+	}
+	
+	componentDidMount() {
+		BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+	}
+
+	componentWillUnmount() {
+		BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+	}
+
+	handleBackPress = () => {
+		this.props.navigation.navigate('Calendar')
+		return true;
 	}
 }
 
@@ -234,6 +293,7 @@ const styles = StyleSheet.create({
 	},
 	editBorder: {
 		marginTop: 15,
+		marginRight: 5,
 		paddingLeft: 13,
 		paddingRight: 15,
 		paddingTop: 3,
@@ -246,6 +306,22 @@ const styles = StyleSheet.create({
 		paddingLeft: 3,
 		fontSize: 13,
 		color: "#874C90"
+	},
+	deleteBorder: {
+		marginTop: 15,
+		marginLeft: 5,
+		paddingLeft: 13,
+		paddingRight: 15,
+		paddingTop: 3,
+		paddingBottom: 3,
+		flexDirection: "row",
+		borderColor: "#ad0f0f",
+		borderWidth: 1.5,
+	},
+	delete: {
+		paddingLeft: 3,
+		fontSize: 13,
+		color: "#ad0f0f"
 	}
 })
 

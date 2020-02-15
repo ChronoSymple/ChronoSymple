@@ -13,11 +13,13 @@ import DoctorChoice from '../Components/Doctors/DoctorChoice';
 import ChooseModulesToSend from '../Components/Doctors/ChooseModulesToSend';
 import DetailNote from '../Components/Modules/DetailNote';
 import EditNote from '../Components/Modules/EditNote';
-import Statistic from '../Components/Modules/Statistic';
+import StatisticDiabete from '../Components/Modules/StatisticDiabete';
+import StatisticAsthma from '../Components/Modules/StatisticAsthma';
 import Export from '../Components/Modules/Export';
 import Note from '../Components/Modules/Note';
 import Logout from '../Components/Auth/Logout'
 import Loading from '../Components/Loading'
+import Check from '../Components/CheckModule'
 import InfoProfile from '../Components/Auth/Profile/InfoProfile';
 import PasswordProfile from '../Components/Auth/Profile/PasswordProfile';
 import SupportProfile from '../Components/Auth/Profile/SupportProfile';
@@ -44,19 +46,6 @@ showMenu = () => {
   this._menu.show();
 };
 
-/* NOT USED !!!!
-const HomeModuleStackNavigator = createStackNavigator({
-	HomeModule: {
-	  screen: HomeModule,
-	}
-})*/
-
-/*const NoteStackNavigator = createStackNavigator({
-	Note: {
-	  screen: Note,
-	}
-})*/
-
 const CalendarStackNavigator = createStackNavigator({
 	Calendar: {
 		screen : Calendar
@@ -74,18 +63,6 @@ const CalendarStackNavigator = createStackNavigator({
 	headerMode: 'none'
 })
 
-/*const StatisticStackNavigator = createStackNavigator({
-	Statistic: {
-		screen: Statistic,
-	}
-})*/
-
-/*const ExportStackNavigator = createStackNavigator({
-	Export: {
-	  screen: Export,
-	}
-})
-*/
 const ProfileStackNavigator = createStackNavigator({
 	InfoProfile: {
 		screen: InfoProfile,
@@ -163,18 +140,86 @@ const HomePrincipaleTabs = createBottomTabNavigator({
 }, {
 	headerMode: 'none',
 	tabBarOptions: {
-	    showLabel: false, // hide labels
-	    activeTintColor: '#F8F8F8', // active icon color
-	    inactiveTintColor: colors.secondary,  // inactive icon color
+	    showLabel: false,
+	    activeTintColor: '#F8F8F8',
+	    inactiveTintColor: colors.secondary,
 	    style: {
-		backgroundColor: colors.primary // TabBar background
+		backgroundColor: colors.primary
 	    }
 	},
 });
 
-const Tabs = createBottomTabNavigator({
+const TabsAsthma = createBottomTabNavigator({
 	Statistic: {
-		screen : Statistic,
+		screen : StatisticAsthma,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="insert-chart"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+	Calendar: {
+		screen : StatisticAsthma,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon2
+				name="notes-medical"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+	Export: {
+		screen : StatisticAsthma,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="cloud-upload"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+	Profile: {
+		screen : Profile,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="account-circle"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+	Home: {
+		screen : Home,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="apps"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+}, {
+	
+	tabBarOptions: {
+	    showLabel: false,
+	    activeTintColor: '#F8F8F8',
+	    inactiveTintColor: colors.secondary,
+	    style: {
+		backgroundColor: colors.primary
+	    }
+	},
+});
+
+const TabsDiabete = createBottomTabNavigator({
+	Statistic: {
+		screen : StatisticDiabete,
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
@@ -222,7 +267,7 @@ const Tabs = createBottomTabNavigator({
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
-				name="home"
+				name="apps"
 				color={tintColor}
 				size={40}
 			    />
@@ -231,18 +276,18 @@ const Tabs = createBottomTabNavigator({
 }, {
 	
 	tabBarOptions: {
-	    showLabel: false, // hide labels
-	    activeTintColor: '#F8F8F8', // active icon color
-	    inactiveTintColor: colors.secondary,  // inactive icon color
+	    showLabel: false,
+	    activeTintColor: '#F8F8F8',
+	    inactiveTintColor: colors.secondary,
 	    style: {
-		backgroundColor: colors.primary // TabBar background
+		backgroundColor: colors.primary
 	    }
 	},
 });
 
 const StackNavigtorWhithModule = createStackNavigator({
-	Module: {
-		screen: Tabs
+	Check: {
+		screen: Check
 	},
 },{
 	headerMode: 'none'
@@ -270,6 +315,12 @@ const StackNavigtorGlobalHome = createStackNavigator({
 	},
 	MyDoctorChoiceStackNavigator: {
 		screen: MyDoctorChoiceStackNavigator
+	},
+	ModuleDiabete: {
+		screen: TabsDiabete
+	},
+	ModuleAsthma: {
+		screen: TabsAsthma
 	}
 }, {
 	headerMode: 'none'

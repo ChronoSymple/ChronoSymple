@@ -19,8 +19,8 @@ class ModuleItem extends React.Component {
 						height: "100%",
 						margin: 20, 
 						}}
-						onPress={() => triggerModule(dModule.id)}>
-							<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>{dModule.name}</Text>
+						onPress={() => triggerModule(dModule.id, dModule.name)}>
+							<Text style={{ fontSize: 18, textTransform: 'capitalize' }}>{dModule.name}</Text>
 					</TouchableOpacity>
 				</View>
 				:
@@ -34,8 +34,8 @@ class ModuleItem extends React.Component {
 						height: "100%",
 						margin: 20, 
 						}}
-						onPress={() => triggerModule(dModule.id)}>
-							<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>{dModule.general_unit.name}</Text>
+						onPress={() => triggerModule(dModule.id, dModule.general_unit.name)}>
+							<Text style={{ fontSize: 18, textTransform: 'capitalize' }}>{dModule.general_unit.name}</Text>
 					</TouchableOpacity>
 				</View>
 			}
