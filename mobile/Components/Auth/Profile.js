@@ -5,7 +5,7 @@ import { View, Button, Image, Text, CameraRoll, ScrollView, StyleSheet, Dimensio
 import { colors, windowSize } from '../StyleSheet';
 import { connect } from 'react-redux'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { getPatientInfoWithApi } from '../../API/APIConnection';
+import { getPatientInfoWithApi, updatePatientProfile } from '../../API/APIConnection';
 import ImagePicker from 'react-native-image-picker';
 
 
@@ -21,7 +21,10 @@ class Profile extends React.Component {
 			password : "",
 			isPasswordValid: true,
 		}
+		this.getPatientInfo()
+	}
 
+	getPatientInfo = () => {
 		getPatientInfoWithApi(this.props.token.token).then(async data => {
 			console.log("Profile - data :")
 			console.log(data)
@@ -35,6 +38,8 @@ class Profile extends React.Component {
 				picture: response.picture ? response.picture : '../../assets/photo-1532274402911-5a369e4c4bb5.jpeg',
 			})
 		})
+		
+
 	}
 
 	changeProfilePhoto = () => {
@@ -75,6 +80,7 @@ class Profile extends React.Component {
 					fileUri: response.uri
 				});
 				console.log(this.state.fileData)
+				this.setState({modalPictureVisible: true })
 
 			}
 		});
@@ -119,16 +125,12 @@ class Profile extends React.Component {
 
 	confirmNewPicturePressed = () => {
 		updatePatientProfile(this.props.token.token, "picture", this.state.fileData, this.state.password).then(async data => {
-			console.log("Profile - updatePatientProfile - data")
-			console.log(data)
 			if (data.status == 200) {
+				this.setState({ isPasswordValid: true })
 				this.getPatientInfo()
 				this.setModalPictureVisible(!this.state.modalPictureVisible)
-				this.setState({ isPasswordValid: true })
 			} else {
 				let response = await data.json()
-				console.log("Profile - updatePatientProfile - response")
-				console.log("response")
 				this.setState({ isPasswordValid: false })
 			}
 		})
@@ -167,7 +169,7 @@ class Profile extends React.Component {
 			<View style={{ flex: 3, alignItems: "center", justifyContent : "center" }}>
 				<Image
 				/* 	source={require('../../Images/profile-2398782_960_720.png')} */
-				 	source={{uri: 'data:image/jpeg;base64,'+ this.state.fileData }}
+				 	source={{uri: 'data:image/jpeg;base64,'+ this.state.picture }}
 					style={{ width: 140, height: 140, borderRadius: 140 / 2, borderWidth : 1, borderColor: '#000000'}}
 				/>				
 				<Button

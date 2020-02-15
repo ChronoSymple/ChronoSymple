@@ -27,7 +27,12 @@ class PasswordProfile extends React.Component {
         updatePatientPassword(this.props.token.token, this.state.oldPassword, this.state.newPassword).then(async data => {
           console.log("updatePatientPassword - PasswordProfile - data")
           console.log(data)
-          this.setState({ sameNewPassword: true })
+          if (data.status == 200) {
+            this.setState({ sameNewPassword: true })
+            this.props.navigation.navigate('Profile');
+          } else {
+            this.setState({ sameNewPassword: false })
+          }
         })
       })
     } else {
