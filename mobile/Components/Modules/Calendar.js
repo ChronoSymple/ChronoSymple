@@ -109,16 +109,17 @@ class Calendar extends React.Component {
 			this.setState({ isSelectActive: true })
 		}
 		this.setState({ refreshing: true })
+	}
 		
 	_deletelNote = (id) => {
 		this.props.getUserToken().then(() => {
-            APIRemovePatientNotes(this.props.token.token, id).then(data => {
+			APIRemovePatientNotes(this.props.token.token, id).then(data => {
 				if (data.status == 200)
 					this._bootstrapAsync();
-            })
-        }).catch(error => {
-            this.setState({ error })
-        })
+			})
+		}).catch(error => {
+			this.setState({ error })
+		})
 	}
 
 	render() {
@@ -193,23 +194,11 @@ class Calendar extends React.Component {
 												checked={this.state[item.id]}
 												onPress={() => { this.noteChecked(item) }}
 											/>
-											<Text style={styles.noteText}>{item.data.date} {item.data.heure}</Text>
+											<Text style={styles.noteText}>{item.data.date} {item.data.time}</Text>
 										</View>
 										:
-										<Text style={styles.noteText}>{item.data.date} {item.data.heure}</Text>
+										<Text style={styles.noteText}>{item.data.date} {item.data.time}</Text>
 									}
-									<Text style={styles.description}>description de la note</Text>
-									<TouchableOpacity onPress={() => this.props.navigation.navigate('EditNote',  {itemDetail: item })}>
-										<View style={styles.editBorder}>
-											<Icon
-												name="edit"
-												color={"#874C90"}
-												size={15}
-			    							/>
-											<Text style={styles.edit}>Edit</Text>
-										</View>
-									</TouchableOpacity>
-									<Text style={styles.noteText}>{item.data.date} {item.data.time}</Text>
 									{ !item.data.description
 									?
 									<Text style={styles.description}>Pas de description</Text>
