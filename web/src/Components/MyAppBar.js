@@ -9,7 +9,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import ContactUs from './Contact/ContactUs'
+import ContactUs from './Contact/ContactUs';
+import i18n from 'i18next';
 
 const styles = {
   root: {
@@ -26,6 +27,7 @@ class MyAppBar extends PureComponent {
     const {
       classes,
       openProfile,
+      openSettings,
       disconnect,
       openMenu,
       closeMenu,
@@ -64,8 +66,9 @@ class MyAppBar extends PureComponent {
               open={open}
               onClose={closeMenu}
             >
-              <MenuItem onClick={openProfile}>Profile</MenuItem>
-              <MenuItem onClick={disconnect}>Disconnect</MenuItem>
+              <MenuItem onClick={openProfile}>{i18n.t("profile")}</MenuItem>
+              <MenuItem onClick={disconnect}>{i18n.t("disconnect")}</MenuItem>
+              <MenuItem onClick={openSettings}>{i18n.t("settings")}</MenuItem>
             </Menu>
           </Toolbar>
         </AppBar>
@@ -81,6 +84,7 @@ MyAppBar.propTypes = {
   }).isRequired,
   disconnect: PropTypes.func.isRequired,
   openProfile: PropTypes.func.isRequired,
+  openSettings: PropTypes.func.isRequired,
   openMenu: PropTypes.func.isRequired,
   closeMenu: PropTypes.func.isRequired,
   anchorEl: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),

@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 // import Dialog from 'react-dialog'
 import '../../assets/CSS/bootstrap.css';
 import gecko from '../../assets/Img/Gecko.png';
-
+import i18n from 'i18next' 
 
 export default class ContactUs extends Component {
   constructor(props) {
@@ -14,7 +14,8 @@ export default class ContactUs extends Component {
       email: '',
       subject: '',
       message: '',
-      response_ok: false
+      response_ok: false,
+      cont: ''
     };
   }
 
@@ -58,11 +59,22 @@ export default class ContactUs extends Component {
     this.setState({ show });
   }
 
+  // init = () => {
+  //   // if (this.state.cont === '')
+  //   //   this.setState({cont: i18n.t("contact")});
+  //   if (i18n.language === 'fr')
+  //     this.setState({cont: "Contactez nous"});
+  //   else if (i18n.language === 'en')
+  //     this.setState({cont: "Contact Us"});
+  //   else 
+  //     this.setState({cont: "contactez nous"});
+  // }
   render() {
+    // this.init();
     const { show } = this.state;
     return (
       <div>
-        <Button onClick={() => this.toggleShow(true)} style={{ textDecoration: 'underline', textTransform: 'lowercase', color: 'white' }}>Contactez nous</Button>
+        <Button onClick={() => this.toggleShow(true)} style={{ textDecoration: 'underline', textTransform: 'lowercase', color: 'white' }}>{i18n.t("contact")}</Button>
         {/* <Example/> */}
         <PopPop open={show}
           closeBtn={true}
@@ -162,7 +174,7 @@ class Lgt extends Component {
     const { show } = this.state;
     return (
       <div>
-        <Button onClick={() => this.toggleShow(true)} style={{ textDecoration: 'underline', textTransform: 'lowercase', textColor: '#21b6ae' }}>Contact us</Button>
+        <Button onClick={() => this.toggleShow(true)} style={{ textDecoration: 'underline', textTransform: 'lowercase', textColor: '#21b6ae' }}>{i18n.t("contact")}</Button>
         {/* <Example/> */}
         <PopPop open={show}
           closeBtn={true}

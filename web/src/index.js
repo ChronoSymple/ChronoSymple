@@ -4,6 +4,14 @@ import './index.css';
 import AppController from './Controller/AppController';
 import * as serviceWorker from './serviceWorker';
 import 'typeface-roboto';
+import i18n from 'i18next';
+import './i18n';
+
+
+
+i18n.init({
+    interpolation: { escapeValue: false },  
+});
 
 ReactDOM.render(<AppController />, document.getElementById('root'));
 

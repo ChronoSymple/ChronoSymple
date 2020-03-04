@@ -4,6 +4,7 @@ import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search';
 import { withStyles } from '@material-ui/core';
+import i18n from 'i18next';
 
 const styles = {
   searchBar: {
@@ -43,7 +44,7 @@ class Searchbar extends PureComponent {
         <div className={classes.search}>
           <Typography className={classes.searchText}>
             <input
-              placeholder="Recherche..."
+              placeholder={i18n.t('search')}
               className={classes.searchBar}
               value={search}
               onChange={this.setSearchValue}

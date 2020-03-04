@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Component } from 'react';
 import PropTypes from 'prop-types';
 import Search from './SearchController';
 import AdminSearch from './AdminSearchController';
@@ -6,6 +6,8 @@ import AdminPatient from '../Components/Admin/AdminPatient';
 import AdminDoctor from '../Components/Admin/AdminDoctor';
 import Patient from '../Components/Patient';
 import Profile from '../Components/Profile';
+import Settings from '../Components/Settings';
+
 class MainController extends PureComponent {
 
   render() {
@@ -17,7 +19,9 @@ class MainController extends PureComponent {
       setDoctor,
       token,
       profile,
-      admin
+      settings,
+      admin,
+      appController
     } = this.props;
     return (
       <main className={classes.content}>
@@ -25,6 +29,8 @@ class MainController extends PureComponent {
         {(() => {
           if (profile) {
             return <Profile token={token}/>;
+          } else if (settings) {
+            return <Settings appController={appController}/>
           } else if (patient) {
             if (admin === true) {
               return <AdminPatient token={token} client={patient}/>;
@@ -56,7 +62,9 @@ MainController.propTypes = {
   setDoctor: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
   profile: PropTypes.bool.isRequired,
-  admin: PropTypes.bool
+  settings: PropTypes.bool.isRequired,
+  admin: PropTypes.bool,
+  appController: PropTypes.instanceOf(Component).isRequired
 };
 
 export default MainController;
