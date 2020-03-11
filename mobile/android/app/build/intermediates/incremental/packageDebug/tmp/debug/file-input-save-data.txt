@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Wed Nov 13 06:43:35 CET 2019
+#Thu Mar 05 18:35:20 CET 2020
 70.path=fonts/FontAwesome5_Brands.ttf
 64.base=/home/marie/ChronoSymple/mobile/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 64.baseType=DIRECTORY

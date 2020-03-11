@@ -56,6 +56,10 @@
         "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/drawable-xhdpi-v4/abc_list_selector_disabled_holo_dark.9.png"
     },
     {
+        "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnative_libraries_newappscreen_components_logo.png.flat",
+        "source": "/home/marie/ChronoSymple/mobile/android/app/src/main/res/drawable-mdpi/node_modules_reactnative_libraries_newappscreen_components_logo.png"
+    },
+    {
         "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/drawable_abc_cab_background_internal_bg.xml.flat",
         "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/drawable/abc_cab_background_internal_bg.xml"
     },
@@ -620,6 +624,10 @@
         "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/drawable-v21/abc_dialog_material_background.xml"
     },
     {
+        "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/xml_provider_paths.xml.flat",
+        "source": "/home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/packaged_res/debug/xml/provider_paths.xml"
+    },
+    {
         "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_list_divider_mtrl_alpha.9.png.flat",
         "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/drawable-hdpi-v4/abc_list_divider_mtrl_alpha.9.png"
     },
@@ -800,12 +808,12 @@
         "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/layout/abc_popup_menu_header_item_layout.xml"
     },
     {
-        "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_btn_check_to_on_mtrl_000.png.flat",
-        "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/drawable-xhdpi-v4/abc_btn_check_to_on_mtrl_000.png"
-    },
-    {
         "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnativepaper_lib_module_assets_backchevron.png.flat",
         "source": "/home/marie/ChronoSymple/mobile/android/app/src/main/res/drawable-mdpi/node_modules_reactnativepaper_lib_module_assets_backchevron.png"
+    },
+    {
+        "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_btn_check_to_on_mtrl_000.png.flat",
+        "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/drawable-xhdpi-v4/abc_btn_check_to_on_mtrl_000.png"
     },
     {
         "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/color_abc_tint_seek_thumb.xml.flat",
@@ -1646,6 +1654,10 @@
     {
         "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_menu_share_mtrl_alpha.png.flat",
         "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/drawable-xhdpi-v4/abc_ic_menu_share_mtrl_alpha.png"
+    },
+    {
+        "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/layout_list_item.xml.flat",
+        "source": "/home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/packaged_res/debug/layout/list_item.xml"
     },
     {
         "merged": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/res/merged/debug/layout_abc_list_menu_item_layout.xml.flat",

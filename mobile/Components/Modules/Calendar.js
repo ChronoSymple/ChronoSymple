@@ -42,19 +42,12 @@ class Calendar extends React.Component {
 							DNotes: [ ...response ],
 							loading: false,
 						})
-						console.log("dsqdqsd 2 ")
-						console.log(this.state.DNotes)
 						for (var i = 0; i < this.state.DNotes.length; i++) {
-							console.log("---")
-							console.log(this.state.DNotes[i])
-							console.log(this.state.DNotes[i].id)
 							let id = this.state.DNotes[i].id
 							this.setState({
 								[this.state.DNotes[i].id]: false
 							})
 						}
-
-						console.log(this.state)
 					}
 					}).catch(error => {
 						this.setState({ error })

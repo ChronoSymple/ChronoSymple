@@ -5,6 +5,7 @@ INJECTED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManife
 INJECTED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:1:1-26:12
 INJECTED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:1:1-26:12
 MERGED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:1:1-26:12
+MERGED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-21:12
 MERGED from [:react-native-reanimated] /home/marie/ChronoSymple/mobile/node_modules/react-native-reanimated/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-svg] /home/marie/ChronoSymple/mobile/node_modules/react-native-svg/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-vector-icons] /home/marie/ChronoSymple/mobile/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
@@ -75,6 +76,8 @@ application
 ADDED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:6:5-24:19
 MERGED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:6:5-24:19
 MERGED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:6:5-24:19
+MERGED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-19:19
+MERGED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-19:19
 MERGED from [com.facebook.react:react-native:0.60.4] /home/marie/.gradle/caches/transforms-2/files-2.1/471dc98d5da6873da1dff20c93881e56/AndroidManifest.xml:11:5-20
 MERGED from [com.facebook.react:react-native:0.60.4] /home/marie/.gradle/caches/transforms-2/files-2.1/471dc98d5da6873da1dff20c93881e56/AndroidManifest.xml:11:5-20
 MERGED from [com.facebook.soloader:soloader:0.6.0] /home/marie/.gradle/caches/transforms-2/files-2.1/bfbed8f0ed2c5fa89743bed73acf0c8a/AndroidManifest.xml:11:5-20
@@ -137,6 +140,8 @@ uses-sdk
 INJECTED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml
 INJECTED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml
+MERGED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-reanimated] /home/marie/ChronoSymple/mobile/node_modules/react-native-reanimated/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-reanimated] /home/marie/ChronoSymple/mobile/node_modules/react-native-reanimated/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-svg] /home/marie/ChronoSymple/mobile/node_modules/react-native-svg/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
@@ -233,3 +238,19 @@ uses-permission#android.permission.SYSTEM_ALERT_WINDOW
 ADDED from /home/marie/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml:5:5-77
 	android:name
 		ADDED from /home/marie/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml:5:22-75
+provider#com.imagepicker.FileProvider
+ADDED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:10:9-18:20
+	android:grantUriPermissions
+		ADDED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:14:13-47
+	android:authorities
+		ADDED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-60
+	android:exported
+		ADDED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-37
+	android:name
+		ADDED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-56
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:13-17:58
+	android:resource
+		ADDED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:17-55
+	android:name
+		ADDED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:17-67
