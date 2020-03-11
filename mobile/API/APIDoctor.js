@@ -45,3 +45,15 @@ export function APIGetMyDoctors(token) {
 	.then((response) => response)
 	.catch((error) => error)
 }
+
+export function APIGetDoctorProfile(token, id) {
+	return fetch(baseUrl + '/api/patients/doctors/profile?' + id, {
+		method: 'GET',
+		headers: {
+			Accept: 'application/json',
+			'Authorization': token,
+		},
+	})
+	.then((response) => response)
+	.catch((error) => error)
+}

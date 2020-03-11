@@ -21,7 +21,6 @@ class Calendar extends React.Component {
 			loading: true,
 			isSelectActive: false,
 			refreshing: false,
-			checkingList: {},
 			checkCount: 0,
 			modalCheckboxVisible: false
 		}
@@ -70,6 +69,7 @@ class Calendar extends React.Component {
 		this.props.navigation.navigate('DetailNote', {data: JSON.parse(DataNote)})
 	}
 
+
 	selectAllPressed = () => {
 		console.log('selectAllPressed ! :)')
 		for (var i = 0; i < this.state.DNotes.length; i++) {
@@ -83,6 +83,27 @@ class Calendar extends React.Component {
 		}
 		this.setModalCheckboxVisible(false)
 		this.setState({ refreshing: true })
+	}
+
+	exportPDFPressed = () => {
+		console.log("exportPDFPressed")
+		console.log(this.state.DNotes)
+		let PDFData = []
+		let counter = 0
+		for (var i = 0; i < this.state.DNotes.length; i++) {
+			console.log(this.state.DNotes[i].id)
+			console.log("---")
+			if (this.state[this.state.DNotes[i].id] == true) {
+				console.log("note a export !")
+				console.log(this.state.DNotes[i])
+				PDFData[counter] = this.state.DNotes[i]
+				counter += 1
+			}
+		}
+		this.setModalCheckboxVisible(false)
+		this.setState({ refreshing: true })
+		
+		this.props.navigation.navigate('ExportPDF', {'PDFData': PDFData})
 	}
 
 	setModalCheckboxVisible = (visible) => {
@@ -142,7 +163,7 @@ class Calendar extends React.Component {
 					<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.selectAllPressed() }}>
 						<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Tout Selectionner </Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {}}>
+					<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.exportPDFPressed() }}>
 						<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Exporter sous PDF </Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {}}>
