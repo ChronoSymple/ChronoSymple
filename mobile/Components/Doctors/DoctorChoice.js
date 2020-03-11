@@ -18,10 +18,11 @@ class DoctorChoice extends React.Component {
 		this.state = {
 			data: []
 		}
+		this.getDoctorsList()
 
 	}
 
-	componentWillMount () {
+	getDoctorsList = () => {
 		APIGetDoctors(this.props.token.token).then(async data => {
 			console.log("DoctorChoice - APIGetDoctors - data")
 			console.log(data)
@@ -65,7 +66,7 @@ class DoctorChoice extends React.Component {
 		const { data } = this.state;
 		return (
 			<View>
-				<FlatList
+				{/*<FlatList
   					data={data}
   					keyExtractor={(item) => item.id.toString()}
   					renderItem={({item, separators}) => (
@@ -90,7 +91,7 @@ class DoctorChoice extends React.Component {
       						</View>
     					</TouchableHighlight>
   					)}
-				/>
+				/>*/}
       		</View>
 		)
 	}

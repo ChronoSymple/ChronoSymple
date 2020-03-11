@@ -7,27 +7,31 @@ import Home from '../Components/Home';
 import ModulePlace from '../Components/Modules/ModulePlace';
 import Profile from '../Components/Auth/Profile';
 import ModuleProfile from '../Components/Auth/ModuleProfile';
-import SearchDoctors from '../Components/Doctors/SearchDoctors';
 import Calendar from '../Components/Modules/Calendar';
-import DoctorChoice from '../Components/Doctors/DoctorChoice';
-import ChooseModulesToSend from '../Components/Doctors/ChooseModulesToSend';
 import DetailNote from '../Components/Modules/DetailNote';
 import EditNote from '../Components/Modules/EditNote';
 import StatisticDiabete from '../Components/Modules/StatisticDiabete';
 import StatisticAsthma from '../Components/Modules/StatisticAsthma';
 import Export from '../Components/Modules/Export';
+import ExportPDF from '../Components/Modules/ExportPDF';
 import Note from '../Components/Modules/Note';
 import Logout from '../Components/Auth/Logout'
 import Loading from '../Components/Loading'
 import Check from '../Components/CheckModule'
+
+import AProposProfile from '../Components/Auth/Profile/AProposProfile';
+import ContactProfile from '../Components/Auth/Profile/ContactProfile';
+import FAQProfile from '../Components/Auth/Profile/FAQProfile';
 import InfoProfile from '../Components/Auth/Profile/InfoProfile';
 import PasswordProfile from '../Components/Auth/Profile/PasswordProfile';
 import SupportProfile from '../Components/Auth/Profile/SupportProfile';
-import ContactProfile from '../Components/Auth/Profile/ContactProfile';
-import AProposProfile from '../Components/Auth/Profile/AProposProfile';
-import FAQProfile from '../Components/Auth/Profile/FAQProfile';
+
+import ChooseModulesToSend from '../Components/Doctors/ChooseModulesToSend';
+import DoctorChoice from '../Components/Doctors/DoctorChoice';
+import DoctorCard from '../Components/Doctors/DoctorCard';
+import SearchDoctors from '../Components/Doctors/SearchDoctors';
+
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import MyDoctorChoice from '../Components/Doctors/MyDoctorChoice';
 import Icon2 from 'react-native-vector-icons/FontAwesome5';
 import AccountValidation from "../Components/Auth/AccountValidation";
 import { styles, colors, windowSize } from '../Components/StyleSheet'
@@ -58,7 +62,10 @@ const CalendarStackNavigator = createStackNavigator({
 	},
 	EditNote: {
 		screen: EditNote
-	}
+	},
+	ExportPDF: {
+		screen: ExportPDF
+	},
 }, {
 	headerMode: 'none'
 })
@@ -97,9 +104,9 @@ const DoctorChoiceStackNavigator = createStackNavigator({
 	headerMode: 'none'
 })
 
-const MyDoctorChoiceStackNavigator = createStackNavigator({
-	MyDoctorChoice: {
-		screen: MyDoctorChoice,
+const DoctorCardStackNavigator = createStackNavigator({
+	DoctorCard: {
+		screen: DoctorCard,
 	}
 }, {
 	headerMode: 'none'
@@ -109,6 +116,14 @@ const MyDoctorChoiceStackNavigator = createStackNavigator({
 const ChooseModulesToSendStackNavigator = createStackNavigator({
 	ChooseModulesToSend: {
 		screen: ChooseModulesToSend,
+	}
+}, {
+	headerMode: 'none'
+})
+
+const SearchDoctorsStackNavigator = createStackNavigator({
+	SearchDoctors: {
+		screen: SearchDoctors,
 	}
 }, {
 	headerMode: 'none'
@@ -313,8 +328,11 @@ const StackNavigtorGlobalHome = createStackNavigator({
 	DoctorChoiceStackNavigator: {
 		screen: DoctorChoiceStackNavigator
 	},
-	MyDoctorChoiceStackNavigator: {
-		screen: MyDoctorChoiceStackNavigator
+	DoctorCardStackNavigator: {
+		screen: DoctorCardStackNavigator
+	},
+	SearchDoctorsStackNavigator: {
+		screen: SearchDoctorsStackNavigator
 	},
 	ModuleDiabete: {
 		screen: TabsDiabete

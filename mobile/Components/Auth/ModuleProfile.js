@@ -2,10 +2,11 @@
 
 import React from 'react'
 import { colors, windowSize } from '../StyleSheet'
-import { View, ScrollView, FlatList, StyleSheet, Button, Image, Text, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { View, ScrollView, FlatList, StyleSheet, Button, Image, Text, TouchableOpacity, TouchableHighlight, ActivityIndicator, Modal } from 'react-native'
 import { connect } from 'react-redux'
 import { APIGetPatientModules, APIAddModule, APIRemoveUnit } from '../../API/APIModule'
 import { getUserToken } from '../../Redux/Action/action';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import ModuleItem from '../Modules/ModuleItem'
 
 
@@ -15,7 +16,8 @@ class ModuleProfile extends React.Component {
 		this.state = {
 			Dmodules: [],
 			loading: true,
-			moduleSelected: -1
+			moduleSelected: -1,
+			modalModuleVisible: false
 		}
 		this._getPatientModule()
 	}
@@ -38,6 +40,10 @@ class ModuleProfile extends React.Component {
 		})
 	}
 
+	setModalModuleVisible = (visible) => {
+		this.setState({ modalModuleVisible: visible })
+	}
+
 	modulePressed = (item) => {
 		this.setState({
 			moduleSelected: item.id
@@ -54,8 +60,15 @@ class ModuleProfile extends React.Component {
 		})
 	}
 
-	doctorListPressed = (item) => {
-		this.props.navigation.navigate('MyDoctorChoiceStackNavigator');
+	changeDoctorPressed = () => {
+		this.setModalModuleVisible(false)
+		this.props.navigation.navigate('SearchDoctors');
+	}
+
+	doctorCardPressed = () => {
+		
+		this.setModalModuleVisible(false)
+		this.props.navigation.navigate('DoctorCard')
 	}
 
 	render() {
@@ -68,6 +81,32 @@ class ModuleProfile extends React.Component {
 					<ActivityIndicator size='large' color='black' />
 					:
 					<ScrollView style={{flex: 1}}>
+						<Modal
+							animationType="slide"
+							transparent={false}
+							visible={this.state.modalModuleVisible}
+						>
+							<View style={{ flex: 1}}>
+								<TouchableHighlight style={{margin: 10}}>
+									<Icon
+										name="clear"
+										color="#62BE87"
+										size={35}
+										onPress={() => { this.setModalModuleVisible(false); }}
+				    				/>
+								</TouchableHighlight>
+								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => this.changeDoctorPressed()}>
+									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Changer de medecin </Text>
+								</TouchableOpacity>
+								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => this.doctorCardPressed()}>
+									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Voir la fiche du medecin </Text>
+								</TouchableOpacity>
+								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {}}>
+									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Supprimer le module </Text>
+								</TouchableOpacity>
+							</View>
+
+						</Modal>
 						<FlatList
 							style={styles.list}
 							data={this.state.Dmodules}
@@ -75,29 +114,25 @@ class ModuleProfile extends React.Component {
 							keyExtractor={(item) => item.id.toString()}
 							renderItem={({item}) => (
 								<View>
-									{this.state.moduleSelected != item.id ?
-									<View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: colors.secondary, borderRadius: 15, backgroundColor : 'white', margin: 10}}>
-										<TouchableOpacity style={ styles.module }
-											onPress={() => this.modulePressed(item) }>
-												<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>{item.general_unit.name}</Text>
+									<View style={{flex: 1, justifyContent : 'center', borderWidth: 3, borderColor: colors.secondary, borderRadius: 15, backgroundColor : 'white', margin: 10}}>
+										<TouchableOpacity
+											onPress={() => {}}>
+												<View style={{alignItems: 'flex-end'}}>
+													<Icon
+														name="settings"
+														color={colors.secondary}
+														size={35}
+														onPress={() => { this.setModalModuleVisible(true) }}
+													/>
+												</View>
+												<View style={{ alignItems: 'center' }}>
+													<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>{item.general_unit.name}</Text>
+												</View>
+												<View style={{ alignItems: 'flex-end' }}>
+													<Text> docteur: nom prenom </Text>
+												</View>
 										</TouchableOpacity>
 									</View>
-									:
-									<View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: colors.secondary, borderRadius: 15, backgroundColor : 'white', margin: 10}}>
-										<TouchableOpacity style={ styles.module }
-											onPress={() => this.cancelPressed(item) }>
-												<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>retour</Text>
-										</TouchableOpacity>
-										<TouchableOpacity style={ styles.module, {backgroundColor : 'rgba(91, 232, 245, 0.5)'}}
-											onPress={() => this.doctorListPressed(item) }>
-												<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>Liste des docteurs</Text>
-										</TouchableOpacity>
-										<TouchableOpacity style={ styles.module, {backgroundColor : 'rgba(255, 110, 110, 0.5)'}}
-											onPress={() => this.removePressed(item) }>
-												<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>supprimer</Text>
-										</TouchableOpacity>
-									</View>
-									}
 								</View>
 							)}
 						/>
