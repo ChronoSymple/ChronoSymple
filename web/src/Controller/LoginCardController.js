@@ -4,15 +4,15 @@ import LoginCard from '../Components/LoginCard';
 import Api from '../Api';
 
 class LoginCardController extends PureComponent {
-  state = {password: '', email: ''}
+  state = {password: '', email: '', error: ''}
 
   setPassword = e => {
     const password = e.target.value;
-    this.setState({password});
+    this.setState({password, error: ''});
   }
   setEmail = e => {
     const email = e.target.value;
-    this.setState({email});
+    this.setState({email, error : ''});
   }
   login = async e => {
     e.preventDefault();
@@ -20,14 +20,16 @@ class LoginCardController extends PureComponent {
       const token = await Api.login(this.state.email, this.state.password);
       this.props.setToken(token);
     } catch (e) {
-      // TODO: Error to display
+      const error = e.toString();
+      this.setState({error});
     }
   }
 
   render() {
     const {
       email,
-      password
+      password,
+      error
     } = this.state;
     const {
       openRegister
@@ -35,6 +37,7 @@ class LoginCardController extends PureComponent {
     return (<LoginCard
       email={email}
       password={password}
+      error={error}
       setEmail={this.setEmail}
       setPassword={this.setPassword}
       login={this.login}

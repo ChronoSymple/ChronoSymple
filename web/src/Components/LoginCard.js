@@ -5,6 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Alert from '@material-ui/lab/Alert';
 import { withStyles } from '@material-ui/core';
 
 const styles = {
@@ -26,11 +27,13 @@ const LoginCard = ({
   setEmail,
   setPassword,
   login,
-  openRegister
+  openRegister,
+  error
 }) => (
   <Card className={classes.loginCard}>
     <CardContent>
       <Typography variant="h5">Connexion</Typography>
+      {error && <Alert severity='error'>{error}</Alert>}
       <form onSubmit={login}>
         <TextField
           label="Email"
@@ -79,6 +82,7 @@ LoginCard.propTypes = {
   }),
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
+  error: PropTypes.string,
   setEmail: PropTypes.func.isRequired,
   setPassword: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,

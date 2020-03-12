@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.0.0",
     "@material-ui/icons": "^4.0.0",
+    "@material-ui/lab": "^4.0.0-alpha.45",
     "chart.js": "^2.8.0",
     "chartjs-plugin-annotation": "^0.5.7",
     "eslint-plugin-react": "^7.13.0",
