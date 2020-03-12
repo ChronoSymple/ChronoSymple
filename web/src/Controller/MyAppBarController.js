@@ -2,7 +2,6 @@
 import React from 'react';
 import MyAppBar from '../Components/MyAppBar';
 import PropTypes from 'prop-types';
-import i18n from 'i18next';
 
 class MyAppBarController extends React.Component {
   state = {
@@ -32,24 +31,8 @@ class MyAppBarController extends React.Component {
   render() {
     const {
       title,
-      closeProfile,
-      closePatient,
-      closeSettings,
-      closeDoctor
+      back
     } = this.props;
-    let back;
-    if (title === 'Patient') {
-      back = closePatient;
-    }
-    if (title === 'Doctor') {
-      back = closeDoctor;
-    }
-    if (title === 'Profile') {
-      back = closeProfile;
-    }
-    if (title === i18n.t("settings")) {
-      back = closeSettings;
-    }
     return <MyAppBar
       disconnect={this.disconnect}
       openProfile={this.openProfile}
@@ -68,10 +51,7 @@ MyAppBarController.propTypes = {
   openProfile: PropTypes.func.isRequired,
   openSettings: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
-  closeProfile: PropTypes.func.isRequired,
-  closeSettings: PropTypes.func.isRequired,
-  closePatient: PropTypes.func.isRequired,
-  closeDoctor: PropTypes.func.isRequired
+  back: PropTypes.func,
 };
 
 export default MyAppBarController;

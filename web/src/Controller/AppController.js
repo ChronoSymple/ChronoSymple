@@ -1,10 +1,17 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MyAppBarController from './MyAppBarController';
-import Main from './MainController';
 import LoginController from './LoginController';
 import { withStyles } from '@material-ui/core/styles';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Search from './SearchController';
+import AdminSearch from './AdminSearchController';
+import AdminPatient from '../Components/Admin/AdminPatient';
+import AdminDoctor from '../Components/Admin/AdminDoctor';
+import Patient from '../Components/Patient';
+import Profile from '../Components/Profile';
+import Settings from '../Components/Settings';
 import i18n from 'i18next';
 
 const styles = theme => ({
@@ -26,29 +33,31 @@ class App extends PureComponent {
     settings: false
   };
 
-  setPatient = patient => this.setState({patient});
-  setDoctor = doctor => this.setState({doctor});
-  closePatient = () => this.setState({patient: null});
-  closeDoctor = () => this.setState({doctor: null});
+  setPatient = patient => this.setState({ patient }) || (window.location = '/patient');
+  setDoctor = doctor => this.setState({ doctor }) || (window.location = '/doctor');
+  closePatient = () => this.setState({ patient: null }) || window.history.back();
+  closeDoctor = () => this.setState({ doctor: null }) || window.history.back();
   setToken = token => {
     localStorage.setItem('myToken', token);
-    this.setState({token});
+    this.setState({ token });
   }
   disconnect = () => {
     localStorage.removeItem('myToken');
-    this.setState({token: null});
+    this.setState({ token: null });
   }
   openProfile = () => {
-    this.setState({profile: true});
+    this.setState({ profile: true });
+    window.location = '/profile';
   }
   closeProfile = () => {
-    this.setState({profile: false});
+    window.history.back();
   }
   openSettings = () => {
-    this.setState({settings: true});
+    this.setState({ settings: true });
+    window.location = '/settings';
   }
   closeSettings = () => {
-    this.setState({settings: false});
+    window.history.back();
   }
   render() {
     const {
@@ -57,34 +66,84 @@ class App extends PureComponent {
     const {
       patient,
       token,
-      profile,
-      settings,
       doctor
     } = this.state;
-    let title = i18n.t("list");
-    if (patient)
-      title = 'Patient';
-    if (doctor)
-      title = 'Doctor';
-    if (profile)
-      title = 'Profile';
-    if (settings)
-      title = i18n.t("settings");
     const admin = localStorage.getItem('admin') === 'true';
     return (
       <div className={classes.root}>
         <CssBaseline />
-        {token ? null : <LoginController setToken={this.setToken}/>}
-        <MyAppBarController title={title}
-          admin={admin}
-          disconnect={this.disconnect}
-          openProfile={this.openProfile}
-          openSettings={this.openSettings}
-          closeSettings={this.closeSettings}
-          closeProfile={this.closeProfile}
-          closePatient={this.closePatient}
-          closeDoctor={this.closeDoctor}/>
-        {token ? <Main classes={classes} token={token} doctor={doctor} patient={patient} setDoctor={this.setDoctor} setPatient={this.setPatient} profile={profile} admin={admin} settings={settings} appController={this}/> : null}
+        {token ? <BrowserRouter>
+          <Switch>
+            <Route path='/profile'>
+              <MyAppBarController title='Profile'
+                disconnect={this.disconnect}
+                openProfile={this.openProfile}
+                openSettings={this.openSettings}
+                back={this.closeProfile}
+              />
+              <main className={classes.content}>
+                <div className={classes.toolbar} />
+                <Profile token={token} />
+              </main>
+            </Route>
+            <Route path='/settings'>
+              <MyAppBarController title={i18n.t('settings')}
+                disconnect={this.disconnect}
+                openProfile={this.openProfile}
+                openSettings={this.openSettings}
+                back={this.closeSettings}
+              />
+              <main className={classes.content}>
+                <div className={classes.toolbar} />
+                <Settings appController={this} />
+              </main>
+            </Route>
+            {(admin === true) ?
+              <Route path='/doctor'>
+                <MyAppBarController title='Doctor'
+                  disconnect={this.disconnect}
+                  openProfile={this.openProfile}
+                  openSettings={this.openSettings}
+                  back={this.closeDoctor}
+                />
+                <main className={classes.content}>
+                  <div className={classes.toolbar} />
+                  <AdminDoctor token={token} doctor={doctor} />
+                </main>
+              </Route> : null
+            }
+            <Route path='/patient'>
+              <MyAppBarController title='Patient'
+                disconnect={this.disconnect}
+                openProfile={this.openProfile}
+                openSettings={this.openSettings}
+                back={this.closePatient}
+              />
+              <main className={classes.content}>
+                <div className={classes.toolbar} />
+                {(admin === true) ?
+                  <AdminPatient token={token} client={patient} /> :
+                  <Patient token={token} client={patient} />
+                }
+              </main>
+            </Route>
+            <Route path='/'>
+              <MyAppBarController title={i18n.t('list')}
+                disconnect={this.disconnect}
+                openProfile={this.openProfile}
+                openSettings={this.openSettings}
+              />
+              <main className={classes.content}>
+                <div className={classes.toolbar} />
+                {(admin === true) ?
+                  <AdminSearch token={token} setPatient={this.setPatient} setDoctor={this.setDoctor} /> :
+                  <Search token={token} setPatient={this.setPatient} />
+                }
+              </main>
+            </Route>
+          </Switch>
+        </BrowserRouter> : <LoginController setToken={this.setToken} />
+        }
       </div>
     );
   }
