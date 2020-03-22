@@ -4,17 +4,7 @@
             "outputFile": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v16/values-v16.xml",
             "map": [
                 {
-                    "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/57c526cd26f387f4220953dfdf33ffe8/res/values-v16/values-v16.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "65",
-                        "endOffsets": "116"
-                    }
-                },
-                {
-                    "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/values-v16/values-v16.xml",
+                    "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/aacf6791c582f0ba8b13747ffade6266/res/values-v16/values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -30,6 +20,16 @@
                         "endLines": "6",
                         "endColumns": "12",
                         "endOffsets": "289"
+                    }
+                },
+                {
+                    "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/2b34ed59634236f1a0c10d910ddebd36/res/values-v16/values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
                     }
                 }
             ]

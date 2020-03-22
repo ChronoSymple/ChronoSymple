@@ -20,7 +20,10 @@ class Note extends React.Component {
 		var jour    = now.getDate();
 		var heure   = now.getHours();
 		var minute  = now.getMinutes();
-		var date = jour + '/' + month + '/' + annee
+		if (month < 10)
+			var date = jour + '/' + '0' + month + '/' + annee
+		else
+			var date = jour + '/' + month + '/' + annee
 		if (minute > 9)
 			var horaire = heure + ':' + minute
 		else

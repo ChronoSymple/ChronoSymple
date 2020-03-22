@@ -1,5 +1,5 @@
 import React from 'react'
-import { APIGetPatientModules } from '../API/APIModule'
+import { APIGetPatientModules, APIRemoveUnit } from '../API/APIModule'
 import ModuleItem from './Modules/ModuleItem'
 import {
 	ActivityIndicator,
@@ -11,56 +11,74 @@ import {
 	Button,
 	BackHandler,
 	TouchableOpacity,
-	TouchableWithoutFeedback,
 	Animated,
-	//Modal,
-	TouchableHighlight
+	Dimensions
 } from 'react-native';
 import { connect } from 'react-redux';
-import { getUserToken, saveUserCurrentModule, saveUserCurrentModuleName } from '../Redux/Action/action';
-import Modal from 'react-native-modal';
-import { Easing } from 'react-native-reanimated';
-
-var ACTION_TIMER = 800;
+import { getUserToken, saveUserCurrentModule, saveUserCurrentModuleName, getUserCurrentModule } from '../Redux/Action/action';
 
 class Home extends React.Component {
-	  constructor(props) {
-		  super(props)
-		  this.state = {
-			  Dmodules: null,
-			  loading: true,
-			  isModalVisible: false,
-			  pressAction: new Animated.Value(0),
+	constructor(props) {
+		super(props)
+		this.state = {
+			Dmodules: null,
+			loading: true,
+			isModalVisible: false,
+			animatedValue: new Animated.Value(1)
+		}
+		this._bootstrapAsync();
+		const { navigation } = this.props;
+		this.focusListener = navigation.addListener('didFocus', () => {
+			this.state = {
+				Dmodules: null,
+				loading: true
 			}
 			this._bootstrapAsync();
-			const { navigation } = this.props;
-			this.focusListener = navigation.addListener('didFocus', () => {
-				this.state = {
-					Dmodules: null,
-					loading: true
+		});
+	}
+		
+	componentWillMount = () => {
+		this._value = 0;
+		this.state.animatedValue.addListener((v) => this._value = v.value);
+	}
+
+	deleteUnit = (idModule) => {
+		this.props.getUserToken().then(() => {
+			APIRemoveUnit(this.props.token.token, idModule).then(async data => {
+				if (data.status == 200) {
+					this.props.getUserCurrentModule().then(() => {
+						this.setState({
+							Dmodules: null,
+							loading: true
+						})
+						this._bootstrapAsync();
+						if (idModule == this.props.currentModule.currentModule)
+							this.props.navigation.navigate('HomeTabs')
+					}).catch(error => {
+						this.setState({ error })
+					})
 				}
-				this._bootstrapAsync();
-			});
-		}
-	
-		componentWillMount = () => {
-			this._value = 0;
-			this.state.pressAction.addListener((v) => this._value = v.value);
-			this.animatedValue = new Animated.Value(1);
-		}
+			})
+		}).catch(error => {
+			this.setState({ error })
+		})
+	}
 
 	// Fetch the token from storage then navigate to our appropriate place
 	_bootstrapAsync = () => {
 		this.props.getUserToken().then(() => {
 			APIGetPatientModules(this.props.token.token).then(async data => {
-				this.setState({
-					loading: false							
-				})
 				if (data.status == 200) {
 					let response = await data.json()
 					if (response.length > 0 && JSON.stringify(this.state.Dmodules) != JSON.stringify(response.modules)) {
 						this.setState({
 							Dmodules: [ ...response ],
+							loading: false
+						})
+					}
+					else {
+						this.setState({
+							loading: false
 						})
 					}
 				}
@@ -92,64 +110,13 @@ class Home extends React.Component {
 		})
 	}
 
-
-	handlePressIn = () => {
-		Animated.timing(this.state.pressAction, {
-			duration: ACTION_TIMER,
-			toValue: 1
-		}).start(this.animationActionComplete);
-		Animated.spring(this.animatedValue, {
-			toValue: .5
-		}).start()
-	}
-	
-	handlePressOut= () => {
-		if (this._value < 1) {
-			this.props.navigation.navigate('Stack')
-		}
-		Animated.timing(this.state.pressAction, {
-			duration: ACTION_TIMER,
-			toValue: 0,
-		}).start();
-		Animated.spring(this.animatedValue, {
-			toValue: 1,
-			friction: 3,
-			tension: 40
-		}).start()
-	}
-	
-	animationActionComplete= () => {
-		console.log(this._value)
-		if (this._value >= 1) {
-			this.setModalVisible(true)
-		}
-	}
-
 	render() {
 		let { navigate } = this.props.navigation;
 		const animatedStyle = {
-			transform: [{ scale: this.animatedValue }]
+			transform: [{ scale: this.state.animatedValue }]
 		}
 		return (
 			<View style={styles.container}>
-				<View>
-				<Modal
-				    visible={this.state.isModalVisible}
-				    style={styles.view}
-				    onSwipeComplete={this.close}
-				    swipeDirection={'down'}
-					transparent={true}
-					animationInTiming="3000"
-					animationType="slide"
-					animationIn="slideInUp"
-				  	animationOut="slideOutDown">
-				    	<View style={styles.content}>
-							<Text style={styles.contentTitle}>Supprimer la note</Text>
-							<Text style={styles.contentTitle}>Voir les médecins ajoutés</Text>
-				    		<Button testID={'close-button'} onPress={() => this.setModalVisible(false)} title="Close" />
-				  		</View>
-				</Modal>
-      			</View>
         		<Text style={{color:"#62BE87", textAlign:'center', fontWeight: "bold", justifyContent: 'center', fontSize:30, margin: 30}}>Chronosymple</Text>
 				{this.state.loading && <ActivityIndicator size='large' color='black' />}
 				{ !this.state.loading && !this.state.Dmodules
@@ -159,23 +126,14 @@ class Home extends React.Component {
 							Aucun module actif
 						</Text>
 						<Button 
+							style={styles.buttonNoModule}
 							color="#62BE87"
 							onPress={() => navigate('Stack')} 
-							title="AJOUTER VOTRE PREMIER MODULE EN ALLANT SUR LE MODULE PLACE"
+							title="POUR UTILISER L'APPLICATION VOUS DEVEZ AJOUTER UN MODULE"
 						/>
 					</View>
 					:
 					<ScrollView style={{flex: 1}}>
-							<TouchableWithoutFeedback 
-            				    onPressIn={this.handlePressIn} 
-            				    onPressOut={this.handlePressOut}>
-								<Animated.View style={[styles.button, animatedStyle]}>
-            				    	<View style={styles.button}>
-            				    	    <Text style={styles.text}>Press And Hold Me</Text>
-            				    	</View>
-								</Animated.View>
-            				</TouchableWithoutFeedback>
-						
 						<FlatList
 							style={styles.list}
 							data={this.state.Dmodules}
@@ -184,7 +142,8 @@ class Home extends React.Component {
 								<ModuleItem
 									dModule={item}
 									triggerModule={this.changeModule}
-									generalUnit={true}>
+									generalUnit={true}
+									deleteUnit={this.deleteUnit}>
 								</ModuleItem>
 							)}
 						/>
@@ -238,6 +197,11 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		marginBottom: 12,
 	},
+	width: 400,
+	buttonNoModule: {
+		justifyContent: 'center',
+		alignItems: 'center'
+	}
 })
 
 const mapStateToProps = state => ({
@@ -247,8 +211,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 	getUserToken: () => dispatch(getUserToken()),
+	getUserCurrentModule: () => dispatch(getUserCurrentModule()),
 	saveUserCurrentModule: (currentModule) => dispatch(saveUserCurrentModule(currentModule)),	
-	saveUserCurrentModuleName: (currentModuleName) => dispatch(saveUserCurrentModuleName(currentModuleName))	
+	saveUserCurrentModuleName: (currentModuleName) => dispatch(saveUserCurrentModuleName(currentModuleName))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

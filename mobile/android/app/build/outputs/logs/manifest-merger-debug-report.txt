@@ -5,14 +5,18 @@ INJECTED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManife
 INJECTED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:1:1-26:12
 INJECTED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:1:1-26:12
 MERGED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:1:1-26:12
+MERGED from [androidx.multidex:multidex:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/c5428be28eebbd3d5d1c86d80b12836e/AndroidManifest.xml:17:1-22:12
+MERGED from [:react-native-gesture-handler] /home/marie/ChronoSymple/mobile/node_modules/react-native-gesture-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
+MERGED from [:react-native-html-to-pdf] /home/marie/ChronoSymple/mobile/node_modules/react-native-html-to-pdf/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-21:12
 MERGED from [:react-native-reanimated] /home/marie/ChronoSymple/mobile/node_modules/react-native-reanimated/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
+MERGED from [:react-native-screens] /home/marie/ChronoSymple/mobile/node_modules/react-native-screens/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-svg] /home/marie/ChronoSymple/mobile/node_modules/react-native-svg/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-vector-icons] /home/marie/ChronoSymple/mobile/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [com.facebook.react:react-native:0.60.4] /home/marie/.gradle/caches/transforms-2/files-2.1/471dc98d5da6873da1dff20c93881e56/AndroidManifest.xml:2:1-13:12
 MERGED from [org.webkit:android-jsc:r245459] /home/marie/.gradle/caches/transforms-2/files-2.1/1a3a65b0d3d635ab30629e406adc7887/AndroidManifest.xml:2:1-11:12
-MERGED from [:react-native-gesture-handler] /home/marie/ChronoSymple/mobile/node_modules/react-native-gesture-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
-MERGED from [androidx.appcompat:appcompat:1.0.2] /home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.material:material:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/9e207a02f6590095dd07435f57601ad3/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/aacf6791c582f0ba8b13747ffade6266/AndroidManifest.xml:17:1-24:12
 MERGED from [com.facebook.fresco:fresco:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/5976e438bfff6f23a15ba1e570ec0d6f/AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.fresco:imagepipeline-okhttp3:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/7e4b1c87e3ad585662a16bdfcfbe5753/AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.fresco:drawee:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/bfc134ae2afa76331b0a939245c23c96/AndroidManifest.xml:2:1-9:12
@@ -21,33 +25,34 @@ MERGED from [com.facebook.fresco:imagepipeline:2.0.0] /home/marie/.gradle/caches
 MERGED from [com.facebook.fresco:nativeimagetranscoder:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/c8969c9fafd0e126710a50b5c1179717/AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.fresco:imagepipeline-base:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/48f9116685430f3b81ec4ceea5bc152b/AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.soloader:soloader:0.6.0] /home/marie/.gradle/caches/transforms-2/files-2.1/bfbed8f0ed2c5fa89743bed73acf0c8a/AndroidManifest.xml:2:1-13:12
-MERGED from [androidx.transition:transition:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/1e0cd68b6ce71174236fa6e583e4cb6e/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.fragment:fragment:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/76bf3ba4ef1df0606618376959cac884/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/6dfe727a486ad8144b46841837b3fd3f/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/88259b2d078f3bc60e6378ed1d36a45a/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/6018643818d2df1af94e399312a2a153/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /home/marie/.gradle/caches/transforms-2/files-2.1/d2a71787fbb512462360d6fb11f52a7f/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.loader:loader:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/7c440818a341d46d3dd4f42e0433489d/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.viewpager:viewpager:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/0ba35ceb144875bbdf4f15787292b4b5/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/da5975a1c7038aa6aacc7e50d380c9ee/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/dcbd522e71160a7e588a0f63da591176/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/6683c628d07441193194b2a49084c13d/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.customview:customview:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/46e236578da2d5279006f0b9574cbfee/AndroidManifest.xml:17:1-22:12
+MERGED from [com.tom_roush:pdfbox-android:1.8.10.0] /home/marie/.gradle/caches/transforms-2/files-2.1/44567af163132b9f91448f07f5491504/AndroidManifest.xml:2:1-13:12
+MERGED from [androidx.transition:transition:1.2.0] /home/marie/.gradle/caches/transforms-2/files-2.1/a4c780efc0ce0e6fd2091094c5132e95/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/1808650bca063b80b7ef13eedf1833a2/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.fragment:fragment:1.2.1] /home/marie/.gradle/caches/transforms-2/files-2.1/adff4c98165b6baca4c710863b744114/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/e3e2926c0307b997bc887b8f9671b9e6/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/ff702424503bfd3c8f4726aa5bdb146b/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/48175684fc11f3eb3e6e48931f65eb11/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.core:core:1.0.1] /home/marie/.gradle/caches/transforms-2/files-2.1/57c526cd26f387f4220953dfdf33ffe8/AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/fbf1d1c9fe1c5cf9a7effe96d6aa5118/AndroidManifest.xml:17:1-25:12
-MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/11ca028d7fd74798824691a9e54548f2/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/9995bf3c92181fc6f17caee8d4d6e373/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.documentfile:documentfile:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/043eec15000ff7bcb88f0508cf1d2302/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/9af0ef2de409860d47de9069e3afa27c/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.print:print:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/6b4d373b539384e8aa069a91e3e51d82/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/68256d4c67075a5f6bbe91494a69bc07/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/a2e8f4342471bbfde1c5da76bd2ef070/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/55d41b79c23aee05f83b6bfca67a4f44/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.arch.core:core-runtime:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/1bb98b43c64b646b47855f234a30f80a/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.interpolator:interpolator:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/8a618f67d2dff626663b839539096aa2/AndroidManifest.xml:17:1-22:12
 MERGED from [com.facebook.fresco:fbcore:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/7f0e2d3c9e8ca26b47c7005041ef7e8b/AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/9a04d821a0d121107183c43b8f7a5f5b/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/dcbd522e71160a7e588a0f63da591176/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/0ba35ceb144875bbdf4f15787292b4b5/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/7c440818a341d46d3dd4f42e0433489d/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.activity:activity:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/57b4d3335306b08b57bf33d6601a70f3/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/12fc7b656238e067b5dec00b68c2bd10/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.customview:customview:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/46e236578da2d5279006f0b9574cbfee/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/1926ddb1abea698cac9d5ec57281799c/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/2029ccfca3c4f757a4e7d714a0d704e5/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.core:core:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/2b34ed59634236f1a0c10d910ddebd36/AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/11ca028d7fd74798824691a9e54548f2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/8fcab41fdacf80597c6325967333a090/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0] /home/marie/.gradle/caches/transforms-2/files-2.1/efc685650f965b479c492c8652f39c8d/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.2.0] /home/marie/.gradle/caches/transforms-2/files-2.1/ab61535c78d6ecaa2e41aa93748a4d1e/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/8a618f67d2dff626663b839539096aa2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cardview:cardview:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/4e3d7cc911315b97ffaccda31c5f0266/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.2.0] /home/marie/.gradle/caches/transforms-2/files-2.1/fb581703c6248ca4696b9159a334d48b/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.savedstate:savedstate:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/111e4199dd705e9ef26a66e18f4f7155/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/a2e8f4342471bbfde1c5da76bd2ef070/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.2.0] /home/marie/.gradle/caches/transforms-2/files-2.1/71cc0164921cb89bf3c3cbd8dac603fc/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.arch.core:core-runtime:2.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/7809d866bf884dc6bf3dac39118ffd3d/AndroidManifest.xml:17:1-24:12
 INJECTED from /home/marie/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml:2:1-8:12
 INJECTED from /home/marie/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml:2:1-8:12
 INJECTED from /home/marie/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml:2:1-8:12
@@ -80,14 +85,16 @@ MERGED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_mo
 MERGED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-19:19
 MERGED from [com.facebook.react:react-native:0.60.4] /home/marie/.gradle/caches/transforms-2/files-2.1/471dc98d5da6873da1dff20c93881e56/AndroidManifest.xml:11:5-20
 MERGED from [com.facebook.react:react-native:0.60.4] /home/marie/.gradle/caches/transforms-2/files-2.1/471dc98d5da6873da1dff20c93881e56/AndroidManifest.xml:11:5-20
+MERGED from [com.google.android.material:material:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/9e207a02f6590095dd07435f57601ad3/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/9e207a02f6590095dd07435f57601ad3/AndroidManifest.xml:22:5-20
 MERGED from [com.facebook.soloader:soloader:0.6.0] /home/marie/.gradle/caches/transforms-2/files-2.1/bfbed8f0ed2c5fa89743bed73acf0c8a/AndroidManifest.xml:11:5-20
 MERGED from [com.facebook.soloader:soloader:0.6.0] /home/marie/.gradle/caches/transforms-2/files-2.1/bfbed8f0ed2c5fa89743bed73acf0c8a/AndroidManifest.xml:11:5-20
-MERGED from [androidx.core:core:1.0.1] /home/marie/.gradle/caches/transforms-2/files-2.1/57c526cd26f387f4220953dfdf33ffe8/AndroidManifest.xml:22:5-89
-MERGED from [androidx.core:core:1.0.1] /home/marie/.gradle/caches/transforms-2/files-2.1/57c526cd26f387f4220953dfdf33ffe8/AndroidManifest.xml:22:5-89
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/fbf1d1c9fe1c5cf9a7effe96d6aa5118/AndroidManifest.xml:22:5-23:19
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/fbf1d1c9fe1c5cf9a7effe96d6aa5118/AndroidManifest.xml:22:5-23:19
+MERGED from [androidx.core:core:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/2b34ed59634236f1a0c10d910ddebd36/AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/2b34ed59634236f1a0c10d910ddebd36/AndroidManifest.xml:24:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/8fcab41fdacf80597c6325967333a090/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/8fcab41fdacf80597c6325967333a090/AndroidManifest.xml:24:5-25:19
 	android:appComponentFactory
-		ADDED from [androidx.core:core:1.0.1] /home/marie/.gradle/caches/transforms-2/files-2.1/57c526cd26f387f4220953dfdf33ffe8/AndroidManifest.xml:22:18-86
+		ADDED from [androidx.core:core:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/2b34ed59634236f1a0c10d910ddebd36/AndroidManifest.xml:24:18-86
 	android:label
 		ADDED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:8:7-39
 		ADDED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml:8:7-39
@@ -140,10 +147,18 @@ uses-sdk
 INJECTED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml
 INJECTED from /home/marie/ChronoSymple/mobile/android/app/src/main/AndroidManifest.xml
+MERGED from [androidx.multidex:multidex:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/c5428be28eebbd3d5d1c86d80b12836e/AndroidManifest.xml:20:5-43
+MERGED from [androidx.multidex:multidex:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/c5428be28eebbd3d5d1c86d80b12836e/AndroidManifest.xml:20:5-43
+MERGED from [:react-native-gesture-handler] /home/marie/ChronoSymple/mobile/node_modules/react-native-gesture-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-gesture-handler] /home/marie/ChronoSymple/mobile/node_modules/react-native-gesture-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-html-to-pdf] /home/marie/ChronoSymple/mobile/node_modules/react-native-html-to-pdf/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-html-to-pdf] /home/marie/ChronoSymple/mobile/node_modules/react-native-html-to-pdf/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-reanimated] /home/marie/ChronoSymple/mobile/node_modules/react-native-reanimated/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-reanimated] /home/marie/ChronoSymple/mobile/node_modules/react-native-reanimated/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-screens] /home/marie/ChronoSymple/mobile/node_modules/react-native-screens/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-screens] /home/marie/ChronoSymple/mobile/node_modules/react-native-screens/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-svg] /home/marie/ChronoSymple/mobile/node_modules/react-native-svg/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-svg] /home/marie/ChronoSymple/mobile/node_modules/react-native-svg/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-vector-icons] /home/marie/ChronoSymple/mobile/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
@@ -152,10 +167,10 @@ MERGED from [com.facebook.react:react-native:0.60.4] /home/marie/.gradle/caches/
 MERGED from [com.facebook.react:react-native:0.60.4] /home/marie/.gradle/caches/transforms-2/files-2.1/471dc98d5da6873da1dff20c93881e56/AndroidManifest.xml:7:5-9:41
 MERGED from [org.webkit:android-jsc:r245459] /home/marie/.gradle/caches/transforms-2/files-2.1/1a3a65b0d3d635ab30629e406adc7887/AndroidManifest.xml:7:5-9:41
 MERGED from [org.webkit:android-jsc:r245459] /home/marie/.gradle/caches/transforms-2/files-2.1/1a3a65b0d3d635ab30629e406adc7887/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-gesture-handler] /home/marie/ChronoSymple/mobile/node_modules/react-native-gesture-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [:react-native-gesture-handler] /home/marie/ChronoSymple/mobile/node_modules/react-native-gesture-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
-MERGED from [androidx.appcompat:appcompat:1.0.2] /home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/AndroidManifest.xml:20:5-44
-MERGED from [androidx.appcompat:appcompat:1.0.2] /home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/9e207a02f6590095dd07435f57601ad3/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/9e207a02f6590095dd07435f57601ad3/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/aacf6791c582f0ba8b13747ffade6266/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/aacf6791c582f0ba8b13747ffade6266/AndroidManifest.xml:20:5-22:41
 MERGED from [com.facebook.fresco:fresco:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/5976e438bfff6f23a15ba1e570ec0d6f/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.fresco:fresco:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/5976e438bfff6f23a15ba1e570ec0d6f/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.fresco:imagepipeline-okhttp3:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/7e4b1c87e3ad585662a16bdfcfbe5753/AndroidManifest.xml:5:5-7:41
@@ -172,60 +187,62 @@ MERGED from [com.facebook.fresco:imagepipeline-base:2.0.0] /home/marie/.gradle/c
 MERGED from [com.facebook.fresco:imagepipeline-base:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/48f9116685430f3b81ec4ceea5bc152b/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.soloader:soloader:0.6.0] /home/marie/.gradle/caches/transforms-2/files-2.1/bfbed8f0ed2c5fa89743bed73acf0c8a/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.soloader:soloader:0.6.0] /home/marie/.gradle/caches/transforms-2/files-2.1/bfbed8f0ed2c5fa89743bed73acf0c8a/AndroidManifest.xml:7:5-9:41
-MERGED from [androidx.transition:transition:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/1e0cd68b6ce71174236fa6e583e4cb6e/AndroidManifest.xml:20:5-44
-MERGED from [androidx.transition:transition:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/1e0cd68b6ce71174236fa6e583e4cb6e/AndroidManifest.xml:20:5-44
-MERGED from [androidx.fragment:fragment:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/76bf3ba4ef1df0606618376959cac884/AndroidManifest.xml:20:5-44
-MERGED from [androidx.fragment:fragment:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/76bf3ba4ef1df0606618376959cac884/AndroidManifest.xml:20:5-44
-MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/6dfe727a486ad8144b46841837b3fd3f/AndroidManifest.xml:20:5-44
-MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/6dfe727a486ad8144b46841837b3fd3f/AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/88259b2d078f3bc60e6378ed1d36a45a/AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/88259b2d078f3bc60e6378ed1d36a45a/AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/6018643818d2df1af94e399312a2a153/AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/6018643818d2df1af94e399312a2a153/AndroidManifest.xml:20:5-44
-MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /home/marie/.gradle/caches/transforms-2/files-2.1/d2a71787fbb512462360d6fb11f52a7f/AndroidManifest.xml:20:5-44
-MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /home/marie/.gradle/caches/transforms-2/files-2.1/d2a71787fbb512462360d6fb11f52a7f/AndroidManifest.xml:20:5-44
-MERGED from [androidx.loader:loader:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/7c440818a341d46d3dd4f42e0433489d/AndroidManifest.xml:20:5-44
-MERGED from [androidx.loader:loader:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/7c440818a341d46d3dd4f42e0433489d/AndroidManifest.xml:20:5-44
-MERGED from [androidx.viewpager:viewpager:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/0ba35ceb144875bbdf4f15787292b4b5/AndroidManifest.xml:20:5-44
-MERGED from [androidx.viewpager:viewpager:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/0ba35ceb144875bbdf4f15787292b4b5/AndroidManifest.xml:20:5-44
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/da5975a1c7038aa6aacc7e50d380c9ee/AndroidManifest.xml:20:5-44
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/da5975a1c7038aa6aacc7e50d380c9ee/AndroidManifest.xml:20:5-44
-MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/dcbd522e71160a7e588a0f63da591176/AndroidManifest.xml:20:5-44
-MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/dcbd522e71160a7e588a0f63da591176/AndroidManifest.xml:20:5-44
-MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/6683c628d07441193194b2a49084c13d/AndroidManifest.xml:20:5-44
-MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/6683c628d07441193194b2a49084c13d/AndroidManifest.xml:20:5-44
-MERGED from [androidx.customview:customview:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/46e236578da2d5279006f0b9574cbfee/AndroidManifest.xml:20:5-44
-MERGED from [androidx.customview:customview:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/46e236578da2d5279006f0b9574cbfee/AndroidManifest.xml:20:5-44
+MERGED from [com.tom_roush:pdfbox-android:1.8.10.0] /home/marie/.gradle/caches/transforms-2/files-2.1/44567af163132b9f91448f07f5491504/AndroidManifest.xml:7:5-9:41
+MERGED from [com.tom_roush:pdfbox-android:1.8.10.0] /home/marie/.gradle/caches/transforms-2/files-2.1/44567af163132b9f91448f07f5491504/AndroidManifest.xml:7:5-9:41
+MERGED from [androidx.transition:transition:1.2.0] /home/marie/.gradle/caches/transforms-2/files-2.1/a4c780efc0ce0e6fd2091094c5132e95/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.2.0] /home/marie/.gradle/caches/transforms-2/files-2.1/a4c780efc0ce0e6fd2091094c5132e95/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/1808650bca063b80b7ef13eedf1833a2/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/1808650bca063b80b7ef13eedf1833a2/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.2.1] /home/marie/.gradle/caches/transforms-2/files-2.1/adff4c98165b6baca4c710863b744114/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.2.1] /home/marie/.gradle/caches/transforms-2/files-2.1/adff4c98165b6baca4c710863b744114/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/e3e2926c0307b997bc887b8f9671b9e6/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/e3e2926c0307b997bc887b8f9671b9e6/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/ff702424503bfd3c8f4726aa5bdb146b/AndroidManifest.xml:20:5-44
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/ff702424503bfd3c8f4726aa5bdb146b/AndroidManifest.xml:20:5-44
-MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/48175684fc11f3eb3e6e48931f65eb11/AndroidManifest.xml:20:5-44
-MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/48175684fc11f3eb3e6e48931f65eb11/AndroidManifest.xml:20:5-44
-MERGED from [androidx.core:core:1.0.1] /home/marie/.gradle/caches/transforms-2/files-2.1/57c526cd26f387f4220953dfdf33ffe8/AndroidManifest.xml:20:5-44
-MERGED from [androidx.core:core:1.0.1] /home/marie/.gradle/caches/transforms-2/files-2.1/57c526cd26f387f4220953dfdf33ffe8/AndroidManifest.xml:20:5-44
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/fbf1d1c9fe1c5cf9a7effe96d6aa5118/AndroidManifest.xml:20:5-44
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/fbf1d1c9fe1c5cf9a7effe96d6aa5118/AndroidManifest.xml:20:5-44
-MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/11ca028d7fd74798824691a9e54548f2/AndroidManifest.xml:20:5-44
-MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/11ca028d7fd74798824691a9e54548f2/AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/9995bf3c92181fc6f17caee8d4d6e373/AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/9995bf3c92181fc6f17caee8d4d6e373/AndroidManifest.xml:20:5-44
-MERGED from [androidx.documentfile:documentfile:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/043eec15000ff7bcb88f0508cf1d2302/AndroidManifest.xml:20:5-44
-MERGED from [androidx.documentfile:documentfile:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/043eec15000ff7bcb88f0508cf1d2302/AndroidManifest.xml:20:5-44
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/9af0ef2de409860d47de9069e3afa27c/AndroidManifest.xml:20:5-44
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/9af0ef2de409860d47de9069e3afa27c/AndroidManifest.xml:20:5-44
-MERGED from [androidx.print:print:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/6b4d373b539384e8aa069a91e3e51d82/AndroidManifest.xml:20:5-44
-MERGED from [androidx.print:print:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/6b4d373b539384e8aa069a91e3e51d82/AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/68256d4c67075a5f6bbe91494a69bc07/AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/68256d4c67075a5f6bbe91494a69bc07/AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/a2e8f4342471bbfde1c5da76bd2ef070/AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/a2e8f4342471bbfde1c5da76bd2ef070/AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/55d41b79c23aee05f83b6bfca67a4f44/AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/55d41b79c23aee05f83b6bfca67a4f44/AndroidManifest.xml:20:5-44
-MERGED from [androidx.arch.core:core-runtime:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/1bb98b43c64b646b47855f234a30f80a/AndroidManifest.xml:20:5-44
-MERGED from [androidx.arch.core:core-runtime:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/1bb98b43c64b646b47855f234a30f80a/AndroidManifest.xml:20:5-44
-MERGED from [androidx.interpolator:interpolator:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/8a618f67d2dff626663b839539096aa2/AndroidManifest.xml:20:5-44
-MERGED from [androidx.interpolator:interpolator:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/8a618f67d2dff626663b839539096aa2/AndroidManifest.xml:20:5-44
 MERGED from [com.facebook.fresco:fbcore:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/7f0e2d3c9e8ca26b47c7005041ef7e8b/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.fresco:fbcore:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/7f0e2d3c9e8ca26b47c7005041ef7e8b/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/9a04d821a0d121107183c43b8f7a5f5b/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/9a04d821a0d121107183c43b8f7a5f5b/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/dcbd522e71160a7e588a0f63da591176/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/dcbd522e71160a7e588a0f63da591176/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/0ba35ceb144875bbdf4f15787292b4b5/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/0ba35ceb144875bbdf4f15787292b4b5/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/7c440818a341d46d3dd4f42e0433489d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/7c440818a341d46d3dd4f42e0433489d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/57b4d3335306b08b57bf33d6601a70f3/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/57b4d3335306b08b57bf33d6601a70f3/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/12fc7b656238e067b5dec00b68c2bd10/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/12fc7b656238e067b5dec00b68c2bd10/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/46e236578da2d5279006f0b9574cbfee/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/46e236578da2d5279006f0b9574cbfee/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/1926ddb1abea698cac9d5ec57281799c/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/1926ddb1abea698cac9d5ec57281799c/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/2029ccfca3c4f757a4e7d714a0d704e5/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/2029ccfca3c4f757a4e7d714a0d704e5/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/2b34ed59634236f1a0c10d910ddebd36/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/2b34ed59634236f1a0c10d910ddebd36/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/11ca028d7fd74798824691a9e54548f2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/11ca028d7fd74798824691a9e54548f2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/8fcab41fdacf80597c6325967333a090/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/8fcab41fdacf80597c6325967333a090/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0] /home/marie/.gradle/caches/transforms-2/files-2.1/efc685650f965b479c492c8652f39c8d/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0] /home/marie/.gradle/caches/transforms-2/files-2.1/efc685650f965b479c492c8652f39c8d/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.2.0] /home/marie/.gradle/caches/transforms-2/files-2.1/ab61535c78d6ecaa2e41aa93748a4d1e/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.2.0] /home/marie/.gradle/caches/transforms-2/files-2.1/ab61535c78d6ecaa2e41aa93748a4d1e/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/8a618f67d2dff626663b839539096aa2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/8a618f67d2dff626663b839539096aa2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/4e3d7cc911315b97ffaccda31c5f0266/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/4e3d7cc911315b97ffaccda31c5f0266/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.2.0] /home/marie/.gradle/caches/transforms-2/files-2.1/fb581703c6248ca4696b9159a334d48b/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.2.0] /home/marie/.gradle/caches/transforms-2/files-2.1/fb581703c6248ca4696b9159a334d48b/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/111e4199dd705e9ef26a66e18f4f7155/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/111e4199dd705e9ef26a66e18f4f7155/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/a2e8f4342471bbfde1c5da76bd2ef070/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/marie/.gradle/caches/transforms-2/files-2.1/a2e8f4342471bbfde1c5da76bd2ef070/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.2.0] /home/marie/.gradle/caches/transforms-2/files-2.1/71cc0164921cb89bf3c3cbd8dac603fc/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.2.0] /home/marie/.gradle/caches/transforms-2/files-2.1/71cc0164921cb89bf3c3cbd8dac603fc/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/7809d866bf884dc6bf3dac39118ffd3d/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] /home/marie/.gradle/caches/transforms-2/files-2.1/7809d866bf884dc6bf3dac39118ffd3d/AndroidManifest.xml:20:5-22:41
 INJECTED from /home/marie/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml
 INJECTED from /home/marie/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml
 	android:targetSdkVersion
@@ -254,3 +271,9 @@ ADDED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_mod
 		ADDED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:17-55
 	android:name
 		ADDED from [:react-native-image-picker] /home/marie/ChronoSymple/mobile/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:17-67
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from [com.tom_roush:pdfbox-android:1.8.10.0] /home/marie/.gradle/caches/transforms-2/files-2.1/44567af163132b9f91448f07f5491504/AndroidManifest.xml:11:5-81
+	android:name
+		ADDED from [com.tom_roush:pdfbox-android:1.8.10.0] /home/marie/.gradle/caches/transforms-2/files-2.1/44567af163132b9f91448f07f5491504/AndroidManifest.xml:11:22-78
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+IMPLIED from /home/marie/ChronoSymple/mobile/android/app/src/debug/AndroidManifest.xml:2:1-8:12 reason: com.tom_roush.pdfbox requested WRITE_EXTERNAL_STORAGE

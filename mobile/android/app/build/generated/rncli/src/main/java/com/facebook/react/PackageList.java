@@ -15,10 +15,14 @@ import com.chronosymple.R;
 
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+// react-native-html-to-pdf
+import com.christopherdro.htmltopdf.RNHTMLtoPDFPackage;
 // react-native-image-picker
 import com.imagepicker.ImagePickerPackage;
 // react-native-reanimated
 import com.swmansion.reanimated.ReanimatedPackage;
+// react-native-screens
+import com.swmansion.rnscreens.RNScreensPackage;
 // react-native-svg
 import com.horcrux.svg.SvgPackage;
 // react-native-vector-icons
@@ -57,8 +61,10 @@ public class PackageList {
     return new ArrayList<>(Arrays.<ReactPackage>asList(
       new MainReactPackage(),
       new RNGestureHandlerPackage(),
+      new RNHTMLtoPDFPackage(),
       new ImagePickerPackage(),
       new ReanimatedPackage(),
+      new RNScreensPackage(),
       new SvgPackage(),
       new VectorIconsPackage()
     ));
