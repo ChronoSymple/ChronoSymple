@@ -1,3 +1,4 @@
+//const baseUrl = 'https://docapp-prod.herokuapp.com'
 const baseUrl = 'https://docapp-prod.herokuapp.com'
 
 export function APIAddDoctor (token, moduleId, id) {

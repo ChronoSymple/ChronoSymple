@@ -3,7 +3,7 @@
 import React from 'react'
 import { ActivityIndicator, View, Text, StyleSheet, Image, Modal, Button, TouchableOpacity, TouchableHighlight, FlatList, ScrollView, BackHandler} from 'react-native'
 import { windowSize } from '../StyleSheet';
-import { APIGetPatientNotesByModule, APIRemovePatientNotes } from '../../API/APIModule'
+import { APIGetPatientNotesByModule, APIRemovePatientNotes, APIShareNote, APIgetDoctorsOfModule } from '../../API/APIModule'
 import { connect } from 'react-redux'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -11,13 +11,13 @@ import { colors } from '../StyleSheet'
 import { CheckBox } from 'react-native-elements'
 
 /*import { NoteItem } from './NoteItem' NOT USED*/
-
+ 
 class Calendar extends React.Component {
 	constructor (props) {
 		super(props)
 
 		this.state = {
-			DNotes: [],
+			selectedNotes: [],
 			loading: true,
 			isSelectActive: false,
 			refreshing: false,
@@ -30,6 +30,45 @@ class Calendar extends React.Component {
       		this._bootstrapAsync();
     	});
 	}
+
+	getSelectedNote = () => {
+		selected_note = []
+		for (let note of this.state.selectedNotes) {
+		    if (note.id == true) {
+		    	selected_note.push(note.id);
+		    }
+		}
+		return (selected_note);
+	}
+
+	shareNote = () => {
+		notes = this.getSelectedNote();
+		this.props.getUserToken().then(() => {
+			this.props.getUserCurrentModule().then(() => {
+				let token = this.props.token.token;
+				let cur_modl = this.props.currentModule.currentModule;
+				APIgetDoctorsOfModule(token, cur_modl).then(async data => {
+					let response = await data.json();
+					let doctor_ids = [];
+					for (let doc of response) {
+						doctor_ids.push(doc.id)
+					}
+					if (data.status == 200) {
+						APIShareNote(token, cur_modl, notes, doctor_ids).then(async data => {
+							let response = await data.json();
+							if (data.status == 200) {
+								console.log("Succeed send notif")
+							} else {
+								console.log("Failed send notif")
+							}
+						})
+					} else {
+						console.log("Failed get docs")
+					}
+				})
+			})
+		})
+	}
 	
 	_bootstrapAsync = () => {
 		this.props.getUserToken().then(() => {
@@ -38,13 +77,18 @@ class Calendar extends React.Component {
 					let response = await data.json()
 					if (data.status == 200) {
 						this.setState({
-							DNotes: [ ...response ],
+							selectedNotes: [ ...response ],
 							loading: false,
 						})
-						for (var i = 0; i < this.state.DNotes.length; i++) {
-							let id = this.state.DNotes[i].id
+						console.log("dsqdqsd 2 ")
+						console.log(this.state.selectedNotes)
+						for (var i = 0; i < this.state.selectedNotes.length; i++) {
+							console.log("---")
+							console.log(this.state.selectedNotes[i])
+							console.log(this.state.selectedNotes[i].id)
+							let id = this.state.selectedNotes[i].id
 							this.setState({
-								[this.state.DNotes[i].id]: false
+								[this.state.selectedNotes[i].id]: false
 							})
 						}
 					}
@@ -65,11 +109,11 @@ class Calendar extends React.Component {
 
 	selectAllPressed = () => {
 		console.log('selectAllPressed ! :)')
-		for (var i = 0; i < this.state.DNotes.length; i++) {
-			console.log(this.state.DNotes[i].id)
-			if (this.state[this.state.DNotes[i].id] == false) {
+		for (var i = 0; i < this.state.selectedNotes.length; i++) {
+			console.log(this.state.selectedNotes[i].id)
+			if (this.state[this.state.selectedNotes[i].id] == false) {
 				this.setState({
-					[this.state.DNotes[i].id]: true
+					[this.state.selectedNotes[i].id]: true
 				})
 				this.state.checkCount += 1
 			}
@@ -159,7 +203,7 @@ class Calendar extends React.Component {
 					<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.exportPDFPressed() }}>
 						<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Exporter sous PDF </Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {}}>
+					<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.shareNote() }}>
 						<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager </Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {}}>
@@ -192,7 +236,7 @@ class Calendar extends React.Component {
 				<ScrollView style={{marginTop: 30, marginBottom: 30}}>
 					{this.state.loading && <ActivityIndicator style={{alignSelf: "center"}} size='large' color='black' />}
 					<FlatList
-						data={this.state.DNotes}
+						data={this.state.selectedNotes}
 						keyExtractor={(item) => item.id.toString()}
 						refreshing={this.state.refreshing}
 						renderItem={({item}) => (
