@@ -47,6 +47,7 @@ class Home extends React.Component {
 						this.setState({
 							Dmodules: [ ...response ],
 						})
+					console.log(response)
 					}
 				}
 			})

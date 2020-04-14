@@ -14,8 +14,10 @@ import { View,
 	TouchableOpacity,
 	Image} from 'react-native'
 import { Icon } from 'react-native-elements'
-import { APIGetMyDoctors } from '../../API/APIDoctor';
+import { APIGetMyDoctors, APIGetDoctorProfile, APIAddDoctor, APIRemoveDoctor} from '../../API/APIDoctor';
 import { connect } from 'react-redux';
+import { colors, windowSize } from '../StyleSheet'
+
 
 /*
 Cette classe correspond a la page : fiche du medecin
@@ -24,69 +26,131 @@ dans la partie profil du patient --> module -> voir la fiche du medecin
 class DoctorCard extends React.Component {
 	constructor (props) {
 		super(props)
-
+		
+		doctorInfo = this.props.navigation.getParam("doctorInfo")
 		this.state = {
-			data: []
+			data: [],
+			isMyDoctor: false,
+			unitId: this.props.navigation.getParam("unitId"),
+			firstName: '',
+			lastName: '',
+			domain: '',
+			address: '',
+			hours: '',
+			doctorId: -1
 		}
-/*		this.getMyDoctorCard()
-*/
+		console.log("doctorId : this.state")
+		console.log(this.state)
+		this.getMyDoctorCard()
+		if (doctorInfo != undefined) {
+			console.log("dsqdqs")
+			this.state.firstName = doctorInfo.first_name
+			this.state.lastName = doctorInfo.last_name
+			this.state.doctorId = doctorInfo.id
+		}
+
 	}
 	
-/*
+
 	getMyDoctorCard = () => {
-		APIGetDoctorProfile(this.props.token.token, this.props.doctorId).then(async data => {
+		APIGetMyDoctors(this.props.token.token).then(async data => {
 			let response = await data.json()
 			this.setState({
 				data: response,
 			})
-			console.log("DoctorCard - response:")
+			console.log("My doctor - response:")
 			console.log(response)
 		})
-	}*/
-
-	doctorPressed = (item) => {
-		console.log("doctorPressed function")
-		console.log(item)
-
 	}
+
+	addDoctorPressed = () => {
+		console.log("Add doctor ...")
+		if (this.state.isMyDoctor == true) {
+			console.log("cannot add doctor that is already yours")
+		} else {
+			console.log("unitId: ")
+			console.log(this.state.unitId)
+			console.log("doctorId")
+			console.log(this.state.doctorId)
+			APIAddDoctor(this.props.token.token, this.state.unitId, this.state.doctorId).then(async data => {
+				let response = await data.json()
+				console.log("APIAddDoctor - response")
+				console.log(response)
+			})
+		}
+	}
+
+	removeDoctorPressed = () => {
+		console.log("remove doctor ...")
+		if (this.state.isMyDoctor == false) {
+			console.log("cannot remove a doctor that is not yours")
+		}	else {
+			APIRemoveDoctor(this.props.token.token, this.state.unitId, this.state.doctorId).then(async data => {
+				let response = await data.json()
+				console.log("APIRemoveDoctor - reponse")
+				console.log(response)
+			})
+
+		}
+	}
+
 
 	render() {
 		let { navigate } = this.props.navigation;
-		let deviceWidth = Dimensions.get('window').width
-		const { data } = this.state;
+
 		return (
-			<View>
-				<Text>
-					Fiche du medecin
-				</Text>
-				<TouchableHighlight>
-					<Text>Nom: </Text>
-				</TouchableHighlight>
-				<TouchableHighlight>
-					<Text>Prenom: </Text>
-				</TouchableHighlight>
-				<TouchableHighlight>
-					<Text>Domaine: </Text>
-				</TouchableHighlight>
-				<TouchableHighlight>
-					<Text>Addresse de travail: </Text>
-				</TouchableHighlight>
-				<TouchableHighlight>
-					<Text>Horaire d'ouverture: </Text>
-				</TouchableHighlight>
-				<View>
-					<Button 
-						color="#62BE87"
-						style={{ height: 40, borderWidth: 2, borderColor: '#000000'}}
-						onPress={() => {}}
-						title="ajouter"
-					/>
-					<Button 
-						color="#62BE87"
-						style={{ height: 40, borderWidth: 2, borderColor: '#000000'}}
-						onPress={() => {}}
-						title="retirer"
-					/>
+			<View style={{flex: 1}}>
+				<View style={{backgroundColor:colors.secondary, flex:1, flexDirection: 'column'}}>
+					<View style={{flex:1}}></View>
+					<View style={{flex:8, flexDirection: 'row', justifyContent:"space-between"}}>
+						<TouchableHighlight style={{margin: 10}}>
+							<Icon
+								name="arrow-back"
+								color="#FFF"
+								size={35}
+								onPress={() => navigate("ModuleProfile")}
+		    				/>
+						</TouchableHighlight>
+					</View>
+					<View style={{flex:1}}></View>
+				</View>
+				<View style={{flex: 4}}>
+					<Text>
+						Fiche du medecin
+					</Text>
+					<TouchableHighlight>
+						<Text>Nom: {this.state.lastName}</Text>
+					</TouchableHighlight>
+					<TouchableHighlight>
+						<Text>Prenom: {this.state.firstName}</Text>
+					</TouchableHighlight>
+					<TouchableHighlight>
+						<Text>Domaine d'expertise: </Text>
+					</TouchableHighlight>
+					<TouchableHighlight>
+						<Text>Addresse de travail: </Text>
+					</TouchableHighlight>
+					<TouchableHighlight>
+						<Text>Horaire d'ouverture: </Text>
+					</TouchableHighlight>
+				</View>
+				<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
+					<View>
+						<Button 
+							color="#62BE87"
+							style={{ height: 40, width: 50, borderWidth: 2, borderColor: '#000000'}}
+							onPress={() => {this.addDoctorPressed()}}
+							title="Ajouter"
+						/>
+					</View>
+					<View>
+						<Button 
+							color="#62BE87"
+							style={{ height: 40, width: 50, borderWidth: 2, borderColor: '#000000'}}
+							onPress={() => {this.removeDoctorPressed()}}
+							title="Retirer"
+						/>
+					</View>
 				</View>
       		</View>
 		)
