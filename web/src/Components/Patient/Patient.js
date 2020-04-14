@@ -46,8 +46,8 @@ class Patient extends PureComponent {
   init = async() => {
     const id = this.props.patientID;
     try {
-      const patientData = await Api.getPatient(this.props.token, id);
       //TODO: Use real data
+      //const patientData = await Api.getPatient(this.props.token, id);
       //const {first_name, last_name, ...others} = patientData;
       //const formalizeData = {...others, firstname: first_name, lastname: last_name};
       const data = {id: 1, firstname: 'Carl', lastname: 'DE GENTILE', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: {
