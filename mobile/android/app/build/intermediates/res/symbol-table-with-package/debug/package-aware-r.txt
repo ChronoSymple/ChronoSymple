@@ -611,6 +611,7 @@ drawable assets_calendar
 drawable assets_clock
 drawable assets_pexelsphoto247478
 drawable assets_photo15322744029115a369e4c4bb5
+drawable node_modules_reactnative_libraries_newappscreen_components_logo
 drawable node_modules_reactnativepaper_lib_module_assets_backchevron
 drawable node_modules_reactnativepaper_src_assets_backchevron
 drawable node_modules_reactnativeratings_src_images_airbnbstar
@@ -843,6 +844,7 @@ layout abc_select_dialog_material
 layout abc_tooltip
 layout dev_loading_view
 layout fps_view
+layout list_item
 layout notification_action
 layout notification_action_tombstone
 layout notification_template_custom_big
@@ -1129,6 +1131,7 @@ style CalendarDatePickerDialog
 style CalendarDatePickerStyle
 style ClockTimePickerDialog
 style ClockTimePickerStyle
+style DefaultExplainingPermissionsTheme
 style DialogAnimationFade
 style DialogAnimationSlide
 style Platform_AppCompat
@@ -1376,4 +1379,5 @@ styleable Toolbar android_gravity android_minHeight buttonGravity collapseConten
 styleable View android_theme android_focusable paddingEnd paddingStart theme
 styleable ViewBackgroundHelper android_background backgroundTint backgroundTintMode
 styleable ViewStubCompat android_id android_layout android_inflatedId
+xml provider_paths
 xml rn_dev_preferences
