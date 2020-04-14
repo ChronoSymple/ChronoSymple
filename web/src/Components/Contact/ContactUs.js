@@ -74,7 +74,7 @@ export default class ContactUs extends Component {
     const { show } = this.state;
     return (
       <div>
-        <Button onClick={() => this.toggleShow(true)} style={{ textDecoration: 'underline', textTransform: 'lowercase', color: 'white' }}>{i18n.t("contact")}</Button>
+        <Button onClick={() => this.toggleShow(true)} style={{ textDecoration: 'underline', textTransform: 'lowercase', color: 'white' }}>{i18n.t("contact") || 'Contact us'}</Button>
         {/* <Example/> */}
         <PopPop open={show}
           closeBtn={true}

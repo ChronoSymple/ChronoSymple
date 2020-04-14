@@ -15,6 +15,7 @@ it('renders without crashing', () => {
     openProfile={() => 0}
     openMenu={() => 0}
     closeMenu={() => 0}
+    openSettings={() => 0}
     title='Hello'
     disconnect={() => 0}
     anchorEl={null}
