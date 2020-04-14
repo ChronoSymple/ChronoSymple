@@ -56,7 +56,7 @@ class AdminDoctorList extends React.Component {
             <TableRow
               key={e.id}
               className={this.props.classes.selectable}
-              onClick={() => this.props.setDoctor(e)}
+              onClick={() => this.props.setDoctor(e.id)}
             >
               <TableCell>{e.lastname}</TableCell>
               <TableCell>{e.firstname}</TableCell>

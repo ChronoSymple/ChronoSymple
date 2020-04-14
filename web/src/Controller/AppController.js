@@ -34,7 +34,7 @@ class App extends PureComponent {
   };
 
   setPatient = patient => (window.location = `/patient/${patient}`);
-  setDoctor = doctor => this.setState({ doctor }) || (window.location = '/doctor');
+  setDoctor = doctor => (window.location = `/doctor/${doctor}`);
   setToken = token => {
     localStorage.setItem('myToken', token);
     this.setState({ token });

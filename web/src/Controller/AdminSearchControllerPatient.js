@@ -86,7 +86,7 @@ class AdminSearchControllerPatient extends PureComponent {
   }
 
 
-  setPatient = patient => this.props.setPatient({patient, selected : this.state.selected});
+  setPatient = patient => this.props.setPatient(patient.id);
 
   deletePatient = async id => {
     try {
