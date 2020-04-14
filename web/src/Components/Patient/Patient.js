@@ -13,7 +13,7 @@ import girl from '../../assets/Img/girl.png'
 import baby from '../../assets/Img/baby.png'
 import woman from '../../assets/Img/woman.png'
 import man from '../../assets/Img/man.png'
-//import Api from '../../Api';
+import Api from '../../Api';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 class Patient extends PureComponent {
@@ -45,10 +45,10 @@ class Patient extends PureComponent {
 
   init = async() => {
     try {
-      //TODO: Use real data
-      //const patientData = await Api.getPatient(this.props.token, this.props.patientID);
-      //const {first_name, last_name, ...others} = patientData;
-      //const formalizeData = {...others, firstname: first_name, lastname: last_name};
+      const patientData = await Api.getPatient(this.props.token, this.props.patientID);
+      const {first_name, last_name, ...others} = patientData;
+      const formalizeData = {...others, firstname: first_name, lastname: last_name};
+      /* TODO: Remove fake data
       const data = {id: 1, firstname: 'Carl', lastname: 'DE GENTILE', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: {
         diabetes: [
           { date: new Date('2019-10-20T09:00:00Z'), data: 80 },
@@ -75,7 +75,8 @@ class Patient extends PureComponent {
           { date: new Date('2019-10-26T20:00:00Z'), data: 90 },
         ]
       }}
-      this.setState({init:true, ...data});
+      */
+      this.setState({init:true, ...formalizeData});
     } catch (error) {
       this.setState({error})
     }
