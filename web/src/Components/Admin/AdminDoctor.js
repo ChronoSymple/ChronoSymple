@@ -6,8 +6,14 @@ import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
 import Api from '../../Api';
+import Request from '../Request';
+
 class AdminDoctor extends PureComponent {
-  state = {};
+  state = {
+    doctor: {},
+    loading: true,
+  };
+
   onEmailChange = e => {
     const newValue = e.target.value;
     this.setState({email: newValue});
@@ -18,19 +24,40 @@ class AdminDoctor extends PureComponent {
     }
     try {
       await Api.updateDoctor(this.props.token, {
-        id: this.props.doctor.id,
+        id: this.props.doctorID,
         email: this.state.email
       });
     } catch (error) {
       console.error(error);
     }
   }
+
+    
+  init = async() => {
+    const ID = Number(this.props.doctorID);
+    const rawdata = await Api.getDoctorsAsAdmin(this.props.token);
+    const tmpdoctor = rawdata.filter(e => e != null).filter(e => e.id === ID)[0];
+    if (tmpdoctor !== undefined) {
+      const {first_name: firstname, last_name: lastname, ...tmp} = tmpdoctor;
+      const doctor = {...tmp, firstname, lastname};
+      this.setState({doctor, loading: false});
+    } else {
+      this.setState({error: 'Doctor not found'});
+    }
+  }
+
+  componentDidMount() {
+    this.init();
+  }
+
   render() {
     const {
-      doctor
-    } = this.props;
+      doctor,
+      loading,
+      error
+    } = this.state;
     return (
-      <div>
+      <Request loading={loading} error={error}>
         <Card>
           <CardContent>
             <Typography variant="h4">{`${doctor.civility}. ${doctor.lastname} ${doctor.firstname}`}</Typography>
@@ -43,13 +70,13 @@ class AdminDoctor extends PureComponent {
             <Button variant='contained' color='primary' style={{margin:'5px 0'}}>Send reset password</Button>
           </CardContent>
         </Card>
-      </div>
+      </Request>
     );
   }
 }
 
 AdminDoctor.propTypes = {
-  doctor: PropTypes.object.isRequired,
+  doctorID: PropTypes.number.isRequired,
   token: PropTypes.string.isRequired
 };
 

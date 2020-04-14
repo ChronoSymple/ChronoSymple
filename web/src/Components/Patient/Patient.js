@@ -16,13 +16,15 @@ import man from '../../assets/Img/man.png'
 import Api from '../../Api';
 import Request from '../Request';
 
+const patients = [woman, man, boy, girl, baby];
+console.log(patients);
 class Patient extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       selectedImg: star1,
       check: false,
-      patients: [woman, man, boy, girl, baby],
+      
       patSelected: man,
       index: 0,
       init: false,
@@ -30,7 +32,7 @@ class Patient extends PureComponent {
     };
   }
   patientsChange = () => {
-    this.setState(state => ({patSelected: this.state.patients[this.state.index], index: state.index === 5 ? 0 : state.index + 1}));
+    this.setState(state => ({patSelected: patients[this.state.index], index: state.index + 1 === patients.length ? 0 : state.index + 1}));
   }
   handleChange = () => {
     if (this.state.check === false)

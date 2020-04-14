@@ -63,7 +63,6 @@ class App extends PureComponent {
     } = this.props;
     const {
       token,
-      doctor
     } = this.state;
     const admin = localStorage.getItem('admin') === 'true';
     return (
@@ -96,38 +95,42 @@ class App extends PureComponent {
               </main>
             </Route>
             {(admin === true) ?
-              <Route path='/doctor/:id'>
-                <MyAppBarController title='Doctor'
+              <Route path='/doctor/:id' render={({match}) =>
+                <div style={{flexGrow:1}}>
+                  <MyAppBarController title='Doctor'
+                    disconnect={this.disconnect}
+                    openProfile={this.openProfile}
+                    openSettings={this.openSettings}
+                    back={() => window.location = '/'}
+                  />
+                  <main className={classes.content}>
+                    <div className={classes.toolbar} />
+                    <AdminDoctor token={token} doctorID={match.params.id} />
+                  </main>
+                </div>
+              }>
+                
+              </Route> : null
+            }
+            <Route path='/patient/:id' render={({match}) => 
+              <div style={{flexGrow:1}}>
+                <MyAppBarController title='Patient'
                   disconnect={this.disconnect}
                   openProfile={this.openProfile}
                   openSettings={this.openSettings}
                   back={() => window.location = '/'}
                 />
-                <main className={classes.content}>
-                  <div className={classes.toolbar} />
-                  <AdminDoctor token={token} doctor={doctor} />
-                </main>
-              </Route> : null
-            }
-            <Route path='/patient/:id' render={({match}) => 
-            <div style={{flexGrow:1}}>
-              <MyAppBarController title='Patient'
-              disconnect={this.disconnect}
-              openProfile={this.openProfile}
-              openSettings={this.openSettings}
-              back={() => window.location = '/'}
-            />
-            {
-                <main className={classes.content}>
-                <div className={classes.toolbar} id='toolbar'/>
                 {
-                  console.log(useParams) ||(admin === true) ?
-                    <AdminPatient token={token}/> :
-                    <Patient token={token} patientID={match.params.id}/>
+                  <main className={classes.content}>
+                    <div className={classes.toolbar} id='toolbar'/>
+                    {
+                      console.log(useParams) ||(admin === true) ?
+                        <AdminPatient token={token} patientID={match.params.id}/> :
+                        <Patient token={token} patientID={match.params.id}/>
+                    }
+                  </main>
                 }
-                </main>
-              }
-            </div>
+              </div>
             }/>
             <Route path='/'>
               <MyAppBarController title={i18n.t('list')}

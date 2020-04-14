@@ -4,13 +4,17 @@ import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
-import { UserPropTypes } from '../../MyPropTypes';
+//import { UserPropTypes } from '../../MyPropTypes';
 import { Button } from '@material-ui/core';
 import AdminDiseaseCard from './AdminDiseaseCard';
 import Api from '../../Api';
+import Request from '../Request';
 
 class AdminPatient extends PureComponent {
-  state = {};
+  state = {
+    loading: true,
+    patient: {}
+  };
   onEmailChange = e => {
     const newValue = e.target.value;
     this.setState({email: newValue});
@@ -21,20 +25,39 @@ class AdminPatient extends PureComponent {
     }
     try {
       await Api.updatePatient(this.props.token, {
-        id: this.props.client.patient.id,
+        id: this.props.patientID,
         email: this.state.email
       });
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   }
+  
+  init = async() => {
+    const ID = Number(this.props.patientID);
+    const rawdata = await Api.getPatientsAsAdmin(this.props.token);
+    const tmppatient = rawdata.filter(e => e != null).filter(e => e.id === ID)[0];
+    if (tmppatient !== undefined) {
+      const {first_name: firstname, last_name: lastname, ...tmp} = tmppatient;
+      const patient = {...tmp, firstname, lastname};
+      this.setState({patient, loading: false});
+    } else {
+      this.setState({error: 'Patient not found'});
+    }
+  }
+
+  componentDidMount() {
+    this.init();
+  }
+
   render() {
     const {
-      client
-    } = this.props;
-    const patient = client.patient;
+      loading,
+      error,
+      patient
+    } = this.state;
     return (
-      <div>
+      <Request loading={loading} error={error}>
         <Card>
           <CardContent>
             <Typography variant="h4">{`${patient.civility}. ${patient.lastname} ${patient.firstname}`}</Typography>
@@ -48,18 +71,15 @@ class AdminPatient extends PureComponent {
           </CardContent>
         </Card>
         {patient.diseases && Object.keys(patient.diseases).map(key => 
-          <AdminDiseaseCard key={key} diseaseName={key} data={patient.diseases[key]} defaultOpen={client.selected[key] === true}/>)
+          <AdminDiseaseCard key={key} diseaseName={key} data={patient.diseases[key]} defaultOpen={true || {}.selected[key] === true}/>)
         }
-      </div>
+      </Request>
     );
   }
 }
 
 AdminPatient.propTypes = {
-  client: PropTypes.shape({
-    patient: UserPropTypes.isRequired,
-    selected: PropTypes.object
-  }).isRequired,
+  patientID: PropTypes.number.isRequired,
   token: PropTypes.string.isRequired
 };
 
