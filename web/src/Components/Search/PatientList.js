@@ -44,7 +44,7 @@ const PatientList = ({
           <TableRow
             key={e.id}
             className={classes.selectable}
-            onClick={() => setPatient(e)}
+            onClick={() => setPatient(e.id)}
           >
             <TableCell>{e.lastname}</TableCell>
             <TableCell>{e.firstname}</TableCell>

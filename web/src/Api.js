@@ -103,7 +103,7 @@ const getDoctorsAsAdmin = token =>
 
 
 const getPatient = (token, ID) =>
-  loggedRequest(`${prefix}/doctors/patients/profile?id=${ID}`, token);
+  loggedRequest(`${prefix}/doctors/patients/${ID}/profile`, token);
 
 
 

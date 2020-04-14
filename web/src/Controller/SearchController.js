@@ -1,12 +1,12 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import { SearchBar, PatientList } from '../Components/Search';
-//import Api from '../Api';
+import Api from '../Api';
 import Request from '../Components/Request';
 import Chip from '@material-ui/core/Chip';
 import diseases from '../diseases';
 
-const data = [
+/*const data = [
   {id: 1, firstname: 'Carl', lastname: 'DE GENTILE', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: {
     diabetes: [
       { date: new Date('2019-10-20T09:00:00Z'), data: 80 },
@@ -43,7 +43,7 @@ const data = [
   {id: 7, firstname: 'Mohamed', lastname: 'BELKACEM', birthdate: '20/04/1997', civility:'Mr', diseases: {
     cancer: 3
   }},
-];
+];*/
 
 class SearchController extends PureComponent {
   
@@ -64,39 +64,39 @@ class SearchController extends PureComponent {
     ).reduce((p, c) => p && c, true));
     Object.keys(this.state.selected).forEach(key => {
       if (this.state.selected[key] === true) {
-        filtered = filtered.filter(e => e.diseases[key] !== undefined);
+        filtered = filtered.filter(e => e.diseases && e.diseases[key] !== undefined);
       }
     });
     return filtered;
   };
 
   componentDidMount() {
+    localStorage.setItem('selectedDiseases', JSON.stringify(this.state.selected));
     this.init();
   }
 
   init = async() => {
-    return this.setState({init: true, data});
-    // TODO: Remove fake data
-    /*try {
+    //return this.setState({init: true, data});
+    try {
       const rawdata = await Api.getPatients(this.props.token);
-      const data = rawdata.map(e => {
-        const {first_name, last_name, ...others} = e.user;
-        return {...others, firstname: first_name, lastname: last_name};
-      });
+      const data = await Promise.all(rawdata.map(e => e.patient_id).reduce((c, e) => console.log(c, e) || c.includes(e) ? c : [...c, e], []).map(async id => {
+        console.log(id);
+        const patientData = await Api.getPatient(this.props.token, id);
+        const {first_name, last_name, ...others} = patientData;
+        return {...others, firstname: first_name, lastname: last_name, id};
+      }));
       this.setState({init: true, data});
     } catch (e) {
       this.setState({error : e.message});
-    }*/
+    }
   }
 
   chipClick = disease => {
     this.setState(state => ({selected: {
       ...state.selected,
       [disease]: !state.selected[disease]
-    }}));
+    }}), () => localStorage.setItem('selectedDiseases', JSON.stringify(this.state.selected)));
   }
-
-  setPatient = patient => this.props.setPatient({patient, selected : this.state.selected});
 
   deletePatient = (e, id) => {
     console.log(id);
@@ -124,7 +124,7 @@ class SearchController extends PureComponent {
             onClick={() => this.chipClick(disease)}/>)
         }
         <Request error={error} loading={!init}>
-          <PatientList data={filterData} setPatient={this.setPatient} deletePatient={this.deletePatient}/>
+          <PatientList data={filterData} setPatient={this.props.setPatient} deletePatient={this.deletePatient}/>
         </Request>
       </div>
     );

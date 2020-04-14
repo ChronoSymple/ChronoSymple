@@ -36,7 +36,7 @@ export default class Alert extends PureComponent {
   render() {
     return (
       // <img src={this.imgPath + "1.png"}></img>
-      <img src={this.state.selectedImg} onClick={this.changeImg}></img>
+      <img src={this.state.selectedImg} alt="alertLevel" onClick={this.changeImg}></img>
     )
   }
 }

@@ -4,7 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import MyAppBarController from './MyAppBarController';
 import LoginController from './LoginController';
 import { withStyles } from '@material-ui/core/styles';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, useParams } from 'react-router-dom';
 import Search from './SearchController';
 import AdminSearch from './AdminSearchController';
 import AdminPatient from '../Components/Admin/AdminPatient';
@@ -33,10 +33,8 @@ class App extends PureComponent {
     settings: false
   };
 
-  setPatient = patient => this.setState({ patient }) || (window.location = '/patient');
+  setPatient = patient => (window.location = `/patient/${patient}`);
   setDoctor = doctor => this.setState({ doctor }) || (window.location = '/doctor');
-  closePatient = () => this.setState({ patient: null }) || window.history.back();
-  closeDoctor = () => this.setState({ doctor: null }) || window.history.back();
   setToken = token => {
     localStorage.setItem('myToken', token);
     this.setState({ token });
@@ -64,7 +62,6 @@ class App extends PureComponent {
       classes,
     } = this.props;
     const {
-      patient,
       token,
       doctor
     } = this.state;
@@ -99,12 +96,12 @@ class App extends PureComponent {
               </main>
             </Route>
             {(admin === true) ?
-              <Route path='/doctor'>
+              <Route path='/doctor/:id'>
                 <MyAppBarController title='Doctor'
                   disconnect={this.disconnect}
                   openProfile={this.openProfile}
                   openSettings={this.openSettings}
-                  back={this.closeDoctor}
+                  back={() => window.location = '/'}
                 />
                 <main className={classes.content}>
                   <div className={classes.toolbar} />
@@ -112,21 +109,26 @@ class App extends PureComponent {
                 </main>
               </Route> : null
             }
-            <Route path='/patient'>
+            <Route path='/patient/:id' render={({match}) => 
+            <div style={{flexGrow:1}}>
               <MyAppBarController title='Patient'
-                disconnect={this.disconnect}
-                openProfile={this.openProfile}
-                openSettings={this.openSettings}
-                back={this.closePatient}
-              />
-              <main className={classes.content}>
-                <div className={classes.toolbar} />
-                {(admin === true) ?
-                  <AdminPatient token={token} client={patient} /> :
-                  <Patient token={token} client={patient} />
+              disconnect={this.disconnect}
+              openProfile={this.openProfile}
+              openSettings={this.openSettings}
+              back={() => window.location = '/'}
+            />
+            {
+                <main className={classes.content}>
+                <div className={classes.toolbar} id='toolbar'/>
+                {
+                  console.log(useParams) ||(admin === true) ?
+                    <AdminPatient token={token}/> :
+                    <Patient token={token} patientID={match.params.id}/>
                 }
-              </main>
-            </Route>
+                </main>
+              }
+            </div>
+            }/>
             <Route path='/'>
               <MyAppBarController title={i18n.t('list')}
                 disconnect={this.disconnect}
