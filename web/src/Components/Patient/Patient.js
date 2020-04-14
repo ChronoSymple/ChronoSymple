@@ -48,7 +48,8 @@ class Patient extends PureComponent {
     try {
       const patientData = await Api.getPatient(this.props.token, id);
       const {first_name, last_name, ...others} = patientData;
-      const formalizeData = {...others, firstname: first_name, lastname: last_name};
+      //TODO: Use real data
+      //const formalizeData = {...others, firstname: first_name, lastname: last_name};
       const data = {id: 1, firstname: 'Carl', lastname: 'DE GENTILE', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: {
         diabetes: [
           { date: new Date('2019-10-20T09:00:00Z'), data: 80 },
