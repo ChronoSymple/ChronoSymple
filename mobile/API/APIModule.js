@@ -103,3 +103,19 @@ export function APIRemoveUnit(token, id) {
 	.then((response) => response)
 	.catch((error) => error)
 }
+
+export function APIGetPatientNotesByDateIntervale(token, beginDate, endDate) {
+	return fetch(baseUrl + '/api/patients/notes/notes_by_date_interval', {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': token,
+		},
+		body: {
+			"begin_date": beginDate,
+			"end_date": endDate
+		}
+	})
+	.then((response) => response)
+	.catch((error) => error)
+}

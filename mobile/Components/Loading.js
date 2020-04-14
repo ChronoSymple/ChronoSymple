@@ -26,7 +26,6 @@ class Loading extends React.Component {
 	};
 
 	render() {
-		let deviceWidth = Dimensions.get('window').width
 		return (
 			<View style={styles.container}>
 				<ActivityIndicator size='large' color='white' />

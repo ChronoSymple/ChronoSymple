@@ -4,7 +4,7 @@
             "outputFile": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v24/values-v24.xml",
             "map": [
                 {
-                    "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/fe5ac5fea8acb48e6a68c243be9a5aa7/res/values-v24/values-v24.xml",
+                    "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/aacf6791c582f0ba8b13747ffade6266/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",

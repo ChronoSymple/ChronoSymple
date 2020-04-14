@@ -152,7 +152,8 @@ const HomePrincipaleTabs = createBottomTabNavigator({
 			    />
 		)})
 	},
-}, {
+}, { 
+	initialRouteName: 'Home',
 	headerMode: 'none',
 	tabBarOptions: {
 	    showLabel: false,
@@ -309,37 +310,19 @@ const StackNavigtorWhithModule = createStackNavigator({
 })
 
 const StackNavigtorGlobalHome = createStackNavigator({
-	HomeTabs: {
-		screen: HomePrincipaleTabs,
-	},
-	Module: {
-		screen: StackNavigtorWhithModule,
-	},
+	HomeTabs : HomePrincipaleTabs,
+	Module : StackNavigtorWhithModule,
 	Stack: {
 		screen: ModulePlace, navigationOptions: { title:'ModulePlace' }
 	},
-	ProfileStackNavigator : {
-		screen: ProfileStackNavigator
-	},
-	CalendarStackNavigator : {
-		screen : CalendarStackNavigator
-	},
+	ProfileStackNavigator : ProfileStackNavigator,
+	CalendarStackNavigator : CalendarStackNavigator,
 	ChooseModulesToSendStackNavigator : ChooseModulesToSendStackNavigator,
-	DoctorChoiceStackNavigator: {
-		screen: DoctorChoiceStackNavigator
-	},
-	DoctorCardStackNavigator: {
-		screen: DoctorCardStackNavigator
-	},
-	SearchDoctorsStackNavigator: {
-		screen: SearchDoctorsStackNavigator
-	},
-	ModuleDiabete: {
-		screen: TabsDiabete
-	},
-	ModuleAsthma: {
-		screen: TabsAsthma
-	}
+	DoctorChoiceStackNavigator : DoctorChoiceStackNavigator,
+	DoctorCardStackNavigator : DoctorCardStackNavigator,
+	SearchDoctorsStackNavigator: SearchDoctorsStackNavigator,
+	ModuleDiabete: TabsDiabete,
+	ModuleAsthma : TabsAsthma
 }, {
 	headerMode: 'none'
 });
@@ -349,7 +332,7 @@ const LoginStack = createStackNavigator({
 	Login : Login,
 	SignIn : SignIn,
 	Logout : Logout,
-	AccountValidation : AccountValidation,
+	AccountValidation : AccountValidation,					
 }, {
 	headerMode : 'none'
 })

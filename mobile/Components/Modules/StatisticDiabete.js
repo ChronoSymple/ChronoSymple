@@ -4,12 +4,13 @@ import React from 'react'
 import { View, Text, Dimensions, ScrollView, StyleSheet, Button, ActivityIndicator } from 'react-native'
 import { colors, windowSize } from '../StyleSheet'
 import { connect } from 'react-redux';
-import { APIGetPatientNotesByModule } from '../../API/APIModule'
+import { APIGetPatientNotesByDateIntervale, APIGetPatientNotesByModule } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
 import {LineChart} from "react-native-chart-kit";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
+import CalendarPicker from 'react-native-calendar-picker';
 
 class Statistic extends React.Component {
   
@@ -18,8 +19,11 @@ class Statistic extends React.Component {
     var now =  new Date()
 		var annee   = now.getFullYear();
 		var month    = now.getMonth() + 1;
-		var jour    = now.getDate();
-		var date = jour + '/' + month + '/' + annee
+    var jour    = now.getDate();
+    if (month < 10)
+      var date = jour + '/' + '0' + month + '/' + annee
+    else
+		  var date = jour + '/' + month + '/' + annee
     this.state = {
       Glycemie: [],
       GlycemieAverage: 0,
@@ -47,26 +51,11 @@ class Statistic extends React.Component {
       loading: true,
       gmyText: 'I\'m ready to get swiped!',
       gestureName: 'none',
-      backgroundColor: '#fff'
+      backgroundColor: '#fff',
+      selectedStartDate: null,
     }
+    this.onDateChange = this.onDateChange.bind(this);
     this._bootstrapAsync();
-    /*const { navigation } = this.props;
-     this.focusListener = navigation.addListener('didFocus', () => {
-      this.state = {
-        Glycemie: [],
-        GlycemieAverage: 0,
-        Date: [],
-        loading: true,
-        display : false,
-        data: {
-          labels: ["", ""],
-          datasets: [{
-            data: []
-          }]
-        },
-      }
-      this._bootstrapAsync();
-    });*/
   }
 
   _dayMode = (date) => {
@@ -249,9 +238,9 @@ class Statistic extends React.Component {
 	_bootstrapAsync = () => {
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
-				APIGetPatientNotesByModule(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
+				APIGetPatientNotesByModule(this.props.token.token, this.props.props.currentModule).then(async data => {
           let response = await data.json()
-          console.log(response)
+          console.log(data)
 					if (data.status == 200) {
             this._createStats(response)
             this._averageMaker()
@@ -313,6 +302,12 @@ class Statistic extends React.Component {
     }
   }
 
+  onDateChange(date) {
+    this.setState({
+      selectedStartDate: date,
+    });
+  }
+
   render() {
 
     const config = {
@@ -338,8 +333,6 @@ class Statistic extends React.Component {
         </View>
         <GestureRecognizer
           onSwipe={this.onSwipe}
-      //    onSwipeLeft={this.onSwipeLeft()}
-//          onSwipeRight={this._previousPeriod()}
           config={config}
           style={{flex: 8}}
         >
