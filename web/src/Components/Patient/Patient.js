@@ -15,6 +15,7 @@ import woman from '../../assets/Img/woman.png'
 import man from '../../assets/Img/man.png'
 import Api from '../../Api';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Request from '../Request';
 
 class Patient extends PureComponent {
   constructor(props) {
@@ -83,13 +84,9 @@ class Patient extends PureComponent {
   }
 
   render() {
-    if (this.state.error) {
-      return (<p>{this.state.error.toString()}</p>)
-    }
-    if (!this.state.init) {
-      return (<CircularProgress />);
-    }
     const {
+      error,
+      init,
       civility,
       firstname,
       lastname,
@@ -97,7 +94,7 @@ class Patient extends PureComponent {
       diseases
     } = this.state;
     return (
-      <div>
+      <Request loading={!init} error={error}>
         <Card>
           <CardContent>
             <Typography variant="h4">{`${civility}. ${lastname} ${firstname}`}</Typography>
@@ -111,7 +108,7 @@ class Patient extends PureComponent {
         {diseases && Object.keys(diseases).map(key => 
           <DiseaseCard key={key} diseaseName={key} data={diseases[key]} defaultOpen={JSON.parse(window.localStorage.getItem('selectedDiseases') || window.localStorage.getItem('diseases') || [])[key] === true}/>)
         }
-      </div>
+      </Request>
     );
   }
 }

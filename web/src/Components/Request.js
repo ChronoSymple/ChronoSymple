@@ -18,7 +18,7 @@ const Request = ({
   classes
 }) => {
   if (error) {
-    return <div className={classes.progress}>{error}</div>;
+    return <div className={classes.progress}>{error.toString()}</div>;
   } else if (loading === true) {
     return <div className={classes.progress}><CircularProgress/></div>;
   }
