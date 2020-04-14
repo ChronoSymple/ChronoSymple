@@ -49,7 +49,7 @@ class Login extends React.Component {
 	}
 
 	setMail = (text) => {
-		this.setState({ mail: text })
+		this.setState({ mail: text.trim() })
 	}
 
 	setPassword = (text) => {
