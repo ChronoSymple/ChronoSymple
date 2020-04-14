@@ -13,7 +13,7 @@ import girl from '../../assets/Img/girl.png'
 import baby from '../../assets/Img/baby.png'
 import woman from '../../assets/Img/woman.png'
 import man from '../../assets/Img/man.png'
-import Api from '../../Api';
+//import Api from '../../Api';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 class Patient extends PureComponent {
@@ -44,10 +44,9 @@ class Patient extends PureComponent {
   }
 
   init = async() => {
-    const id = this.props.patientID;
     try {
       //TODO: Use real data
-      //const patientData = await Api.getPatient(this.props.token, id);
+      //const patientData = await Api.getPatient(this.props.token, this.props.patientID);
       //const {first_name, last_name, ...others} = patientData;
       //const formalizeData = {...others, firstname: first_name, lastname: last_name};
       const data = {id: 1, firstname: 'Carl', lastname: 'DE GENTILE', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: {
