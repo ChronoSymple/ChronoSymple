@@ -14,7 +14,6 @@ import baby from '../../assets/Img/baby.png'
 import woman from '../../assets/Img/woman.png'
 import man from '../../assets/Img/man.png'
 import Api from '../../Api';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Request from '../Request';
 
 class Patient extends PureComponent {
