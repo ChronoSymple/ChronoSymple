@@ -1,5 +1,5 @@
-//const baseUrl = 'https://docapp-prod.herokuapp.com'
 const baseUrl = 'https://docapp-prod.herokuapp.com'
+// const baseUrl = 'https://docapp-preprod.herokuapp.com'
 
 export function APIAddDoctor (token, moduleId, id) {
 	return fetch(baseUrl + '/api/patients/units/' + moduleId +"/add_doctor" , {
