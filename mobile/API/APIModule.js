@@ -119,15 +119,11 @@ export function APIShareNote(token, module_id, note_ids, doctor_ids) {
 }
 
 export function APIGetPatientNotesByDateIntervale(token, beginDate, endDate) {
-	return fetch(baseUrl + '/api/patients/notes/notes_by_date_interval', {
+	return fetch(baseUrl + '/api/patients/notes/notes_by_date_interval?begin_date=' + beginDate + "&end_date=" + endDate, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
 			'Authorization': token,
-		},
-		body: {
-			"begin_date": beginDate,
-			"end_date": endDate
 		}
 	})
 	.then((response) => response)

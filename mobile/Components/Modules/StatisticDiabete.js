@@ -451,10 +451,10 @@ class Statistic extends React.Component {
         actualDateEndDay: this.getDaysInMonth(this.state.actualDateBeginMonth, this.state.actualDateBeginYear),
         actualDateEnd: this.getDaysInMonth(this.state.actualDateBeginMonth, this.state.actualDateBeginYear) + '/' + this.state.actualDateBeginMonth + '/' + this.state.actualDateBeginYear,
         nbDaysOfCurrentMonth: this.getDaysInMonth(this.state.actualDateBeginMonth, this.state.actualDateBeginYear),
+        customButton: this.state.originalColor,
         firstButton: this.state.finalColor,
         secondButton: this.state.originalColor,
         thirdButton: this.state.originalColor,
-        customButton: this.state.originalColor,
         datasMode: this.state.adminEnum.Month,
         Glycemie: [],
         GlycemieAverage: 0,
@@ -527,6 +527,7 @@ class Statistic extends React.Component {
         nbDaysOfCurrentMonth: this.getDaysInMonth(this.state.actualDateBeginMonth, this.state.actualDateBeginYear),
         firstButton: this.state.originalColor,
         secondButton: this.state.originalColor,
+        customButton: this.state.originalColor,
         thirdButton: this.state.finalColor,
         datasMode: this.state.adminEnum.Day,
         Glycemie: [],
@@ -587,14 +588,12 @@ class Statistic extends React.Component {
 			isModalVisible: visible,
     })
     if (!visible) {
-      console.log("oui")
       this._bootstrapAsync();
 
     }
   }
 
   validateDates = (startDate, endDate) => {
-    console.log("oui")
     if (!startDate || !endDate)
       this._handleChangeDatasMode(this.state.lastmode)
     console.log(startDate, endDate)
