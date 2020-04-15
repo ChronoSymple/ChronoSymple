@@ -329,44 +329,44 @@ class Calendar extends React.Component {
 		}
 	  }
 	
-		_bootstrapAsync = () => {
-			this.props.getUserToken().then(() => {
-				this.props.getUserCurrentModule().then(() => {
-					APIGetPatientNotesByDateIntervale(this.props.token.token, this.state.actualDateBegin, this.state.actualDateEnd).then(async data => {
-					let response = await data.json()
-					if (data.status == 200) {
-						this.setState({ DNotes: response, loading: false })
-					}
-					}).catch(error => {
-						this.setState({ error })
-					})
+	_bootstrapAsync = () => {
+		this.props.getUserToken().then(() => {
+			this.props.getUserCurrentModule().then(() => {
+				APIGetPatientNotesByDateIntervale(this.props.token.token, this.state.actualDateBegin, this.state.actualDateEnd).then(async data => {
+				let response = await data.json()
+				if (data.status == 200) {
+					this.setState({ selectedNotes: response, loading: false })
+				}
+				}).catch(error => {
+					this.setState({ error })
 				})
-			}).catch(error => {
-				this.setState({ error })
 			})
-		}
+		}).catch(error => {
+			this.setState({ error })
+		})
+	}
 	
-	  getAndFindDay = (dateStr) =>
-	  {
-		var date = new Date(dateStr);
-		date = date.toDateString()
-		nameOfDay = date.substr(0, date.indexOf(' '))
-		if (nameOfDay == "Mon")
-		  return 1
-		else if (nameOfDay == "Tue")
-		  return 2
-		else if (nameOfDay == "Wed")
-		  return 3
-		else if (nameOfDay == "Thu")
-		  return 4
-		else if (nameOfDay == "Fri")
-		  return 5
-		else if (nameOfDay == "Sat")
-		  return 6
-		else if (nameOfDay == "Sun")
-		  return 7
-	  }
-	
+	getAndFindDay = (dateStr) =>
+	{
+	var date = new Date(dateStr);
+	date = date.toDateString()
+	nameOfDay = date.substr(0, date.indexOf(' '))
+	if (nameOfDay == "Mon")
+	  return 1
+	else if (nameOfDay == "Tue")
+	  return 2
+	else if (nameOfDay == "Wed")
+	  return 3
+	else if (nameOfDay == "Thu")
+	  return 4
+	else if (nameOfDay == "Fri")
+	  return 5
+	else if (nameOfDay == "Sat")
+	  return 6
+	else if (nameOfDay == "Sun")
+	  return 7
+	}
+
 	  _handleChangeDatasMode = (id) => {
 		if (id == 1 && this.state.datasMode != this.state.adminEnum.Month) {
 		  this.setState({
@@ -563,9 +563,10 @@ class Calendar extends React.Component {
 	exportPDFPressed = () => {
 		let PDFData = []
 		let counter = 0
-		for (var i = 0; i < this.state.DNotes.length; i++) {
-			if (this.state[this.state.DNotes[i].id] == true) {
-				PDFData[counter] = this.state.DNotes[i]
+		for (var i = 0; i < this.state.selectedNotes.length; i++) {
+			if (this.state[this.state.selectedNotes[i].id] == true) {
+				console.log(this.state.selectedNotes[i])
+				PDFData[counter] = this.state.selectedNotes[i]
 				counter += 1
 			}
 		}
@@ -579,7 +580,7 @@ class Calendar extends React.Component {
 		this.setState({ modalCheckboxVisible: visible })
 	}
 
-	noteChecked = (item) => {
+	noteChecked = (item) => {selectedNotes
 		console.log("toto")
 		if (this.state[item.id] == false) {
 			this.state.checkCount += 1
@@ -749,7 +750,7 @@ class Calendar extends React.Component {
 					<View style={{flex: 9}}>
 						{this.state.loading && 
 							<ActivityIndicator size='large' color='black' />}
-						{ !this.state.loading && !this.state.DNotes
+						{ !this.state.loading && !this.state.selectedNotes
 						?
 						<View style={styles.WhithoutModule}>
 							<Text style={{ marginBottom : 30, fontSize: 20 }}>
@@ -759,7 +760,7 @@ class Calendar extends React.Component {
 						:
             			<ScrollView>
 							<FlatList
-								data={this.state.DNotes}
+								data={this.state.selectedNotes}
 								keyExtractor={(item) => item.id.toString()}
 								refreshing={this.state.refreshing}
 								renderItem={({item}) => (
