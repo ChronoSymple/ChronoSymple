@@ -6,50 +6,37 @@ import CardContent from '@material-ui/core/CardContent';
 import DiseaseCard from './DiseaseCard/DiseaseCard';
 //import { PatientPropTypes } from '../../MyPropTypes';
 import i18n from 'i18next';
-import star1 from '../../assets/Img/filledStar.png'
-import star2 from '../../assets/Img/emptyStar.png'
-import boy from '../../assets/Img/boy.png'
-import girl from '../../assets/Img/girl.png'
-import baby from '../../assets/Img/baby.png'
-import woman from '../../assets/Img/woman.png'
-import man from '../../assets/Img/man.png'
+import star1 from '../../assets/Img/filledStar.png';
+import star2 from '../../assets/Img/emptyStar.png';
+import boy from '../../assets/Img/boy.png';
+import girl from '../../assets/Img/girl.png';
+import baby from '../../assets/Img/baby.png';
+import woman from '../../assets/Img/woman.png';
+import man from '../../assets/Img/man.png';
 import Api from '../../Api';
 import Request from '../Request';
 
-const patients = [woman, man, boy, girl, baby];
-console.log(patients);
-class Patient extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedImg: star1,
-      check: false,
-      
-      patSelected: man,
-      index: 0,
-      init: false,
-      error: null
-    };
-  }
-  patientsChange = () => {
-    this.setState(state => ({patSelected: patients[this.state.index], index: state.index + 1 === patients.length ? 0 : state.index + 1}));
-  }
-  handleChange = () => {
-    if (this.state.check === false)
-      this.setState({selectedImg: star2, check: true})
-    else
-      this.setState({selectedImg: star1, check: false})
-  }
+const patients = [man, woman, boy, girl, baby];
 
-  componentDidMount() {
-    this.init();
-  }
+class Patient extends PureComponent {
+  state = {
+    isFav: false,
+    type: 0,
+    init: false,
+    error: null,
+  };
+
+  patientsChange = () => this.setState(({type}) => ({type: (type + 1) % patients.length}));
+
+  handleChange = () => this.setState(({isFav}) => ({isFav: !isFav}));
+
+  componentDidMount = () => this.init();
 
   init = async() => {
     try {
       const patientData = await Api.getPatient(this.props.token, this.props.patientID);
-      const {first_name, last_name, ...others} = patientData;
-      const formalizeData = {...others, firstname: first_name, lastname: last_name};
+      const {first_name: firstname, last_name: lastname, ...others} = patientData;
+      const formalizeData = {...others, firstname, lastname};
       /* TODO: Remove fake data
       const data = {id: 1, firstname: 'Carl', lastname: 'DE GENTILE', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: {
         diabetes: [
@@ -79,8 +66,14 @@ class Patient extends PureComponent {
       }}
       */
       this.setState({init:true, ...formalizeData});
+      /*
+      try {
+        const lol = await Api.getNotes(this.props.token);
+      } catch (e) {
+      }
+      */
     } catch (error) {
-      this.setState({error})
+      this.setState({error});
     }
   }
 
@@ -92,7 +85,9 @@ class Patient extends PureComponent {
       firstname,
       lastname,
       birthdate,
-      diseases
+      diseases,
+      type,
+      isFav
     } = this.state;
     return (
       <Request loading={!init} error={error}>
@@ -100,10 +95,10 @@ class Patient extends PureComponent {
           <CardContent>
             <Typography variant="h4">{`${civility}. ${lastname} ${firstname}`}</Typography>
             <Typography variant="subtitle1" color="textSecondary">
-              { i18n.t('born') + ` ${birthdate}`}
+              { `${i18n.t('born')} ${birthdate}`}
             </Typography>
-            <img src={this.state.selectedImg} alt="favorite" onClick={this.handleChange} width="50" height="50"/>
-            <img src={this.state.patSelected} alt="type" onClick={this.patientsChange} width="60" height="100"/>
+            <img src={isFav ? star2 : star1} alt="favorite" onClick={this.handleChange} width="50" height="50"/>
+            <img src={patients[type]} alt="type" onClick={this.patientsChange} width="60" height="100"/>
           </CardContent>
         </Card>
         {diseases && Object.keys(diseases).map(key => 

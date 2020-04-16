@@ -10,7 +10,7 @@ import './i18n';
 
 
 i18n.init({
-    interpolation: { escapeValue: false },  
+  interpolation: { escapeValue: false },  
 });
 
 ReactDOM.render(<AppController />, document.getElementById('root'));

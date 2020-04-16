@@ -79,11 +79,10 @@ class SearchController extends PureComponent {
     //return this.setState({init: true, data});
     try {
       const rawdata = await Api.getPatients(this.props.token);
-      const data = await Promise.all(rawdata.map(e => e.patient_id).reduce((c, e) => console.log(c, e) || c.includes(e) ? c : [...c, e], []).map(async id => {
-        console.log(id);
+      const data = await Promise.all(rawdata.map(e => e.patient_id).reduce((c, e) => c.includes(e) ? c : [...c, e], []).map(async id => {
         const patientData = await Api.getPatient(this.props.token, id);
-        const {first_name, last_name, ...others} = patientData;
-        return {...others, firstname: first_name, lastname: last_name, id};
+        const {first_name: firstname, last_name: lastname, ...others} = patientData;
+        return {...others, firstname, lastname, id};
       }));
       this.setState({init: true, data});
     } catch (e) {
@@ -98,8 +97,7 @@ class SearchController extends PureComponent {
     }}), () => localStorage.setItem('selectedDiseases', JSON.stringify(this.state.selected)));
   }
 
-  deletePatient = (e, id) => {
-    console.log(id);
+  deletePatient = e => {
     e.stopPropagation();
     return false;
   }

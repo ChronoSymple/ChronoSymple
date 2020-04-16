@@ -24,7 +24,7 @@ const dateToProbs = (table, step = 1) => {
     y: r[k]
   }));
   return ({points, labels});
-}
+};
 
 class Diabetes extends PureComponent {
   setRef = ref => this.ref = ref;

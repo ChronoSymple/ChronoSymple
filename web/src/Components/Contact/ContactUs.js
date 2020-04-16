@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 // import Dialog from 'react-dialog'
 import '../../assets/CSS/bootstrap.css';
 //import gecko from '../../assets/Img/Gecko.png';
-import i18n from 'i18next' 
+import i18n from 'i18next';
 
 export default class ContactUs extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ export default class ContactUs extends Component {
       email: '',
       subject: '',
       message: '',
-      response_ok: false,
+      responseOk: false,
       cont: ''
     };
   }
@@ -51,7 +51,7 @@ export default class ContactUs extends Component {
   }
   handleFormResponse = data => {
     if (data.result === true) {
-      this.setState({ response_ok: true });
+      this.setState({ responseOk: true });
     }
   }
 
@@ -74,7 +74,7 @@ export default class ContactUs extends Component {
     const { show } = this.state;
     return (
       <div>
-        <Button onClick={() => this.toggleShow(true)} style={{ textDecoration: 'underline', textTransform: 'lowercase', color: 'white' }}>{i18n.t("contact") || 'Contact us'}</Button>
+        <Button onClick={() => this.toggleShow(true)} style={{ textDecoration: 'underline', textTransform: 'lowercase', color: 'white' }}>{i18n.t('contact') || 'Contact us'}</Button>
         {/* <Example/> */}
         <PopPop open={show}
           closeBtn={true}

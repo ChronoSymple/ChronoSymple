@@ -10,7 +10,7 @@ export default class Settings extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      lang: i18n.t("language"),
+      lang: i18n.t('language'),
       value: 'Fra'
     };
   }

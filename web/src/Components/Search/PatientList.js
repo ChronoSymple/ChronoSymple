@@ -8,8 +8,8 @@ import TableBody from '@material-ui/core/TableBody';
 import Table from '@material-ui/core/Table';
 import { withStyles } from '@material-ui/core';
 import { PatientPropTypes } from '../../MyPropTypes';
-import Alert from '../Alert/Alert'
-import i18n from 'i18next' 
+import Alert from '../Alert/Alert';
+import i18n from 'i18next';
 
 const styles = {
   selectable : {
@@ -32,11 +32,11 @@ const PatientList = ({
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell>{i18n.t("lastname")}</TableCell>
-          <TableCell>{i18n.t("firstname")}</TableCell>
-          <TableCell>{i18n.t("birthDate")}</TableCell>
-          <TableCell>{i18n.t("patState")}</TableCell>
-        {/* <Alert/> */}
+          <TableCell>{i18n.t('lastname')}</TableCell>
+          <TableCell>{i18n.t('firstname')}</TableCell>
+          <TableCell>{i18n.t('birthDate')}</TableCell>
+          <TableCell>{i18n.t('patState')}</TableCell>
+          {/* <Alert/> */}
         </TableRow>
       </TableHead>
       <TableBody>

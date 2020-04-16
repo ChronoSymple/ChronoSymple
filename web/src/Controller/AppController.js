@@ -4,7 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import MyAppBarController from './MyAppBarController';
 import LoginController from './LoginController';
 import { withStyles } from '@material-ui/core/styles';
-import { BrowserRouter, Switch, Route, useParams } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Search from './SearchController';
 import AdminSearch from './AdminSearchController';
 import AdminPatient from '../Components/Admin/AdminPatient';
@@ -124,7 +124,7 @@ class App extends PureComponent {
                   <main className={classes.content}>
                     <div className={classes.toolbar} id='toolbar'/>
                     {
-                      console.log(useParams) ||(admin === true) ?
+                      (admin === true) ?
                         <AdminPatient token={token} patientID={match.params.id}/> :
                         <Patient token={token} patientID={match.params.id}/>
                     }

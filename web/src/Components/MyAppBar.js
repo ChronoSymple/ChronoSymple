@@ -66,9 +66,9 @@ class MyAppBar extends PureComponent {
               open={open}
               onClose={closeMenu}
             >
-              <MenuItem onClick={openProfile}>{i18n.t("profile")}</MenuItem>
-              <MenuItem onClick={disconnect}>{i18n.t("disconnect")}</MenuItem>
-              <MenuItem onClick={openSettings}>{i18n.t("settings")}</MenuItem>
+              <MenuItem onClick={openProfile}>{i18n.t('profile')}</MenuItem>
+              <MenuItem onClick={disconnect}>{i18n.t('disconnect')}</MenuItem>
+              <MenuItem onClick={openSettings}>{i18n.t('settings')}</MenuItem>
             </Menu>
           </Toolbar>
         </AppBar>

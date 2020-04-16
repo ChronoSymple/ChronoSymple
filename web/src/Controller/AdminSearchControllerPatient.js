@@ -76,8 +76,8 @@ class AdminSearchControllerPatient extends PureComponent {
     try {
       const rawdata = await Api.getPatientsAsAdmin(this.props.token);
       const data = rawdata.filter(e => e !== null).map(e => {
-        const {first_name, last_name, ...others} = e;
-        return {...others, firstname: first_name, lastname: last_name};
+        const {first_name: firstname, last_name: lastname, ...others} = e;
+        return {...others, firstname, lastname};
       });
       this.setState({init: true, data});
     } catch (e) {

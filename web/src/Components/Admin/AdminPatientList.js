@@ -89,7 +89,7 @@ class AdminPatientList extends React.Component {
       </Table>
     </Card>
   );
-};
+}
 
 AdminPatientList.propTypes = {
   setPatient: PropTypes.func.isRequired,
