@@ -5,6 +5,7 @@ import Api from '../Api';
 import Request from '../Components/Request';
 import Chip from '@material-ui/core/Chip';
 import diseases from '../diseases';
+import FilterIcon from '@material-ui/icons/FilterList';
 
 /*const data = [
   {id: 1, firstname: 'Carl', lastname: 'DE GENTILE', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: {
@@ -52,21 +53,24 @@ class SearchController extends PureComponent {
     data: [],
     error: null,
     init: false,
-    selected: JSON.parse(localStorage.getItem('diseases') || '{}')
+    selected: JSON.parse(localStorage.getItem('diseases') || '{}'),
+    filtersOn: false,
   };
   setSearchValue = search => this.setState({ search });
 
-  filterData = data => {
+  filterData = (data, filterOn) => {
     const words = this.state.search.split(' ');
     let filtered = data.filter(e => words.map(s =>
       e.firstname.toLocaleLowerCase().includes(s.toLocaleLowerCase()) ||
       e.lastname.toLocaleLowerCase().includes(s.toLocaleLowerCase())
     ).reduce((p, c) => p && c, true));
-    Object.keys(this.state.selected).forEach(key => {
-      if (this.state.selected[key] === true) {
-        filtered = filtered.filter(e => e.diseases && e.diseases[key] !== undefined);
-      }
-    });
+    if (filterOn) {
+      Object.keys(this.state.selected).forEach(key => {
+        if (this.state.selected[key] === true) {
+          filtered = filtered.filter(e => e.diseases && e.diseases[key] !== undefined);
+        }
+      });
+    }
     return filtered;
   };
 
@@ -102,24 +106,28 @@ class SearchController extends PureComponent {
     return false;
   }
 
+  toogleFilters = () => this.setState(({filtersOn}) => ({filtersOn: !filtersOn}));
+
   render() {
     const {
       search,
       data,
       error,
-      init
+      init,
+      filtersOn,
     } = this.state;
-    const filterData = this.filterData(data);
+    const filterData = this.filterData(data, filtersOn);
     return (
       <div>
         <SearchBar search={search} setSearchValue={this.setSearchValue}/>
         <br/>
+        <div onClick={this.toogleFilters} style={{color: filtersOn ? 'black'  : 'gray'}}><FilterIcon/>Filters</div>
         {
-          Object.keys(diseases).map(disease => <Chip
+          filtersOn && [<br key='none'/>, ...Object.keys(diseases).map(disease => <Chip
             key={diseases[disease].fullName}
             color={this.state.selected[disease] ? 'primary' : 'default'}
             label={diseases[disease].fullName}
-            onClick={() => this.chipClick(disease)}/>)
+            onClick={() => this.chipClick(disease)}/>)]
         }
         <Request error={error} loading={!init}>
           <PatientList data={filterData} setPatient={this.props.setPatient} deletePatient={this.deletePatient}/>
