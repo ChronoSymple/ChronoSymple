@@ -1,57 +1,97 @@
-import React, { Component } from 'react';
+import React from 'react'
 import {createStackNavigator, createDrawerNavigator, createBottomTabNavigator, createAppContainer} from 'react-navigation';
-import { DrawerActions } from 'react-navigation';
-import {TouchableOpacity, StyleSheet, Image, Text} from 'react-native';
 
 import Login from '../Components/Auth/Login';
 import SignIn from '../Components/Auth/SignIn';
-import Logout from '../Components/Auth/Logout';
 import Home from '../Components/Home';
-import DrawerScreen from './DrawerScreen';
-import ModulePlace from '../Components/ModulePlace';
-import HomeModule from '../Components/HomeModule';
-import Calendar from '../Components/Calendar';
-import DoctorChoice from '../Components/DoctorChoice';
-import ChooseModulesToSend from '../Components/ChooseModulesToSend';
-import DetailNote from '../Components/DetailNote';
-import Statistic from '../Components/Statistic';
-import Export from '../Components/Export';
-import Note from '../Components/Note';
+import ModulePlace from '../Components/Modules/ModulePlace';
+import Profile from '../Components/Auth/Profile';
+import ModuleProfile from '../Components/Auth/ModuleProfile';
+import Calendar from '../Components/Modules/Calendar';
+import DetailNote from '../Components/Modules/DetailNote';
+import AddNote from '../Components/Modules/Note';
+import EditNote from '../Components/Modules/EditNote';
+import StatisticDiabete from '../Components/Modules/StatisticDiabete';
+import StatisticAsthma from '../Components/Modules/StatisticAsthma';
+import Export from '../Components/Modules/Export';
+import ExportPDF from '../Components/Modules/ExportPDF';
+import Note from '../Components/Modules/Note';
+import Logout from '../Components/Auth/Logout'
 import Loading from '../Components/Loading'
+import Check from '../Components/CheckModule'
+
+import AProposProfile from '../Components/Auth/Profile/AProposProfile';
+import ContactProfile from '../Components/Auth/Profile/ContactProfile';
+import FAQProfile from '../Components/Auth/Profile/FAQProfile';
+import InfoProfile from '../Components/Auth/Profile/InfoProfile';
+import PasswordProfile from '../Components/Auth/Profile/PasswordProfile';
+import SupportProfile from '../Components/Auth/Profile/SupportProfile';
+
+import ChooseModulesToSend from '../Components/Doctors/ChooseModulesToSend';
+import DoctorChoice from '../Components/Doctors/DoctorChoice';
+import DoctorCard from '../Components/Doctors/DoctorCard';
+import SearchDoctors from '../Components/Doctors/SearchDoctors';
+
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Button } from 'react-native-paper';
+import Icon2 from 'react-native-vector-icons/FontAwesome5';
+import AccountValidation from "../Components/Auth/AccountValidation";
+import { styles, colors, windowSize } from '../Components/StyleSheet'
 
-const HomeModuleStackNavigator = createStackNavigator({
-	HomeModule: {
-	  screen: HomeModule,
-	}
+_menu = null;
+ 
+setMenuRef = ref => {
+  this._menu = ref;
+};
 
-})
+hideMenu = () => {
+  this._menu.hide();
+};
 
-const NoteStackNavigator = createStackNavigator({
-	Note: {
-	  screen: Note,
-	}
-})
+showMenu = () => {
+  this._menu.show();
+};
 
 const CalendarStackNavigator = createStackNavigator({
+	Calendar: {
+		screen : Calendar
+	},
+	EditNote: {
+		screen: EditNote
+	},
 	DetailNote: {
 		screen: DetailNote
-	}
+	},
+	ExportPDF: {
+		screen: ExportPDF
+	},
 }, {
 	headerMode: 'none'
 })
 
-const StatisticStackNavigator = createStackNavigator({
-	Statistic: {
-		screen: Statistic,
+const ProfileStackNavigator = createStackNavigator({
+	InfoProfile: {
+		screen: InfoProfile,
+	},
+	ModuleProfile: {
+		screen: ModuleProfile,
+	},
+	PasswordProfile: {
+		screen: PasswordProfile,
+	},
+	SupportProfile: {
+		screen: SupportProfile,
+	},
+	FAQProfile: {
+		screen: FAQProfile,
+	},
+	ContactProfile: {
+		screen: ContactProfile,
+	},
+	AProposProfile: {
+		screen: AProposProfile,
 	}
-})
-
-const ExportStackNavigator = createStackNavigator({
-	Export: {
-	  screen: Export,
-	}
+}, {
+		headerMode: 'none'
 })
 
 const DoctorChoiceStackNavigator = createStackNavigator({
@@ -62,6 +102,15 @@ const DoctorChoiceStackNavigator = createStackNavigator({
 	headerMode: 'none'
 })
 
+const DoctorCardStackNavigator = createStackNavigator({
+	DoctorCard: {
+		screen: DoctorCard,
+	}
+}, {
+	headerMode: 'none'
+})
+
+
 const ChooseModulesToSendStackNavigator = createStackNavigator({
 	ChooseModulesToSend: {
 		screen: ChooseModulesToSend,
@@ -70,136 +119,229 @@ const ChooseModulesToSendStackNavigator = createStackNavigator({
 	headerMode: 'none'
 })
 
-const Tabs = createBottomTabNavigator({
+const SearchDoctorsStackNavigator = createStackNavigator({
+	SearchDoctors: {
+		screen: SearchDoctors,
+	}
+}, {
+	headerMode: 'none'
+})
+
+const HomePrincipaleTabs = createBottomTabNavigator({
 	Home: {
-		screen : HomeModule,
-		navigationOptions: {
-			tabBarLabel:"Home",
-			tabBarIcon: ({ tintColor }) => (
-			  <Icon name="home" size={20}/>
-			)
-		},
+		screen: Home,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="apps"
+				color={tintColor}
+				size={40}
+			    />
+		)})
 	},
-	Note: {
-		screen : Note,
-		navigationOptions: {
-			tabBarLabel:"Note",
-			tabBarIcon: ({ tintColor }) => (
-			  <Icon name="note" size={20}/>
-			)
-		},
+	Profile: {
+		screen: Profile,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="account-circle"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+}, { 
+	initialRouteName: 'Home',
+	headerMode: 'none',
+	tabBarOptions: {
+	    showLabel: false,
+	    activeTintColor: '#F8F8F8',
+	    inactiveTintColor: colors.secondary,
+	    style: {
+		backgroundColor: colors.primary
+	    }
+	},
+});
+
+const TabsAsthma = createBottomTabNavigator({
+	Statistic: {
+		screen : StatisticAsthma,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="insert-chart"
+				color={tintColor}
+				size={40}
+			    />
+		)})
 	},
 	Calendar: {
-		screen : Calendar,
-		navigationOptions: {
-			tabBarLabel:"Calendar",
-			tabBarIcon: ({ tintColor }) => (
-			  <Icon name="perm-contact-calendar" size={20}/>
-			)
-		},
+		screen : StatisticAsthma,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon2
+				name="notes-medical"
+				color={tintColor}
+				size={40}
+			    />
+		)})
 	},
+	AddNote: {
+		screen : StatisticAsthma,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="add-circle"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+	Profile: {
+		screen : Profile,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="account-circle"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+	Home: {
+		screen : Home,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="apps"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+}, {
+	
+	tabBarOptions: {
+	    showLabel: false,
+	    activeTintColor: '#F8F8F8',
+	    inactiveTintColor: colors.secondary,
+	    style: {
+		backgroundColor: colors.primary
+	    }
+	},
+});
+
+const TabsDiabete = createBottomTabNavigator({
 	Statistic: {
-		screen : Statistic,
-		navigationOptions: {
-			tabBarLabel:"Statistic",
-			tabBarIcon: ({ tintColor }) => (
-			  <Icon name="timeline" size={20}/>
-			)
-		},
+		screen : StatisticDiabete,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="insert-chart"
+				color={tintColor}
+				size={40}
+			    />
+		)})
 	},
-	Export: {
-		screen : Export,
-		navigationOptions: {
-			tabBarLabel:"Export",
-			tabBarIcon: ({ tintColor }) => (
-			  <Icon name="import-export" size={20}/>
-			)
-		},
+	Calendar: {
+		screen : CalendarStackNavigator,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon2
+				name="notes-medical"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+	AddNote: {
+		screen : AddNote,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="add-circle"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+	Profile: {
+		screen : Profile,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="account-circle"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+	Home: {
+		screen : Home,
+		navigationOptions: () => ({
+			tabBarIcon: ({tintColor}) => (
+			    <Icon
+				name="apps"
+				color={tintColor}
+				size={40}
+			    />
+		)})
+	},
+}, {
+	
+	tabBarOptions: {
+	    showLabel: false,
+	    activeTintColor: '#F8F8F8',
+	    inactiveTintColor: colors.secondary,
+	    style: {
+		backgroundColor: colors.primary
+	    }
+	},
+});
+
+const StackNavigtorWhithModule = createStackNavigator({
+	Check: {
+		screen: Check
 	},
 },{
+	headerMode: 'none'
+})
+
+const StackNavigtorGlobalHome = createStackNavigator({
+	HomeTabs : HomePrincipaleTabs,
+	Module : StackNavigtorWhithModule,
+	Stack: {
+		screen: ModulePlace, navigationOptions: { title:'ModulePlace' }
+	},
+	ProfileStackNavigator : ProfileStackNavigator,
+	CalendarStackNavigator : CalendarStackNavigator,
+	ChooseModulesToSendStackNavigator : ChooseModulesToSendStackNavigator,
+	DoctorChoiceStackNavigator : DoctorChoiceStackNavigator,
+	DoctorCardStackNavigator : DoctorCardStackNavigator,
+	SearchDoctorsStackNavigator: SearchDoctorsStackNavigator,
+	ModuleDiabete: TabsDiabete,
+	ModuleAsthma : TabsAsthma
+}, {
 	headerMode: 'none'
 });
 
 
-const MenuImage = ({navigation}) => {
-	if(!navigation.state.isDrawerOpen){
-		return <Icon color="white" name="menu" size={30} marginLeft={10} />
-	} else {
-		return <Icon color="white" name="arrow-back" size={30} marginLeft={10} />
-	}
-}
-
-const DrawerNavigator = createDrawerNavigator({
-		Home: {
-			screen: Home
-		},
-		HomeModule: {
-			screen: Tabs
-		},
-	},{
-		contentComponent: DrawerScreen,
-		headerMode: 'none',
-		drawerWidth: 300,
-		navigationOptions: ({ navigation }) => ({
-				title : 'Home',
-				  // Title to appear in status bar
-				headerLeft: 
-				<TouchableOpacity  onPress={() => {navigation.dispatch(DrawerActions.toggleDrawer())} }>
-					<MenuImage navigation={navigation}/>
-				</TouchableOpacity>,
-				headerRight:
-				<TouchableOpacity onPress={() => navigation.navigate('Logout') }>
-					<Icon color="white" name="exit-to-app" size={30} marginRight={10} />
-				</TouchableOpacity>,
-				headerStyle: {
-					backgroundColor: '#58b57d',
-				},
-				headerTintColor: '#fff',
-				headerTitleStyle: {
-				  fontWeight: 'bold',
-				},
-		
-			})
-});
-
-const StackNavigtorWhithoutModule = createStackNavigator({
-	Drawer: {
-		screen: DrawerNavigator
-	},
-	Stack: {
-		screen: ModulePlace, navigationOptions: { title:'ModulPlace' }
-	},
-	CalendarStackNavigator: {
-		screen : CalendarStackNavigator
-	},
-	DoctorChoiceStackNavigator: {
-		screen: DoctorChoiceStackNavigator
-	},
-	ChooseModulesToSendStackNavigator: {
-		screen: ChooseModulesToSendStackNavigator
-	}
-})
-
 const LoginStack = createStackNavigator({
-	Login: { screen: Login },
-	SignIn: { screen: SignIn },
+	Login : Login,
+	SignIn : SignIn,
+	Logout : Logout,
+	AccountValidation : AccountValidation,					
+}, {
+	headerMode : 'none'
 })
 
 const StackNavigator = createStackNavigator({
-	Loading: Loading,
-	LoginStack: {
-		screen: LoginStack, headerMode : 'none'
-	},
+	Loading : Loading,
+	LoginStack : LoginStack,
 	Drawer: {
-		screen: StackNavigtorWhithoutModule
-	},
-	Logout: { screen : Logout,
-		navigationOptions: {
-			headerMode: 'none'
-		},
+		screen: StackNavigtorGlobalHome
 	}
 },{
-	initialRouteName : 'Loading',
 	headerMode: 'none'
 });
 	  

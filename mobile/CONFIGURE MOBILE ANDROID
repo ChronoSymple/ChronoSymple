@@ -1,0 +1,34 @@
+
+TO RUN MOBILE APP: 
+$> react-native run-android
+
+If you get an error like "unable to resolve react-redux"
+
+check if the package.json is up to date
+
+Solution 1:
+$> npm install
+
+Solution 2 : Delete the node_modules
+$> rm -fr node_modules && npm install 
+
+Solution 3 : Reset metro bundle cache
+$> npm start --reset-cache
+
+
+AFTER INITIALIZING ANDROID PROJECT:
+
+$> npm install react-navigation
+$> npm install react-native-gesture-handler react-native-reanimated
+
+$> npm install react-redux
+$> npm install redux
+
+$> npm install react-native-svg-charts
+$> npm install react-native-svg
+$> npm install react-native-vector-icons
+$> npm install react-native-swipe-gestures
+
+
+TO SEE LOGS :
+$> react-native log-android

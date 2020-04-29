@@ -1,23 +1,11 @@
-// Components/SignIn.js
-
 import React from 'react'
-import { View, Text, Button, TextInput, Dimensions, AsyncStorage } from 'react-native'
+import { View, Text, Button, TextInput, ImageBackground, BackHandler } from 'react-native'
 import { LoginAPatientWithApi } from '../../API/APIConnection'
-import { APIGetPatientModules } from '../../API/APIModule'
-import { getToken, setToken } from './Cache'
 import { styles, colors, windowSize } from '../StyleSheet'
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { saveUserToken } from '../../Redux/Action/action';
 
 class Login extends React.Component {
-	
-	static navigationOptions = {
-		headerStyle: styles.navBar,
-		title: "Connection",
-		headerTintColor: "white",
-		headerTitleStyle: {
-      		alignSelf: "center"
-    	}
-	}
 
 	constructor(props) {
 		super(props)
@@ -31,40 +19,37 @@ class Login extends React.Component {
 		}
 	}
 
+	_signInAsync = (token) => {
+		this.props.saveUserToken(token)
+		    .then(() => {
+			this.props.navigation.navigate('Home');
+		    })
+		    .catch((error) => {
+			this.setState({ error })
+		    })
+	};
+	
 	checkLogin = () => {
 		let { navigate } = this.props.navigation;
-
 		LoginAPatientWithApi(this.state.mail, this.state.password).then(async data => {
-		 	if (data.status == 200) {
-		 		let response = await data.json()
-		 		let token = response.login_token
-		 		setToken(token);
-		 		const action = { type: "TOGGLE_FAVORITE", value: token }
-		 		this.props.dispatch(action)
-		 		if (token !== null) {
-		 			APIGetPatientModules(this.props.token).then(async data => {
-		 				if (data.status == 200) {
-		 					let response = await data.json()
-		 					if (response.modules.length > 0) {
-		 						const action = { type: "CURRENT_MODULE", value: response.modules[0].id}
-		 						this.props.dispatch(action)	
-		 						this.props.navigation.navigate('HomeModule', {idModule: response.modules[0].id})
-		 					}
-		 					else
-		 						navigate('Home')
-		 				}
-		 			})
-		 		}
-		 	}
-		 	else {
-		 		this.setState({ isInvalid: true, errorText: "Problème de connection" })
-		 	}
-		}); 				// TO DECOMMENT 
-		//navigate('Home') // TO RM NEXT EIP REUNION 
+			if (data.status == 200) {
+				let response = await data.json()
+				this._signInAsync(response.login_token)
+				if (response.login_token !== null) {
+					navigate('Home')
+				}
+				else {
+					navigate('SignIn')
+				}
+			}
+			else {
+				this.setState({ isInvalid: true, errorText: "Problème de connection" })
+			}
+		});
 	}
 
 	setMail = (text) => {
-		this.setState({ mail: text })
+		this.setState({ mail: text.trim() })
 	}
 
 	setPassword = (text) => {
@@ -72,7 +57,6 @@ class Login extends React.Component {
 	}
 
 	textFieldFocused = (state) => {
-		console.log(state);
 		this.setState({[state]: true})
 	}
 
@@ -81,74 +65,95 @@ class Login extends React.Component {
 	}
 
   	render() {
-		let { navigate } 			= this.props.navigation;
-		let placeholder_email 		= "myEmail@gmail.com";
-		let placeholder_password 	= "mySecurePassword";
-		let notSubscribe 			= "new account";
-		let login 					= "login";
-		let errorMessage 			= "email or password incorrect";
-		let emailFocused 			= "emailFocused";
+		let { navigate } 		= this.props.navigation;
+		let placeholder_email 		= "E-mail";
+		let placeholder_password 	= "Mot de passe";
+		let notSubscribe 		= "Créer un compte";
+		let login 			= "Se connecter";
+		let errorMessage 		= "email ou mot de passe incorrect";
+		let emailFocused 		= "emailFocused";
 		let passwordFocused 		= "passwordFocused"
 
-    	return (
-    		<View style={styles.mainContner}>
-	      		<View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
-	      			<View style={{ flex: 6, justifyContent: "center"}}>
-			      		<Text style={styles.label}>
-			      			Email
-			      		</Text>
-						<TextInput
-							onFocus={() => this.textFieldFocused(emailFocused)}
-							onBlur={() => this.textFieldBlured(emailFocused)}
-							placeholder={placeholder_email}
-							style={[this.state[emailFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5 }]}
-							autoCorrect={false}
-							onChangeText={(text) => this.setMail(text)}
-							value={this.mail}
-						/>
-						<Text style={styles.label}>
-			      			Password
-			      		</Text>
-						<TextInput
-							onFocus={() => this.textFieldFocused(passwordFocused)}
-							onBlur={() => this.textFieldBlured(passwordFocused)}
-							secureTextEntry={true}
-							placeholder={placeholder_password}
-							style={[this.state[passwordFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5 }]}
-							autoCorrect={false}
-							onChangeText={(text) => this.setPassword(text)}
-							value={this.password}
-						/>
-					</View>
-	      			<View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
-						{this.state.isInvalid && <Text style={{ color: colors.errorColor }}>{errorMessage}</Text>}
-					</View>
-					<View style={{ flex: 3, justifyContent: "center", width: windowSize.x / 1.5}}>
-						<View style={{ flex: 1, justifyContent: "center"}}>
+    		return (
+			<ImageBackground source={require("./../../assets/pexels-photo-247478.jpeg")} style={{width: '100%', height: '100%'}}>
+    				<View style={[styles.AuthMainContainer, styles.LoginMainContainer]}>
+	      				<View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
+					      	<View style={{flex: 0.5}}></View>
+						<View style={{ flex: 2, justifyContent: "center"}}>
+							<Text style={styles.label}>CONNECTION</Text>
+						</View>
+						<View style={{flex: 0.5}}></View>
+	      					<View style={{ flex: 3, justifyContent: "center", alignCOntent: 'center'}}>
+							<TextInput
+								onFocus={() => this.textFieldFocused(emailFocused)}
+								onBlur={() => this.textFieldBlured(emailFocused)}
+								placeholder={placeholder_email}
+								style={[this.state[emailFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5 }]}
+								autoCorrect={false}
+								onChangeText={(text) => this.setMail(text)}
+								value={this.mail}
+							/>
+							<TextInput
+								onFocus={() => this.textFieldFocused(passwordFocused)}
+								onBlur={() => this.textFieldBlured(passwordFocused)}
+								secureTextEntry={true}
+								placeholder={placeholder_password}
+								style={[this.state[passwordFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5 }]}
+								autoCorrect={false}
+								onChangeText={(text) => this.setPassword(text)}
+								value={this.password}
+							/>
+						</View>
+						<View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
+								{this.state.isInvalid && <Text style={{ color: colors.errorColor }}>{errorMessage}</Text>}
+						</View>
+						<View style={{ flex: 1, justifyContent: "center", width: windowSize.x / 1.5}}>
 							<Button 
 								color={colors.secondary}
-								onPress={() => navigate('SignIn')} 
+								onPress={() => navigate('SignIn')}
 								title={notSubscribe}
 							/>
 						</View>
-						<View style={{ flex: 1, justifyContent: "center"}}>
+						<View style={{flex: 0.5}}></View>
+						<View style={{ flex: 1, justifyContent: "center", width: windowSize.x / 1.5}}>
 							<Button 
 								color={colors.primary}
-								onPress={() => this.checkLogin()} 
+								onPress={() => this.checkLogin()}
 								title={login}
 							/>
 						</View>
+						<View style={{flex: 0.25}}></View>
+						<View style={{ flex: 1, justifyContent: "center", width: windowSize.x / 1.5 }}>
+							<Text style={{textAlign: 'justify'}}>Vous avez oublié votre mot de passe cliquez ici ?</Text>
+						</View>
+						<View style={{flex: 0.5}}></View>
 					</View>
 				</View>
-			</View>
+			</ImageBackground>
 		)
 	}
-}
 
-const mapStateToProps = (state) => {
-	return {
-		token: state.token
+	componentDidMount() {
+		BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+	}
+
+	componentWillUnmount() {
+		BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+	}
+
+	handleBackPress = () => {
+		BackHandler.exitApp();
+		return true;
 	}
 }
 
-export default connect(mapStateToProps)(Login)
+const mapStateToProps = state => ({
+	token: state.token,
+});
+
+
+const mapDispatchToProps = dispatch => ({
+	saveUserToken: (token) => dispatch(saveUserToken(token)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Search from './Search/';
-import Patient from './Patient/';
+import Search from './Controller/SearchController';
+import Patient from './Components/Patient/';
 
 class Main extends PureComponent {
 
