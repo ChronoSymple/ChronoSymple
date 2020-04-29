@@ -9,6 +9,7 @@ import Profile from '../Components/Auth/Profile';
 import ModuleProfile from '../Components/Auth/ModuleProfile';
 import Calendar from '../Components/Modules/Calendar';
 import DetailNote from '../Components/Modules/DetailNote';
+import AddNote from '../Components/Modules/Note';
 import EditNote from '../Components/Modules/EditNote';
 import StatisticDiabete from '../Components/Modules/StatisticDiabete';
 import StatisticAsthma from '../Components/Modules/StatisticAsthma';
@@ -54,14 +55,11 @@ const CalendarStackNavigator = createStackNavigator({
 	Calendar: {
 		screen : Calendar
 	},
-	AddNote: {
-		screen: Note
+	EditNote: {
+		screen: EditNote
 	},
 	DetailNote: {
 		screen: DetailNote
-	},
-	EditNote: {
-		screen: EditNote
 	},
 	ExportPDF: {
 		screen: ExportPDF
@@ -188,12 +186,12 @@ const TabsAsthma = createBottomTabNavigator({
 			    />
 		)})
 	},
-	Export: {
+	AddNote: {
 		screen : StatisticAsthma,
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
-				name="cloud-upload"
+				name="add-circle"
 				color={tintColor}
 				size={40}
 			    />
@@ -256,12 +254,12 @@ const TabsDiabete = createBottomTabNavigator({
 			    />
 		)})
 	},
-	Export: {
-		screen : Export,
+	AddNote: {
+		screen : AddNote,
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
-				name="cloud-upload"
+				name="add-circle"
 				color={tintColor}
 				size={40}
 			    />
