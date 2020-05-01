@@ -37,7 +37,7 @@ class Home extends React.Component {
 		});
 	}
 		
-	componentWillMount = () => {
+	UNSAFE_componentWillMount = () => {
 		this._value = 0;
 		this.state.animatedValue.addListener((v) => this._value = v.value);
 	}
