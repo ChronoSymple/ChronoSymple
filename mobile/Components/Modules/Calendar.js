@@ -107,6 +107,46 @@ class Calendar extends React.Component {
 			})
 		})
 	}
+<<<<<<< HEAD
+=======
+	
+	_bootstrapAsync = () => {
+		this.props.getUserToken().then(() => {
+			this.props.getUserCurrentModule().then(() => {
+				APIGetPatientNotesByModule(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
+					let response = await data.json()
+					if (data.status == 200) {
+						this.setState({
+							selectedNotes: [ ...response ],
+							loading: false,
+						})
+						console.log("dsqdqsd 2 ")
+						console.log(this.state.selectedNotes)
+						for (var i = 0; i < this.state.selectedNotes.length; i++) {
+							console.log("---")
+							console.log(this.state.selectedNotes[i])
+							console.log(this.state.selectedNotes[i].id)
+							let id = this.state.selectedNotes[i].id
+							this.setState({
+								[this.state.selectedNotes[i].id]: false
+							})
+						}
+					}
+					}).catch(error => {
+						this.setState({ error })
+					})
+				})
+		}).catch(error => {
+			this.setState({ error })
+		})
+	}
+
+
+	_accessDetailNote = (DataNote) => {
+		this.props.navigation.navigate('DetailNote', {data: JSON.parse(DataNote)})
+	}
+
+>>>>>>> b3ccc8fa1e038245330f384b64ef07b1dd81b5fa
 
 	selectAllPressed = () => {
 		for (var i = 0; i < this.state.selectedNotes.length; i++) {

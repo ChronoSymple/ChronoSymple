@@ -1,5 +1,9 @@
 //const baseUrl = 'http://192.168.0.11:3000'
+<<<<<<< HEAD
 //const baseUrl = 'https://docapp-prod.herokuapp.com'
+=======
+// const baseUrl = 'https://docapp-preprod.herokuapp.com'
+>>>>>>> b3ccc8fa1e038245330f384b64ef07b1dd81b5fa
 const baseUrl = 'https://docapp-prod.herokuapp.com'
 
 

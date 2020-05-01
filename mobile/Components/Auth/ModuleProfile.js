@@ -17,7 +17,8 @@ class ModuleProfile extends React.Component {
 			Dmodules: [],
 			loading: true,
 			moduleSelected: -1,
-			modalModuleVisible: false
+			modalModuleVisible: false,
+			unitSelected: -1,
 		}
 		this._getPatientModule()
 	}
@@ -25,6 +26,8 @@ class ModuleProfile extends React.Component {
 	_getPatientModule = () => {
 		this.props.getUserToken().then(() => {
 			APIGetPatientModules(this.props.token.token).then(async data => {
+				console.log("Module profile - _getPatientModule :")
+				console.log(APIGetPatientModules)
 				let response = await data.json()
 				if (data.status == 200) {
 					if (response.length > 0 && JSON.stringify(this.state.Dmodules) != JSON.stringify(response.modules)) {
@@ -32,6 +35,7 @@ class ModuleProfile extends React.Component {
 							Dmodules: [ ...response ],
 							loading: false
 						})
+						console.log(response)
 					}
 				}
 			})
@@ -45,15 +49,21 @@ class ModuleProfile extends React.Component {
 	}
 
 	modulePressed = (item) => {
+		console.log("modulePressed")
+		console.log(item)
 		this.setState({
-			moduleSelected: item.id
+			moduleSelected: item.general_unit.id,
+			unitSelected: item.id
 		})
+		this.setModalModuleVisible(true)
 	}
 
 	cancelPressed = (item) => {
 		this.setState({
-			moduleSelected: -1
+			moduleSelected: -1,
+			unitSelected: -1,
 		})
+		this.setModalModuleVisible(false)
 	}
 	removePressed = (item) => {
 		APIRemoveUnit(this.props.token.token, item.id).then(data => {
@@ -62,13 +72,13 @@ class ModuleProfile extends React.Component {
 
 	changeDoctorPressed = () => {
 		this.setModalModuleVisible(false)
-		this.props.navigation.navigate('SearchDoctors');
+		this.props.navigation.navigate('SearchDoctors', {moduleId: this.state.moduleSelected, unitId: this.state.unitSelected });
 	}
 
 	doctorCardPressed = () => {
 		
 		this.setModalModuleVisible(false)
-		this.props.navigation.navigate('DoctorCard')
+		this.props.navigation.navigate('DoctorCard', {unitId: this.state.unitSelected })
 	}
 
 	render() {
@@ -92,7 +102,7 @@ class ModuleProfile extends React.Component {
 										name="clear"
 										color="#62BE87"
 										size={35}
-										onPress={() => { this.setModalModuleVisible(false); }}
+										onPress={() => { this.cancelPressed(false); }}
 				    				/>
 								</TouchableHighlight>
 								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => this.changeDoctorPressed()}>
@@ -122,7 +132,7 @@ class ModuleProfile extends React.Component {
 														name="settings"
 														color={colors.secondary}
 														size={35}
-														onPress={() => { this.setModalModuleVisible(true) }}
+														onPress={() => { this.modulePressed(item) }}
 													/>
 												</View>
 												<View style={{ alignItems: 'center' }}>
