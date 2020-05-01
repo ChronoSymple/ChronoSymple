@@ -1,7 +1,7 @@
 // Components/Calendar.js
 
 import React from 'react'
-import { ActivityIndicator, View, Text, StyleSheet, Image, Modal, Button, TouchableOpacity, TouchableHighlight, FlatList, ScrollView, BackHandler} from 'react-native'
+import { ActivityIndicator, View, Text, StyleSheet, Image, Modal, Button, TouchableOpacity, TouchableHighlight, FlatList, SafeAreaView, BackHandler} from 'react-native'
 import { windowSize } from '../StyleSheet';
 import { APIGetPatientNotesByModule, APIRemovePatientNotes, APIShareNote, APIgetDoctorsOfModule } from '../../API/APIModule'
 import { connect } from 'react-redux'
@@ -17,11 +17,9 @@ class Calendar extends React.Component {
 		super(props)
 
 		this.state = {
+			notes: [],
 			selectedNotes: [],
 			loading: true,
-			isSelectActive: false,
-			refreshing: false,
-			checkCount: 0,
 			modalCheckboxVisible: false
 		}
 		this._bootstrapAsync();
@@ -31,18 +29,8 @@ class Calendar extends React.Component {
     	});
 	}
 
-	getSelectedNote = () => {
-		selected_note = []
-		for (let note of this.state.selectedNotes) {
-		    if (note.id == true) {
-		    	selected_note.push(note.id);
-		    }
-		}
-		return (selected_note);
-	}
-
 	shareNote = () => {
-		notes = this.getSelectedNote();
+		let notes = this.state.selectedNotes;
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
 				let token = this.props.token.token;
@@ -57,17 +45,15 @@ class Calendar extends React.Component {
 						APIShareNote(token, cur_modl, notes, doctor_ids).then(async data => {
 							let response = await data.json();
 							if (data.status == 200) {
-								console.log("Succeed send notif")
 							} else {
-								console.log("Failed send notif")
 							}
 						})
 					} else {
-						console.log("Failed get docs")
 					}
 				})
 			})
 		})
+		this.setModalCheckboxVisible(false);
 	}
 	
 	_bootstrapAsync = () => {
@@ -77,20 +63,9 @@ class Calendar extends React.Component {
 					let response = await data.json()
 					if (data.status == 200) {
 						this.setState({
-							selectedNotes: [ ...response ],
+							notes: [ ...response ],
 							loading: false,
 						})
-						console.log("dsqdqsd 2 ")
-						console.log(this.state.selectedNotes)
-						for (var i = 0; i < this.state.selectedNotes.length; i++) {
-							console.log("---")
-							console.log(this.state.selectedNotes[i])
-							console.log(this.state.selectedNotes[i].id)
-							let id = this.state.selectedNotes[i].id
-							this.setState({
-								[this.state.selectedNotes[i].id]: false
-							})
-						}
 					}
 					}).catch(error => {
 						this.setState({ error })
@@ -108,37 +83,24 @@ class Calendar extends React.Component {
 
 
 	selectAllPressed = () => {
-		console.log('selectAllPressed ! :)')
-		for (var i = 0; i < this.state.selectedNotes.length; i++) {
-			console.log(this.state.selectedNotes[i].id)
-			if (this.state[this.state.selectedNotes[i].id] == false) {
-				this.setState({
-					[this.state.selectedNotes[i].id]: true
-				})
-				this.state.checkCount += 1
-			}
+		let all_note_ids = []
+		for (let note of this.state.notes) {
+			all_note_ids.push(note.id);
 		}
-		this.setModalCheckboxVisible(false)
-		this.setState({ refreshing: true })
+		this.setState({selectedNotes: all_note_ids});
+		this.setModalCheckboxVisible(false);
 	}
 
 	exportPDFPressed = () => {
-		console.log("exportPDFPressed")
-		console.log(this.state.DNotes)
 		let PDFData = []
 		let counter = 0
-		for (var i = 0; i < this.state.DNotes.length; i++) {
-			console.log(this.state.DNotes[i].id)
-			console.log("---")
-			if (this.state[this.state.DNotes[i].id] == true) {
-				console.log("note a export !")
-				console.log(this.state.DNotes[i])
-				PDFData[counter] = this.state.DNotes[i]
+		for (var i = 0; i < this.state.notes.length; i++) {
+			if (this.state[this.state.notes[i].id] == true) {
+				PDFData[counter] = this.state.notes[i]
 				counter += 1
 			}
 		}
 		this.setModalCheckboxVisible(false)
-		this.setState({ refreshing: true })
 		
 		this.props.navigation.navigate('ExportPDF', {'PDFData': PDFData})
 	}
@@ -147,35 +109,33 @@ class Calendar extends React.Component {
 		this.setState({ modalCheckboxVisible: visible })
 	}
 
-	noteChecked = (item) => {
-		console.log("toto")
-		if (this.state[item.id] == false) {
-			this.state.checkCount += 1
-		} else {
-			this.state.checkCount -= 1
-		}
-		this.setState({ [item.id]: !this.state[item.id] })
-		console.log(this.state[item.id])
+	noteChecked = (item, state) => {
+		let selected_n = this.state.selectedNotes;
 
-		console.log("checkCount")
-		console.log(this.state.checkCount)
-		
-
-		if (this.state.checkCount == 0) {
-			this.setState({ isSelectActive: false })
-		} else if (this.state.checkCount != 0 && this.state.isSelectActive == false) {
-			this.setState({ isSelectActive: true })
+		// If state.selectedNotes containe id remove 
+		if (this.state.selectedNotes.includes(item.id)) {
+			selected_n.pop(item.id)
 		}
-		this.setState({ refreshing: true })
+		// Else add in selectedNotes
+		else {
+			selected_n.push(item.id);
+		}
+		// SetState new selected note ids
+		this.setState({
+			selectedNotes: selected_n
+		})
 	}
 		
 	_deletelNote = (id) => {
+		this.setState({loading: true});
 		this.props.getUserToken().then(() => {
 			APIRemovePatientNotes(this.props.token.token, id).then(data => {
 				if (data.status == 200)
+					this.setState({loading: false});
 					this._bootstrapAsync();
 			})
 		}).catch(error => {
+			this.setState({loading: false});
 			this.setState({ error })
 		})
 	}
@@ -216,47 +176,37 @@ class Calendar extends React.Component {
 				</Modal>
 				<View style={{flexDirection: "row", justifyContent: 'space-between'}}>
 					<Text style={{color:colors.secondary, fontWeight: "bold", fontSize:30}}>Prise de notes</Text>
-					{ this.state.isSelectActive ?
 						<Icon
 							name="more-horiz"
 							color={colors.secondary}
 							size={45}
 							onPress={() => { this.setModalCheckboxVisible(true); }}
 						/>
-						:
 						<Icon
 							name="add-circle"
 							color={colors.secondary}
 							size={45}
 							onPress={() => this.props.navigation.navigate('AddNote')}
 						/>
-					}
 
 				</View>
-				<ScrollView style={{marginTop: 30, marginBottom: 30}}>
-					{this.state.loading && <ActivityIndicator style={{alignSelf: "center"}} size='large' color='black' />}
+				<SafeAreaView style={{marginTop: 30, marginBottom: 80}}>
+				{this.state.loading && <ActivityIndicator style={{alignSelf: "center"}} size='large' color='black' />}
 					<FlatList
-						data={this.state.selectedNotes}
+						data={this.state.notes}
 						keyExtractor={(item) => item.id.toString()}
-						refreshing={this.state.refreshing}
 						renderItem={({item}) => (
 							<TouchableOpacity
 								delayLongPress={1000}
-								onLongPress={() => { this.noteChecked(item)	}}
-								onRefresh={this.setState({ refreshing: false })}
 								onPress={() => this.props.navigation.navigate('DetailNote', item)}
 								style={styles.note}>
-									{ this.state.isSelectActive ? 
 										<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
+											<Text style={styles.noteText}>{item.data.date} {item.data.time}</Text>
 											<CheckBox
-												checked={this.state[item.id]}
+												checked={this.state.selectedNotes.includes(item.id)}
 												onPress={() => { this.noteChecked(item) }}
 											/>
-											<Text style={styles.noteText}>{item.data.date} {item.data.time}</Text>
 										</View>
-										:
-										<Text style={styles.noteText}>{item.data.date} {item.data.time}</Text>
-									}
 									{ !item.data.description
 									?
 									<Text style={styles.description}>Pas de description</Text>
@@ -291,12 +241,12 @@ class Calendar extends React.Component {
 							</TouchableOpacity>
 						)}
 					/>
-				</ScrollView>
+				</SafeAreaView>
 			</View>
 		)
 	}
 	
-	componentDidMount() {
+	componentWillMount() {
 		BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
 	}
 

@@ -28,7 +28,7 @@ class ChooseModulesToSend extends React.Component {
 
 	}
 
-	componentWillMount () {
+	UNSAFE_componentWillMount () {
 		APIGetPatientModules(this.props.token).then(async data => {
 			let response = await data.json()
 			this.setState({
