@@ -617,6 +617,7 @@ class Calendar extends React.Component {
          		        <Button color={this.state.customButton} onPress={() => {this._handleChangeDatasMode(4)}} title={"Personnaliser"}/>
          		   	</View>
          		</View>
+
 				 {this.state.checkCount == this.state.selectedNotes.length
 				 ?
 				 <Modal2
@@ -825,6 +826,16 @@ class Calendar extends React.Component {
         				}
         				<View style={{ flex: 2 }}></View>
         			</View>
+
+					<View style={{alignItems: 'flex-end'}}>
+						<Icon
+							name="more-horiz"
+							color={colors.secondary}
+							size={45}
+							onPress={() => { this.setModalCheckboxVisible(true); }}
+							style={{justifyContent: "flex-end"}}
+						/>
+					</View>
 					<View style={{flex: 9}}>
 						{this.state.loading && 
 						<ActivityIndicator size='large' color='black' />}
@@ -865,15 +876,6 @@ class Calendar extends React.Component {
 							</TouchableOpacity>
 							)}
 							/>
-						{this.state.isSelectActive &&
-							<Icon
-								name="more-horiz"
-								color={colors.secondary}
-								size={45}
-								onPress={() => { this.setModalCheckboxVisible(true); }}
-								style={{justifyContent: "flex-end"}}
-							/>
-						}
 						</SafeAreaView>
 						}
 					</View>
