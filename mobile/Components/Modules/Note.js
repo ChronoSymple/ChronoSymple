@@ -146,17 +146,10 @@ class Note extends React.Component {
 
     		return (
 				<View style={{flex:1}}>
+					
 					<View style={{backgroundColor:colors.secondary, flex:1, flexDirection: 'column'}}>
 						<View style={{flex:1}}></View>
-						<View style={{flex:8, flexDirection: 'row', justifyContent:"space-between"}}>
-							<TouchableHighlight style={{margin: 10}}>
-								<Icon
-									name="clear"
-									color="#FFF"
-									size={35}
-									onPress={() => navigate("Calendar")}
-			    				/>
-							</TouchableHighlight>
+						<View style={{flex:8, flexDirection: 'row', justifyContent:"flex-end"}}>
 							<TouchableHighlight style={{margin: 10}}>
 								<Icon
 									name="check"

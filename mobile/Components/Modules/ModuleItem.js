@@ -2,6 +2,7 @@ import React from 'react'
 import {
 	Text,
 	TouchableOpacity,
+	TouchableHighlight,
 	View,
 	Animated,
 	StyleSheet,
@@ -15,6 +16,7 @@ import Modal from "react-native-modal";
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import { connect } from 'react-redux';
 import { ThemeProvider } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 var SMALL = 0.9;
 var ACTION_TIMER = 800;
@@ -94,18 +96,31 @@ class ModuleItem extends React.Component {
 					transparent={true}
 					backdropColor="rgba(0,0,0,0)"
 					onBackdropPress = {() => this.setModalVisible(false)}>
-				    	<View style={styles.content} >
-							<Text style={styles.contentTitle} onPress={() => Alert.alert(
-							'Retirer le module',
-							"Si vous retirez ce module vous supprimerez de \"Vos médecins\" tous les médecins rattachés uniquement à ce module.\nVous supprimerez aussi définitivement toutes les notes ajoutées dans ce module.",
-							[
-								{text: 'Annuler', style: 'cancel'},
-								{text: 'OK', onPress: () => {this.setModalVisible(false), this.state.deleteUnit(this.state.dModule.id)}},
-							],
-							{ cancelable: false }
-							)}>Supprimer la note</Text>
-							<Text style={styles.contentTitle} onPress={() => this.accessToDoctor(false)}>Voir les médecins ajoutés</Text>
-				    		<Button testID={'close-button'} onPress={() => this.setModalVisible(false)} title="Close" />
+				    	<View style={styles.modalContent}>
+							<TouchableHighlight style={{margin: 1}}>
+								<Icon
+									name="clear"
+									color="#62BE87"
+									size={35}
+									onPress={() => { this.setModalVisible(false) }}
+	    						/>
+							</TouchableHighlight>
+							<View style={styles.modalContentCenter}>
+								<TouchableOpacity style={{ alignItems: 'center', height: windowSize.y / 10 }}  onPress={() => Alert.alert(
+								'Retirer le module',
+								"Si vous retirez ce module vous supprimerez de \"Vos médecins\" tous les médecins rattachés uniquement à ce module.\nVous supprimerez aussi définitivement toutes les notes ajoutées dans ce module.",
+								[
+									{text: 'Annuler', style: 'cancel'},
+									{text: 'OK', onPress: () => {this.setModalVisible(false), this.state.deleteUnit(this.state.dModule.id)}},
+								],
+								{ cancelable: false }
+								)}>
+									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}>Supprimer la note</Text>
+								</TouchableOpacity>
+								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }}>
+									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}>Voir les médecins ajoutées</Text>
+								</TouchableOpacity>
+							</View>
 				  		</View>
 				</Modal>
 			{ !this.state.generalUnit
@@ -160,14 +175,17 @@ const styles = StyleSheet.create({
 	view: {
 		justifyContent: 'flex-end',
 		margin: 0,
-	  },
-	content: {
+	},
+	modalContent: {
+		borderTopWidth: 1,
 		backgroundColor: 'white',
 		padding: 22,
-		justifyContent: 'center',
-		alignItems: 'center',
 		borderRadius: 4,
 		borderColor: '#EFF0F1',
+	},
+	modalContentCenter: {
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	contentTitle: {
 		fontSize: 20,

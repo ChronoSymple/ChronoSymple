@@ -1,14 +1,12 @@
 import { stringify } from "qs";
 
-//const baseUrl = 'http://192.168.0.11:3000'
 const baseUrl = 'https://docapp-prod.herokuapp.com'
-//const baseUrl = 'https://docapp-preprod.herokuapp.com'
 
 export function APIAddModule (token, id) {
-	return fetch(baseUrl + '/api/patients/general_units/' + id +"/add_unit" , {
-		method: 'PATCH',		
+	return fetch(baseUrl + '/api/patients/general_units/' + id + '/add' , {
+		method: 'PATCH',
 		headers: {
-	    'Authorization': token
+	    	'Authorization': token
 		}
 	})
 	.then((response) => response)
@@ -17,17 +15,18 @@ export function APIAddModule (token, id) {
 
 export function APIGetModules(token) {
 	return fetch(baseUrl + '/api/patients/general_units', {
-	  method: 'GET',
-	  headers: {
-	    Accept: 'application/json',
-	    'Authorization': token,
-	  },
+		method: 'GET',
+		headers: {
+			Accept: 'application/json',
+			'Authorization': token,
+		},
 	})
 	.then((response) => response)
 	.catch((error) => error)
 }
 
 export function APIGetPatientModules(token) {
+	console.log(token)
 	return fetch(baseUrl + '/api/patients/units', {
 	  method: 'GET',
 	  headers: {
@@ -120,8 +119,8 @@ export function APIShareNote(token, module_id, note_ids, doctor_ids) {
 	.catch((error) => error)
 }
 
-export function APIgetDoctorsOfModule(token, id) {
-	return fetch(baseUrl + '/api/patients/units/' + id + '/doctors', {
+export function APIGetPatientNotesByDateIntervale(token, beginDate, endDate) {
+	return fetch(baseUrl + '/api/patients/notes/notes_by_date_interval?begin_date=' + beginDate + "&end_date=" + endDate, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
@@ -130,4 +129,16 @@ export function APIgetDoctorsOfModule(token, id) {
 	})
 	.then((response) => response)
 	.catch((error) => error)
+}
+
+export function APIgetDoctorsOfModule(token, id) {
+    return fetch(baseUrl + '/api/patients/units/' + id + '/doctors', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token,
+        }
+    })
+    .then((response) => response)
+    .catch((error) => error)
 }
