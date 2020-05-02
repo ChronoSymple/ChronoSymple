@@ -31,6 +31,7 @@ project.xcworkspace
 /ReactAndroid/gradle/
 /ReactAndroid/gradlew
 /ReactAndroid/gradlew.bat
+android/.gradle
 
 # Buck
 .buckd
