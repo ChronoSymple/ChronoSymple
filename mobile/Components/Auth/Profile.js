@@ -7,6 +7,8 @@ import { connect } from 'react-redux'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { getPatientInfoWithApi, updatePatientProfile } from '../../API/APIConnection';
 import ImagePicker from 'react-native-image-picker';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 
 class Profile extends React.Component {
@@ -35,8 +37,10 @@ class Profile extends React.Component {
 				firstName: response.first_name,
 				lastName: response.last_name,
 				email: response.email,
-				picture: response.picture ? response.picture : '../../assets/photo-1532274402911-5a369e4c4bb5.jpeg',
+				picture: response.picture ? response.picture : 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png',
 			})
+			console.log("valeur de picture profile :")
+			console.log(this.state.picture)
 		})
 		
 
@@ -165,55 +169,112 @@ class Profile extends React.Component {
 	render() {
 		let { navigate } = this.props.navigation;
 		return (
-		<View style={{ flex: 1, alignItems: "center" }}>
-			<View style={{ flex: 3, alignItems: "center", justifyContent : "center" }}>
-				<Image
-				/* 	source={require('../../Images/profile-2398782_960_720.png')} */
-				 	source={{uri: 'data:image/jpeg;base64,'+ this.state.picture }}
-					style={{ width: 140, height: 140, borderRadius: 140 / 2, borderWidth : 1, borderColor: '#000000'}}
-				/>				
-				<Button
-					onPress={() => this.chooseImage()} 
-					title="changer"
-				/>
-				<Text style={{margin: 10}}>
-					email: {this.state.email}
-				</Text>
-				<Text>
-					{this.state.lastName} {this.state.firstName}
-				</Text>
+		<View style={{ flex: 1}}>
+			<View style={{flex: 0.5}}>
 			</View>
-			<View style={{ flex: 3, alignItems: "center", justifyContent : "space-around"}}>
-				<Button 
-					color="#62BE87"
-					style={{ height: 40, borderWidth: 2, borderColor: '#000000'}}
-					onPress={() => navigate('InfoProfile')} 
-					title="info"
-				/>
-				<Button 
-					color="#62BE87"
-					style={{ height: 40, borderWidth: 2, borderColor: '#000000'}}
-					onPress={() => navigate('ModuleProfile')} 
-					title="mes modules"
-				/>
-				<Button 
-					color="#62BE87"
-					style={{ height: 40, borderWidth: 2, borderColor: '#000000'}}
-					onPress={() => navigate('PasswordProfile')}
-					title="changer de mot de passe"
-				/>
-				<Button 
-					color="#62BE87"
-					style={{ height: 40, borderWidth: 2, borderColor: '#000000'}}
-					onPress={() => navigate('SupportProfile')}
-					title="support"
-				/>
-				<Button 
-					color="#62BE87"
-					style={{ height: 40, borderWidth: 2, borderColor: '#000000'}}
-					onPress={() => navigate('Logout')} 
-					title="Se déconnecter"
-				/>
+			<View style={{ flex: 3, alignItems: "center", justifyContent : "center" , flexDirection: 'row'}}>
+				<View style={{flex: 1, flexDirection: 'column', alignItems: "center", justifyContent : "center"}}>
+					<Image
+						source={{uri: this.state.picture}}
+					 	/*source={{uri: 'data:image/jpeg;base64,'+ this.state.picture }}*/
+						style={{ width: 140, height: 140, borderRadius: 140 / 2, borderWidth : 1, borderColor: '#000000'}}
+					/>
+					<TouchableOpacity onPress={() => this.chooseImage()}>
+					 <Text style={{fontSize: 16, color: colors.secondary}}> changer </Text>
+					</TouchableOpacity>
+				</View>
+				<View style={{flex: 1, flexDirection: 'column', alignItems: "center", justifyContent : "center"}}>
+					<Text style={{fontSize: 20}}>
+						{this.state.lastName} {this.state.firstName}
+					</Text>
+					<Text style={{}}>
+						email: {this.state.email}
+					</Text>
+				</View>
+			</View>
+			<View style={{flex: 1}}>
+			</View>
+			<View style={{ flex: 1}}>
+				<TouchableOpacity onPress={() => navigate('InfoProfile')} style={{flex: 1, borderTopWidth: 1}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}> Info </Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end", padding: 15}}>
+							<Icon
+								name="chevron-right"
+								color="#62BE87"
+								size={35}
+							/>
+						</View>
+					</View>
+				</TouchableOpacity>
+			</View>
+			<View style={{ flex: 1}}>
+				<TouchableOpacity onPress={() => navigate('ModuleProfile')} style={{flex: 1, borderTopWidth: 1}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}> Mes modules </Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end", padding: 15}}>
+							<Icon
+								name="chevron-right"
+								color="#62BE87"
+								size={35}
+							/>
+						</View>
+					</View>
+				</TouchableOpacity>
+			</View>
+			<View style={{ flex: 1}}>
+				<TouchableOpacity onPress={() => navigate('PasswordProfile')} style={{flex: 1, borderTopWidth: 1}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}> Changer de mot de passe </Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end", padding: 15}}>
+							<Icon
+								name="chevron-right"
+								color="#62BE87"
+								size={35}
+							/>
+						</View>
+					</View>
+				</TouchableOpacity>
+			</View>
+			<View style={{ flex: 1}}>
+				<TouchableOpacity onPress={() => navigate('SupportProfile')} style={{flex: 1, borderTopWidth: 1}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}> Support </Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end", padding: 15}}>
+							<Icon
+								name="chevron-right"
+								color="#62BE87"
+								size={35}
+							/>
+						</View>
+					</View>
+				</TouchableOpacity>
+			</View>
+			<View style={{ flex: 1}}>
+				<TouchableOpacity onPress={() => navigate('Logout')} style={{flex: 1, borderTopWidth: 1}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}> Se deconnecter </Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end", padding: 15}}>
+							<Icon
+								name="chevron-right"
+								color="#62BE87"
+								size={35}
+							/>
+						</View>
+					</View>
+				</TouchableOpacity>
+			</View>
+			<View style={{flex: 1}}>
 			</View>
 			<Modal
 				animationType="slide"
