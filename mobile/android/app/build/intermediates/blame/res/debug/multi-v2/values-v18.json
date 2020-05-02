@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v18/values-v18.xml",
+            "outputFile": "/home/carl2g/EIP/ChronoSymple/mobile/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v18/values-v18.xml",
             "map": [
                 {
-                    "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/aacf6791c582f0ba8b13747ffade6266/res/values-v18/values-v18.xml",
+                    "source": "/home/carl2g/.gradle/caches/transforms-2/files-2.1/85e30cd5a5af6949497e82328023afff/res/values-v18/values-v18.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

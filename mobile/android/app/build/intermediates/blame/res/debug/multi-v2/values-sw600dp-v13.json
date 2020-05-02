@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/marie/ChronoSymple/mobile/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sw600dp-v13/values-sw600dp-v13.xml",
+            "outputFile": "/home/carl2g/EIP/ChronoSymple/mobile/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sw600dp-v13/values-sw600dp-v13.xml",
             "map": [
                 {
-                    "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/aacf6791c582f0ba8b13747ffade6266/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "source": "/home/carl2g/.gradle/caches/transforms-2/files-2.1/85e30cd5a5af6949497e82328023afff/res/values-sw600dp-v13/values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "/home/marie/.gradle/caches/transforms-2/files-2.1/9e207a02f6590095dd07435f57601ad3/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "source": "/home/carl2g/.gradle/caches/transforms-2/files-2.1/229c0173a328fcf66515f05b5e7c0215/res/values-sw600dp-v13/values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,10,11,12,13,14",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
