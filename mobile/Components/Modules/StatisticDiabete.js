@@ -75,7 +75,6 @@ class Statistic extends React.Component {
   }
 
   _createStats = async (response) => {
-    console.log(response)
     this.setState({
       Date: [this.state.actualDateBegin, this.state.actualDateEnd]
     })
@@ -83,7 +82,6 @@ class Statistic extends React.Component {
       obj = response[i].data
       if (parseInt(obj.BloodGlucose, 10))
       {
-        console.log(obj.BloodGlucose)
         this.setState({
           Glycemie: this.state.Glycemie.concat([parseInt(obj.BloodGlucose, 10)]),
         })
@@ -407,7 +405,6 @@ class Statistic extends React.Component {
 			this.props.getUserCurrentModule().then(() => {
 				APIGetPatientNotesByDateIntervale(this.props.token.token, this.state.actualDateBegin, this.state.actualDateEnd).then(async data => {
           let response = await data.json()
-          console.log(response)
 				 	if (data.status == 200) {
             this._createStats(response)
             this._averageMaker()
@@ -596,17 +593,14 @@ class Statistic extends React.Component {
   validateDates = (startDate, endDate) => {
     if (!startDate || !endDate)
       this._handleChangeDatasMode(this.state.lastmode)
-    console.log(startDate, endDate)
     startDate = new Date(startDate)
     endDate = new Date(endDate)
     var startYear = startDate.getFullYear();
 		var startMonth = startDate.getMonth() + 1; 
     var startDay = startDate.getDate();
-    console.log(startYear, startMonth, startDay)
     var endYear = endDate.getFullYear();
 		var endMonth = endDate.getMonth() + 1; 
     var endDay = endDate.getDate();
-    console.log(endYear, endMonth, endDay)
     this.setState({
       actualDateBeginDay: startDay,
       actualDateBeginMonth: startMonth,
@@ -640,8 +634,8 @@ class Statistic extends React.Component {
     const endDate = selectedEndDate ? selectedEndDate.toString() : '';
  
     const config = {
-      velocityThreshold: 0.3,
-      directionalOffsetThreshold: 80
+      velocityThreshold: 0.6,
+      directionalOffsetThreshold: 100
     };
     return (
       <View style={styles.container}>
