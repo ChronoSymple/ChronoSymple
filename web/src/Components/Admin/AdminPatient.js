@@ -79,7 +79,7 @@ class AdminPatient extends PureComponent {
 }
 
 AdminPatient.propTypes = {
-  patientID: PropTypes.number.isRequired,
+  patientID: PropTypes.string.isRequired,
   token: PropTypes.string.isRequired
 };
 
