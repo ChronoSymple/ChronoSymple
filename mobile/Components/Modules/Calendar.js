@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { ActivityIndicator, View, Text, StyleSheet, Image, Modal, Button, FlatList, TouchableOpacity, TouchableHighlight, ScrollView, BackHandler, Dimensions, SafeAreaView} from 'react-native'
-import { APIGetPatientNotesByDateIntervale,  APIRemovePatientNotes, APIShareNote, APIgetDoctorsOfModule } from '../../API/APIModule'
+import { APIGetPatientNotesByDateIntervale,  APIRemovePatientNotes, APIShareNote, APIgetDoctorsOfModule, APIUnshareNote, APIDoctorOfNotes } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import { colors, windowSize } from '../StyleSheet';
 import { connect } from 'react-redux'
@@ -11,6 +11,7 @@ import { CheckBox } from 'react-native-elements'
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import Modal2 from "react-native-modal";
 import CalendarPicker from 'react-native-calendar-picker'
+import { State } from 'react-native-gesture-handler';
 /*import { NoteItem } from './NoteItem' NOT USED*/
  
 class Calendar extends React.Component {
@@ -60,17 +61,31 @@ class Calendar extends React.Component {
 			loading: true,
 		  	isSelectActive: false,
 			refreshing: false,
-			checkCount: 0,
 			modalCheckboxVisible: false,
 			modalManySelected: false,
 			modalOneSelected: false,
 			notes: [],
+			displayDoctor: false,
+			doctorOfNote: ""
 		}
 		this._bootstrapAsync();
 		const { navigation } = this.props;
 		this.focusListener = navigation.addListener('didFocus', () => {
 			this._bootstrapAsync();
 	  });
+	}
+
+	findDoctorOfNote = (note_id) => {
+		let doctor_ids = [];
+		this.props.getUserToken().then(() => {
+			APIDoctorOfNotes(token, note_id).then(async data => {
+				let response = await data.json();
+				for (let doc of response) {
+					doctor_ids.push(doc.id)
+				}
+			})
+		})
+		return(doctor_ids)
 	}
 
 	shareNote = () => {
@@ -88,7 +103,7 @@ class Calendar extends React.Component {
 					if (data.status == 200) {
 						APIShareNote(token, cur_modl, notes, doctor_ids).then(async data => {
 							if (data.status == 200) {
-								console.log("shared")
+								console.log('shared')
 							} else {
 							}
 						})
@@ -98,6 +113,34 @@ class Calendar extends React.Component {
 			})
 		})
 		this.setModalCheckboxVisible(false);
+	}
+
+	unshareNote = () => {
+		let notes = this.state.selectedNotes;
+		this.props.getUserToken().then(() => {
+			this.props.getUserCurrentModule().then(() => {
+				let token = this.props.token.token;
+				for (let note of notes) {
+					APIUnshareNote(token, note).then(async data => {
+						if (data.status == 200) {
+						} 
+						else {
+						}
+					})
+				}				
+			})
+		})
+		this.setModalCheckboxVisible(false);
+	}
+
+	displayDoctor = () => {
+		notes = this.state.selectedNotes
+		for (let note of notes) {
+			this.setState({
+				displayDoctor: true,
+				doctorOfNote: this.findDoctorOfNote(note.id)
+			})
+		}
 	}
 
 	selectAllPressed = () => {
@@ -110,9 +153,10 @@ class Calendar extends React.Component {
 	}
 
 	exportPDFPressed = () => {
-		for (var i = 0; i < this.state.notes.length; i++) {
-			if (this.state[this.state.notes[i].id] == true) {
-				PDFData[counter] = this.state.notes[i]
+		var PDFData
+		for (var i = 0; i < this.state.selectedNotes.length; i++) {
+			if (this.state[this.state.selectedNotes[i].id] == true) {
+				PDFData[counter] = this.state.selectedNotes[i]
 				counter += 1
 			}
 		}
@@ -126,15 +170,13 @@ class Calendar extends React.Component {
 
 	noteChecked = (item, state) => {
 		let selected_n = this.state.selectedNotes;
-				// If state.selectedNotes containe id remove 
-				if (this.state.selectedNotes.includes(item.id)) {
-					selected_n.pop(item.id)
-				}
-				// Else add in selectedNotes
-				else {
-					selected_n.push(item.id);
-				}
-						// SetState new selected note ids
+		if (this.state.selectedNotes.includes(item.id)) {
+			var pos = selected_n.indexOf(item.id);
+			selected_n.splice(pos, 1)
+		}
+		else {
+			selected_n.push(item.id);
+		}
 		this.setState({
 			selectedNotes: selected_n,
 			isSelectActive: true
@@ -204,6 +246,7 @@ class Calendar extends React.Component {
 			firstButton: this.state.originalColor,
 			secondButton: this.state.finalColor,
 			thirdButton: this.state.originalColor,
+			notes: [],
 			selectedNotes: [],	
 			loading: true
 		  })
@@ -235,6 +278,7 @@ class Calendar extends React.Component {
 			actualDateEndDay: day,
 			actualDateEndMonth: month,
 			actualDateEndYear: year,
+			notes: [],
 			selectedNotes: [],	
 			loading: true
 		  })
@@ -260,6 +304,7 @@ class Calendar extends React.Component {
 			actualDateEndYear: year,
 			actualDateBegin: 1 + '/' + month + '/' + year,
 			actualDateEnd: this.getDaysInMonth(month, year) + '/' + month + '/' + year,
+			notes: [],
 			selectedNotes: [],	
 			loading: true
 		  })
@@ -308,6 +353,7 @@ class Calendar extends React.Component {
 			firstButton: this.state.originalColor,
 			secondButton: this.state.finalColor,
 			thirdButton: this.state.originalColor,
+			notes: [],
 			selectedNotes: [],	
 			loading: true
 		  })
@@ -339,6 +385,7 @@ class Calendar extends React.Component {
 			actualDateEndDay: day,
 			actualDateEndMonth: month,
 			actualDateEndYear: year,
+			notes: [],
 			selectedNotes: [],	
 			loading: true
 		  })
@@ -367,6 +414,7 @@ class Calendar extends React.Component {
 				if (data.status == 200) {
 					this.setState({
 						notes: [ ...response ],
+						selectedNotes: [],
 						loading: false,
 					})
 				}
@@ -401,7 +449,7 @@ class Calendar extends React.Component {
 	}
 
 	  _handleChangeDatasMode = (id) => {
-		if (id == 1 && this.state.datasMode != this.state.adminEnum.Month) {
+		if (id == 3 && this.state.datasMode != this.state.adminEnum.Month) {
 		  this.setState({
 			lastmode: this.state.datasMode,
 			actualDateBeginDay: 1,
@@ -415,55 +463,57 @@ class Calendar extends React.Component {
 			thirdButton: this.state.originalColor,
 			datasMode: this.state.adminEnum.Month,
 			selectedNotes: [],	
+			notes: [],
 			loading: true
 		  })
 		  this._bootstrapAsync();
 		}
 		else if (id == 2 && this.state.datasMode != this.state.adminEnum.Week) {
-		  var place0fTheDay = this.getAndFindDay(this.state.actualDateBeginMonth + "/" + this.state.actualDateBeginDay + "/" + this.state.actualDateBeginYear);
-		  var dateBeginDay = this.state.actualDateBeginDay - place0fTheDay + 1
-		  var dateBeginMonth = this.state.actualDateBeginMonth
-		  var dateBeginYear = this.state.actualDateBeginYear
-		  if (dateBeginDay <= 0) {
-			dateBeginMonth  = parseInt(this.state.actualDateBeginMonth, 10) - 1	
-			if (dateBeginMonth <= 0) {
-			  dateBeginYear = parseInt(this.state.actualDateBeginYear, 10) - 1	
-			  dateBeginMonth = 12 
-			}
-			dateBeginDay = this.getDaysInMonth(dateBeginMonth, dateBeginYear) + dateBeginDay
-		  }
-		  var dateEndDay = this.state.actualDateBeginDay + (7 - place0fTheDay)
-		  var dateEndMonth = this.state.actualDateEndMonth
-		  var dateEndYear = this.state.actualDateEndYear
-		  if (dateEndDay >= this.getDaysInMonth(dateBeginMonth, dateBeginYear)) {
-			dateEndMonth  = parseInt(this.state.actualDateEndMonth, 10) + 1	
-			if (dateEndMonth <= 0) {
-			  dateEndYear = parseInt(this.state.actualDateEndYear, 10) + 1	
-			  dateEndMonth = 1 
-			}
-			dateEndDay = dateEndDay - this.getDaysInMonth(dateBeginMonth, dateBeginYear)
-		  }
-		  this.setState({
-			lastmode: this.state.datasMode,
-			actualDateBeginDay: dateBeginDay,
-			actualDateBeginMonth: dateBeginMonth,
-			actualDateBeginYear: dateBeginYear,
-			actualDateBegin: dateBeginDay + '/' + dateBeginMonth + '/' + dateBeginYear,
-			actualDateEndDay: dateEndDay,
-			actualDateEndMonth: dateEndMonth,
-			actualDateEndYear: dateEndYear,
-			actualDateEnd: dateEndDay + '/' + dateEndMonth + '/' + dateEndYear,
-			customButton: this.state.originalColor,
-			firstButton: this.state.originalColor,
-			secondButton: this.state.finalColor,
-			thirdButton: this.state.originalColor,
-			datasMode: this.state.adminEnum.Week,
-			selectedNotes: [],	
-			loading: true
-		  })
-		  this._bootstrapAsync();
+		  	var place0fTheDay = this.getAndFindDay(this.state.actualDateBeginMonth + "/" + this.state.actualDateBeginDay + "/" + this.state.actualDateBeginYear);
+		  	var dateBeginDay = this.state.actualDateBeginDay - place0fTheDay + 1
+		  	var dateBeginMonth = this.state.actualDateBeginMonth
+		  	var dateBeginYear = this.state.actualDateBeginYear
+		  	if (dateBeginDay <= 0) {
+				dateBeginMonth  = parseInt(this.state.actualDateBeginMonth, 10) - 1	
+				if (dateBeginMonth <= 0) {
+				  dateBeginYear = parseInt(this.state.actualDateBeginYear, 10) - 1	
+				  dateBeginMonth = 12 
+				}
+				dateBeginDay = this.getDaysInMonth(dateBeginMonth, dateBeginYear) + dateBeginDay
+		  	}
+		  	var dateEndDay = this.state.actualDateBeginDay + (7 - place0fTheDay)
+		  	var dateEndMonth = this.state.actualDateEndMonth
+		  	var dateEndYear = this.state.actualDateEndYear
+		  	if (dateEndDay >= this.getDaysInMonth(dateBeginMonth, dateBeginYear)) {
+				dateEndMonth  = parseInt(this.state.actualDateEndMonth, 10) + 1	
+				if (dateEndMonth <= 0) {
+				  dateEndYear = parseInt(this.state.actualDateEndYear, 10) + 1	
+				  dateEndMonth = 1 
+				}
+				dateEndDay = dateEndDay - this.getDaysInMonth(dateBeginMonth, dateBeginYear)
+		  	}
+		  	this.setState({
+				lastmode: this.state.datasMode,
+				actualDateBeginDay: dateBeginDay,
+				actualDateBeginMonth: dateBeginMonth,
+				actualDateBeginYear: dateBeginYear,
+				actualDateBegin: dateBeginDay + '/' + dateBeginMonth + '/' + dateBeginYear,
+				actualDateEndDay: dateEndDay,
+				actualDateEndMonth: dateEndMonth,
+				actualDateEndYear: dateEndYear,
+				actualDateEnd: dateEndDay + '/' + dateEndMonth + '/' + dateEndYear,
+				customButton: this.state.originalColor,
+				firstButton: this.state.originalColor,
+				secondButton: this.state.finalColor,
+				thirdButton: this.state.originalColor,
+				datasMode: this.state.adminEnum.Week,
+				selectedNotes: [],	
+				notes: [],
+				loading: true
+		  	})
+		  	this._bootstrapAsync();
 		}
-		else if (id == 3 && this.state.datasMode != this.state.adminEnum.Day) {
+		else if (id == 1 && this.state.datasMode != this.state.adminEnum.Day) {
 		  this.setState({
 			lastmode: this.state.datasMode,
 			actualDateBeginDay: this.state.actualDayDay,
@@ -481,23 +531,29 @@ class Calendar extends React.Component {
 			thirdButton: this.state.finalColor,
 			datasMode: this.state.adminEnum.Day,
 			selectedNotes: [],	
+			notes: [],
 			loading: true
 		  })
+		  console.log(this.state.datasMode)
+		  console.log(this.state.lastmode)
 		  this._bootstrapAsync();
 		}
 		else if (id == 4 && !this.state.isModalVisible) {
-		  this.setModalVisible(true)
-		  this.setState({
-			lastmode: this.state.datasMode,
-			firstButton: this.state.originalColor,
-			secondButton: this.state.originalColor,
-			thirdButton: this.state.originalColor,
-			customButton: this.state.finalColor,
-			datasMode: this.state.adminEnum.Custom,
-			selectedNotes: [],	
-			loading: true
-		  })
-		  this._bootstrapAsync();
+			console.log(this.state.datasMode)
+			this.setModalVisible(true)
+			this.setState({
+				lastmode: this.state.datasMode,
+				firstButton: this.state.originalColor,
+				secondButton: this.state.originalColor,
+				thirdButton: this.state.originalColor,
+				customButton: this.state.finalColor,
+				datasMode: this.state.adminEnum.Custom,
+				selectedNotes: [],	
+				notes: [],
+				loading: true
+			})
+			console.log(this.state.datasMode)
+			this._bootstrapAsync();
 		}
 	  }
 	
@@ -531,30 +587,31 @@ class Calendar extends React.Component {
 		})
 	  }
 	
-	  validateDates = (startDate, endDate) => {
+	validateDates = (startDate, endDate) => {
+		console.log(this.state.lastmode)
 		if (!startDate || !endDate)
-		  this._handleChangeDatasMode(this.state.lastmode)
+			this._handleChangeDatasMode(this.state.lastmode)
 		startDate = new Date(startDate)
 		endDate = new Date(endDate)
 		var startYear = startDate.getFullYear();
-			var startMonth = startDate.getMonth() + 1; 
+		var startMonth = startDate.getMonth() + 1; 
 		var startDay = startDate.getDate();
 		var endYear = endDate.getFullYear();
-			var endMonth = endDate.getMonth() + 1; 
+		var endMonth = endDate.getMonth() + 1; 
 		var endDay = endDate.getDate();
 		this.setState({
-		  actualDateBeginDay: startDay,
-		  actualDateBeginMonth: startMonth,
-		  actualDateBeginYear: startYear,
-		  actualDateBegin: startDay + '/' + startMonth + '/' + startYear, 
-		  actualDateEndDay: endDay,
-		  actualDateEndMonth: endMonth,
-		  actualDateEndYear: endYear,
-		  actualDateEnd: endDay + '/' + endMonth + '/' + endYear,
-		  nbDaysOfCurrentMonth: this.getDaysInMonth(startMonth, startYear)
+			actualDateBeginDay: startDay,
+			actualDateBeginMonth: startMonth,
+			actualDateBeginYear: startYear,
+			actualDateBegin: startDay + '/' + startMonth + '/' + startYear, 
+			actualDateEndDay: endDay,
+			actualDateEndMonth: endMonth,
+			actualDateEndYear: endYear,
+			actualDateEnd: endDay + '/' + endMonth + '/' + endYear,
+			nbDaysOfCurrentMonth: this.getDaysInMonth(startMonth, startYear)
 		})
 		this.setModalVisible(false)
-	  }
+	}
 	
 	  displaytDate = (date) => {
 		if (!date)
@@ -571,14 +628,14 @@ class Calendar extends React.Component {
 	}
 
 	_deleteNote = () => {
+		this.setModalCheckboxVisible(false);
+		let notes = this.state.selectedNotes;
 		this.props.getUserToken().then(() => {
-			for (let note of this.state.selectedNotes) {
-				if (note.id == true) {
-					APIRemovePatientNotes(this.props.token.token, note.id).then(data => {
-						if (data.status == 200)
-							this._bootstrapAsync();
-					})
-				}
+			for (let note of notes) {
+				APIRemovePatientNotes(this.props.token.token, note).then(data => {
+					if (data.status == 200)
+						this._bootstrapAsync();
+				})
 			}
 		}).catch(error => {
 			this.setState({loading: false});
@@ -595,8 +652,8 @@ class Calendar extends React.Component {
 		const endDate = selectedEndDate ? selectedEndDate.toString() : '';
 	 
 		const config = {
-		  velocityThreshold: 0.3,
-		  directionalOffsetThreshold: 80
+			velocityThreshold: 0.6,
+      		directionalOffsetThreshold: 100
 		};
 		return (
 			<View style={styles.container}>
@@ -618,7 +675,7 @@ class Calendar extends React.Component {
          		   	</View>
          		</View>
 
-				 {this.state.checkCount == this.state.selectedNotes.length
+				 { this.state.notes.length == 1 && this.state.selectedNotes.length == 1
 				 ?
 				 <Modal2
 				    visible={this.state.modalCheckboxVisible}
@@ -648,11 +705,19 @@ class Calendar extends React.Component {
 								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.shareNote() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager </Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {}}>
+								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.unshareNote() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Ne plus partager </Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {}}>
+								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.displayDoctor() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}>Médecin</Text>
+								</TouchableOpacity>
+								{this.state.displayDoctor &&
+									<View>
+										<Text>{ this.state.doctorOfNote }</Text>
+									</View>
+								}
+								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => this.props.navigation.navigate('EditNote',  {itemDetail: this.getSelectedNote()[0] })}>
+									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Editer </Text>
 								</TouchableOpacity>
 								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {this._deleteNote()}}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Supprimer </Text>
@@ -661,7 +726,7 @@ class Calendar extends React.Component {
 				  		</View>
 				</Modal2>
 				:
-				this.state.checkCount > 1
+				this.state.selectedNotes.length == this.state.notes.length 
 				?				
 				<Modal2
 				    visible={this.state.modalCheckboxVisible}
@@ -685,21 +750,23 @@ class Calendar extends React.Component {
 	    						/>
 							</TouchableHighlight>
 							<View style={styles.modalContentCenter}>
-								<TouchableOpacity style={{ alignItems: 'center', height: windowSize.y / 10 }} onPress={() => { this.selectAllPressed() }}>
-									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Tout Selectionner </Text>
-								</TouchableOpacity>
-								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.exportPDFPressed() }}>
+								<TouchableOpacity style={{ alignItems: 'center', height: windowSize.y / 10 }} onPress={() => { this.exportPDFPressed() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Exporter sous PDF </Text>
 								</TouchableOpacity>
 								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.shareNote() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager </Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {}}>
+								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.unshareNote() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Ne plus partager </Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {}}>
+								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.displayDoctor() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}>Médecin</Text>
 								</TouchableOpacity>
+								{this.state.displayDoctor &&
+								<View>
+									<Text>{ this.state.doctorOfNote }</Text>
+								</View>
+								}
 								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {this._deleteNote()}}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Supprimer </Text>
 								</TouchableOpacity>
@@ -738,15 +805,17 @@ class Calendar extends React.Component {
 							<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.shareNote() }}>
 								<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager </Text>
 							</TouchableOpacity>
-							<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {}}>
+							<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.unshareNote() }}>
 								<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Ne plus partager </Text>
 							</TouchableOpacity>
-							<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {}}>
+							<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.displayDoctor() }}>
 								<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}>Médecin</Text>
 							</TouchableOpacity>
-							<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => this.props.navigation.navigate('EditNote',  {itemDetail: this.getSelectedNote()[0] })}>
-								<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Editer </Text>
-							</TouchableOpacity>
+							{this.state.displayDoctor &&
+							<View>
+								<Text>{ this.state.doctorOfNote }</Text>
+							</View>
+							}
 							<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {this._deleteNote()}}>
 								<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Supprimer </Text>
 							</TouchableOpacity>
@@ -826,16 +895,17 @@ class Calendar extends React.Component {
         				}
         				<View style={{ flex: 2 }}></View>
         			</View>
-
-					<View style={{alignItems: 'flex-end'}}>
-						<Icon
-							name="more-horiz"
-							color={colors.secondary}
-							size={45}
-							onPress={() => { this.setModalCheckboxVisible(true); }}
-							style={{justifyContent: "flex-end"}}
-						/>
-					</View>
+					{ this.state.selectedNotes.length > 0 &&
+						<View style={{alignItems: 'flex-end'}}>
+							<Icon
+								name="more-vert"
+								color={colors.secondary}
+								size={45}
+								onPress={() => { this.setModalCheckboxVisible(true); }}
+								style={{justifyContent: "flex-end"}}
+							/>
+						</View>
+					}
 					<View style={{flex: 9}}>
 						{this.state.loading && 
 						<ActivityIndicator size='large' color='black' />}
