@@ -2,11 +2,10 @@ const baseUrl = 'https://docapp-prod.herokuapp.com'
 // const baseUrl = 'https://docapp-preprod.herokuapp.com'
 
 export function APIAddDoctor (token, moduleId, id) {
-	return fetch(baseUrl + '/api/patients/units/' + moduleId +"/add_doctor" , {
+	return fetch(baseUrl + '/api/patients/units/' + moduleId +"/add_doctor?" + "doctor_id=" + id , {
 		method: 'PATCH',		
 		headers: {
 	    'Authorization': token,
-		'doctor_id': id
 		}
 	})
 	.then((response) => response)
@@ -14,11 +13,10 @@ export function APIAddDoctor (token, moduleId, id) {
 }
 
 export function APIRemoveDoctor (token, moduleId, id) {
-	return fetch(baseUrl + '/api/patients/units/' + moduleId +"/remove_doctor" , {
+	return fetch(baseUrl + '/api/patients/units/' + moduleId +"/remove_doctor?" +  "doctor_id=" + id , {
 		method: 'PATCH',		
 		headers: {
 	    'Authorization': token,
-	    'doctor_id': id
 		}
 	})
 	.then((response) => response)
