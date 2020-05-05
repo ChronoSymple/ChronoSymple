@@ -132,6 +132,9 @@ class App extends PureComponent {
                 }
               </div>
             }/>
+            <Route path='/favorite'>
+              <div>HELLO WORLD</div>
+            </Route>
             <Route path='/'>
               <MyAppBarController title={i18n.t('list')}
                 disconnect={this.disconnect}

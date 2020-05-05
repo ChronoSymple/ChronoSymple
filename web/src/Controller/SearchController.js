@@ -6,6 +6,8 @@ import Request from '../Components/Request';
 import Chip from '@material-ui/core/Chip';
 import diseases from '../diseases';
 import FilterIcon from '@material-ui/icons/FilterList';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import { Button } from '@material-ui/core';
 
 /*const data = [
   {id: 1, firstname: 'Carl', lastname: 'DE GENTILE', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: {
@@ -108,6 +110,8 @@ class SearchController extends PureComponent {
 
   toogleFilters = () => this.setState(({filtersOn}) => ({filtersOn: !filtersOn}));
 
+  favorite = () => (window.location = '/favorite');
+
   render() {
     const {
       search,
@@ -121,7 +125,10 @@ class SearchController extends PureComponent {
       <div>
         <SearchBar search={search} setSearchValue={this.setSearchValue}/>
         <br/>
-        <div onClick={this.toogleFilters} style={{color: filtersOn ? 'black'  : 'gray'}}><FilterIcon/>Filters</div>
+        <div>
+          <Button variant='outlined' size='small' onClick={this.toogleFilters} style={{color: filtersOn ? 'black'  : 'gray'}}><FilterIcon/>Filters</Button>
+          <Button variant='outlined' size='small' style={{ color: '#ef6b83' }} onClick={this.favorite}><FavoriteIcon/>Favorite</Button>
+        </div>
         {
           filtersOn && [<br key='none'/>, ...Object.keys(diseases).map(disease => <Chip
             key={diseases[disease].fullName}
