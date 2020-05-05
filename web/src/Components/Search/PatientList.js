@@ -10,6 +10,18 @@ import { withStyles } from '@material-ui/core';
 import { PatientPropTypes } from '../../MyPropTypes';
 import Alert from '../Alert/Alert';
 import i18n from 'i18next';
+import Fav from './Fav'
+import PatIcon from './PatIcon'
+
+
+// const putFavInTab = (e) => {
+//   ArrayFav = [...ArrayFav, e.id];
+//   // var n = ArrayFav.includes(e.id);
+//   console.log(ArrayFav.length);
+//   console.log('weeeeey');
+//   // STAR = star2;
+
+// }
 
 const styles = {
   selectable : {
@@ -36,6 +48,7 @@ const PatientList = ({
           <TableCell>{i18n.t('firstname')}</TableCell>
           <TableCell>{i18n.t('birthDate')}</TableCell>
           <TableCell>{i18n.t('patState')}</TableCell>
+          <TableCell>Favorites</TableCell>
           {/* <Alert/> */}
         </TableRow>
       </TableHead>
@@ -50,6 +63,8 @@ const PatientList = ({
             <TableCell>{e.firstname}</TableCell>
             <TableCell>{e.birthdate}</TableCell>
             <TableCell><Alert/></TableCell>
+            <TableCell><Fav favId={e.id}/></TableCell>
+            <TableCell><PatIcon patBirth={e.birthdate}/></TableCell>
           </TableRow>
         )}
       </TableBody>
