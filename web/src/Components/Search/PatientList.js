@@ -49,6 +49,7 @@ const PatientList = ({
           <TableCell>{i18n.t('birthDate')}</TableCell>
           <TableCell>{i18n.t('patState')}</TableCell>
           <TableCell>Favorites</TableCell>
+          <TableCell>Icon</TableCell>
           {/* <Alert/> */}
         </TableRow>
       </TableHead>

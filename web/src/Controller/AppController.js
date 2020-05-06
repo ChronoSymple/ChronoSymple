@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Search from './SearchController';
 import AdminSearch from './AdminSearchController';
+import Favorite from './FavoritesController';
 import AdminPatient from '../Components/Admin/AdminPatient';
 import AdminDoctor from '../Components/Admin/AdminDoctor';
 import Patient from '../Components/Patient';
@@ -133,7 +134,18 @@ class App extends PureComponent {
               </div>
             }/>
             <Route path='/favorite'>
-              <div>HELLO WORLD</div>
+              <div style={{flexGrow:1}}>
+                <MyAppBarController title='Favorite'
+                  disconnect={this.disconnect}
+                  openProfile={this.openProfile}
+                  openSettings={this.openSettings}
+                  back={() => window.location = '/'}
+                />
+                <main className={classes.content}>
+                  <div className={classes.toolbar} id='toolbar'/>
+                  <Favorite token={token} setPatient={this.setPatient} />
+                </main>
+              </div>
             </Route>
             <Route path='/'>
               <MyAppBarController title={i18n.t('list')}
