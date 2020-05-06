@@ -12,9 +12,12 @@ import { View,
 	FlatList,
 	ScrollView,
 	TouchableOpacity,
-	Image} from 'react-native'
+	Image,
+	Alert} from 'react-native'
 import { Icon } from 'react-native-elements'
 import { APIGetMyDoctors, APIGetDoctorProfile, APIAddDoctor, APIRemoveDoctor} from '../../API/APIDoctor';
+import { APIgetDoctorsOfModule, APIUnshareNote, APIDoctorOfNotes } from '../../API/APIModule'
+
 import { connect } from 'react-redux';
 import { colors, windowSize } from '../StyleSheet'
 
@@ -26,72 +29,40 @@ dans la partie profil du patient --> module -> voir la fiche du medecin
 class DoctorCard extends React.Component {
 	constructor (props) {
 		super(props)
-		
-		doctorInfo = this.props.navigation.getParam("doctorInfo")
+		const doctorInfo = this.props.navigation.getParam("doctorInfo")
+		const pageToReturn = this.props.navigation.getParam("pageToReturn")
 		this.state = {
 			data: [],
 			isMyDoctor: false,
 			unitId: this.props.navigation.getParam("unitId"),
-			firstName: '',
-			lastName: '',
-			domain: '',
-			address: '',
-			hours: '',
-			doctorId: -1
-		}
-		console.log("doctorId : this.state")
-		console.log(this.state)
-		this.getMyDoctorCard()
-		if (doctorInfo != undefined) {
-			console.log("dsqdqs")
-			this.state.firstName = doctorInfo.first_name
-			this.state.lastName = doctorInfo.last_name
-			this.state.doctorId = doctorInfo.id
-		}
-
+			actualDoctor: this.props.navigation.getParam("actualDoctor"),
+			firstName: doctorInfo.first_name,
+			lastName: doctorInfo.last_name,
+			address: doctorInfo.adress,
+			numero: doctorInfo.phone_number,
+			mail: doctorInfo.email,
+			doctorId: doctorInfo.id,
+			domain: "",
+			hours: "",
+			pageToReturn: pageToReturn,
+			mode: this.props.navigation.getParam("mode"),
 	}
-	
-
-	getMyDoctorCard = () => {
-		APIGetMyDoctors(this.props.token.token).then(async data => {
-			let response = await data.json()
-			this.setState({
-				data: response,
-			})
-			console.log("My doctor - response:")
-			console.log(response)
-		})
+		if (this.state.actualDoctor == this.state.doctorId )
+			console.log("equal")
 	}
 
 	addDoctorPressed = () => {
-		console.log("Add doctor ...")
-		if (this.state.isMyDoctor == true) {
-			console.log("cannot add doctor that is already yours")
-		} else {
-			console.log("unitId: ")
-			console.log(this.state.unitId)
-			console.log("doctorId")
-			console.log(this.state.doctorId)
-			APIAddDoctor(this.props.token.token, this.state.unitId, this.state.doctorId).then(async data => {
-				let response = await data.json()
-				console.log("APIAddDoctor - response")
-				console.log(response)
-			})
-		}
+		APIAddDoctor(this.props.token.token, this.state.unitId, this.state.doctorId).then(async data => {
+			console.log(data.status)
+			this.props.navigation.navigate("Home")
+		})
 	}
 
-	removeDoctorPressed = () => {
-		console.log("remove doctor ...")
-		if (this.state.isMyDoctor == false) {
-			console.log("cannot remove a doctor that is not yours")
-		}	else {
-			APIRemoveDoctor(this.props.token.token, this.state.unitId, this.state.doctorId).then(async data => {
-				let response = await data.json()
-				console.log("APIRemoveDoctor - reponse")
-				console.log(response)
-			})
-
-		}
+	removeDoctorPressed = (navigate) => {
+		APIRemoveDoctor(this.props.token.token, this.state.unitId, this.state.actualDoctor).then(async data => {
+			if (navigate == "navigate")
+				this.props.navigation.navigate("Home")
+		})
 	}
 
 
@@ -103,55 +74,100 @@ class DoctorCard extends React.Component {
 				<View style={{backgroundColor:colors.secondary, flex:1, flexDirection: 'column'}}>
 					<View style={{flex:1}}></View>
 					<View style={{flex:8, flexDirection: 'row', justifyContent:"space-between"}}>
-						<TouchableHighlight style={{margin: 10}}>
+						<TouchableHighlight style={{margin: 10, flex: 2}}>
 							<Icon
 								name="arrow-back"
 								color="#FFF"
 								size={35}
-								onPress={() => navigate("ModuleProfile")}
+								onPress={() => navigate("SearchDoctors")}
 		    				/>
 						</TouchableHighlight>
+						<View style={{margin: 10, flex: 8, alignItems: "center", justifyContent: "center"}}>
+							<Text style={{color:"white", textAlign:'center', fontWeight: "bold", fontSize:22}}>
+								Fiche médecin
+							</Text>
+						</View>
 					</View>
 					<View style={{flex:1}}></View>
 				</View>
-				<View style={{flex: 4}}>
-					<Text>
-						Fiche du medecin
-					</Text>
-					<TouchableHighlight>
-						<Text>Nom: {this.state.lastName}</Text>
-					</TouchableHighlight>
-					<TouchableHighlight>
-						<Text>Prenom: {this.state.firstName}</Text>
-					</TouchableHighlight>
-					<TouchableHighlight>
-						<Text>Domaine d'expertise: </Text>
-					</TouchableHighlight>
-					<TouchableHighlight>
-						<Text>Addresse de travail: </Text>
-					</TouchableHighlight>
-					<TouchableHighlight>
-						<Text>Horaire d'ouverture: </Text>
-					</TouchableHighlight>
+				<View style={{flex: 8, flexDirection: "column"}}>
+					<View style={{flex: 4, flexDirection: "row"}}>
+						<View style={{flex: 2}}/>
+						<View style={{flex: 6}}>
+							<Image
+								source={{
+								  uri: 'https://image.flaticon.com/icons/png/512/122/122454.png',
+								}}
+								style={{flex: 5, margin: 15, backgroundColor: "white", borderRadius: 15, borderWidth: 1, borderColor: 'white' }}
+							/>
+						</View>
+						<View style={{flex: 2}}/>
+					</View>
+					<View style={{flex: 6, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+						<View style={{flex: 1, justifyContent: "center"}}>
+							<Text>Nom : {this.state.firstName} Prénom : {this.state.lastName}</Text>
+						</View>
+						<View style={{flex: 1, justifyContent: "center"}}>
+							<Text>Tél. : {this.state.numero}</Text>
+						</View>
+						<View style={{flex: 1, justifyContent: "center"}}>
+							<Text>Mail : {this.state.mail}</Text>
+						</View>
+						<View style={{flex: 0.5, justifyContent: "center"}}>
+						</View>
+						<View style={{flex: 2, alignItems: "center"}}>
+							<Text>Domaine d'expertise: </Text>
+							<Text>Inconnu</Text>
+						</View>
+						<View style={{flex: 2}}>
+							<Text>Addresse de travail:</Text>
+							<Text>{this.state.address}</Text>
+						</View>
+						<View style={{flex: 2.5, alignItems: "center"}}>
+							<Text>Horaire d'ouverture: </Text>
+							<Text>Inconnues</Text>
+						</View>
+					</View>
 				</View>
-				<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
-					<View>
+				{ this.state.mode == "change" && this.state.actualDoctor == this.state.doctorId &&
+					<View style={{flex: 1, flexDirection: 'row', justifyContent: "center", alignItems: "center"}}>
+						<View style={{flex: 5, alignItems: "center"}}>
+							<Button 
+								style={{ borderWidth: 2, borderColor: '#000000'}}
+								title="Changer"
+								color="#DDDDDD"
+							/>
+						</View>
+						<View style={{flex: 5, alignItems: "center"}}>
+							<Button 
+								color="#62BE87"
+								style={{flex:5, borderWidth: 2, borderColor: '#000000'}}
+								onPress={() => {this.removeDoctorPressed("navigate")}}
+								title="Dissocier"
+							/>
+						</View>
+					</View>
+				}
+				{ this.state.mode == "change" && this.state.actualDoctor != this.state.doctorId &&
+					<View style={{flex: 1, flexDirection: 'row', alignItems: "center", justifyContent: "center"}}>
 						<Button 
 							color="#62BE87"
-							style={{ height: 40, width: 50, borderWidth: 2, borderColor: '#000000'}}
-							onPress={() => {this.addDoctorPressed()}}
-							title="Ajouter"
+							style={{flex:5, borderWidth: 2, borderColor: '#000000'}}
+							onPress={() => {this.removeDoctorPressed("none"), this.addDoctorPressed()}}
+							title="Changer"
 						/>
 					</View>
-					<View>
-						<Button 
-							color="#62BE87"
-							style={{ height: 40, width: 50, borderWidth: 2, borderColor: '#000000'}}
-							onPress={() => {this.removeDoctorPressed()}}
-							title="Retirer"
-						/>
+				}
+				{ this.state.mode == "add" &&
+					<View style={{flex: 1, flexDirection: 'row', alignItems: "center", justifyContent: "center"}}>
+							<Button 
+								color="#62BE87"
+								style={{ borderWidth: 2, borderColor: '#000000'}}
+								onPress={() => {this.addDoctorPressed()}}
+								title="Ajouter"
+							/>
 					</View>
-				</View>
+				}
       		</View>
 		)
 	}

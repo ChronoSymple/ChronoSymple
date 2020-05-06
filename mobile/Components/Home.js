@@ -111,6 +111,10 @@ class Home extends React.Component {
 		})
 	}
 
+	changeDoctor = (unitId, general_unitId, mode, actualDoctor) => {
+		this.props.navigation.navigate('SearchDoctors', {unitId: unitId, general_unitId: general_unitId, pageToReturn: "Home", mode: mode, actualDoctor: actualDoctor});
+	}
+
 	render() {
 		let { navigate } = this.props.navigation;
 		const animatedStyle = {
@@ -144,7 +148,8 @@ class Home extends React.Component {
 									dModule={item}
 									triggerModule={this.changeModule}
 									generalUnit={true}
-									deleteUnit={this.deleteUnit}>
+									deleteUnit={this.deleteUnit}
+									doctorChoice={this.changeDoctor}>
 								</ModuleItem>
 							)}
 						/>

@@ -58,7 +58,7 @@ class Statistic extends React.Component {
       selectedEndDate: null,
       nbDaysOfCurrentMonth: this.getDaysInMonth(month, year),
       data: {
-        labels: ["", ""],
+        labels: [],
         datasets: [{
           data: []
         }]
@@ -75,9 +75,6 @@ class Statistic extends React.Component {
   }
 
   _createStats = async (response) => {
-    this.setState({
-      Date: [this.state.actualDateBegin, this.state.actualDateEnd]
-    })
     for (i = 0; i < response.length; i++) {
       obj = response[i].data
       if (parseInt(obj.BloodGlucose, 10))
@@ -298,28 +295,36 @@ class Statistic extends React.Component {
       month = 1
     }
     else if (this.state.datasMode == this.state.adminEnum.Week) {
-      var dateBeginDay = this.state.actualDateBeginDay + 7
-      var dateBeginMonth = this.state.actualDateBeginMonth
-      var dateBeginYear = this.state.actualDateBeginYear
-      if (dateBeginDay >= this.getDaysInMonth(dateBeginMonth, dateBeginYear)) {
-        dateBeginMonth  = parseInt(dateBeginMonth, 10) + 1	
-        if (dateBeginMonth >= 12) {
-          dateBeginYear = parseInt(this.state.actualDateEndYear, 10) + 1	
-          dateBeginMonth = 1 
-        }
-        dateBeginDay = dateBeginDay - this.getDaysInMonth(this.state.actualDateBeginMonth, dateBeginYear)
-      }
-      var dateEndDay = this.state.actualDateEndDay + 7
-      var dateEndMonth = this.state.actualDateEndMonth
-      var dateEndYear = this.state.actualDateEndYear
-      if (dateEndDay >= this.getDaysInMonth(dateBeginMonth, dateBeginYear)) {
-        dateEndMonth  = parseInt(this.state.actualDateEndMonth, 10) + 1	
-        if (dateBeginMonth >= 12) {
-          dateBeginYear = parseInt(this.state.actualDateEndYear, 10) + 1	
-          dateBeginMonth = 1 
-        }
-        dateEndDay = dateEndDay - this.getDaysInMonth(dateBeginMonth, dateBeginYear)
-      }
+			var dateBeginDay = this.state.actualDateBeginDay + 7
+			var dateBeginMonth = this.state.actualDateBeginMonth
+			var dateBeginYear = this.state.actualDateBeginYear
+			if (dateBeginDay >= this.getDaysInMonth(dateBeginMonth, dateBeginYear)) {
+				dateBeginMonth  = parseInt(dateBeginMonth, 10) + 1	
+				if (dateBeginMonth >= 12) {
+					dateBeginYear = parseInt(this.state.actualDateEndYear, 10) + 1	
+					dateBeginMonth = 1 
+				}
+				dateBeginDay = dateBeginDay - this.getDaysInMonth(this.state.actualDateBeginMonth, dateBeginYear)
+			}
+			var dateEndDay = this.state.actualDateEndDay + 7
+			var dateEndMonth = this.state.actualDateEndMonth
+			var dateEndYear = this.state.actualDateEndYear
+			if (this.state.actualDateEndDay == this.getDaysInMonth(dateEndMonth, dateEndYear)) {
+				dateEndDay = dateEndDay - this.getDaysInMonth(dateEndMonth, dateEndYear)
+				dateEndMonth  = parseInt(this.state.actualDateEndMonth, 10) + 1	
+				if (dateBeginMonth >= 12) {
+					dateBeginYear = parseInt(this.state.actualDateEndYear, 10) + 1	
+					dateBeginMonth = 1 
+				}
+			}
+			else if (dateEndDay > this.getDaysInMonth(dateBeginMonth, dateBeginYear)) {
+			  	dateEndMonth  = parseInt(this.state.actualDateEndMonth, 10) + 1	
+			  	if (dateBeginMonth >= 12) {
+					dateBeginYear = parseInt(this.state.actualDateEndYear, 10) + 1	
+					dateBeginMonth = 1 
+				}
+				dateEndDay = dateEndDay - this.getDaysInMonth(dateBeginMonth, dateBeginYear)
+			}
       this.setState({
         actualDateBeginDay: dateBeginDay,
         actualDateBeginMonth: dateBeginMonth,
@@ -403,7 +408,7 @@ class Statistic extends React.Component {
 	_bootstrapAsync = () => {
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
-				APIGetPatientNotesByDateIntervale(this.props.token.token, this.state.actualDateBegin, this.state.actualDateEnd).then(async data => {
+				APIGetPatientNotesByDateIntervale(this.props.token.token, this.state.actualDateBegin, this.state.actualDateEnd, this.props.currentModule.currentModule).then(async data => {
           let response = await data.json()
 				 	if (data.status == 200) {
             this._createStats(response)
@@ -440,7 +445,7 @@ class Statistic extends React.Component {
   }
 
   _handleChangeDatasMode = (id) => {
-    if (id == 1 && this.state.datasMode != this.state.adminEnum.Month) {
+    if (id == 3 && this.state.datasMode != this.state.adminEnum.Month) {
       this.setState({
         lastmode: this.state.datasMode,
         actualDateBeginDay: 1,
@@ -487,7 +492,6 @@ class Statistic extends React.Component {
         dateEndDay = dateEndDay - this.getDaysInMonth(dateBeginMonth, dateBeginYear)
       }
       this.setState({
-        lastmode: this.state.datasMode,
         actualDateBeginDay: dateBeginDay,
         actualDateBeginMonth: dateBeginMonth,
         actualDateBeginYear: dateBeginYear,
@@ -510,9 +514,8 @@ class Statistic extends React.Component {
       })
       this._bootstrapAsync();
     }
-    else if (id == 3 && this.state.datasMode != this.state.adminEnum.Day) {
+    else if (id == 1 && this.state.datasMode != this.state.adminEnum.Day) {
       this.setState({
-        lastmode: this.state.datasMode,
         actualDateBeginDay: this.state.actualDayDay,
         actualDateBeginMonth: this.state.actualDayMonth,
         actualDateBeginYear: this.state.actualDayYear,
@@ -552,7 +555,6 @@ class Statistic extends React.Component {
         hypo: 0,
         loading: true
       })
-      this._bootstrapAsync();
     }
   }
 
@@ -571,7 +573,6 @@ class Statistic extends React.Component {
       this.setState({
         selectedEndDate: date,
       });
-  
     } else {
       this.setState({
         selectedStartDate: date,
@@ -584,15 +585,17 @@ class Statistic extends React.Component {
 		this.setState({
 			isModalVisible: visible,
     })
-    if (!visible) {
-      this._bootstrapAsync();
-
-    }
   }
 
   validateDates = (startDate, endDate) => {
-    if (!startDate || !endDate)
+    if (!startDate || !endDate) {
+      this.setState({
+        datasMode: this.state.lastmode
+      })
       this._handleChangeDatasMode(this.state.lastmode)
+      this.setModalVisible(false)
+      return;
+    }
     startDate = new Date(startDate)
     endDate = new Date(endDate)
     var startYear = startDate.getFullYear();
@@ -610,8 +613,15 @@ class Statistic extends React.Component {
       actualDateEndMonth: endMonth,
       actualDateEndYear: endYear,
       actualDateEnd: endDay + '/' + endMonth + '/' + endYear,
-      nbDaysOfCurrentMonth: this.getDaysInMonth(startMonth, startYear)
+      nbDaysOfCurrentMonth: this.getDaysInMonth(startMonth, startYear),
+      Glycemie: [],
+      GlycemieAverage: 0,
+      Date: [],
+      hyper: 0,
+      hypo: 0,
+      loading: true
     })
+    this._bootstrapAsync();
     this.setModalVisible(false)
   }
 
@@ -644,13 +654,13 @@ class Statistic extends React.Component {
           </View>
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignContent: "stretch", width: Dimensions.get('window').width}}>
             <View style={{flex: 1.8}}>
-              <Button color={this.state.firstButton} onPress={() => {this._handleChangeDatasMode(1)}} title={"Mois"}/>
+              <Button color={this.state.firstButton} onPress={() => {this._handleChangeDatasMode(3)}} title={"Mois"}/>
             </View>
             <View style={{flex: 2.5}}>
               <Button color={this.state.secondButton} onPress={() => {this._handleChangeDatasMode(2)}} title={"Semaine"}/>
             </View>
             <View style={{flex: 1.7}}>
-              <Button color={this.state.thirdButton} onPress={() => {this._handleChangeDatasMode(3)}} title={"Jour"}/>
+              <Button color={this.state.thirdButton} onPress={() => {this._handleChangeDatasMode(1)}} title={"Jour"}/>
             </View>
             <View style={{ flex:4}}>
                 <Button color={this.state.customButton} onPress={() => {this._handleChangeDatasMode(4)}} title={"Personnaliser"}/>
@@ -690,6 +700,32 @@ class Statistic extends React.Component {
           config={config}
           style={{flex: 7}}
         >
+					<View style={{position:'absolute',bottom:10, zIndex: 2, right: 10}}>
+						<View
+						style={{
+						   	borderWidth:1,
+						   	borderColor:"white",
+						   	alignItems:'center',
+						   	justifyContent:'center',
+						   	width:60,
+						   	height:60,
+						   	backgroundColor:colors.secondary,
+						   	borderRadius:50,
+						 		shadowColor: '#000',
+							shadowOffset: { width: 1, height: 2 },
+							shadowOpacity: 1,
+							shadowRadius: 1.5,
+							elevation: 10
+						}}>
+						<Icon
+							name="add"
+							color={"white"}
+							size={45}
+							onPress={() => { this.props.navigation.navigate('AddNote') }}
+							style={{justifyContent: "flex-end"}}
+						/>
+						</View>
+					</View>					
           <View style={{ flex: 1, justifyContent: 'center', alignContent: "center", flexDirection: 'row', backgroundColor: "", width: Dimensions.get('window').width}}>
             <View style={{ flex: 2 }}></View>
             { this.state.datasMode != this.state.adminEnum.Custom &&
@@ -713,8 +749,7 @@ class Statistic extends React.Component {
                 </View>
               :
               <View style={{ flex: 10 }}>
-                <Text style={{ flex: 5, textAlign: "center", color: "black" }}>{this.state.actualDateBegin}</Text>
-                <Text style={{ flex: 5, textAlign: "center", color: "black" }}>{this.state.actualDateEnd}</Text>
+                <Text style={{ textAlign: "center", color: "black" }}>{this.state.actualDateBegin} {this.state.actualDateEnd}</Text>
               </View>
             }
             { this.state.datasMode != this.state.adminEnum.Custom &&
@@ -786,7 +821,7 @@ class Statistic extends React.Component {
                       }}
                       bezier
                       style={{
-                        marginVertical: 8,
+                        marginVertical: 10,
                         borderRadius: 16,
                       }}
                     />
@@ -810,7 +845,7 @@ class Statistic extends React.Component {
                       }}
                       bezier
                       style={{
-                        marginVertical: 8,
+                        marginVertical: 10,
                         borderRadius: 16,
                       }}
                     />

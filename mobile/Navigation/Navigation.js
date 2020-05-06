@@ -13,9 +13,7 @@ import AddNote from '../Components/Modules/Note';
 import EditNote from '../Components/Modules/EditNote';
 import StatisticDiabete from '../Components/Modules/StatisticDiabete';
 import StatisticAsthma from '../Components/Modules/StatisticAsthma';
-import Export from '../Components/Modules/Export';
 import ExportPDF from '../Components/Modules/ExportPDF';
-import Note from '../Components/Modules/Note';
 import Logout from '../Components/Auth/Logout'
 import Loading from '../Components/Loading'
 import Check from '../Components/CheckModule'
@@ -57,6 +55,9 @@ const CalendarStackNavigator = createStackNavigator({
 	},
 	EditNote: {
 		screen: EditNote
+	},
+	AddNote: {
+		screen: AddNote
 	},
 	DetailNote: {
 		screen: DetailNote
@@ -186,17 +187,6 @@ const TabsAsthma = createBottomTabNavigator({
 			    />
 		)})
 	},
-	AddNote: {
-		screen : StatisticAsthma,
-		navigationOptions: () => ({
-			tabBarIcon: ({tintColor}) => (
-			    <Icon
-				name="add-circle"
-				color={tintColor}
-				size={40}
-			    />
-		)})
-	},
 	Profile: {
 		screen : Profile,
 		navigationOptions: () => ({
@@ -249,17 +239,6 @@ const TabsDiabete = createBottomTabNavigator({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon2
 				name="notes-medical"
-				color={tintColor}
-				size={40}
-			    />
-		)})
-	},
-	AddNote: {
-		screen : AddNote,
-		navigationOptions: () => ({
-			tabBarIcon: ({tintColor}) => (
-			    <Icon
-				name="add-circle"
 				color={tintColor}
 				size={40}
 			    />

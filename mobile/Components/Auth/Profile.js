@@ -193,12 +193,6 @@ class Profile extends React.Component {
 				<Button 
 					color="#62BE87"
 					style={{ height: 40, borderWidth: 2, borderColor: '#000000'}}
-					onPress={() => navigate('ModuleProfile')} 
-					title="mes modules"
-				/>
-				<Button 
-					color="#62BE87"
-					style={{ height: 40, borderWidth: 2, borderColor: '#000000'}}
 					onPress={() => navigate('PasswordProfile')}
 					title="changer de mot de passe"
 				/>

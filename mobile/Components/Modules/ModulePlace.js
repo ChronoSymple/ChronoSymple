@@ -2,7 +2,6 @@
 
 import React from 'react'
 import ModuleItem from './ModuleItem'
-import NoteItem from './NoteItem'
 import { APIGetModules, APIAddModule, APIGetPatientModules } from '../../API/APIModule'
 import {
 	ActivityIndicator,
