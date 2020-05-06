@@ -97,6 +97,9 @@ class Calendar extends React.Component {
 				})
 			})
 		})
+		this.setState({
+			selectedNotes: []
+		});
 		this.setModalCheckboxVisible(false);
 	}
 
@@ -362,7 +365,8 @@ class Calendar extends React.Component {
 	_bootstrapAsync = () => {
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
-				APIGetPatientNotesByDateIntervale(this.props.token.token, this.state.actualDateBegin, this.state.actualDateEnd).then(async data => {
+				let cur_modl = this.props.currentModule.currentModule;
+				APIGetPatientNotesByDateIntervale(this.props.token.token, this.state.actualDateBegin, this.state.actualDateEnd, cur_modl).then(async data => {
 				let response = await data.json()
 				if (data.status == 200) {
 					this.setState({
@@ -600,9 +604,11 @@ class Calendar extends React.Component {
 		};
 		return (
 			<View style={styles.container}>
-				<View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width}}>
-         		    <Text style={{color:"white", textAlign:'center', fontWeight: "bold", fontSize: 22}}>Toutes vos notes</Text>
-         		</View>
+				<View style={{flex: 0.8, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width}}>
+	         		<Text style={{color:"white", textAlign:'center', fontWeight: "bold", fontSize: 22}}>
+	         			Toutes vos notes
+	         		</Text>
+	         	</View>
          		<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignContent: "stretch", width: Dimensions.get('window').width}}>
          			<View style={{flex: 1.8}}>
          		    	<Button color={this.state.firstButton} onPress={() => {this._handleChangeDatasMode(1)}} title={"Mois"}/>
@@ -826,9 +832,8 @@ class Calendar extends React.Component {
         				}
         				<View style={{ flex: 2 }}></View>
         			</View>
-
-					<View style={{alignItems: 'flex-end'}}>
-						<Icon
+        			<View style={{alignItems: 'flex-end'}}>
+	        			<Icon
 							name="more-horiz"
 							color={colors.secondary}
 							size={45}
@@ -836,6 +841,8 @@ class Calendar extends React.Component {
 							style={{justifyContent: "flex-end"}}
 						/>
 					</View>
+
+
 					<View style={{flex: 9}}>
 						{this.state.loading && 
 						<ActivityIndicator size='large' color='black' />}

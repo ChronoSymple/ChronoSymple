@@ -119,8 +119,8 @@ export function APIShareNote(token, module_id, note_ids, doctor_ids) {
 	.catch((error) => error)
 }
 
-export function APIGetPatientNotesByDateIntervale(token, beginDate, endDate) {
-	return fetch(baseUrl + '/api/patients/notes/notes_by_date_interval?begin_date=' + beginDate + "&end_date=" + endDate, {
+export function APIGetPatientNotesByDateIntervale(token, beginDate, endDate, cur_modl) {
+	return fetch(baseUrl + '/api/patients/notes/notes_by_date_interval?begin_date=' + beginDate + "&end_date=" + endDate + "&unit=" + cur_modl, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
