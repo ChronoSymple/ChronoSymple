@@ -40,27 +40,46 @@ class DoctorCard extends React.Component {
 			doctorId: -1
 		}
 		console.log("doctorId : this.state")
+		/*this.getMyDoctorCard()*/
+		APIGetMyDoctors(this.props.token.token).then(async data => {
+			let response = await data.json()
+			for (var i = response.length - 1; i >= 0; i--) {
+				if (response[i].id == this.state.unitId) {
+					this.state.data = response[i].doctors[0]
+				}
+			}
+			console.log(data)
+			if (doctorInfo != undefined) {
+				if (this.state.data.id == this.state.doctorId) {
+					console.log("condition 1")
+					this.setState({
+						isMyDoctor: true,
+						firstName: this.state.data.user.first_name,
+						lastName: this.state.data.user.last_name,
+						address: this.state.data.user.address,
+					})
+				} else {
+					console.log("condition 2")
+					this.state.firstName = doctorInfo.first_name
+					this.state.lastName = doctorInfo.last_name
+					this.state.doctorId = doctorInfo.id
+				}
+			} else {
+				console.log("condition 3")
+				this.setState({
+					isMyDoctor: true,
+					firstName: this.state.data.user.first_name,
+					lastName: this.state.data.user.last_name,
+					address: this.state.data.user.address,
+				})
+			}
+		})
 		console.log(this.state)
-		this.getMyDoctorCard()
-		if (doctorInfo != undefined) {
-			console.log("dsqdqs")
-			this.state.firstName = doctorInfo.first_name
-			this.state.lastName = doctorInfo.last_name
-			this.state.doctorId = doctorInfo.id
-		}
 
 	}
 	
 
 	getMyDoctorCard = () => {
-		APIGetMyDoctors(this.props.token.token).then(async data => {
-			let response = await data.json()
-			this.setState({
-				data: response,
-			})
-			console.log("My doctor - response:")
-			console.log(response)
-		})
 	}
 
 	addDoctorPressed = () => {
@@ -86,7 +105,9 @@ class DoctorCard extends React.Component {
 			console.log("cannot remove a doctor that is not yours")
 		}	else {
 			APIRemoveDoctor(this.props.token.token, this.state.unitId, this.state.doctorId).then(async data => {
+				console.log(data)
 				let response = await data.json()
+
 				console.log("APIRemoveDoctor - reponse")
 				console.log(response)
 			})
@@ -114,7 +135,8 @@ class DoctorCard extends React.Component {
 					</View>
 					<View style={{flex:1}}></View>
 				</View>
-				<View style={{flex: 4}}>
+				<View style={{flex:1}}/>
+				<View style={{flex: 7}}>
 					<Text>
 						Fiche du medecin
 					</Text>
@@ -128,7 +150,7 @@ class DoctorCard extends React.Component {
 						<Text>Domaine d'expertise: </Text>
 					</TouchableHighlight>
 					<TouchableHighlight>
-						<Text>Addresse de travail: </Text>
+						<Text>Addresse de travail: {this.state.address} </Text>
 					</TouchableHighlight>
 					<TouchableHighlight>
 						<Text>Horaire d'ouverture: </Text>
@@ -152,6 +174,7 @@ class DoctorCard extends React.Component {
 						/>
 					</View>
 				</View>
+				<View styles={{flex: 3}}/>
       		</View>
 		)
 	}
