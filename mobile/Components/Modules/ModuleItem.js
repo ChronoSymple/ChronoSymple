@@ -87,6 +87,7 @@ class ModuleItem extends React.Component {
 			finish: false,
 			displayDoctor: !this.state.displayDoctor
 		})
+		console.log(this.state.finish, this.state.doctorsOfModule)
 	}
 
 	getDoctors = () => {
@@ -169,14 +170,14 @@ class ModuleItem extends React.Component {
 								{this.state.displayDoctor && !this.state.finish && 
 									<ActivityIndicator size='large' color='black' />
 								}
-								{ this.state.finish && this.state.doctorsOfModule.length == 0 && this.state.displayDoctor  && this.state.loading &&
+								{ this.state.finish && this.state.doctorsOfModule.length == 0 && this.state.displayDoctor  &&
 										<View style={{flexDirection : "row", height: windowSize.y / 20}} onPress={() => {}}>								
 											<TouchableOpacity style={{backgroundColor: "#2296F3", marginTop: windowSize.y / 60, flex: 4, fontSize: windowSize.y / 48}}>
 												<Text style={{color:"white", textAlign: "center", paddingLeft: 30, paddingRight: 30}} onPress={() => {this.displayDoctor(), this.setModalVisible(false), this.state.doctorChoice(this.state.dModule.id, this.state.dModule.general_unit.id, "add", null)}}>Assigner</Text>
 											</TouchableOpacity>
 										</View>	
 								}
-								{ this.state.finish && this.state.displayDoctor && this.state.doctorsOfModule.length > 0 &&  this.state.loading &&
+								{ this.state.finish && this.state.displayDoctor && this.state.doctorsOfModule.length > 0 &&
 											<View style={{flexDirection : "row", height: windowSize.y / 10}} onPress={() => {}}>
 											<FlatList
 												data={this.state.doctorsOfModule}
