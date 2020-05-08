@@ -20,6 +20,7 @@
     "react-native-chart-kit": "^3.13.0",
     "react-native-custom-icon": "0.0.3",
     "react-native-elements": "^1.2.7",
+    "react-native-flash-message": "^0.1.15",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-html-to-pdf": "^0.8.0",
     "react-native-image-picker": "^2.3.1",

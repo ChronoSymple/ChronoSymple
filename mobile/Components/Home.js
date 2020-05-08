@@ -12,6 +12,7 @@ import {
 	BackHandler,
 	TouchableOpacity,
 	Animated,
+	TouchableHighlight,
 	Dimensions
 } from 'react-native';
 import { connect } from 'react-redux';

@@ -13,7 +13,8 @@ import Modal2 from "react-native-modal";
 import CalendarPicker from 'react-native-calendar-picker'
 import { State } from 'react-native-gesture-handler';
 /*import { NoteItem } from './NoteItem' NOT USED*/
- 
+import { showMessage, hideMessage } from "react-native-flash-message";
+
 class Calendar extends React.Component {
 
 	constructor (props) {
@@ -94,12 +95,21 @@ class Calendar extends React.Component {
 					if (data.status == 200) {
 						APIShareNote(token, cur_modl, notes, doctor_ids).then(async data => {
 							if (data.status == 200) {
+								showMessage({
+						            message: "Note has been shared !",
+						            type: "success"
+					        	});
 								this.setState({
 									notes: [],
 									selectedNotes: [],	
 									loading: true
 								  })
 								  this._bootstrapAsync();
+							} else {
+								showMessage({
+						            message: "An issue occurred, your not was not shared",
+						            type: "danger",
+					        	});
 							}
 						})
 					}
@@ -722,9 +732,11 @@ class Calendar extends React.Component {
 		};
 		return (
 			<View style={styles.container}>
-				<View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width}}>
-         		    <Text style={{color:"white", textAlign:'center', fontWeight: "bold", fontSize: 22}}>Toutes vos notes</Text>
-         		</View>
+				<View style={{flex: 0.8, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width}}>
+	         		<Text style={{color:"white", textAlign:'center', fontWeight: "bold", fontSize: 22}}>
+	         			Toutes vos notes
+	         		</Text>
+	         	</View>
          		<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignContent: "stretch", width: Dimensions.get('window').width}}>
          			<View style={{flex: 1.8}}>
          		    	<Button color={this.state.firstButton} onPress={() => {this._handleChangeDatasMode(3)}} title={"Mois"}/>
@@ -1050,7 +1062,7 @@ class Calendar extends React.Component {
 		)
 	}
 	
-	UNSAFE_componentWillMount() {
+	componentDidMount() {
 		BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
 	}
 	componentWillUnmount() {
