@@ -116,9 +116,6 @@ class Calendar extends React.Component {
 				})
 			})
 		})
-		this.setState({
-			selectedNotes: []
-		});
 		this.setModalCheckboxVisible(false);
 	}
 
