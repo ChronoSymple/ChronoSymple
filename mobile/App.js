@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { InAppNotificationProvider } from 'react-native-in-app-notification';
+import FlashMessage from "react-native-flash-message";
 
 import {
   SafeAreaView,
@@ -11,18 +11,18 @@ import {
 } from 'react-native';
 
 import Navigation from './Navigation/Navigation';
-import Store from './Redux/Store/configureStore';
-import { Provider } from 'react-redux';
+import Store from './Redux/Store/configureStore'
+import { Provider } from 'react-redux'
 
 export default class App extends Component{
-
   render(){
     return(
-      <InAppNotificationProvider>
+      <View style={{flex: 1}}>
         <Provider store={Store}>
           <Navigation/>
+          <FlashMessage />
         </Provider>
-      </InAppNotificationProvider>
+      </View>
     )
   }
 }

@@ -12,7 +12,8 @@ import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import Modal2 from "react-native-modal";
 import CalendarPicker from 'react-native-calendar-picker'
 /*import { NoteItem } from './NoteItem' NOT USED*/
- 
+import { showMessage, hideMessage } from "react-native-flash-message";
+
 class Calendar extends React.Component {
 
 	constructor (props) {
@@ -88,7 +89,10 @@ class Calendar extends React.Component {
 					if (data.status == 200) {
 						APIShareNote(token, cur_modl, notes, doctor_ids).then(async data => {
 							if (data.status == 200) {
-								console.log("shared")
+								showMessage({
+						            message: "Note has been shared",
+						            type: "success",
+					        	});
 							} else {
 							}
 						})
@@ -891,7 +895,7 @@ class Calendar extends React.Component {
 		)
 	}
 	
-	componentWillMount() {
+	componentDidMount() {
 		BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
 	}
 	componentWillUnmount() {

@@ -1,9 +1,6 @@
 import React from 'react'
 import { APIGetPatientModules, APIRemoveUnit } from '../API/APIModule'
 import ModuleItem from './Modules/ModuleItem'
-import NotificationPopUp from './Modules/NotificationPopUp';
-import { withInAppNotification } from 'react-native-in-app-notification';
-
 import {
 	ActivityIndicator,
 	StyleSheet,
@@ -122,11 +119,6 @@ class Home extends React.Component {
 		}
 		return (
 			<View style={styles.container}>
-			<NotificationPopUp
-				title="Test"
-	        	message="Fat juicy test"
-	        	backgroundColor="blue"
-			/>
         		<Text style={{color:"#62BE87", textAlign:'center', fontWeight: "bold", justifyContent: 'center', fontSize:30, margin: 30}}>Chronosymple</Text>
 				{this.state.loading && <ActivityIndicator size='large' color='black' />}
 				{ !this.state.loading && !this.state.Dmodules
