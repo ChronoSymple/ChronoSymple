@@ -119,8 +119,35 @@ export function APIShareNote(token, module_id, note_ids, doctor_ids) {
 	.catch((error) => error)
 }
 
-export function APIGetPatientNotesByDateIntervale(token, beginDate, endDate, cur_modl) {
-	return fetch(baseUrl + '/api/patients/notes/notes_by_date_interval?begin_date=' + beginDate + "&end_date=" + endDate + "&unit=" + cur_modl, {
+export function APIUnshareNote(token, note_id, doctor_ids) {
+	return fetch(baseUrl + '/api/patients/notes/' + note_id + '/unshare', {
+	method: 'PATCH',
+	headers: {
+		'Content-Type': 'application/json',
+		'Authorization': token,
+	}, body: JSON.stringify({
+		doctor_ids: doctor_ids,
+	})
+	})
+	.then((response) => response)
+	.catch((error) => error)
+}
+
+export function APIDoctorOfNotes(token, note_id) {
+	return fetch(baseUrl + '/api/patients/notes/' + note_id + '/doctors', {
+	method: 'GET',
+	headers: {
+		'Content-Type': 'application/json',
+		'Authorization': token,
+	}
+	})
+	.then((response) => response)
+	.catch((error) => error)
+}
+
+
+export function APIGetPatientNotesByDateIntervale(token, beginDate, endDate, idmodule) {
+	return fetch(baseUrl + '/api/patients/notes/notes_by_date_interval?begin_date=' + beginDate + "&end_date=" + endDate + "&unit=" + idmodule, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',

@@ -20,7 +20,7 @@ export default class App extends Component{
       <View style={{flex: 1}}>
         <Provider store={Store}>
           <Navigation/>
-          <FlashMessage />
+          <FlashMessage position="top" animated={true} style={{justifyContent: 'center', alignItems: 'center'}} textStyle={{ textAlign: "center"}} />
         </Provider>
       </View>
     )

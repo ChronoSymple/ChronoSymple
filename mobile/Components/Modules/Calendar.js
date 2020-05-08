@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { ActivityIndicator, View, Text, StyleSheet, Image, Modal, Button, FlatList, TouchableOpacity, TouchableHighlight, ScrollView, BackHandler, Dimensions, SafeAreaView} from 'react-native'
-import { APIGetPatientNotesByDateIntervale,  APIRemovePatientNotes, APIShareNote, APIgetDoctorsOfModule } from '../../API/APIModule'
+import { APIGetPatientNotesByDateIntervale,  APIRemovePatientNotes, APIShareNote, APIgetDoctorsOfModule, APIUnshareNote, APIDoctorOfNotes } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import { colors, windowSize } from '../StyleSheet';
 import { connect } from 'react-redux'
@@ -11,6 +11,7 @@ import { CheckBox } from 'react-native-elements'
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import Modal2 from "react-native-modal";
 import CalendarPicker from 'react-native-calendar-picker'
+import { State } from 'react-native-gesture-handler';
 /*import { NoteItem } from './NoteItem' NOT USED*/
 import { showMessage, hideMessage } from "react-native-flash-message";
 
@@ -61,11 +62,16 @@ class Calendar extends React.Component {
 			loading: true,
 		  	isSelectActive: false,
 			refreshing: false,
-			checkCount: 0,
 			modalCheckboxVisible: false,
 			modalManySelected: false,
 			modalOneSelected: false,
 			notes: [],
+			displayDoctor: false,
+			doctorOfNote: "",
+			doctorsOfModule: [],
+			displayDoctor: false,
+			finish: false,
+			shared: new Map()
 		}
 		this._bootstrapAsync();
 		const { navigation } = this.props;
@@ -90,13 +96,22 @@ class Calendar extends React.Component {
 						APIShareNote(token, cur_modl, notes, doctor_ids).then(async data => {
 							if (data.status == 200) {
 								showMessage({
-						            message: "Note has been shared",
-						            type: "success",
+						            message: "Note has been shared !",
+						            type: "success"
 					        	});
+								this.setState({
+									notes: [],
+									selectedNotes: [],	
+									loading: true
+								  })
+								  this._bootstrapAsync();
 							} else {
+								showMessage({
+						            message: "An issue occurred, your not was not shared",
+						            type: "danger",
+					        	});
 							}
 						})
-					} else {
 					}
 				})
 			})
@@ -105,6 +120,46 @@ class Calendar extends React.Component {
 			selectedNotes: []
 		});
 		this.setModalCheckboxVisible(false);
+	}
+
+	unshareNote = () => {
+		let notes = this.state.selectedNotes;
+		this.props.getUserToken().then(() => {
+			this.props.getUserCurrentModule().then(() => {
+				let token = this.props.token.token;
+				let cur_modl = this.props.currentModule.currentModule;
+				APIgetDoctorsOfModule(token, cur_modl).then(async data => {
+					let response = await data.json();
+					let doctor_ids = [];
+					for (let doc of response) {
+						doctor_ids.push(doc.id)
+					}
+					for (let note of notes) {
+						APIUnshareNote(token, note, doctor_ids).then(async data => {
+							if (data.status == 200) {
+								this.setState({
+									notes: [],
+									selectedNotes: [],	
+									loading: true
+								  })
+								  this._bootstrapAsync();
+							} 
+						})
+					}
+				})
+			})
+		})
+		this.setModalCheckboxVisible(false);
+	}
+
+	displayDoctor = () => {
+		notes = this.state.selectedNotes
+		for (let note of notes) {
+			this.setState({
+				displayDoctor: true,
+				doctorOfNote: this.findDoctorOfNote(note.id)
+			})
+		}
 	}
 
 	selectAllPressed = () => {
@@ -117,9 +172,10 @@ class Calendar extends React.Component {
 	}
 
 	exportPDFPressed = () => {
-		for (var i = 0; i < this.state.notes.length; i++) {
-			if (this.state[this.state.notes[i].id] == true) {
-				PDFData[counter] = this.state.notes[i]
+		var PDFData
+		for (var i = 0; i < this.state.selectedNotes.length; i++) {
+			if (this.state[this.state.selectedNotes[i].id] == true) {
+				PDFData[counter] = this.state.selectedNotes[i]
 				counter += 1
 			}
 		}
@@ -133,15 +189,13 @@ class Calendar extends React.Component {
 
 	noteChecked = (item, state) => {
 		let selected_n = this.state.selectedNotes;
-				// If state.selectedNotes containe id remove 
-				if (this.state.selectedNotes.includes(item.id)) {
-					selected_n.pop(item.id)
-				}
-				// Else add in selectedNotes
-				else {
-					selected_n.push(item.id);
-				}
-						// SetState new selected note ids
+		if (this.state.selectedNotes.includes(item.id)) {
+			var pos = selected_n.indexOf(item.id);
+			selected_n.splice(pos, 1)
+		}
+		else {
+			selected_n.push(item.id);
+		}
 		this.setState({
 			selectedNotes: selected_n,
 			isSelectActive: true
@@ -211,6 +265,7 @@ class Calendar extends React.Component {
 			firstButton: this.state.originalColor,
 			secondButton: this.state.finalColor,
 			thirdButton: this.state.originalColor,
+			notes: [],
 			selectedNotes: [],	
 			loading: true
 		  })
@@ -242,6 +297,7 @@ class Calendar extends React.Component {
 			actualDateEndDay: day,
 			actualDateEndMonth: month,
 			actualDateEndYear: year,
+			notes: [],
 			selectedNotes: [],	
 			loading: true
 		  })
@@ -267,6 +323,7 @@ class Calendar extends React.Component {
 			actualDateEndYear: year,
 			actualDateBegin: 1 + '/' + month + '/' + year,
 			actualDateEnd: this.getDaysInMonth(month, year) + '/' + month + '/' + year,
+			notes: [],
 			selectedNotes: [],	
 			loading: true
 		  })
@@ -278,48 +335,57 @@ class Calendar extends React.Component {
 		  month = 1
 		}
 		else if (this.state.datasMode == this.state.adminEnum.Week) {
-		  var dateBeginDay = this.state.actualDateBeginDay + 7
-		  var dateBeginMonth = this.state.actualDateBeginMonth
-		  var dateBeginYear = this.state.actualDateBeginYear
-		  if (dateBeginDay >= this.getDaysInMonth(dateBeginMonth, dateBeginYear)) {
-			dateBeginMonth  = parseInt(dateBeginMonth, 10) + 1	
-			if (dateBeginMonth >= 12) {
-			  dateBeginYear = parseInt(this.state.actualDateEndYear, 10) + 1	
-			  dateBeginMonth = 1 
+			var dateBeginDay = this.state.actualDateBeginDay + 7
+			var dateBeginMonth = this.state.actualDateBeginMonth
+			var dateBeginYear = this.state.actualDateBeginYear
+			if (dateBeginDay >= this.getDaysInMonth(dateBeginMonth, dateBeginYear)) {
+				dateBeginMonth  = parseInt(dateBeginMonth, 10) + 1	
+				if (dateBeginMonth >= 12) {
+					dateBeginYear = parseInt(this.state.actualDateEndYear, 10) + 1	
+					dateBeginMonth = 1 
+				}
+				dateBeginDay = dateBeginDay - this.getDaysInMonth(this.state.actualDateBeginMonth, dateBeginYear)
 			}
-			dateBeginDay = dateBeginDay - this.getDaysInMonth(this.state.actualDateBeginMonth, dateBeginYear)
-		  }
-		  var dateEndDay = this.state.actualDateEndDay + 7
-		  var dateEndMonth = this.state.actualDateEndMonth
-		  var dateEndYear = this.state.actualDateEndYear
-		  if (dateEndDay >= this.getDaysInMonth(dateBeginMonth, dateBeginYear)) {
-			dateEndMonth  = parseInt(this.state.actualDateEndMonth, 10) + 1	
-			if (dateBeginMonth >= 12) {
-			  dateBeginYear = parseInt(this.state.actualDateEndYear, 10) + 1	
-			  dateBeginMonth = 1 
+			var dateEndDay = this.state.actualDateEndDay + 7
+			var dateEndMonth = this.state.actualDateEndMonth
+			var dateEndYear = this.state.actualDateEndYear
+			if (this.state.actualDateEndDay == this.getDaysInMonth(dateEndMonth, dateEndYear)) {
+				dateEndDay = dateEndDay - this.getDaysInMonth(dateEndMonth, dateEndYear)
+				dateEndMonth  = parseInt(this.state.actualDateEndMonth, 10) + 1	
+				if (dateBeginMonth >= 12) {
+					dateBeginYear = parseInt(this.state.actualDateEndYear, 10) + 1	
+					dateBeginMonth = 1 
+				}
 			}
-			dateEndDay = dateEndDay - this.getDaysInMonth(dateBeginMonth, dateBeginYear)
-		  }
-		  this.setState({
-			actualDateBeginDay: dateBeginDay,
-			actualDateBeginMonth: dateBeginMonth,
-			actualDateBeginYear: dateBeginYear,
-			actualDateBegin: dateBeginDay + '/' + dateBeginMonth + '/' + dateBeginYear,
-			actualDateEndDay: dateEndDay,
-			actualDateEndMonth: dateEndMonth,
-			actualDateEndYear: dateEndYear,
-			actualDateEnd: dateEndDay + '/' + dateEndMonth + '/' + dateEndYear,
-			firstButton: this.state.finalColor,
-			secondButton: this.state.originalColor,
-			thirdButton: this.state.originalColor,
-			firstButton: this.state.originalColor,
-			secondButton: this.state.finalColor,
-			thirdButton: this.state.originalColor,
-			selectedNotes: [],	
-			loading: true
-		  })
-		  this._bootstrapAsync();
-		  return
+			else if (dateEndDay > this.getDaysInMonth(dateBeginMonth, dateBeginYear)) {
+			  	dateEndMonth  = parseInt(this.state.actualDateEndMonth, 10) + 1	
+			  	if (dateBeginMonth >= 12) {
+					dateBeginYear = parseInt(this.state.actualDateEndYear, 10) + 1	
+					dateBeginMonth = 1 
+				}
+				dateEndDay = dateEndDay - this.getDaysInMonth(dateBeginMonth, dateBeginYear)
+			}
+		  	this.setState({
+				actualDateBeginDay: dateBeginDay,
+				actualDateBeginMonth: dateBeginMonth,
+				actualDateBeginYear: dateBeginYear,
+				actualDateBegin: dateBeginDay + '/' + dateBeginMonth + '/' + dateBeginYear,
+				actualDateEndDay: dateEndDay,
+				actualDateEndMonth: dateEndMonth,
+				actualDateEndYear: dateEndYear,
+				actualDateEnd: dateEndDay + '/' + dateEndMonth + '/' + dateEndYear,
+				firstButton: this.state.finalColor,
+				secondButton: this.state.originalColor,
+				thirdButton: this.state.originalColor,
+				firstButton: this.state.originalColor,
+				secondButton: this.state.finalColor,
+				thirdButton: this.state.originalColor,
+				notes: [],
+				selectedNotes: [],	
+				loading: true
+		  	})
+		  	this._bootstrapAsync();
+		  	return
 		}
 		else if (this.state.datasMode == this.state.adminEnum.Day) {
 		  var day = parseInt(this.state.actualDateBeginDay, 10) + 1	
@@ -346,6 +412,7 @@ class Calendar extends React.Component {
 			actualDateEndDay: day,
 			actualDateEndMonth: month,
 			actualDateEndYear: year,
+			notes: [],
 			selectedNotes: [],	
 			loading: true
 		  })
@@ -366,25 +433,47 @@ class Calendar extends React.Component {
 		}
 	  }
 
+	  findDoctorOfNote = (note_id) => {
+		this.props.getUserToken().then(() => {
+			APIDoctorOfNotes(this.props.token.token, note_id).then(async data => {
+				let response = await data.json();
+				if (response.length == 0)
+					shared = true
+				else
+					shared = false
+				this.setState({
+					shared: this.state.shared.set(note_id, shared)
+				})
+			})
+		})
+	}
+
 	_bootstrapAsync = () => {
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
-				let cur_modl = this.props.currentModule.currentModule;
-				APIGetPatientNotesByDateIntervale(this.props.token.token, this.state.actualDateBegin, this.state.actualDateEnd, cur_modl).then(async data => {
+				APIGetPatientNotesByDateIntervale(this.props.token.token, this.state.actualDateBegin, this.state.actualDateEnd, this.props.currentModule.currentModule).then(async data => {
 				let response = await data.json()
 				if (data.status == 200) {
 					this.setState({
 						notes: [ ...response ],
+						selectedNotes: [],
 						loading: false,
 					})
+					var i = 0
+					if (response.length > 0) {
+						while (i < response.length) {
+							findDoctorOfNote(response[i].id)
+							i = i + 1
+						}
+					}
 				}
 				}).catch(error => {
 					this.setState({ error })
 				})
 			})
-	}).catch(error => {
-		this.setState({ error })
-	})
+		}).catch(error => {
+			this.setState({ error })
+		})
 	}
 	
 	getAndFindDay = (dateStr) =>
@@ -408,8 +497,8 @@ class Calendar extends React.Component {
 	  return 7
 	}
 
-	  _handleChangeDatasMode = (id) => {
-		if (id == 1 && this.state.datasMode != this.state.adminEnum.Month) {
+	_handleChangeDatasMode = (id) => {
+		if (id == 3 && this.state.datasMode != this.state.adminEnum.Month) {
 		  this.setState({
 			lastmode: this.state.datasMode,
 			actualDateBeginDay: 1,
@@ -423,55 +512,57 @@ class Calendar extends React.Component {
 			thirdButton: this.state.originalColor,
 			datasMode: this.state.adminEnum.Month,
 			selectedNotes: [],	
+			notes: [],
 			loading: true
 		  })
 		  this._bootstrapAsync();
 		}
 		else if (id == 2 && this.state.datasMode != this.state.adminEnum.Week) {
-		  var place0fTheDay = this.getAndFindDay(this.state.actualDateBeginMonth + "/" + this.state.actualDateBeginDay + "/" + this.state.actualDateBeginYear);
-		  var dateBeginDay = this.state.actualDateBeginDay - place0fTheDay + 1
-		  var dateBeginMonth = this.state.actualDateBeginMonth
-		  var dateBeginYear = this.state.actualDateBeginYear
-		  if (dateBeginDay <= 0) {
-			dateBeginMonth  = parseInt(this.state.actualDateBeginMonth, 10) - 1	
-			if (dateBeginMonth <= 0) {
-			  dateBeginYear = parseInt(this.state.actualDateBeginYear, 10) - 1	
-			  dateBeginMonth = 12 
-			}
-			dateBeginDay = this.getDaysInMonth(dateBeginMonth, dateBeginYear) + dateBeginDay
-		  }
-		  var dateEndDay = this.state.actualDateBeginDay + (7 - place0fTheDay)
-		  var dateEndMonth = this.state.actualDateEndMonth
-		  var dateEndYear = this.state.actualDateEndYear
-		  if (dateEndDay >= this.getDaysInMonth(dateBeginMonth, dateBeginYear)) {
-			dateEndMonth  = parseInt(this.state.actualDateEndMonth, 10) + 1	
-			if (dateEndMonth <= 0) {
-			  dateEndYear = parseInt(this.state.actualDateEndYear, 10) + 1	
-			  dateEndMonth = 1 
-			}
-			dateEndDay = dateEndDay - this.getDaysInMonth(dateBeginMonth, dateBeginYear)
-		  }
-		  this.setState({
-			lastmode: this.state.datasMode,
-			actualDateBeginDay: dateBeginDay,
-			actualDateBeginMonth: dateBeginMonth,
-			actualDateBeginYear: dateBeginYear,
-			actualDateBegin: dateBeginDay + '/' + dateBeginMonth + '/' + dateBeginYear,
-			actualDateEndDay: dateEndDay,
-			actualDateEndMonth: dateEndMonth,
-			actualDateEndYear: dateEndYear,
-			actualDateEnd: dateEndDay + '/' + dateEndMonth + '/' + dateEndYear,
-			customButton: this.state.originalColor,
-			firstButton: this.state.originalColor,
-			secondButton: this.state.finalColor,
-			thirdButton: this.state.originalColor,
-			datasMode: this.state.adminEnum.Week,
-			selectedNotes: [],	
-			loading: true
-		  })
-		  this._bootstrapAsync();
+		  	var place0fTheDay = this.getAndFindDay(this.state.actualDateBeginMonth + "/" + this.state.actualDateBeginDay + "/" + this.state.actualDateBeginYear);
+		  	var dateBeginDay = this.state.actualDateBeginDay - place0fTheDay + 1
+		  	var dateBeginMonth = this.state.actualDateBeginMonth
+		  	var dateBeginYear = this.state.actualDateBeginYear
+		  	if (dateBeginDay <= 0) {
+				dateBeginMonth  = parseInt(this.state.actualDateBeginMonth, 10) - 1	
+				if (dateBeginMonth <= 0) {
+				  dateBeginYear = parseInt(this.state.actualDateBeginYear, 10) - 1	
+				  dateBeginMonth = 12 
+				}
+				dateBeginDay = this.getDaysInMonth(dateBeginMonth, dateBeginYear) + dateBeginDay
+		  	}
+		  	var dateEndDay = this.state.actualDateBeginDay + (7 - place0fTheDay)
+		  	var dateEndMonth = this.state.actualDateEndMonth
+		  	var dateEndYear = this.state.actualDateEndYear
+		  	if (dateEndDay >= this.getDaysInMonth(dateBeginMonth, dateBeginYear)) {
+				dateEndMonth  = parseInt(this.state.actualDateEndMonth, 10) + 1	
+				if (dateEndMonth <= 0) {
+				  dateEndYear = parseInt(this.state.actualDateEndYear, 10) + 1	
+				  dateEndMonth = 1 
+				}
+				dateEndDay = dateEndDay - this.getDaysInMonth(dateBeginMonth, dateBeginYear)
+		  	}
+		  	this.setState({
+				lastmode: this.state.datasMode,
+				actualDateBeginDay: dateBeginDay,
+				actualDateBeginMonth: dateBeginMonth,
+				actualDateBeginYear: dateBeginYear,
+				actualDateBegin: dateBeginDay + '/' + dateBeginMonth + '/' + dateBeginYear,
+				actualDateEndDay: dateEndDay,
+				actualDateEndMonth: dateEndMonth,
+				actualDateEndYear: dateEndYear,
+				actualDateEnd: dateEndDay + '/' + dateEndMonth + '/' + dateEndYear,
+				customButton: this.state.originalColor,
+				firstButton: this.state.originalColor,
+				secondButton: this.state.finalColor,
+				thirdButton: this.state.originalColor,
+				datasMode: this.state.adminEnum.Week,
+				selectedNotes: [],	
+				notes: [],
+				loading: true
+		  	})
+		  	this._bootstrapAsync();
 		}
-		else if (id == 3 && this.state.datasMode != this.state.adminEnum.Day) {
+		else if (id == 1 && this.state.datasMode != this.state.adminEnum.Day) {
 		  this.setState({
 			lastmode: this.state.datasMode,
 			actualDateBeginDay: this.state.actualDayDay,
@@ -489,49 +580,43 @@ class Calendar extends React.Component {
 			thirdButton: this.state.finalColor,
 			datasMode: this.state.adminEnum.Day,
 			selectedNotes: [],	
+			notes: [],
 			loading: true
 		  })
 		  this._bootstrapAsync();
 		}
 		else if (id == 4 && !this.state.isModalVisible) {
-		  this.setModalVisible(true)
-		  this.setState({
-			lastmode: this.state.datasMode,
-			firstButton: this.state.originalColor,
-			secondButton: this.state.originalColor,
-			thirdButton: this.state.originalColor,
-			customButton: this.state.finalColor,
-			datasMode: this.state.adminEnum.Custom,
-			selectedNotes: [],	
-			loading: true
-		  })
-		  this._bootstrapAsync();
+			this.setModalVisible(true)
+			this.setState({
+				lastmode: this.state.datasMode,
+				firstButton: this.state.originalColor,
+				secondButton: this.state.originalColor,
+				thirdButton: this.state.originalColor,
+				customButton: this.state.finalColor,
+				datasMode: this.state.adminEnum.Custom,
+				selectedNotes: [],	
+				notes: [],
+				loading: true
+			})
 		}
-	  }
+	}
 	
-	  onDateChange(date) {
-		this.setState({
-		  selectedStartDate: date,
-		});
-	  }
-	
-	  getDaysInMonth = (month,year) => {
+	getDaysInMonth = (month,year) => {
 		return new Date(year, month, 0).getDate();
-	  }
-	   
-	  onDateChange = (date, type) => {
+	}
+
+	onDateChange = (date, type) => {
 		if (type === 'END_DATE') {
-		  this.setState({
-			selectedEndDate: date,
-		  });
-	  
+		  	this.setState({
+				selectedEndDate: date,
+		  	});
 		} else {
-		  this.setState({
-			selectedStartDate: date,
-			selectedEndDate: null,
-		  });
+		  	this.setState({
+				selectedStartDate: date,
+				selectedEndDate: null,
+	  		});
 		}
-	  }
+	}
 	 
 	setModalVisible = (visible) => {
 		this.setState({
@@ -540,8 +625,14 @@ class Calendar extends React.Component {
 	  }
 	
 	  validateDates = (startDate, endDate) => {
-		if (!startDate || !endDate)
+		if (!startDate || !endDate) {
+		  this.setState({
+			datasMode: this.state.lastmode
+		  })
 		  this._handleChangeDatasMode(this.state.lastmode)
+		  this.setModalVisible(false)
+		  return;
+		}
 		startDate = new Date(startDate)
 		endDate = new Date(endDate)
 		var startYear = startDate.getFullYear();
@@ -559,10 +650,15 @@ class Calendar extends React.Component {
 		  actualDateEndMonth: endMonth,
 		  actualDateEndYear: endYear,
 		  actualDateEnd: endDay + '/' + endMonth + '/' + endYear,
-		  nbDaysOfCurrentMonth: this.getDaysInMonth(startMonth, startYear)
+		  nbDaysOfCurrentMonth: this.getDaysInMonth(startMonth, startYear),
+		  selectedNotes: [],	
+		  notes: [],
+		  loading: true
 		})
+		this._bootstrapAsync();
 		this.setModalVisible(false)
 	  }
+	
 	
 	  displaytDate = (date) => {
 		if (!date)
@@ -579,17 +675,48 @@ class Calendar extends React.Component {
 	}
 
 	_deleteNote = () => {
+		this.setModalCheckboxVisible(false);
+		let notes = this.state.selectedNotes;
 		this.props.getUserToken().then(() => {
-			for (let note of this.state.selectedNotes) {
-				if (note.id == true) {
-					APIRemovePatientNotes(this.props.token.token, note.id).then(data => {
-						if (data.status == 200)
-							this._bootstrapAsync();
-					})
-				}
+			for (let note of notes) {
+				APIRemovePatientNotes(this.props.token.token, note).then(data => {
+					if (data.status == 200)
+						this._bootstrapAsync();
+				})
 			}
 		}).catch(error => {
 			this.setState({loading: false});
+			this.setState({ error })
+		})
+	}
+
+	changeDoctor = (unitId, general_unitId, mode, actualDoctor) => {
+		this.props.navigation.navigate('SearchDoctors', {unitId: unitId, general_unitId: general_unitId, pageToReturn: "Calendar", mode: mode, actualDoctor: actualDoctor});
+	}
+
+	displayDoctor = () => {
+		if (!this.state.displayDoctor == true)
+			this.getDoctors()
+		this.setState({
+			finish: false,
+			displayDoctor: !this.state.displayDoctor
+		})
+	}
+
+	getDoctors = () => {
+		this.props.getUserToken().then(() => {
+			this.props.getUserCurrentModule().then(() => {
+				APIgetDoctorsOfModule(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
+					let response = await data.json()
+					this.setState({ 
+						finish: true,
+						doctorsOfModule: response
+					})
+				}).catch(error => {
+					this.setState({ error, finish: true })
+				})
+			})
+		}).catch(error => {
 			this.setState({ error })
 		})
 	}
@@ -603,8 +730,8 @@ class Calendar extends React.Component {
 		const endDate = selectedEndDate ? selectedEndDate.toString() : '';
 	 
 		const config = {
-		  velocityThreshold: 0.3,
-		  directionalOffsetThreshold: 80
+			velocityThreshold: 0.6,
+      		directionalOffsetThreshold: 100
 		};
 		return (
 			<View style={styles.container}>
@@ -615,20 +742,20 @@ class Calendar extends React.Component {
 	         	</View>
          		<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignContent: "stretch", width: Dimensions.get('window').width}}>
          			<View style={{flex: 1.8}}>
-         		    	<Button color={this.state.firstButton} onPress={() => {this._handleChangeDatasMode(1)}} title={"Mois"}/>
+         		    	<Button color={this.state.firstButton} onPress={() => {this._handleChangeDatasMode(3)}} title={"Mois"}/>
          		    </View>
          		   	<View style={{flex: 2.5}}>
          		    	<Button color={this.state.secondButton} onPress={() => {this._handleChangeDatasMode(2)}} title={"Semaine"}/>
          		   	</View>
          		   	<View style={{flex: 1.7}}>
-         		    	<Button color={this.state.thirdButton} onPress={() => {this._handleChangeDatasMode(3)}} title={"Jour"}/>
+         		    	<Button color={this.state.thirdButton} onPress={() => {this._handleChangeDatasMode(1)}} title={"Jour"}/>
          		   	</View>
          		   	<View style={{ flex:4}}>
          		        <Button color={this.state.customButton} onPress={() => {this._handleChangeDatasMode(4)}} title={"Personnaliser"}/>
          		   	</View>
          		</View>
 
-				 {this.state.checkCount == this.state.selectedNotes.length
+				 { this.state.notes.length == 1 && this.state.selectedNotes.length == 1
 				 ?
 				 <Modal2
 				    visible={this.state.modalCheckboxVisible}
@@ -658,11 +785,11 @@ class Calendar extends React.Component {
 								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.shareNote() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager </Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {}}>
+								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.unshareNote() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Ne plus partager </Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {}}>
-									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}>Médecin</Text>
+								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => this.props.navigation.navigate('EditNote',  {itemDetail: this.getSelectedNote()[0] })}>
+									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Editer </Text>
 								</TouchableOpacity>
 								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {this._deleteNote()}}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Supprimer </Text>
@@ -671,7 +798,7 @@ class Calendar extends React.Component {
 				  		</View>
 				</Modal2>
 				:
-				this.state.checkCount > 1
+				this.state.selectedNotes.length == this.state.notes.length 
 				?				
 				<Modal2
 				    visible={this.state.modalCheckboxVisible}
@@ -681,7 +808,6 @@ class Calendar extends React.Component {
 					animationType="slide"
 					animationIn="slideInUp"
 				  	animationOut="slideOutDown"
-					onSwipeComplete={() => this.setModalCheckboxVisible(false)}
 					transparent={true}
 					backdropColor="rgba(0,0,0,0)"
 					onBackdropPress = {() => this.setModalCheckboxVisible(false)}>
@@ -695,20 +821,14 @@ class Calendar extends React.Component {
 	    						/>
 							</TouchableHighlight>
 							<View style={styles.modalContentCenter}>
-								<TouchableOpacity style={{ alignItems: 'center', height: windowSize.y / 10 }} onPress={() => { this.selectAllPressed() }}>
-									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Tout Selectionner </Text>
-								</TouchableOpacity>
-								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.exportPDFPressed() }}>
+								<TouchableOpacity style={{ alignItems: 'center', height: windowSize.y / 10 }} onPress={() => { this.exportPDFPressed() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Exporter sous PDF </Text>
 								</TouchableOpacity>
 								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.shareNote() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager </Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {}}>
+								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.unshareNote() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Ne plus partager </Text>
-								</TouchableOpacity>
-								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {}}>
-									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}>Médecin</Text>
 								</TouchableOpacity>
 								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {this._deleteNote()}}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Supprimer </Text>
@@ -725,7 +845,6 @@ class Calendar extends React.Component {
 					animationType="slide"
 					animationIn="slideInUp"
 					animationOut="slideOutDown"
-					onSwipeComplete={() => this.setModalCheckboxVisible(false)}
 					transparent={true}
 					backdropColor="rgba(0,0,0,0)"
 					onBackdropPress = {() => this.setModalCheckboxVisible(false)}>
@@ -748,14 +867,8 @@ class Calendar extends React.Component {
 							<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.shareNote() }}>
 								<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager </Text>
 							</TouchableOpacity>
-							<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {}}>
+							<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.unshareNote() }}>
 								<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Ne plus partager </Text>
-							</TouchableOpacity>
-							<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {}}>
-								<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}>Médecin</Text>
-							</TouchableOpacity>
-							<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => this.props.navigation.navigate('EditNote',  {itemDetail: this.getSelectedNote()[0] })}>
-								<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Editer </Text>
 							</TouchableOpacity>
 							<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {this._deleteNote()}}>
 								<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Supprimer </Text>
@@ -768,11 +881,10 @@ class Calendar extends React.Component {
 				  	visible={this.state.isModalVisible}
 					animationType="slide"
 					animationIn="slideInUp"
-       			   	animationOut="slideOutDown"
-       			   	backdropColor='rgba(0,0,0,0.5'
-       			   	onSwipeComplete={() => this.validateDates(startDate, endDate)}
-       			   	onBackdropPress={() => this.validateDates(startDate, endDate)}
-       			   	deviceWidth={deviceWidth}>
+					animationOut="slideOutDown"
+					backdropColor='rgba(0,0,0,0.5'
+					onBackdropPress={() => this.validateDates(startDate, endDate)}
+					deviceWidth={deviceWidth}>
        			   	  	<View style={styles.modalView}>
        			   	  	  	<Text>{this.displaytDate(startDate)} {this.displaytDate(endDate)}</Text>
        			   	  	  	<CalendarPicker
@@ -798,6 +910,61 @@ class Calendar extends React.Component {
         		  config={config}
         		  style={{flex: 7}}
         		>
+					{ this.state.selectedNotes.length > 0 ?
+						 <View style={{position:'absolute',bottom:10, zIndex: 2, right: 10}}>
+							<View
+							style={{
+								borderWidth:1,
+								borderColor:"white",
+								alignItems:'center',
+								justifyContent:'center',
+								width:60,
+								height:60,
+								backgroundColor:colors.secondary,
+								borderRadius:50,
+								shadowColor: '#000',
+							 shadowOffset: { width: 1, height: 2 },
+							 shadowOpacity: 1,
+							 shadowRadius: 1.5,
+							 elevation: 10
+							}}>
+								<Icon
+									name="more-vert"
+									color={"white"}
+									size={45}
+									onPress={() => { this.setModalCheckboxVisible(true); }}
+									style={{justifyContent: "flex-end"}}
+								/>
+							</View>
+						</View>
+						:
+						<View style={{position:'absolute',bottom:10, zIndex: 2, right: 10}}>
+							<View
+							style={{
+							   	borderWidth:1,
+							   	borderColor:"white",
+							   	alignItems:'center',
+							   	justifyContent:'center',
+							   	width:60,
+							   	height:60,
+							   	backgroundColor:colors.secondary,
+							   	borderRadius:50,
+						   		shadowColor: '#000',
+								shadowOffset: { width: 1, height: 2 },
+								shadowOpacity: 1,
+								shadowRadius: 1.5,
+								elevation: 10
+							}}>
+							<Icon
+								name="add"
+								color={"white"}
+								size={45}
+								onPress={() => { this.props.navigation.navigate('AddNote') }}
+								style={{justifyContent: "flex-end"}}
+							/>
+							</View>
+						</View>
+					}
         			<View style={{ flex: 1, justifyContent: 'center', alignContent: "center", flexDirection: 'row', backgroundColor: "", width: Dimensions.get('window').width}}>
         				<View style={{ flex: 2 }}></View>
         				{ this.state.datasMode != this.state.adminEnum.Custom &&
@@ -821,8 +988,7 @@ class Calendar extends React.Component {
         		    		</View>
         		  		:
         		  			<View style={{ flex: 10 }}>
-        		  			  <Text style={{ flex: 5, textAlign: "center", color: "black" }}>{this.state.actualDateBegin}</Text>
-        		  			  <Text style={{ flex: 5, textAlign: "center", color: "black" }}>{this.state.actualDateEnd}</Text>
+        		  			  <Text style={{ textAlign: "center", color: "black" }}>{this.state.actualDateBegin} {this.state.actualDateEnd}</Text>
         		  			</View>
         				}
         				{ this.state.datasMode != this.state.adminEnum.Custom &&
@@ -836,55 +1002,59 @@ class Calendar extends React.Component {
         				}
         				<View style={{ flex: 2 }}></View>
         			</View>
-        			<View style={{alignItems: 'flex-end'}}>
-	        			<Icon
-							name="more-horiz"
-							color={colors.secondary}
-							size={45}
-							onPress={() => { this.setModalCheckboxVisible(true); }}
-							style={{justifyContent: "flex-end"}}
-						/>
-					</View>
-
-
 					<View style={{flex: 9}}>
 						{this.state.loading && 
 						<ActivityIndicator size='large' color='black' />}
-						{ !this.state.loading && !this.state.selectedNotes
+						{ !this.state.loading && this.state.notes.length < 1
 						?
 						<View style={styles.WhithoutModule}>
-							<Text style={{ marginBottom : 30, fontSize: 20 }}>
+							<Text style={{ fontSize: 20, textAlign: "center" }}>
 								Aucunes notes sur cette période de temps
 							</Text>
 						</View>
 						:
-					<SafeAreaView>
-					<FlatList
-						data={this.state.notes}
-						keyExtractor={(item) => item.id.toString()}
-						renderItem={({item}) => (
-							<TouchableOpacity
-								delayLongPress={800}
-								onLongPress={() => { this.noteChecked(item)	}}
-								onPress={() => this.props.navigation.navigate('DetailNote', item)}
-								style={styles.note}>
-									<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
-										<CheckBox
-											checked={this.state.selectedNotes.includes(item.id)}
-											onPress={() => { this.noteChecked(item) }}
-										/>
-										<Text style={styles.noteText}>{item.data.date} {item.data.time}</Text>
-									</View>
-									{ !item.data.description
-										?
-										<Text style={styles.description}>Pas de description</Text>
-										: (item.data.description.length > 20)
-										?
-										<Text style={styles.description}>{item.data.description.substr(0, 20)}...</Text>
-										:
-										<Text style={styles.description}>{item.data.description}</Text>
+						<SafeAreaView>
+							<FlatList
+							data={this.state.notes}
+							keyExtractor={(item) => item.id.toString()}
+							renderItem={({item}) => (
+								<View style={{flexDirection: "row", borderWidth: 3.5, borderColor: '#F1F1F1', borderRadius: 10,  marginLeft: 12,
+								marginRight: 12,
+								marginTop: 6,
+								marginBottom: 6}}>
+									<TouchableOpacity
+										delayLongPress={800}
+										onLongPress={() => { this.noteChecked(item)	}}
+										onPress={() => this.props.navigation.navigate('DetailNote', item)}
+										style={styles.note}>
+											<View style={{flex: 1, flexDirection: 'row'}}>
+												<CheckBox
+													checked={this.state.selectedNotes.includes(item.id)}
+													onPress={() => { this.noteChecked(item) }}
+													style={{flex: 2}}
+												/>
+												<View style={{flexDirection: "column"}}>
+													<Text style={styles.noteText}>{item.data.date} {item.data.time}</Text>
+													<View>
+														{ !item.data.description
+															?
+															<Text style={styles.description}>Pas de description</Text>
+															: (item.data.description.length > 20)
+															?
+															<Text style={styles.description}>{item.data.description.substr(0, 20)}...</Text>
+															:
+															<Text style={styles.description}>{item.data.description}</Text>
+														}
+													</View>
+												</View>
+											</View>
+									</TouchableOpacity>
+									{ item.doctor_ids.length > 0 ?
+										<View style={{flex: 0.8, backgroundColor: "black",  borderWidth: 3.5, borderColor: 'black', borderBottomRightRadius: 8, borderTopRightRadius: 8}}/>
+									:
+										<View style={{flex: 0.8, backgroundColor: "#F1F1F1",  borderWidth: 3.5, borderColor: '#F1F1F1', borderBottomRightRadius: 8, borderTopRightRadius: 8}}/>
 									}
-							</TouchableOpacity>
+								</View>
 							)}
 							/>
 						</SafeAreaView>
@@ -914,25 +1084,22 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: '#fff',
-	  },
-	  note: {
-		  flex: 1,
-		  alignItems: 'center',
-		  justifyContent: 'center',
-		  borderWidth: 3.5,
-		  borderColor: '#F1F1F1',
-		  borderRadius: 10,
-		  padding: 15,
-		  color: '#000',
-		  marginBottom: 15
-		},
-		noteText: {
-			fontSize: 20,
-			color: "#62BE87",
-			fontWeight: "bold"
-		},
-		list: {
-			marginTop: 30,
+	},
+	note: {
+	  	flex: 9.2,
+	  	alignItems: 'center',
+	  	justifyContent: 'center',
+	  	padding: 15,
+	  	color: '#000',
+	  	flexDirection: "row"
+	},
+	noteText: {
+		fontSize: 20,
+		color: "#62BE87",
+		fontWeight: "bold",
+	},
+	list: {
+		marginTop: 30,
 	},
 	view: {
 		justifyContent: 'flex-end',
@@ -1003,6 +1170,11 @@ const styles = StyleSheet.create({
 		shadowRadius: 3.84,
 		elevation: 5
 	},
+	WhithoutModule: {
+		justifyContent: "center",
+		alignItems: "center", 
+		margin: 30
+	}
 })
 
 const mapStateToProps = state => ({
