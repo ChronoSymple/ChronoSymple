@@ -5,18 +5,17 @@ import {
 	ActivityIndicator,
 	StyleSheet,
 	View,
-	ScrollView,
+	SafeAreaView,
 	FlatList,
 	Text,
 	Button,
 	BackHandler,
 	TouchableOpacity,
 	Animated,
-	TouchableHighlight,
-	Dimensions
 } from 'react-native';
 import { connect } from 'react-redux';
 import { getUserToken, saveUserCurrentModule, saveUserCurrentModuleName, getUserCurrentModule } from '../Redux/Action/action';
+import { ScrollView } from 'react-native-gesture-handler';
 
 class Home extends React.Component {
 	constructor(props) {
@@ -81,7 +80,6 @@ class Home extends React.Component {
 						this.setState({
 							loading: false
 						})
-					console.log(response)
 					}
 				}
 			})
@@ -139,27 +137,28 @@ class Home extends React.Component {
 						/>
 					</View>
 					:
-					<ScrollView style={{flex: 1}}>
-						<FlatList
-							style={styles.list}
-							data={this.state.Dmodules}
-							keyExtractor={(item) => item.id.toString()}
-							renderItem={({item}) => (
-								<ModuleItem
-									dModule={item}
-									triggerModule={this.changeModule}
-									generalUnit={true}
-									deleteUnit={this.deleteUnit}
-									doctorChoice={this.changeDoctor}>
-								</ModuleItem>
-							)}
-						/>
+					<SafeAreaView style={{flex: 1}}>
+						<View style={styles.list}>
+							<FlatList
+								data={this.state.Dmodules}
+								keyExtractor={(item) => item.id.toString()}
+								renderItem={({item}) => (
+									<ModuleItem
+										dModule={item}
+										triggerModule={this.changeModule}
+										generalUnit={true}
+										deleteUnit={this.deleteUnit}
+										doctorChoice={this.changeDoctor}>
+									</ModuleItem>
+								)}
+							/>
+						</View>
 						<View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: "black", borderStyle: "dashed", borderRadius: 15, margin: 10}}>
 							<TouchableOpacity style={{ margin: 20, flexDirection : 'row', alignItems: 'center', justifyContent: 'center', width: "100%", height: "100%"}} onPress={() => navigate('Stack')}>
 								<Text style={{fontSize: 20}}>Ajouter un module</Text>						
 							</TouchableOpacity>
 						</View>
-					</ScrollView>
+					</SafeAreaView>
 				}
 			</View>
 		)
@@ -191,7 +190,10 @@ const styles = StyleSheet.create({
 	view: {
 		justifyContent: 'flex-end',
 		margin: 0,
-	  },
+	},
+	list: {
+		flex: 9
+	},
 	content: {
 		backgroundColor: 'white',
 		padding: 22,

@@ -117,7 +117,6 @@ export function updatePatientProfile(token, name, value, password) {
       password: password,
     })
   }
-  console.log(content)
   return fetch(baseUrl + '/api/patients/profiles/update', {
     method: 'POST',
     headers: {

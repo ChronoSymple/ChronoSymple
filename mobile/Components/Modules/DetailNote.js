@@ -12,7 +12,6 @@ class ModulePlace extends React.Component {
 	render() {
 		let { navigate } = this.props.navigation;
 		let item = this.props.navigation.getParam('data')
-		console.log(item)
 		return (
 			<View style={{flex:1}}>
 					<View style={{backgroundColor:colors.secondary, flex:1, flexDirection: 'column'}}>

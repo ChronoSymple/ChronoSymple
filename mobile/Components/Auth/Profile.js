@@ -26,11 +26,7 @@ class Profile extends React.Component {
 
 	getPatientInfo = () => {
 		getPatientInfoWithApi(this.props.token.token).then(async data => {
-			console.log("Profile - data :")
-			console.log(data)
 			let response = await data.json()
-			console.log("Profile - response: ")
-			console.log(response)
 			this.setState({
 				firstName: response.first_name,
 				lastName: response.last_name,
@@ -43,7 +39,6 @@ class Profile extends React.Component {
 	}
 
 	changeProfilePhoto = () => {
-		console.log('changeProfilePhoto button pressed')
 	}
 
 	chooseImage = () => {
@@ -58,14 +53,9 @@ class Profile extends React.Component {
 			},
 		};
 		ImagePicker.showImagePicker(options, (response) => {
-			console.log('Response = ', response);
-
 			if (response.didCancel) {
-				console.log('User cancelled image picker');
 			} else if (response.error) {
-				console.log('ImagePicker Error: ', response.error);
 			} else if (response.customButton) {
-				console.log('User tapped custom button: ', response.customButton);
 				alert(response.customButton);
 			} else {
 				const source = { uri: response.uri };
@@ -73,13 +63,11 @@ class Profile extends React.Component {
 				// You can also display the image using data:
 				// const source = { uri: 'data:image/jpeg;base64,' + response.data };
 				// alert(JSON.stringify(response));s
-				console.log('response', JSON.stringify(response));
 				this.setState({
 					filePath: response,
 					fileData: response.data,
 					fileUri: response.uri
 				});
-				console.log(this.state.fileData)
 				this.setState({modalPictureVisible: true })
 
 			}
@@ -94,18 +82,12 @@ class Profile extends React.Component {
 			},
 		};
 		ImagePicker.launchCamera(options, (response) => {
-			console.log('Response = ', response);
-
 			if (response.didCancel) {
-				console.log('User cancelled image picker');
 			} else if (response.error) {
-				console.log('ImagePicker Error: ', response.error);
 			} else if (response.customButton) {
-				console.log('User tapped custom button: ', response.customButton);
 				alert(response.customButton);
 			} else {
 				const source = { uri: response.uri };
-				console.log('response', JSON.stringify(response));
 				this.setState({
 					filePath: response,
 					fileData: response.data,
@@ -201,6 +183,12 @@ class Profile extends React.Component {
 					style={{ height: 40, borderWidth: 2, borderColor: '#000000'}}
 					onPress={() => navigate('SupportProfile')}
 					title="support"
+				/>
+				<Button 
+					color="#62BE87"
+					style={{ height: 40, borderWidth: 2, borderColor: '#000000'}}
+					onPress={() => navigate('AllDoctors')}
+					title="mes médecins"
 				/>
 				<Button 
 					color="#62BE87"

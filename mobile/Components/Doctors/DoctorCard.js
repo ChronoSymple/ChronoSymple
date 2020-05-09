@@ -1,25 +1,19 @@
 
 import React from 'react'
-import { View,
-	List,
+import {
+	View,
 	Text,
 	Button,
-	Dimensions,
-	ListItem,
 	StyleSheet,
 	TouchableHighlight,
-	TextInput,
-	FlatList,
-	ScrollView,
-	TouchableOpacity,
 	Image,
-	Alert} from 'react-native'
+	ActivityIndicator} from 'react-native'
 import { Icon } from 'react-native-elements'
-import { APIGetMyDoctors, APIGetDoctorProfile, APIAddDoctor, APIRemoveDoctor} from '../../API/APIDoctor';
-import { APIgetDoctorsOfModule, APIUnshareNote, APIDoctorOfNotes } from '../../API/APIModule'
-
+import { APIAddDoctor, APIRemoveDoctor} from '../../API/APIDoctor';
 import { connect } from 'react-redux';
-import { colors, windowSize } from '../StyleSheet'
+import { colors } from '../StyleSheet'
+import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
+import { APIGetDoctorProfile } from '../../API/APIDoctor'
 
 
 /*
@@ -29,39 +23,82 @@ dans la partie profil du patient --> module -> voir la fiche du medecin
 class DoctorCard extends React.Component {
 	constructor (props) {
 		super(props)
-		const doctorInfo = this.props.navigation.getParam("doctorInfo")
+		const id = this.props.navigation.getParam("id")
 		const pageToReturn = this.props.navigation.getParam("pageToReturn")
 		this.state = {
-			data: [],
-			isMyDoctor: false,
 			unitId: this.props.navigation.getParam("unitId"),
 			actualDoctor: this.props.navigation.getParam("actualDoctor"),
-			firstName: doctorInfo.first_name,
-			lastName: doctorInfo.last_name,
-			address: doctorInfo.adress,
-			numero: doctorInfo.phone_number,
-			mail: doctorInfo.email,
-			doctorId: doctorInfo.id,
+			firstName: "",
+			lastName: "",
+			address: "",
+			numero: "",
+			mail: "",
+			doctorId: id,
 			domain: "",
 			hours: "",
 			pageToReturn: pageToReturn,
 			mode: this.props.navigation.getParam("mode"),
-	}
-		if (this.state.actualDoctor == this.state.doctorId )
-			console.log("equal")
+			display: false
+		}
+		console.log(this.state.doctorId)
+		this.getSpecificDoctor(id)
 	}
 
-	addDoctorPressed = () => {
-		APIAddDoctor(this.props.token.token, this.state.unitId, this.state.doctorId).then(async data => {
-			console.log(data.status)
-			this.props.navigation.navigate("Home")
+	getSpecificDoctor = (id) => {
+
+		this.props.getUserToken().then(() => {
+			APIGetDoctorProfile(this.props.token.token, id).then(async data => {
+				let response = await data.json()
+				if (data.status == 200) {
+					this.setState({
+						firstName: response.first_name,
+						lastName: response.last_name,
+						address: response.adress,
+						numero: response.phone_number,
+						mail: response.email,
+						domain: "",
+						hours: "",
+						display: true
+					})
+				}
+			})
+		}).catch(error => {
+			this.setState({ error })
 		})
 	}
 
-	removeDoctorPressed = (navigate) => {
-		APIRemoveDoctor(this.props.token.token, this.state.unitId, this.state.actualDoctor).then(async data => {
-			if (navigate == "navigate")
-				this.props.navigation.navigate("Home")
+
+	addDoctorPressed = () => {
+		this.props.getUserToken().then(() => {
+			APIAddDoctor(this.props.token.token, this.state.unitId, this.state.doctorId).then(async data => {
+				if (data.status == 200) {
+					this.props.navigation.navigate("Home")
+				}
+			})
+		}).catch(error => {
+			this.setState({ error })
+		})
+	}
+
+	removeDoctorPressed = (navigate, id) => {
+		if (id == true)
+			id = this.state.actualDoctor
+		else (id == false)
+			id = this.state.doctorId
+		this.props.getUserToken().then(() => {
+			console.log(id, this.state.unitId)
+			APIRemoveDoctor(this.props.token.token, this.state.unitId, id).then(async data => {
+				console.log(data)
+				if (navigate && data.status == 200) {
+					console.log(this.state.pageToReturn)
+					if (this.state.pageToReturn == "AllDoctors")
+						this.props.navigation.navigate("Profile")
+					else
+						this.props.navigation.navigate("Home")
+				}
+			})
+		}).catch(error => {
+			this.setState({ error })
 		})
 	}
 
@@ -74,14 +111,26 @@ class DoctorCard extends React.Component {
 				<View style={{backgroundColor:colors.secondary, flex:1, flexDirection: 'column'}}>
 					<View style={{flex:1}}></View>
 					<View style={{flex:8, flexDirection: 'row', justifyContent:"space-between"}}>
-						<TouchableHighlight style={{margin: 10, flex: 2}}>
-							<Icon
-								name="arrow-back"
-								color="#FFF"
-								size={35}
-								onPress={() => navigate("SearchDoctors")}
-		    				/>
-						</TouchableHighlight>
+						{ this.state.pageToReturn == "AllDoctors" &&
+							<TouchableHighlight style={{margin: 10, flex: 2}}>
+									<Icon
+										name="arrow-back"
+										color="#FFF"
+										size={35}
+										onPress={() => navigate("AllDoctors")}
+									/>
+							</TouchableHighlight>
+						}
+						{ this.state.pageToReturn == "SearchDoctors" &&
+							<TouchableHighlight style={{margin: 10, flex: 2}}>
+									<Icon
+										name="arrow-back"
+										color="#FFF"
+										size={35}
+										onPress={() => navigate("SearchDoctors")}
+									/>
+							</TouchableHighlight>
+						}
 						<View style={{margin: 10, flex: 8, alignItems: "center", justifyContent: "center"}}>
 							<Text style={{color:"white", textAlign:'center', fontWeight: "bold", fontSize:22}}>
 								Fiche médecin
@@ -90,84 +139,104 @@ class DoctorCard extends React.Component {
 					</View>
 					<View style={{flex:1}}></View>
 				</View>
-				<View style={{flex: 8, flexDirection: "column"}}>
-					<View style={{flex: 4, flexDirection: "row"}}>
-						<View style={{flex: 2}}/>
-						<View style={{flex: 6}}>
-							<Image
-								source={{
-								  uri: 'https://image.flaticon.com/icons/png/512/122/122454.png',
-								}}
-								style={{flex: 5, margin: 15, backgroundColor: "white", borderRadius: 15, borderWidth: 1, borderColor: 'white' }}
-							/>
-						</View>
-						<View style={{flex: 2}}/>
+				<View style={{flex: 9}}>
+				{! this.state.display ?
+					<View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+						<ActivityIndicator size='large' color='black' syle={{justifyContent: "center", alignItems: "center"}}/>
 					</View>
-					<View style={{flex: 6, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-						<View style={{flex: 1, justifyContent: "center"}}>
-							<Text>Nom : {this.state.firstName} Prénom : {this.state.lastName}</Text>
+					:
+					<View style={{flex: 1}}>
+						<View style={{flex: 9, flexDirection: "column"}}>
+							<View style={{flex: 4, flexDirection: "row"}}>
+								<View style={{flex: 2}}/>
+								<View style={{flex: 6}}>
+									<Image
+										source={{
+										  uri: 'https://image.flaticon.com/icons/png/512/122/122454.png',
+										}}
+										style={{flex: 5, margin: 15, backgroundColor: "white", borderRadius: 15, borderWidth: 1, borderColor: 'white' }}
+									/>
+								</View>
+								<View style={{flex: 2}}/>
+							</View>
+							<View style={{flex: 6, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+								<View style={{flex: 1, justifyContent: "center"}}>
+									<Text>Nom : {this.state.firstName} Prénom : {this.state.lastName}</Text>
+								</View>
+								<View style={{flex: 1, justifyContent: "center"}}>
+									<Text>Tél. : {this.state.numero}</Text>
+								</View>
+								<View style={{flex: 1, justifyContent: "center"}}>
+									<Text>Mail : {this.state.mail}</Text>
+								</View>
+								<View style={{flex: 0.5, justifyContent: "center"}}>
+								</View>
+								<View style={{flex: 2, alignItems: "center"}}>
+									<Text>Domaine d'expertise: </Text>
+									<Text>Inconnu</Text>
+								</View>
+								<View style={{flex: 2}}>
+									<Text>Addresse de travail:</Text>
+									<Text>{this.state.address}</Text>
+								</View>
+								<View style={{flex: 2.5, alignItems: "center"}}>
+									<Text>Horaire d'ouverture: </Text>
+									<Text>Inconnues</Text>
+								</View>
+							</View>
 						</View>
-						<View style={{flex: 1, justifyContent: "center"}}>
-							<Text>Tél. : {this.state.numero}</Text>
-						</View>
-						<View style={{flex: 1, justifyContent: "center"}}>
-							<Text>Mail : {this.state.mail}</Text>
-						</View>
-						<View style={{flex: 0.5, justifyContent: "center"}}>
-						</View>
-						<View style={{flex: 2, alignItems: "center"}}>
-							<Text>Domaine d'expertise: </Text>
-							<Text>Inconnu</Text>
-						</View>
-						<View style={{flex: 2}}>
-							<Text>Addresse de travail:</Text>
-							<Text>{this.state.address}</Text>
-						</View>
-						<View style={{flex: 2.5, alignItems: "center"}}>
-							<Text>Horaire d'ouverture: </Text>
-							<Text>Inconnues</Text>
-						</View>
+						{ this.state.mode == "change" && this.state.actualDoctor == this.state.doctorId &&
+							<View style={{flex: 1, flexDirection: 'row', justifyContent: "center", alignItems: "center"}}>
+								<View style={{flex: 5, alignItems: "center"}}>
+									<Button 
+										style={{ borderWidth: 2, borderColor: '#000000'}}
+										title="Changer"
+										color="#DDDDDD"
+									/>
+								</View>
+								<View style={{flex: 5, alignItems: "center"}}>
+									<Button 
+										color="#62BE87"
+										style={{flex:5, borderWidth: 2, borderColor: '#000000'}}
+										onPress={() => {this.removeDoctorPressed(true, true)}}
+										title="Dissocier"
+									/>
+								</View>
+							</View>
+						}
+						{ this.state.mode == "change" && this.state.actualDoctor != this.state.doctorId &&
+							<View style={{flex: 1, flexDirection: 'row', alignItems: "center", justifyContent: "center"}}>
+								<Button 
+									color="#62BE87"
+									style={{flex:5, borderWidth: 2, borderColor: '#000000'}}
+									onPress={() => {this.removeDoctorPressed(true, true), this.addDoctorPressed()}}
+									title="Changer"
+								/>
+							</View>
+						}
+						{ this.state.mode == "add" &&
+							<View style={{flex: 1, flexDirection: 'row', alignItems: "center", justifyContent: "center"}}>
+									<Button 
+										color="#62BE87"
+										style={{ borderWidth: 2, borderColor: '#000000'}}
+										onPress={() => {this.addDoctorPressed()}}
+										title="Ajouter"
+									/>
+							</View>
+						}
+						{ this.state.mode == "delete" &&
+							<View style={{flex: 1, flexDirection: 'row', alignItems: "center", justifyContent: "center"}}>
+									<Button 
+										color="#62BE87"
+										style={{ borderWidth: 2, borderColor: '#000000'}}
+										onPress={() => {this.removeDoctorPressed(true, false)}}
+										title="Dissocier"
+									/>
+							</View>
+						}
 					</View>
+				}
 				</View>
-				{ this.state.mode == "change" && this.state.actualDoctor == this.state.doctorId &&
-					<View style={{flex: 1, flexDirection: 'row', justifyContent: "center", alignItems: "center"}}>
-						<View style={{flex: 5, alignItems: "center"}}>
-							<Button 
-								style={{ borderWidth: 2, borderColor: '#000000'}}
-								title="Changer"
-								color="#DDDDDD"
-							/>
-						</View>
-						<View style={{flex: 5, alignItems: "center"}}>
-							<Button 
-								color="#62BE87"
-								style={{flex:5, borderWidth: 2, borderColor: '#000000'}}
-								onPress={() => {this.removeDoctorPressed("navigate")}}
-								title="Dissocier"
-							/>
-						</View>
-					</View>
-				}
-				{ this.state.mode == "change" && this.state.actualDoctor != this.state.doctorId &&
-					<View style={{flex: 1, flexDirection: 'row', alignItems: "center", justifyContent: "center"}}>
-						<Button 
-							color="#62BE87"
-							style={{flex:5, borderWidth: 2, borderColor: '#000000'}}
-							onPress={() => {this.removeDoctorPressed("none"), this.addDoctorPressed()}}
-							title="Changer"
-						/>
-					</View>
-				}
-				{ this.state.mode == "add" &&
-					<View style={{flex: 1, flexDirection: 'row', alignItems: "center", justifyContent: "center"}}>
-							<Button 
-								color="#62BE87"
-								style={{ borderWidth: 2, borderColor: '#000000'}}
-								onPress={() => {this.addDoctorPressed()}}
-								title="Ajouter"
-							/>
-					</View>
-				}
       		</View>
 		)
 	}
