@@ -13,7 +13,6 @@ export function APIAddDoctor (token, moduleId, id) {
 }
 
 export function APIRemoveDoctor (token, moduleId, id) {
-	console.log(baseUrl + '/api/patients/units/' + moduleId +"/remove_doctor?" +  "doctor_id=" + id)
 	return fetch(baseUrl + '/api/patients/units/' + moduleId +"/remove_doctor?" +  "doctor_id=" + id , {
 		method: 'PATCH',		
 		headers: {

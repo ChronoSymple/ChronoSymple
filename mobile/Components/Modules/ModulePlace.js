@@ -5,13 +5,11 @@ import ModuleItem from './ModuleItem'
 import { APIGetModules, APIAddModule, APIGetPatientModules } from '../../API/APIModule'
 import {
 	ActivityIndicator,
-	AsyncStorage,
 	BackHandler,
 	StyleSheet,
 	View,
-	Dimensions,
 	FlatList,
-	ScrollView,
+	SafeAreaView,
 	Text
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -87,7 +85,7 @@ class ModulePlace extends React.Component {
 					?	
 					<ActivityIndicator size='large' color='black' />
 					:
-					<ScrollView style={{flex: 1}}>
+					<SafeAreaView style={{flex: 1}}>
 						<FlatList
 							style={styles.list}
 							data={this.state.Dmodules}
@@ -100,7 +98,7 @@ class ModulePlace extends React.Component {
 								/>
 							)}
 						/>
-					</ScrollView>
+					</SafeAreaView>
 				}
 			</View>
 		)

@@ -15,7 +15,6 @@ import RNHTMLtoPDF from 'react-native-html-to-pdf';
 class ExportPDF extends React.Component {
 	constructor (props) {
 		super(props)
-		console.log("valeur de tmp value sur ExportPDF Page")
 		this.state = {
 			pdfData: this.props.navigation.getParam("PDFData"),
 			firstName: "",
@@ -26,18 +25,12 @@ class ExportPDF extends React.Component {
 			civility: "",
 
 		}
-
-		console.log(this.state.pdfData)
 		this.getPatientInfo()
 	}
 
 	getPatientInfo = () => {
 		getPatientInfoWithApi(this.props.token.token).then(async data => {
-			console.log("ExportPDF - data :")
-			console.log(data)
 			let response = await data.json()
-			console.log("ExportPDF - response: ")
-			console.log(response)
 			this.setState({
 				firstName: response.first_name,
 				lastName: response.last_name,
@@ -58,10 +51,6 @@ class ExportPDF extends React.Component {
 	}
 
 	async createPDF() {
-		console.log('valeu:')
-		console.log(this.state.pdfData)
-		console.log("-----")
-
 		let generalInfo='<h4 style="text-align: left"> Patient\
 							<span style="float:right"> Docteur</span>\
 						</h4>\
@@ -96,7 +85,6 @@ class ExportPDF extends React.Component {
 		}
 		patientNote += '</table>'
 
-		console.log(patientNote)
 
 		let currentDate = new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()
 		let currentTime = new Date().getHours() + ":" + new Date().getMinutes()
@@ -113,7 +101,6 @@ class ExportPDF extends React.Component {
 
 		let file = await RNHTMLtoPDF.convert(options)
 
-		console.log(file.filepath)
 
 	}
 

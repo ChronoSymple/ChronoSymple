@@ -1,7 +1,7 @@
 // Components/SearchDoctors.js
 
 import React from 'react'
-import { View, Text, TouchableOpacity, FlatList, ScrollView, Image, TouchableHighlight} from 'react-native'
+import { View, Text, TouchableOpacity, FlatList, SafeAreaView, Image, TouchableHighlight} from 'react-native'
 import { SearchBar } from 'react-native-elements'
 import { connect } from 'react-redux'
 import { colors, windowSize } from '../StyleSheet'
@@ -18,7 +18,6 @@ class SearchDoctors extends React.Component {
 			general_unitId: this.props.navigation.getParam("general_unitId"),
 			unitId: this.props.navigation.getParam("unitId"),
 			doctors: [],
-			data: [],
 			pageToReturn: this.props.navigation.getParam("pageToReturn")
 		}
 		/*this.getAllDoctorList()*/
@@ -34,30 +33,8 @@ class SearchDoctors extends React.Component {
 			APIGetDoctorsInModule(this.props.token.token, this.state.general_unitId).then(async data => {
 				let response = await data.json()
 				if (data.status == 200) {
-					if (response.length > 0 && JSON.stringify(this.state.data) != JSON.stringify(response.data)) {
-						this.setState({
-							doctors: [ ...response ],
-						})
-					}
-				}
-				for (var i = 0; i < this.state.doctors.length; i++) {
-					console.log(this.state.doctors[i].id)
-					this.getSpecificDoctor(this.state.doctors[i].id)
-				}
-			})
-		}).catch(error => {
-			this.setState({ error })
-		})
-	}
-
-	getSpecificDoctor = (id) => {
-		this.props.getUserToken().then(() => {
-			APIGetDoctorProfile(this.props.token.token, id).then(async data => {
-				let response = await data.json()
-				response.id = id
-				if (data.status == 200) {
 					this.setState({
-						data: [ ...this.state.data, response ],
+						doctors: [ ...response ],
 					})
 				}
 			})
@@ -67,8 +44,7 @@ class SearchDoctors extends React.Component {
 	}
 
 	doctorPressed = (item) => {
-		console.log(item)
-		this.props.navigation.navigate("DoctorCard", {doctorInfo: item, unitId: this.state.unitId, mode : this.props.navigation.getParam("mode"), actualDoctor: this.props.navigation.getParam("actualDoctor")})
+		this.props.navigation.navigate("DoctorCard", {id: item.id, unitId: this.state.unitId, mode : this.props.navigation.getParam("mode"), actualDoctor: this.props.navigation.getParam("actualDoctor"), pageToReturn: "SearchDoctors"})
 	}
 
 	checkSearch = (first_name, last_name) => {
@@ -105,13 +81,13 @@ class SearchDoctors extends React.Component {
 				</SearchBar>
 			</View>
 			<View style={{flex: 7.5}}>
-				<ScrollView>
+				<SafeAreaView>
 					<FlatList
-						data={this.state.data}
-						keyExtractor={(item) => item.first_name.toString()}
+						data={this.state.doctors}
+						keyExtractor={(item) => item.id.toString()}
 						renderItem={({item}) => (
 							<View>
-								{ this.checkSearch(item.first_name, item.last_name) &&
+								{ this.checkSearch(item.user.first_name, item.user.last_name) &&
 									<TouchableOpacity
 										onPress={() => {this.doctorPressed(item)}}View
 									>
@@ -125,7 +101,7 @@ class SearchDoctors extends React.Component {
 										  <View style={{flex: 6, flexDirection: "column" }}>
 											<View style={{flex: 2}}/>
 											  <Text style={{ fontSize: 18, color: "#27292C", textAlign: "center", flex: 3}}> Dr.  </Text>
-											<Text style={{ fontSize: 17, color: "#27292C", textTransform: 'capitalize', flex: 4}}>{item.first_name} {item.last_name} </Text>
+											<Text style={{ fontSize: 17, color: "#27292C", textTransform: 'capitalize', flex: 4}}>{item.user.first_name} {item.user.last_name} </Text>
 											<View style={{flex: 1}}/>
 										  </View>
 										</View>
@@ -134,7 +110,7 @@ class SearchDoctors extends React.Component {
 							</View>
 							)}
 					/>
-				</ScrollView>
+				</SafeAreaView>
 			</View>
 		</View>
 		)
