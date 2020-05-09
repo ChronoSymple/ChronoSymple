@@ -275,6 +275,7 @@ class Profile extends React.Component {
 				</TouchableOpacity>
 			</View>
 			<View style={{flex: 1}}>
+
 			</View>
 			<Modal
 				animationType="slide"

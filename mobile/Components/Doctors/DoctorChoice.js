@@ -42,7 +42,7 @@ class DoctorChoice extends React.Component {
 			console.log(data)
 			let response = await data.json()
 			console.log("DoctorChoice - APIAddDoctor response: ")
-			console.log(response)
+			console.log(data)
 		})
 		this.props.navigation.navigate('MyDoctorChoiceStackNavigator')
 	}

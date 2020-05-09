@@ -1,29 +1,25 @@
 // Components/SearchDoctors.js
 
 import React from 'react'
-import { View, Dimensions,  Text, TextInput, Button, Alert, StyleSheet, Modal, TouchableOpacity, FlatList, ScrollView} from 'react-native'
+import { View, Text, TouchableOpacity, FlatList, ScrollView, Image, TouchableHighlight} from 'react-native'
 import { SearchBar } from 'react-native-elements'
 import { connect } from 'react-redux'
 import { colors, windowSize } from '../StyleSheet'
 import { APIAddPatientNotes } from '../../API/APIModule'
-import { APIGetDoctors, APIGetMyDoctors, APIGetDoctorsInModule, APIGetDoctorProfile } from '../../API/APIDoctor'
-
-/*
-Cette classe correspond a la page: Changer de medecin
-dans la partie profile du patient -> mes modules -> changer de medecin
-*/
+import { APIGetDoctors, APIGetDoctorsInModule, APIGetDoctorProfile } from '../../API/APIDoctor'
+import { getUserToken} from '../../Redux/Action/action';
+import { Icon } from 'react-native-elements'
 
 class SearchDoctors extends React.Component {
 	constructor(props) {
 		super(props)
-		let moduleId = this.props.navigation.getParam("moduleId")
 		this.state = {
 			search: "",
-			moduleId: moduleId,
+			general_unitId: this.props.navigation.getParam("general_unitId"),
 			unitId: this.props.navigation.getParam("unitId"),
 			doctors: [],
 			data: [],
-
+			pageToReturn: this.props.navigation.getParam("pageToReturn")
 		}
 		/*this.getAllDoctorList()*/
 		this.getDoctorsList()
@@ -31,91 +27,115 @@ class SearchDoctors extends React.Component {
 
 	updateSearch = (value) => {
 		this.setState({ search: value })
-		console.log(this.state.search)
 	}
 
-	getAllDoctorList = () => {
-		APIGetDoctors(this.props.token.token).then(async data => {
-			let response = await data.json()
-			/*this.setState({
-				data: response,
-			})*/
-			console.log("SearchDoctors - response:")
-			console.log(response)
-		})
-	}
-
-	getDoctorsList = () => {
-		APIGetDoctorsInModule(this.props.token.token, this.state.moduleId).then(async data => {
-			console.log("SearchDoctors - response - getDoctorsList")
-
-			console.log(data)
-			let response = await data.json()
-			if (data.status == 200) {
-				if (response.length > 0 && JSON.stringify(this.state.data) != JSON.stringify(response.data)) {
-					this.setState({
-						doctors: [ ...response ],
-					})
+	getDoctorsList = () => {		
+		this.props.getUserToken().then(() => {
+			APIGetDoctorsInModule(this.props.token.token, this.state.general_unitId).then(async data => {
+				let response = await data.json()
+				if (data.status == 200) {
+					if (response.length > 0 && JSON.stringify(this.state.data) != JSON.stringify(response.data)) {
+						this.setState({
+							doctors: [ ...response ],
+						})
+					}
 				}
-			}
-			/*this.setState({
-				data: [ ...response ],
-			})*/
-			console.log("test2 SearchDoctors")
-			console.log(response)
-			for (var i = 0; i < this.state.doctors.length; i++) {
-				console.log(this.state.doctors[i].id)
-				this.getSpecificDoctor(this.state.doctors[i].id)
-			}
+				for (var i = 0; i < this.state.doctors.length; i++) {
+					console.log(this.state.doctors[i].id)
+					this.getSpecificDoctor(this.state.doctors[i].id)
+				}
+			})
+		}).catch(error => {
+			this.setState({ error })
 		})
 	}
 
 	getSpecificDoctor = (id) => {
-		APIGetDoctorProfile(this.props.token.token, id).then(async data => {
-			console.log("getSpecificDoctor")
-			console.log(data)
-			let response = await data.json()
-			console.log("---")
-			response.id = id
-			console.log(response)
-			if (data.status == 200) {
-				this.setState({
-					data: [ ...this.state.data, response ],
-				})
-				console.log(response)
-			}
-			console.log(this.state.data)
+		this.props.getUserToken().then(() => {
+			APIGetDoctorProfile(this.props.token.token, id).then(async data => {
+				let response = await data.json()
+				response.id = id
+				if (data.status == 200) {
+					this.setState({
+						data: [ ...this.state.data, response ],
+					})
+				}
+			})
+		}).catch(error => {
+			this.setState({ error })
 		})
 	}
 
 	doctorPressed = (item) => {
 		console.log(item)
-		this.props.navigation.navigate("DoctorCard", {doctorInfo: item, unitId: this.state.unitId})
+		this.props.navigation.navigate("DoctorCard", {doctorInfo: item, unitId: this.state.unitId, mode : this.props.navigation.getParam("mode"), actualDoctor: this.props.navigation.getParam("actualDoctor")})
+	}
+
+	checkSearch = (first_name, last_name) => {
+		if (first_name.indexOf(this.state.search.toLowerCase()) !=-1 || last_name.indexOf(this.state.search.toLowerCase()) !=-1)
+			return(true)
+		return(false)
 	}
 
 	render() {
+		let { navigate } = this.props.navigation;
 		return (
-		<View>
-			<SearchBar
-				placeholder="Search here ..."
-				onChangeText={(text) => this.updateSearch(text)}
-				value={this.state.search}>
-			</SearchBar>
-			<ScrollView style={{marginTop: 30, marginBottom: 30}}>
-				<FlatList
-					data={this.state.data}
-					keyExtractor={(item) => item.first_name.toString()}
-					renderItem={({item}) => (
-						<TouchableOpacity
-							onPress={() => {this.doctorPressed(item)}}
-						>
-							<View style={{ alignItems: 'center' }}>
-								<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}> nom: {item.last_name} - prenom: {item.first_name}  </Text>
+		<View style={{flex: 1}}>
+			<View style={{backgroundColor: colors.secondary, flex: 1, flexDirection: 'column'}}>
+					<View style={{flex:1}}/>
+					<View style={{flex:8, flexDirection: 'row', justifyContent:"space-between"}}>
+						<TouchableHighlight style={{margin: 10}}>
+							<Icon
+								name="arrow-back"
+								color="#FFF"
+								size={35}
+								onPress={() => navigate(this.state.pageToReturn)}
+		    				/>
+						</TouchableHighlight>
+					</View>
+					<View style={{flex:1}}/>
+			</View>
+			<View style={{flex: 1}}>
+				<SearchBar					
+					round
+					lightTheme
+					placeholder="Search here ..."
+					onChangeText={(text) => this.updateSearch(text)}
+					value={this.state.search}>
+				</SearchBar>
+			</View>
+			<View style={{flex: 7.5}}>
+				<ScrollView>
+					<FlatList
+						data={this.state.data}
+						keyExtractor={(item) => item.first_name.toString()}
+						renderItem={({item}) => (
+							<View>
+								{ this.checkSearch(item.first_name, item.last_name) &&
+									<TouchableOpacity
+										onPress={() => {this.doctorPressed(item)}}View
+									>
+										<View style={{height: windowSize.y / 4, backgroundColor: "#f2f3f4", margin: 3, borderRadius: 15, borderWidth: 1, borderColor: '#e5e6e8', flexDirection: "row"}}>
+										<Image
+											source={{
+											  uri: 'https://image.flaticon.com/icons/png/512/122/122454.png',
+											}}
+											style={{flex: 5, margin: 15, backgroundColor: "white", borderRadius: 15, borderWidth: 1, borderColor: 'white' }}
+										  />
+										  <View style={{flex: 6, flexDirection: "column" }}>
+											<View style={{flex: 2}}/>
+											  <Text style={{ fontSize: 18, color: "#27292C", textAlign: "center", flex: 3}}> Dr.  </Text>
+											<Text style={{ fontSize: 17, color: "#27292C", textTransform: 'capitalize', flex: 4}}>{item.first_name} {item.last_name} </Text>
+											<View style={{flex: 1}}/>
+										  </View>
+										</View>
+									</TouchableOpacity>
+									}
 							</View>
-						</TouchableOpacity>
-						)}
-				/>
-			</ScrollView>
+							)}
+					/>
+				</ScrollView>
+			</View>
 		</View>
 		)
 	}
@@ -126,8 +146,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	getUserToken: () => dispatch(getUserToken()),
 	getUserToken: () => dispatch(getUserToken())
-});
+})
         
 export default connect(mapStateToProps, mapDispatchToProps)(SearchDoctors)
