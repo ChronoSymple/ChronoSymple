@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import FlashMessage from "react-native-flash-message";
 
 import {
   SafeAreaView,
@@ -16,9 +17,12 @@ import { Provider } from 'react-redux'
 export default class App extends Component{
   render(){
     return(
-      <Provider store={Store}>
-        <Navigation/>
-      </Provider>
+      <View style={{flex: 1}}>
+        <Provider store={Store}>
+          <Navigation/>
+          <FlashMessage position="top" animated={true} style={{justifyContent: 'center', alignItems: 'center'}} textStyle={{ textAlign: "center"}} />
+        </Provider>
+      </View>
     )
   }
 }

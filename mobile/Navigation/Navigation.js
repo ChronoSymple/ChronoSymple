@@ -25,8 +25,6 @@ import InfoProfile from '../Components/Auth/Profile/InfoProfile';
 import PasswordProfile from '../Components/Auth/Profile/PasswordProfile';
 import SupportProfile from '../Components/Auth/Profile/SupportProfile';
 
-import ChooseModulesToSend from '../Components/Doctors/ChooseModulesToSend';
-import DoctorChoice from '../Components/Doctors/DoctorChoice';
 import DoctorCard from '../Components/Doctors/DoctorCard';
 import SearchDoctors from '../Components/Doctors/SearchDoctors';
 
@@ -95,26 +93,9 @@ const ProfileStackNavigator = createStackNavigator({
 		headerMode: 'none'
 })
 
-const DoctorChoiceStackNavigator = createStackNavigator({
-	DoctorChoice: {
-		screen: DoctorChoice,
-	}
-}, {
-	headerMode: 'none'
-})
-
 const DoctorCardStackNavigator = createStackNavigator({
 	DoctorCard: {
 		screen: DoctorCard,
-	}
-}, {
-	headerMode: 'none'
-})
-
-
-const ChooseModulesToSendStackNavigator = createStackNavigator({
-	ChooseModulesToSend: {
-		screen: ChooseModulesToSend,
 	}
 }, {
 	headerMode: 'none'
@@ -294,8 +275,6 @@ const StackNavigtorGlobalHome = createStackNavigator({
 	},
 	ProfileStackNavigator : ProfileStackNavigator,
 	CalendarStackNavigator : CalendarStackNavigator,
-	ChooseModulesToSendStackNavigator : ChooseModulesToSendStackNavigator,
-	DoctorChoiceStackNavigator : DoctorChoiceStackNavigator,
 	DoctorCardStackNavigator : DoctorCardStackNavigator,
 	SearchDoctorsStackNavigator: SearchDoctorsStackNavigator,
 	ModuleDiabete: TabsDiabete,
