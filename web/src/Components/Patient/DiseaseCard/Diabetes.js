@@ -5,7 +5,33 @@ import Notes from '../../../Controller/NotesController';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import Slider from '@material-ui/core/Slider';
 
-const dateToProbs = (table, step = 1) => {
+const test = [
+  { date: new Date('2019-10-20T09:00:00Z'), data: 80 },
+  { date: new Date('2019-10-20T12:00:00Z'), data: 90 },
+  { date: new Date('2019-10-20T13:00:00Z'), data: 135 },
+  { date: new Date('2019-10-20T20:00:00Z'), data: 100 },
+  { date: new Date('2019-10-21T09:00:00Z'), data: 65 },
+  { date: new Date('2019-10-21T12:00:00Z'), data: 74 },
+  { date: new Date('2019-10-21T20:00:00Z'), data: 85 },
+  { date: new Date('2019-10-22T09:00:00Z'), data: 97 },
+  { date: new Date('2019-10-22T12:00:00Z'), data: 95 },
+  { date: new Date('2019-10-22T20:00:00Z'), data: 71 },
+  { date: new Date('2019-10-23T09:00:00Z'), data: 93 },
+  { date: new Date('2019-10-23T12:00:00Z'), data: 81 },
+  { date: new Date('2019-10-23T20:00:00Z'), data: 73 },
+  { date: new Date('2019-10-24T09:00:00Z'), data: 96 },
+  { date: new Date('2019-10-24T12:00:00Z'), data: 71 },
+  { date: new Date('2019-10-24T20:00:00Z'), data: 76 },
+  { date: new Date('2019-10-25T09:00:00Z'), data: 94 },
+  { date: new Date('2019-10-25T12:00:00Z'), data: 97 },
+  { date: new Date('2019-10-25T20:00:00Z'), data: 88 },
+  { date: new Date('2019-10-26T09:00:00Z'), data: 55 },
+  { date: new Date('2019-10-26T12:00:00Z'), data: 78 },
+  { date: new Date('2019-10-26T20:00:00Z'), data: 90 },
+];
+
+const dateToProbs = (table2, step = 1) => {
+  const table = [];
   const data = table.map(e => e.data);
   const min = Math.floor(Math.min(...data) / step);
   const max = Math.floor(Math.max(...data) / step);
@@ -32,7 +58,10 @@ class Diabetes extends PureComponent {
   chart2 = null;
   state = {step:1}
   componentDidMount() {
-    const table = this.props.data;
+    const table = this.props.data.filter(e => e.note !== undefined && e.note.data !== undefined && e.note.data !== undefined && e.note.data.BloodGlucose != '')
+      .map(e => ({ date: new Date(e.note.created_at), data: Number(e.note.data.BloodGlucose)}))
+      .filter(e => Number.isNaN(e.data) === false);
+    //const table = test; //this.props.data;
     let ctx = this.ref.getContext('2d');
     new Chart(ctx, {
       type: 'line',
@@ -116,11 +145,11 @@ class Diabetes extends PureComponent {
     this.generateProbsGraph();
   }
   generateProbsGraph = () => {
+    return;
     if (this.chart2 !== null) {
       this.chart2.destroy();
     }
-    const probs = dateToProbs(this.props.data, this.state.step);
-
+    const probs = dateToProbs(test, this.state.step);
     this.chart2 = new Chart(this.ref2.getContext('2d'), {
       type: 'bar',
       plugins: [ChartAnnotation],
@@ -167,7 +196,7 @@ class Diabetes extends PureComponent {
     return (
       <div>
         <canvas ref={this.setRef} width="400" height="500"></canvas>
-        <Slider
+        {undefined && <Slider
           defaultValue={1}
           aria-labelledby="discrete-slider"
           valueLabelDisplay="auto"
@@ -176,8 +205,8 @@ class Diabetes extends PureComponent {
           min={1}
           max={30}
           onChange={this.changeStep}
-        />
-        <canvas ref={this.setRef2} width="400" height="500"></canvas>
+        />}
+        {undefined && <canvas ref={this.setRef2} width="400" height="500"></canvas>}
         <Notes/>
       </div>
     );

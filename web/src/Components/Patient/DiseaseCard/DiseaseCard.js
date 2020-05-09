@@ -8,15 +8,35 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import NotImplemented from './NotImplemented';
 import PropTypes from 'prop-types';
 import diseases from '../../../diseases';
-
+import Api from '../../../Api';
+import Request from '../../Request';
 class DiseaseCard extends PureComponent {
-  
+
+  state = {
+    loaded: false,
+    error: ''
+  }
+  componentDidMount = () => this.init();
+
+  init = async() => {
+    try {
+      const data = await Api.getNotesByDateInterval(this.props.token, this.props.unitId);
+      this.setState({data, loaded: true});
+    } catch (e) {
+      this.setState({ error: e.message });
+    }
+  }
+
   render() {
     const {
       diseaseName,
-      data,
       defaultOpen,
     } = this.props;
+    const {
+      data,
+      loaded,
+      error
+    } = this.state;
     const diseasesData = diseases[diseaseName];
     const Component = (diseasesData !== undefined && diseasesData.component !== undefined) ? diseasesData.component : NotImplemented;
     return (
@@ -26,7 +46,9 @@ class DiseaseCard extends PureComponent {
             <Typography variant="h6">{diseasesData.fullName || diseaseName}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Component data={data}/>
+            <Request loading={!loaded} error={error}>
+              {(() => <Component data={data}/>)()}
+            </Request>
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </Card>
@@ -36,8 +58,9 @@ class DiseaseCard extends PureComponent {
 
 DiseaseCard.propTypes = {
   diseaseName: PropTypes.string.isRequired,
-  data: PropTypes.any.isRequired,
+  unitId: PropTypes.number.isRequired,
   defaultOpen: PropTypes.bool,
+  token: PropTypes.string.isRequired
 };
 
 export default DiseaseCard;

@@ -65,6 +65,19 @@ const profileProperties = [
   'picture'
 ];
 
+const getNotes = token =>
+  loggedRequest(`${prefix}/doctors/notes`, token);
+
+
+const getNotesByDateInterval = (token, unit, begin = new Date('01-01-2020'), end = new Date()) => {
+  const formatDate = date => {
+    const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    const [{ value: mo }, , { value: da }, , { value: ye }] = dtf.formatToParts(date);
+    return `${da}/${mo}/${ye}`;
+  };
+  return loggedRequest(`${prefix}/doctors/notes/notes_by_date_interval?begin_date=${formatDate(begin)}&end_date=${formatDate(end)}&unit=${unit}`, token);
+};
+
 const myProfileProperties = [...profileProperties, 'password'];
 
 const updateProfile = async(url, token, profile, authorized, idRequired) => {
@@ -118,5 +131,7 @@ export default {
   getDoctorsAsAdmin,
   getPatientsAsAdmin,
   updateMyProfile,
-  getMyProfile
+  getMyProfile,
+  getNotes,
+  getNotesByDateInterval
 };

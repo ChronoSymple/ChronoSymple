@@ -24,6 +24,7 @@ class Patient extends PureComponent {
     type: 0,
     init: false,
     error: null,
+    diseases: []
   };
 
   patientsChange = () => this.setState(({type}) => ({type: (type + 1) % patients.length}));
@@ -38,40 +39,21 @@ class Patient extends PureComponent {
       const {first_name: firstname, last_name: lastname, ...others} = patientData;
       const formalizeData = {...others, firstname, lastname};
       /* TODO: Remove fake data
-      const data = {id: 1, firstname: 'Carl', lastname: 'DE GENTILE', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: {
-        diabetes: [
-          { date: new Date('2019-10-20T09:00:00Z'), data: 80 },
-          { date: new Date('2019-10-20T12:00:00Z'), data: 90 },
-          { date: new Date('2019-10-20T13:00:00Z'), data: 135 },
-          { date: new Date('2019-10-20T20:00:00Z'), data: 100 },
-          { date: new Date('2019-10-21T09:00:00Z'), data: 65 },
-          { date: new Date('2019-10-21T12:00:00Z'), data: 74 },
-          { date: new Date('2019-10-21T20:00:00Z'), data: 85 },
-          { date: new Date('2019-10-22T09:00:00Z'), data: 97 },
-          { date: new Date('2019-10-22T12:00:00Z'), data: 95 },
-          { date: new Date('2019-10-22T20:00:00Z'), data: 71 },
-          { date: new Date('2019-10-23T09:00:00Z'), data: 93 },
-          { date: new Date('2019-10-23T12:00:00Z'), data: 81 },
-          { date: new Date('2019-10-23T20:00:00Z'), data: 73 },
-          { date: new Date('2019-10-24T09:00:00Z'), data: 96 },
-          { date: new Date('2019-10-24T12:00:00Z'), data: 71 },
-          { date: new Date('2019-10-24T20:00:00Z'), data: 76 },
-          { date: new Date('2019-10-25T09:00:00Z'), data: 94 },
-          { date: new Date('2019-10-25T12:00:00Z'), data: 97 },
-          { date: new Date('2019-10-25T20:00:00Z'), data: 88 },
-          { date: new Date('2019-10-26T09:00:00Z'), data: 55 },
-          { date: new Date('2019-10-26T12:00:00Z'), data: 78 },
-          { date: new Date('2019-10-26T20:00:00Z'), data: 90 },
-        ]
-      }}
+      const data = {id: 1, firstname: 'Carl', lastname: 'DE GENTILE', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: [
+        { name: 'diabetes', data: }
+      ]}
       */
       this.setState({init:true, ...formalizeData});
-      /*
       try {
-        const lol = await Api.getNotes(this.props.token);
+        const rawdata = await Api.getPatients(this.props.token);
+        const diseases = rawdata.filter(e => e.id === Number(this.props.patientID)).map(e => e.general_unit);
+        //const patientNotes = await Api.getNotes(this.props.token, this.props.patientID);
+        console.log(rawdata);
+        console.log(diseases);
+        this.setState({diseases});
       } catch (e) {
+        console.warn(e);
       }
-      */
     } catch (error) {
       this.setState({error});
     }
@@ -101,8 +83,8 @@ class Patient extends PureComponent {
             <img src={patients[type]} alt="type" onClick={this.patientsChange} width="60" height="100"/>
           </CardContent>
         </Card>
-        {diseases && Object.keys(diseases).map(key => 
-          <DiseaseCard key={key} diseaseName={key} data={diseases[key]} defaultOpen={JSON.parse(window.localStorage.getItem('selectedDiseases') || window.localStorage.getItem('diseases') || [])[key] === true}/>)
+        {diseases.map(({name, id}) => 
+          <DiseaseCard key={name} diseaseName={name} token={this.props.token} unitId={id} defaultOpen={JSON.parse(window.localStorage.getItem('selectedDiseases') || window.localStorage.getItem('diseases') || [])[diseases] === true}/>)
         }
       </Request>
     );
