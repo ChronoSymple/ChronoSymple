@@ -83,7 +83,11 @@ class AllDoctors extends React.Component {
 					<View style={{flex:1}}></View>
 				</View>
                 <View style={{flex: 9}}>
-				    {this.state.loading && <ActivityIndicator size='large' color='black' />}
+                    {this.state.loading && 
+                    <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+                        <ActivityIndicator size='large' color='black' />
+                    </View>
+                    }
 				    { !this.state.loading && !this.state.Dmodules
 				    	?	
 				    	<View style={{flex: 1}}>
