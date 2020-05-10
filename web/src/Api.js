@@ -68,8 +68,11 @@ const profileProperties = [
 const getNotes = token =>
   loggedRequest(`${prefix}/doctors/notes`, token);
 
+const getPatientNotes = (token, patient) =>
+  loggedRequest(`${prefix}/doctors/patients/${patient}/units`, token);
 
-const getNotesByDateInterval = (token, unit, begin = new Date('01-01-2020'), end = new Date()) => {
+const getNotesByDateInterval = (token, unit, begin = new Date(0), end = new Date()) => {
+  end.setFullYear(end.getFullYear() + 1)
   const formatDate = date => {
     const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' });
     const [{ value: mo }, , { value: da }, , { value: ye }] = dtf.formatToParts(date);
@@ -133,5 +136,6 @@ export default {
   updateMyProfile,
   getMyProfile,
   getNotes,
-  getNotesByDateInterval
+  getNotesByDateInterval,
+  getPatientNotes
 };

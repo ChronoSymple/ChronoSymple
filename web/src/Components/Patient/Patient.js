@@ -45,8 +45,8 @@ class Patient extends PureComponent {
       */
       this.setState({init:true, ...formalizeData});
       try {
-        const rawdata = await Api.getPatients(this.props.token);
-        const diseases = rawdata.filter(e => e.id === Number(this.props.patientID)).map(e => e.general_unit);
+        const rawdata = await Api.getPatientNotes(this.props.token, this.props.patientID);
+        const diseases = rawdata.map( e => ({ id: e.id, name: e.general_unit.name}));
         //const patientNotes = await Api.getNotes(this.props.token, this.props.patientID);
         console.log(rawdata);
         console.log(diseases);

@@ -37,7 +37,7 @@ class DiseaseCard extends PureComponent {
       loaded,
       error
     } = this.state;
-    const diseasesData = diseases[diseaseName];
+    const diseasesData = diseases[diseaseName] || {};
     const Component = (diseasesData !== undefined && diseasesData.component !== undefined) ? diseasesData.component : NotImplemented;
     return (
       <Card style={{marginTop: 16}}>
