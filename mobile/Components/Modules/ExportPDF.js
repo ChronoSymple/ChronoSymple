@@ -5,6 +5,7 @@ import { ActivityIndicator, View, Text, StyleSheet, Image, Modal, Button, Toucha
 import { windowSize } from '../StyleSheet';
 import { APIGetPatientNotesByModule, APIRemovePatientNotes } from '../../API/APIModule';
 import { getPatientInfoWithApi } from '../../API/APIConnection';
+import { APIGetMyDoctors } from '../../API/APIDoctor';
 import { connect } from 'react-redux'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -24,11 +25,16 @@ class ExportPDF extends React.Component {
 			phoneNumber: "",
 			birthdate: "",
 			civility: "",
+			doctorFirstName: "",
+			doctorLastName: "",
+			doctorEmail: "",
+			doctorAddress: "",
 
 		}
 
 		console.log(this.state.pdfData)
 		this.getPatientInfo()
+		this.getDoctorInfo()
 	}
 
 	getPatientInfo = () => {
@@ -50,7 +56,26 @@ class ExportPDF extends React.Component {
 	}
 
 	getDoctorInfo = () => {
+		APIGetMyDoctors(this.props.token.token).then(async data => {
+			console.log("APIGetMyDoctors - data")
+			console.log(data)
+			let response = await data.json()
+			for (var i = response.length - 1; i >= 0; i--) {
+				if (this.state.pdfData[0].unit_id == response[i].id) {
+					console.log("this is the right one !")
+					console.log(response[i])
+					this.setState({
+						doctorFirstName: response[i].doctors[0].user.first_name,
+						doctorLastName: response[i].doctors[0].user.last_name,
+						doctorEmail: response[i].doctors[0].user.email,
+						doctorAddress: response[i].doctors[0].user.address,
+					})
+				}
+			}
+
+		})
 		/*GET MYDOCTOR INFO */
+		console.log(this.state)
 	}
 
 	returnPressed = () => {
@@ -58,7 +83,7 @@ class ExportPDF extends React.Component {
 	}
 
 	async createPDF() {
-		console.log('valeu:')
+		console.log('valeur:')
 		console.log(this.state.pdfData)
 		console.log("-----")
 
@@ -121,61 +146,127 @@ class ExportPDF extends React.Component {
 	render() {
 		return (
 			<View style={{flex: 1}}>
-				<View style={{flex: 1}}>
+				<View style={{backgroundColor: colors.secondary, flex: 1, flexDirection: 'column'}}>
+					<View style={{flex:1}}/>
+					<View style={{flex:8, flexDirection: 'row'}}>
+						<View style={{flex:1}}>
+						<TouchableHighlight style={{margin: 10}}>
+							<Icon
+								name="arrow-back"
+								color="#FFF"
+								size={35}
+								onPress={this.returnPressed}
+		    				/>
+						</TouchableHighlight>
+						</View>
+						<View style={{flex: 1}}>
+						<TouchableHighlight style={{margin: 10}}>
+							<Icon
+								name="check"
+								color="#FFF"
+								size={35}
+								onPress={this.createPDF.bind(this)}
+		    				/>
+						</TouchableHighlight>
+						</View>
+					</View>
+					<View style={{flex:1}}/>
+				</View>
+				<View style={{flex: 0.4}}/>
+				<View style={{flex: 2}}>
 					<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
 						<Text> Patient </Text>
 						<Text> Docteur </Text>
 					</View>
-			        <View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
-						<Text> Nom: {this.state.lastName} </Text>
-						<Text> Nom: NomDuDocteur </Text>
+			        <View style={{flex: 1, flexDirection: 'row', marginLeft: 10, marginRight: 10}}>
+						<View style={{flex: 1}}>
+							<Text style={{fontSize: 12}}> Nom: {this.state.lastName} </Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end"}}>
+							<Text style={{fontSize: 12}}> Nom: {this.state.doctorLastName} </Text>
+						</View>
 					</View>
-					<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
-						<Text> Prenom: {this.state.firstName} </Text>
-						<Text> Prenom: PrenomDuDocteur </Text>
+					<View style={{flex: 1, flexDirection: 'row', marginLeft: 10, marginRight: 10}}>
+						<View style={{flex: 1}}>
+							<Text style={{fontSize: 12}}> Prenom: {this.state.firstName} </Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end"}}>
+							<Text style={{fontSize: 12}}> Prenom: {this.state.doctorFirstName} </Text>
+						</View>
 					</View>
-					<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
-						<Text> mail: {this.state.email} </Text>
-						<Text> addresse de travail:  </Text>
+					<View style={{flex: 1, flexDirection: 'row', marginLeft: 10, marginRight: 10}}>
+						<View style={{flex: 1}}>
+							<Text style={{fontSize: 12}}> mail: {this.state.email} </Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end"}}>
+							<Text style={{fontSize: 12}}> mail: {this.state.doctorEmail} </Text>
+						</View>
 					</View>
-					<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
-						<Text> Numero de telephone: {this.state.phoneNumber} </Text>
-						<Text> Telephone: 0123456789 </Text>
+					<View style={{flex: 1, flexDirection: 'row', marginLeft: 10, marginRight: 10}}>
+						<View style={{flex: 1}}>
+							<Text style={{fontSize: 12}}> Numero de telephone: {this.state.phoneNumber} </Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end"}}>
+							<Text style={{fontSize: 12}}> addresse de travail:  {this.state.doctorAddress} </Text>
+						</View>
 					</View>
 				</View>
-				<View style={{flex: 1}}>
-				</View>
-				<View style={{flex: 6}}>
-					<Text> Declaration des symptomes du DD/MM/YYYY au DD/MM/YYYY: </Text>
+				<View style={{flex: 0.7}}/>
+				<View style={{flex: 6, marginLeft: 10, marginRight: 10}}>
+					<View style={{flex: 1}}>
+						<Text> Declaration des symptomes du DD/MM/YYYY au DD/MM/YYYY: </Text>
+					</View>
 					<View style={{flex: 1, flexDirection: 'row', justifyContent:'space-around'}}>
-						<Text>date</Text>
-						<Text>heure</Text>
-						<Text>Glucose</Text>
-						<Text>insuline(food)</Text>
-						<Text>insuline(corr)</Text>
+						<View style={{flex: 1}}>
+							<Text style={{fontSize: 10}}>date</Text>
+						</View>
+						<View style={{flex: 1}}>
+							<Text style={{fontSize: 10}}>heure</Text>
+						</View>
+						<View style={{flex: 1}}>
+							<Text style={{fontSize: 10}}>Glucose</Text>
+						</View>
+						<View style={{flex: 1}}>
+							<Text style={{fontSize: 10}}>insuline(food)</Text>
+						</View>
+						<View style={{flex: 1}}>
+							<Text style={{fontSize: 10}}>insuline(corr)</Text>
+						</View>
 					</View>
+					<View style={{flex: 8}}>
 					<FlatList
 						data={this.state.pdfData}
 						keyExtractor={(item) => item.id.toString()}
 						renderItem={({item}) => (
 							<View style={{flex: 1, flexDirection: 'row', justifyContent:'space-around'}}>
-								<Text> {item.data.date} </Text>
-								<Text> {item.data.time} </Text>
-								<Text> {item.data.BloodGlucose} </Text>
-								<Text> {item.data.InsulineFood} </Text>
-								<Text> {item.data.InsulineCorr} </Text>
+								<View style={{flex: 1}}>
+									<Text style={{fontSize: 10}}> {item.data.date} </Text>
+								</View>
+								<View style={{flex: 1}}>
+									<Text style={{fontSize: 10}}> {item.data.time} </Text>
+								</View>
+								<View style={{flex: 1}}>
+									<Text style={{fontSize: 10}}> {item.data.BloodGlucose} </Text>
+								</View>
+								<View style={{flex: 1}}>
+									<Text style={{fontSize: 10}}> {item.data.InsulineFood} </Text>
+								</View>
+								<View style={{flex: 1}}>
+									<Text style={{fontSize: 10}}> {item.data.InsulineCorr} </Text>
+								</View>
 							</View>
 						)}
 					/>
+					</View>
 				</View>
-				<View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+				{/*<View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
 					<TouchableOpacity onPress={this.createPDF.bind(this)}>
 						<Text> Generer le PDF </Text>
 					</TouchableOpacity>
 					<TouchableOpacity onPress={this.returnPressed}>
 						<Text> Retour </Text>
 					</TouchableOpacity>
-				</View>
+				</View>*/}
 
 			</View>
 		)
