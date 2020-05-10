@@ -18,11 +18,7 @@ class ContactProfile extends React.Component {
 		}
 
 		getPatientInfoWithApi(this.props.token.token).then(async data => {
-			console.log("ContactProfile - data :")
-			console.log(data)
 			let response = await data.json()
-			console.log("ContactProfile - response: ")
-			console.log(response)
 			this.setState({
 				email: response.email,
 				phoneNumber: response.phone_number ? response.phone_number : "",
@@ -34,30 +30,24 @@ class ContactProfile extends React.Component {
 
 	setSubject = (text) => {
 		this.setState({ subject: text })
-		console.log(this.state.subject)
 	}
 
 	setMessage = (text) => {
 		this.setState({ message: text })
-		console.log(this.state.message)
 	}
 
 	setAdresseMail = (text) => {
 		this.setState({ email: text })
-		console.log(this.state.email)
 	}
 
 	setPhoneNumber = (text) => {
 		this.setState({ phoneNumber: text })
-		console.log(this.state.phoneNumber)
 	}
 
 	confirmPressed = () => {
-		console.log("confirmer button pressed ")
 		if (this.state.subject == "" || this.state.message == "" || this.state.email == "") {
 			this.setState({ isConfirm: false })
 		} else {
-			console.log("OK now we can send the message !")
 			this.setState({ isConfirm: true })
 		}
 	}

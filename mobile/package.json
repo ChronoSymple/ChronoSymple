@@ -12,6 +12,7 @@
     "@material-ui/icons": "^4.9.1",
     "@paraboly/react-native-modal-box": "0.0.1",
     "@paraboly/react-native-report-modal": "0.0.12",
+    "@react-native-community/async-storage": "github:react-native-community/async-storage",
     "moment": "^2.25.1",
     "react": "16.8.6",
     "react-native": "^0.62.2",

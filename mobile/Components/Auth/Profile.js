@@ -28,11 +28,7 @@ class Profile extends React.Component {
 
 	getPatientInfo = () => {
 		getPatientInfoWithApi(this.props.token.token).then(async data => {
-			console.log("Profile - data :")
-			console.log(data)
 			let response = await data.json()
-			console.log("Profile - response: ")
-			console.log(response)
 			this.setState({
 				firstName: response.first_name,
 				lastName: response.last_name,
@@ -47,7 +43,6 @@ class Profile extends React.Component {
 	}
 
 	changeProfilePhoto = () => {
-		console.log('changeProfilePhoto button pressed')
 	}
 
 	chooseImage = () => {
@@ -62,14 +57,9 @@ class Profile extends React.Component {
 			},
 		};
 		ImagePicker.showImagePicker(options, (response) => {
-			console.log('Response = ', response);
-
 			if (response.didCancel) {
-				console.log('User cancelled image picker');
 			} else if (response.error) {
-				console.log('ImagePicker Error: ', response.error);
 			} else if (response.customButton) {
-				console.log('User tapped custom button: ', response.customButton);
 				alert(response.customButton);
 			} else {
 				const source = { uri: response.uri };
@@ -77,13 +67,11 @@ class Profile extends React.Component {
 				// You can also display the image using data:
 				// const source = { uri: 'data:image/jpeg;base64,' + response.data };
 				// alert(JSON.stringify(response));s
-				console.log('response', JSON.stringify(response));
 				this.setState({
 					filePath: response,
 					fileData: response.data,
 					fileUri: response.uri
 				});
-				console.log(this.state.fileData)
 				this.setState({modalPictureVisible: true })
 
 			}
@@ -98,18 +86,12 @@ class Profile extends React.Component {
 			},
 		};
 		ImagePicker.launchCamera(options, (response) => {
-			console.log('Response = ', response);
-
 			if (response.didCancel) {
-				console.log('User cancelled image picker');
 			} else if (response.error) {
-				console.log('ImagePicker Error: ', response.error);
 			} else if (response.customButton) {
-				console.log('User tapped custom button: ', response.customButton);
 				alert(response.customButton);
 			} else {
 				const source = { uri: response.uri };
-				console.log('response', JSON.stringify(response));
 				this.setState({
 					filePath: response,
 					fileData: response.data,
@@ -211,22 +193,6 @@ class Profile extends React.Component {
 				</TouchableOpacity>
 			</View>
 			<View style={{ flex: 1}}>
-				<TouchableOpacity onPress={() => navigate('ModuleProfile')} style={{flex: 1, borderTopWidth: 1}}>
-					<View style={{flex: 1, flexDirection: 'row'}}>
-						<View style={{flex: 4}}>
-							<Text style={{ padding: 20, fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}> Mes modules </Text>
-						</View>
-						<View style={{flex: 1, alignItems: "flex-end", padding: 15}}>
-							<Icon
-								name="chevron-right"
-								color="#62BE87"
-								size={35}
-							/>
-						</View>
-					</View>
-				</TouchableOpacity>
-			</View>
-			<View style={{ flex: 1}}>
 				<TouchableOpacity onPress={() => navigate('PasswordProfile')} style={{flex: 1, borderTopWidth: 1}}>
 					<View style={{flex: 1, flexDirection: 'row'}}>
 						<View style={{flex: 4}}>
@@ -275,7 +241,6 @@ class Profile extends React.Component {
 				</TouchableOpacity>
 			</View>
 			<View style={{flex: 1}}>
-
 			</View>
 			<Modal
 				animationType="slide"

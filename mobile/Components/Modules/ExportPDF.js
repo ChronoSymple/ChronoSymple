@@ -16,7 +16,6 @@ import RNHTMLtoPDF from 'react-native-html-to-pdf';
 class ExportPDF extends React.Component {
 	constructor (props) {
 		super(props)
-		console.log("valeur de tmp value sur ExportPDF Page")
 		this.state = {
 			pdfData: this.props.navigation.getParam("PDFData"),
 			firstName: "",
@@ -31,19 +30,13 @@ class ExportPDF extends React.Component {
 			doctorAddress: "",
 
 		}
-
-		console.log(this.state.pdfData)
 		this.getPatientInfo()
 		this.getDoctorInfo()
 	}
 
 	getPatientInfo = () => {
 		getPatientInfoWithApi(this.props.token.token).then(async data => {
-			console.log("ExportPDF - data :")
-			console.log(data)
 			let response = await data.json()
-			console.log("ExportPDF - response: ")
-			console.log(response)
 			this.setState({
 				firstName: response.first_name,
 				lastName: response.last_name,
@@ -83,24 +76,21 @@ class ExportPDF extends React.Component {
 	}
 
 	async createPDF() {
-		console.log('valeur:')
-		console.log(this.state.pdfData)
-		console.log("-----")
-
+		console.log("creating pdf file ....")
 		let generalInfo='<h4 style="text-align: left"> Patient\
 							<span style="float:right"> Docteur</span>\
 						</h4>\
 						<p style="text-align: left">nom: ' + this.state.lastName + '\
-							<span style="float:right"> nom: </span>\
+							<span style="float:right"> nom: ' + this.state.doctorLastName + '</span>\
 						</p>\
 						<p style="text-align: left">prenom: ' + this.state.firstName + '\
-							<span style="float:right"> Prenom</span>\
+							<span style="float:right"> Prenom ' + this.state.doctorFirstName + '</span>\
 						</p>\
 						<p style="text-align: left">email: ' + this.state.email + '\
-							<span style="float:right"> email: </span>\
+							<span style="float:right"> email: ' + this.state.doctorEmail + '</span>\
 						</p>\
 						<p style="text-align: left">telephone: ' + this.state.phoneNumber + '\
-							<span style="float:right"> adresse de travail: </span>\
+							<span style="float:right"> adresse de travail: ' + this.state.doctorAddress + '</span>\
 						</p>'
 
 
@@ -121,7 +111,6 @@ class ExportPDF extends React.Component {
 		}
 		patientNote += '</table>'
 
-		console.log(patientNote)
 
 		let currentDate = new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()
 		let currentTime = new Date().getHours() + ":" + new Date().getMinutes()
@@ -138,7 +127,6 @@ class ExportPDF extends React.Component {
 
 		let file = await RNHTMLtoPDF.convert(options)
 
-		console.log(file.filepath)
 
 	}
 
@@ -147,10 +135,10 @@ class ExportPDF extends React.Component {
 		return (
 			<View style={{flex: 1}}>
 				<View style={{backgroundColor: colors.secondary, flex: 1, flexDirection: 'column'}}>
-					<View style={{flex:1}}/>
-					<View style={{flex:8, flexDirection: 'row'}}>
+					
+					<View style={{flex:1, flexDirection: 'row'}}>
 						<View style={{flex:1}}>
-						<TouchableHighlight style={{margin: 10}}>
+						<TouchableHighlight style={{margin: 15}}>
 							<Icon
 								name="arrow-back"
 								color="#FFF"
@@ -159,8 +147,8 @@ class ExportPDF extends React.Component {
 		    				/>
 						</TouchableHighlight>
 						</View>
-						<View style={{flex: 1}}>
-						<TouchableHighlight style={{margin: 10}}>
+						<View style={{flex: 1, alignItems: "flex-end"}}>
+						<TouchableHighlight style={{margin: 15}}>
 							<Icon
 								name="check"
 								color="#FFF"
@@ -170,7 +158,6 @@ class ExportPDF extends React.Component {
 						</TouchableHighlight>
 						</View>
 					</View>
-					<View style={{flex:1}}/>
 				</View>
 				<View style={{flex: 0.4}}/>
 				<View style={{flex: 2}}>

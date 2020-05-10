@@ -27,6 +27,7 @@ import SupportProfile from '../Components/Auth/Profile/SupportProfile';
 
 import DoctorCard from '../Components/Doctors/DoctorCard';
 import SearchDoctors from '../Components/Doctors/SearchDoctors';
+import AllDoctors from '../Components/Doctors/AllDoctors';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/FontAwesome5';
@@ -96,6 +97,14 @@ const ProfileStackNavigator = createStackNavigator({
 const DoctorCardStackNavigator = createStackNavigator({
 	DoctorCard: {
 		screen: DoctorCard,
+	}
+}, {
+	headerMode: 'none'
+})
+
+const AllDoctorsStackNavigator = createStackNavigator({
+	AllDoctors: {
+		screen: AllDoctors,
 	}
 }, {
 	headerMode: 'none'
@@ -277,6 +286,7 @@ const StackNavigtorGlobalHome = createStackNavigator({
 	CalendarStackNavigator : CalendarStackNavigator,
 	DoctorCardStackNavigator : DoctorCardStackNavigator,
 	SearchDoctorsStackNavigator: SearchDoctorsStackNavigator,
+	AllDoctorsStackNavigator: AllDoctorsStackNavigator,
 	ModuleDiabete: TabsDiabete,
 	ModuleAsthma : TabsAsthma
 }, {

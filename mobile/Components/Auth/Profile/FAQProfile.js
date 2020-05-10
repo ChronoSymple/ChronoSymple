@@ -22,35 +22,30 @@ class FAQProfile extends React.Component {
 	}
 
 	motDePasseQuestionPressed = () => {
-		console.log("motDePasseQuestionPressed")
 		this.setState({
 			motDePasseQuestion: !this.state.motDePasseQuestion
 		})
 	}
 
 	adresseMailQuestionPressed = () => {
-		console.log("AdresseMailQuestionPressed")
 		this.setState({
 			adresseMailQuestion: !this.state.adresseMailQuestion
 		})	
 	}
 
 	numTelephoneQuestionPressed = () => {
-		console.log("numTelephoneQuestionPressed")
 		this.setState({
 			numTelephoneQuestion: !this.state.numTelephoneQuestion
 		})	
 	}
 
 	changeMedecinQuestionPressed = () => {
-		console.log("changeMedecinQuestionPressed")
 		this.setState({
 			changeMedecinQuestion: !this.state.changeMedecinQuestion
 		})
 	}
 
 	symptomeMalDeclareQuestionPressed = () => {
-		console.log("symptomeMalDeclareQuestionPressed")
 		this.setState({
 			symptomeMalDeclareQuestion: !this.state.symptomeMalDeclareQuestion
 		})

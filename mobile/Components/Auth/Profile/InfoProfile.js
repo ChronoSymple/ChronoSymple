@@ -32,11 +32,7 @@ class InfoProfile extends React.Component {
 
 	getPatientInfo = () => {
 		getPatientInfoWithApi(this.props.token.token).then(async data => {
-			console.log("infoProfile - data :")
-			console.log(data)
 			let response = await data.json()
-			console.log("infoprofile - response: ")
-			console.log(response)
 			this.setState({
 				firstName: response.first_name,
 				lastName: response.last_name,
@@ -59,17 +55,14 @@ class InfoProfile extends React.Component {
 	}
 
 	setTmpPhoneNumber = (text) => {
-		console.log("set phone number on infoProfile")
 		this.setState({ tmpPhoneNumber: text })
 	}
 
 	setTmpAdresseMail = (text) => {
-		console.log("set email on infoProfile")
 		this.setState({ tmpEmail: text })
 	}
 
 	setPassword = (text) => {
-		console.log("set password on infoProfile")
 		this.setState({ password: text })
 	}
 
@@ -77,15 +70,11 @@ class InfoProfile extends React.Component {
 		if (this.state.phoneRegExp.test(this.state.tmpPhoneNumber) == true) {
 			this.setState({ isPhoneNumberValid: true})
 			updatePatientProfile(this.props.token.token, "phoneNumber", this.state.tmpPhoneNumber, this.state.password).then(async data => {
-				console.log("infoProfile - updatePatientProfile - data")
-				console.log(data)
 				if (data.status == 200) {
 					this.getPatientInfo()
 					this.setModalPhoneVisible(!this.state.modalPhoneVisible)
 				} else {
 					let response = await data.json()
-					console.log("infoProfile - updatePatientProfile - response")
-					console.log("response")
 				}
 			})
 		}
@@ -98,15 +87,11 @@ class InfoProfile extends React.Component {
 		if (this.state.emailRegExp.test(this.state.tmpEmail) == true) {
 			this.setState({ isMailValid: true })
 			updatePatientProfile(this.props.token.token, "email", this.state.tmpEmail, this.state.password).then(async data => {
-				console.log("infoProfile - updatePatientProfile - data")
-				console.log(data)
 				if (data.status == 200) {
 					this.getPatientInfo()
 					this.setModalMailVisible(!this.state.modalMailVisible)
 				} else {
 					let response = await data.json()
-					console.log("infoProfile - updatePatientProfile - response")
-					console.log("response")
 				}
 			})
 		} else {

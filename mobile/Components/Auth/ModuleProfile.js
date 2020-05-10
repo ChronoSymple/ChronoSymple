@@ -26,8 +26,6 @@ class ModuleProfile extends React.Component {
 	_getPatientModule = () => {
 		this.props.getUserToken().then(() => {
 			APIGetPatientModules(this.props.token.token).then(async data => {
-				console.log("Module profile - _getPatientModule :")
-				console.log(APIGetPatientModules)
 				let response = await data.json()
 				if (data.status == 200) {
 					if (response.length > 0 && JSON.stringify(this.state.Dmodules) != JSON.stringify(response.modules)) {
@@ -35,7 +33,6 @@ class ModuleProfile extends React.Component {
 							Dmodules: [ ...response ],
 							loading: false
 						})
-						console.log(response)
 					}
 				}
 			})
@@ -49,8 +46,6 @@ class ModuleProfile extends React.Component {
 	}
 
 	modulePressed = (item) => {
-		console.log("modulePressed")
-		console.log(item)
 		this.setState({
 			moduleSelected: item.general_unit.id,
 			unitSelected: item.id

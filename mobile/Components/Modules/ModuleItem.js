@@ -19,7 +19,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { FlatList } from 'react-native-gesture-handler';
 
 var SMALL = 0.9;
-var ACTION_TIMER = 800;
+var ACTION_TIMER = 2;
 
 
 class ModuleItem extends React.Component {
@@ -35,13 +35,10 @@ class ModuleItem extends React.Component {
 			generalUnit: generalUnit, 
 			deleteUnit: deleteUnit,
 			animatedValue: new Animated.Value(1),
-			doctorsOfModule: [],
+			doctorsOfModule: this.getDoctors(),
 			displayDoctor: false,
 			finish: false
 		}
-		this.setState({
-			doctorsOfModule: this.getDoctors()
-		})
 	}
 
 	setModalVisible = (visible) => {
@@ -60,7 +57,8 @@ class ModuleItem extends React.Component {
 		Animated.spring(this.state.animatedValue, {
 			duration: ACTION_TIMER,
 			toValue: SMALL,
-			friction: 40
+			friction: 40,
+			useNativeDriver: true
 		}).start(this.animationActionComplete)
 	}
 
@@ -70,14 +68,13 @@ class ModuleItem extends React.Component {
 		}
 		Animated.spring(this.state.animatedValue, {
 			duration: ACTION_TIMER,
-			toValue: 1
+			toValue: 1,
+			useNativeDriver: true
 		}).start()
 	}
 
 	animationActionComplete= () => {
-		if (this._value <= SMALL) {
-			this.setModalVisible(true)
-		}
+		this.setModalVisible(true)
 	}
 
  	displayDoctor = () => {
@@ -87,7 +84,6 @@ class ModuleItem extends React.Component {
 			finish: false,
 			displayDoctor: !this.state.displayDoctor
 		})
-		console.log(this.state.finish, this.state.doctorsOfModule)
 	}
 
 	getDoctors = () => {
@@ -119,7 +115,7 @@ class ModuleItem extends React.Component {
 				    visible={this.state.isModalVisible}
 				    style={styles.view}
 				    swipeDirection={'down'}
-					animationInTiming="3000"
+					animationInTiming={3000}
 					animationType="slide"
 					animationIn="slideInUp"
 				  	animationOut="slideOutDown"
@@ -224,7 +220,7 @@ class ModuleItem extends React.Component {
 				<TouchableWithoutFeedback
 					onPressIn={this.handlePressIn} 
 					onPressOut={this.handlePressOut}>
-					<Animated.View style={[animatedStyle, styles.moduleBox]}>
+					<Animated.View style={[animatedStyle, styles.moduleBox]} >
 						<View style={styles.moduleTitle}>
 								<Text style={{ fontSize: 18, textTransform: 'capitalize' }}>{this.state.dModule.general_unit.name}</Text>
 						</View>

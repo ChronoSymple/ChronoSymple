@@ -34,9 +34,6 @@ export const error = error => ({
     error,
 });
 
-
-
-
 export const getCurrentModule = (currentModule) => ({
     type: 'GET_CURRENT_MODULE',
     currentModule

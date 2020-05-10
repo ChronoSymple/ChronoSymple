@@ -26,7 +26,6 @@ export function APIGetModules(token) {
 }
 
 export function APIGetPatientModules(token) {
-	console.log(token)
 	return fetch(baseUrl + '/api/patients/units', {
 	  method: 'GET',
 	  headers: {
