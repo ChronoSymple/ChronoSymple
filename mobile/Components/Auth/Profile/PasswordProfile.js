@@ -49,36 +49,37 @@ class PasswordProfile extends React.Component {
   render() {
     let { navigate } = this.props.navigation;
     return (
-      <View style={{flex: 1, justifyContent: "space-around"}}>
-        <View style={{ flex: 1, alignItems: "center" }}>
-          <Text> PasswordProfile Page </Text>
-          <View style={{ flex: 1, justifyContent: "center", alignContent: 'center'}}>
-            <Text> Ancient mot de passe </Text>
-            <TextInput
-              placeholder="ancient mot de passe"
-              onChangeText={(text) => this.setOldPassword(text)}
-              style={styles.textField, { width: windowSize.x / 1.5, borderWidth: 1 }}
-            />
-            <Text> Nouveau mot de passe </Text>
-            <TextInput
-              placeholder="nouveau mot de passe"
-              onChangeText={(text) => this.setNewPassword(text)}
-              style={styles.textField, { width: windowSize.x / 1.5, borderWidth: 1 }}
-            />
-            <Text> Confirmer nouveau mot de passe </Text>
-            <TextInput
-              placeholder="confirmation"
-              onChangeText={(text) => this.setConfirmPassword(text)}
-              style={styles.textField, { width: windowSize.x / 1.5, borderWidth: 1 }}
-            />
-          </View>
+      <View style={{flex: 1}}>
+        <View style={{ flex: 1, justifyContent: "center", marginLeft: 15, marginRight: 25}}>
+          <TextInput
+            placeholder="ancient mot de passe"
+            onChangeText={(text) => this.setOldPassword(text)}
+            style={styles.textField, { borderBottomWidth: 1 }}
+          />
+          <Text style={{fontSize: 13, color: colors.secondary}}> Mot De Passe </Text>
+        </View>
+        <View style={{ flex: 1, justifyContent: "center", marginLeft: 15, marginRight: 25}}>
+          <TextInput
+            placeholder="nouveau mot de passe"
+            onChangeText={(text) => this.setNewPassword(text)}
+            style={styles.textField, { borderBottomWidth: 1 }}
+          />
+          <Text style={{fontSize: 13, color: colors.secondary}}> Nouveau Mot De Passe </Text>
+        </View>
+        <View style={{flex: 1, justifyContent: "center", marginLeft: 15, marginRight: 25}}>
+          <TextInput
+            placeholder="confirmation"
+            onChangeText={(text) => this.setConfirmPassword(text)}
+            style={styles.textField, { borderBottomWidth: 1 }}
+          />
+          <Text style={{fontSize: 13, color: colors.secondary}}> Confirmer votre nouveau Mot De Passe </Text>
         </View>
         { this.state.sameNewPassword ?
           null
           :
-          <Text style={{color: colors.errorColor}}> /!\ Invalid password or new password doesn't match ! /!\ </Text>
+          <Text style={{color: colors.errorColor, marginLeft: 15, marginRight: 15}}> /!\ Mot de passe incorrect ou le nouveau mot de passe ne correspondent pas /!\ </Text>
         }
-        <View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
+        <View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around', marginTop: 25}}>
           <View>
             <Button 
               color="#62BE87"
@@ -96,6 +97,7 @@ class PasswordProfile extends React.Component {
           />
           </View>
         </View>
+        <View style={{flex: 5}}/>
       </View>
     )
   }

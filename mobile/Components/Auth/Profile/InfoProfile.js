@@ -4,6 +4,8 @@ import { styles, colors, windowSize } from '../../StyleSheet';
 import { connect } from 'react-redux';
 import { getUserToken } from '../../../Redux/Action/action';
 import { getPatientInfoWithApi, updatePatientProfile } from '../../../API/APIConnection'
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 class InfoProfile extends React.Component {
 	constructor(props) {
@@ -106,32 +108,31 @@ class InfoProfile extends React.Component {
 		          transparent={false}
 		          visible={this.state.modalPhoneVisible}
 		          >
-		        	<View style={{ flex: 1, marginTop: 22}}>
-		            	<Text>This is the modal for the phone number!</Text>
-		            	<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10}}>
-				            <Text> Numero de telephone </Text>
+		        	<View style={{ flex: 1, marginTop: 10}}>
+		            	<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10, marginRight: 20}}>
 				            <TextInput
 				              placeholder="nouveau numero de telephone"
 				              onChangeText={(text) => this.setTmpPhoneNumber(text)}
-				              style={styles.textField, { width: windowSize.x / 1.5, borderWidth: 1 }}
+				              style={styles.textField, {borderBottomWidth: 1 }}
 				              value={this.state.tmpPhoneNumber}
 				            />
+				            <Text style={{fontSize: 13, color: colors.secondary}}> Numero de telephone </Text>
 						</View>
-						<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10}}>
-				            <Text> Mot de passe </Text>
+						<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10, marginRight: 20}}>
 				            <TextInput
 				              placeholder="votre mot de passe"
 				              onChangeText={(text) => this.setPassword(text)}
-				              style={styles.textField, { width: windowSize.x / 1.5, borderWidth: 1 }}
+				              style={styles.textField, { borderBottomWidth: 1 }}
 				            />
+				            <Text style={{fontSize: 13, color: colors.secondary}}> Mot de passe</Text>
 						</View>
 						{this.state.isPhoneNumberValid ?
 							null
 							:
-							<Text style={{color: colors.errorColor}}> /!\ Invalid phone number ! /!\ </Text>
+							<Text style={{color: colors.errorColor}}> /!\ numero de telephone ou mot de passe incorrect ! /!\ </Text>
 						}
 						<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
-							<View>
+							<View >
 								<Button 
 									color="#62BE87"
 									style={{ height: 40, width: 50, borderWidth: 2, borderColor: '#000000'}}
@@ -139,7 +140,7 @@ class InfoProfile extends React.Component {
 									title="Retour"
 								/>
 							</View>
-							<View>
+							<View >
 								<Button 
 									color="#62BE87"
 									style={{ height: 40, width: 50, borderWidth: 2, borderColor: '#000000'}}
@@ -148,6 +149,7 @@ class InfoProfile extends React.Component {
 								/>
 							</View>
 						</View>
+						<View style={{flex: 4}}/>
 		            </View>
 		        </Modal>
 
@@ -159,23 +161,22 @@ class InfoProfile extends React.Component {
 		            Alert.alert('Modal for adresse mail has been closed.');
 		          }}>
 		        	<View style={{ flex: 1, marginTop: 22}}>
-		            	<Text>This is the modal for the Adresse Mail!</Text>
-		            	<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10}}>
-				            <Text> Adresse Mail </Text>
+		            	<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10, marginRight: 20}}>
 				            <TextInput
 				              placeholder="nouvelle adresse mail"
 				              onChangeText={(text) => this.setTmpAdresseMail(text)}
-				              style={styles.textField, { width: windowSize.x / 1.5, borderWidth: 1 }}
+				              style={styles.textField, { borderBottomWidth: 1 }}
 				              value={this.state.tmpEmail}
 				            />
+				            <Text style={{fontSize: 13, color: colors.secondary}}> Adresse mail</Text>
 						</View>
-						<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10}}>
-				            <Text> Mot de passe </Text>
+						<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10, marginRight: 20}}>
 				            <TextInput
 				              placeholder="votre mot de passe"
 				              onChangeText={(text) => this.setPassword(text)}
-				              style={styles.textField, { width: windowSize.x / 1.5, borderWidth: 1 }}
+				              style={styles.textField, { borderBottomWidth: 1 }}
 				            />
+				            <Text style={{fontSize: 13, color: colors.secondary}}> Mot de passe</Text>
 						</View>
 						{this.state.isMailValid ?
 							null
@@ -200,8 +201,112 @@ class InfoProfile extends React.Component {
 								/>
 							</View>
 						</View>
+						<View style={{flex: 4}}/>
 		            </View>
 		        </Modal>
+		        <View style={{backgroundColor: colors.secondary, flex: 1, flexDirection: 'column'}}>
+					<View style={{flex:1}}/>
+					<View style={{flex:8, flexDirection: 'row', justifyContent:"space-between"}}>
+						<TouchableHighlight style={{margin: 10}}>
+							<Icon
+								name="arrow-back"
+								color="#FFF"
+								size={35}
+								onPress={() => navigate('Profile')}
+		    				/>
+						</TouchableHighlight>
+					</View>
+					<View style={{flex:1}}/>
+				</View>
+				<TouchableOpacity onPress={() => {}} style={{flex: 1, borderTopWidth: 1}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}> Nom </Text>
+						</View>
+						<View style={{flex: 2, alignItems: 'flex-end'}}>
+							<Text style={{paddingTop: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}>{this.state.lastName}</Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end", padding: 15}}>
+							
+						</View>
+					</View>
+				</TouchableOpacity>
+				<TouchableOpacity onPress={() => {}} style={{flex: 1, borderTopWidth: 1}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}> Prenom </Text>
+						</View>
+						<View style={{flex: 2, alignItems: 'flex-end'}}>
+							<Text style={{paddingTop: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}>{this.state.firstName}</Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end", padding: 15}}>
+							
+						</View>
+					</View>
+				</TouchableOpacity>
+				<TouchableOpacity onPress={() => {}} style={{flex: 1, borderTopWidth: 1}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}> Date de naissance </Text>
+						</View>
+						<View style={{flex: 2, alignItems: 'flex-end'}}>
+							<Text style={{paddingTop: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}>{this.state.birthdate}</Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end", padding: 15}}>
+							
+						</View>
+					</View>
+				</TouchableOpacity>
+				<TouchableOpacity onPress={() => {}} style={{flex: 1, borderTopWidth: 1}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}> Civilité </Text>
+						</View>
+						<View style={{flex: 2, alignItems: 'flex-end'}}>
+							<Text style={{paddingTop: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}>{this.state.civility}</Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end", padding: 15}}>
+
+						</View>
+					</View>
+				</TouchableOpacity>
+				<TouchableOpacity onPress={() => { this.setModalPhoneVisible(true); }} style={{flex: 1, borderTopWidth: 1}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}> Numero de telephone </Text>
+						</View>
+						<View style={{flex: 2, alignItems: 'flex-end'}}>
+							<Text style={{paddingTop: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}>{this.state.phoneNumber}</Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end", padding: 15}}>
+							<Icon
+								name="chevron-right"
+								color="#62BE87"
+								size={35}
+							/>
+						</View>
+					</View>
+				</TouchableOpacity>
+				<TouchableOpacity onPress={() => { this.setModalMailVisible(true);}} style={{flex: 1, borderTopWidth: 1}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}> Adresse Mail </Text>
+						</View>
+						<View style={{flex: 2, alignItems: 'flex-end'}}>
+							<Text style={{paddingTop: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}>{this.state.email}</Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end", padding: 15}}>
+							<Icon
+								name="chevron-right"
+								color="#62BE87"
+								size={35}
+							/>
+						</View>
+					</View>
+				</TouchableOpacity>
+				<View style={{flex: 5}}/>
+
+				{/*</View>
 				<View style={{ flexDirection: 'row', justifyContent: 'space-between', height: windowSize.y / 10, borderBottomWidth: 1}}>
 					<Text style={{marginLeft: 20, marginTop: windowSize.y / 25}}>Nom</Text>
 					<Text style={{marginRight: 20, marginTop: windowSize.y / 25}}>{this.state.lastName}</Text>
@@ -233,7 +338,7 @@ class InfoProfile extends React.Component {
 						<Text style={{marginRight: 20, marginTop: windowSize.y / 25}}>{this.state.email}</Text>
 			        </TouchableHighlight>
 				</View>
-
+				*/}
 			</View>
 		)
 	}

@@ -80,6 +80,7 @@ class DoctorCard extends React.Component {
 		})
 	}
 
+
 	removeDoctorPressed = (navigate, id) => {
 		if (id == true)
 			id = this.state.actualDoctor

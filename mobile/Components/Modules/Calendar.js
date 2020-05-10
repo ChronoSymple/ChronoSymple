@@ -169,11 +169,12 @@ class Calendar extends React.Component {
 	}
 
 	exportPDFPressed = () => {
-		var PDFData
+		let PDFData = []
 		for (var i = 0; i < this.state.selectedNotes.length; i++) {
-			if (this.state[this.state.selectedNotes[i].id] == true) {
-				PDFData[counter] = this.state.selectedNotes[i]
-				counter += 1
+			for (var j = 0; j < this.state.notes.length; j++) {
+				if (this.state.notes[j].id == this.state.selectedNotes[i]) {
+					PDFData.push(this.state.notes[j])
+				}
 			}
 		}
 		this.setModalCheckboxVisible(false)
