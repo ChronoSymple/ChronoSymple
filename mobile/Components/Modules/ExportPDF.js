@@ -18,6 +18,8 @@ class ExportPDF extends React.Component {
 		super(props)
 		this.state = {
 			pdfData: this.props.navigation.getParam("PDFData"),
+			startDate: this.props.navigation.getParam("startDate"),
+			endDate: this.props.navigation.getParam("endDate"),
 			firstName: "",
 			lastName: "",
 			email: "",
@@ -118,7 +120,7 @@ class ExportPDF extends React.Component {
 		let options = {
 			html: generalInfo + '<p style="text-align: left;">\
 						<br>\
-						<strong>Declaration des symptomes du DD/MM/YYYY au DD/MM/YYYY: </strong>\
+						<strong>Declaration des symptomes du ' + this.state.startDate + ' au ' + this.state.endDate + ': </strong>\
 					</p>' + patientNote + '\
 					<p>fait le ' + currentDate + ' à ' + currentTime + '</p',
 			fileName: 'Chronosymple_test_follow_up',
@@ -126,7 +128,7 @@ class ExportPDF extends React.Component {
 		}
 
 		let file = await RNHTMLtoPDF.convert(options)
-
+		this.props.navigation.navigate("Calendar")
 
 	}
 
@@ -201,7 +203,7 @@ class ExportPDF extends React.Component {
 				<View style={{flex: 0.7}}/>
 				<View style={{flex: 6, marginLeft: 10, marginRight: 10}}>
 					<View style={{flex: 1}}>
-						<Text> Declaration des symptomes du DD/MM/YYYY au DD/MM/YYYY: </Text>
+						<Text> Declaration des symptomes du {this.state.startDate} au {this.state.endDate}: </Text>
 					</View>
 					<View style={{flex: 1, flexDirection: 'row', justifyContent:'space-around'}}>
 						<View style={{flex: 1}}>
