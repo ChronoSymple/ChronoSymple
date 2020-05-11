@@ -1,9 +1,11 @@
 
 import React from 'react'
-import { View, Button, Text, TextInput, TouchableOpacity, Flatlist } from 'react-native'
+import { View, Button, Text, TextInput, TouchableOpacity, TouchableHighlight, Flatlist } from 'react-native'
 import { styles, colors, windowSize } from '../../StyleSheet'
 import { connect } from 'react-redux'
 import { getUserToken } from '../../../Redux/Action/action';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 class SupportProfile extends React.Component {
 
@@ -15,46 +17,70 @@ class SupportProfile extends React.Component {
     let { navigate } = this.props.navigation;
     return (
       <View style={{flex: 1}}>
-        <View style={{flex:1}}>
-          <View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: colors.secondary, borderRadius: 15, backgroundColor : 'white', margin: 10}}>
-            <TouchableOpacity style={{
-              flex: 1,
-              alignItems: 'center',
-              flexDirection : 'row', 
-              justifyContent: 'center', 
-              width: "100%", 
-              height: "100%",
-              margin: 20, 
-              }} onPress={() => navigate('FAQProfile')}>
-                <Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>FAQ</Text>
+        <View style={{backgroundColor: colors.secondary, flex: 1, flexDirection: 'column'}}>
+            <View style={{flex:1}}/>
+            <View style={{flex:8, flexDirection: 'row', justifyContent:"space-between"}}>
+              <TouchableHighlight style={{margin: 10}}>
+                <Icon
+                  name="arrow-back"
+                  color="#FFF"
+                  size={35}
+                  onPress={() => navigate('Profile')}
+                  />
+              </TouchableHighlight>
+            </View>
+            <View style={{flex:1}}/>
+          </View> 
+        <View style={{flex: 9}}>
+          <View style={{ flex: 1}}>
+            <TouchableOpacity onPress={() => navigate('FAQProfile')} style={{flex: 1, borderTopWidth: 1}}>
+              <View style={{flex: 1, flexDirection: 'row'}}>
+                <View style={{flex: 4}}>
+                  <Text style={{ padding: 20, fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}> FAQ </Text>
+                </View>
+                <View style={{flex: 1, alignItems: "flex-end", padding: 15}}>
+                  <Icon
+                    name="chevron-right"
+                    color="#62BE87"
+                    size={35}
+                  />
+                </View>
+              </View>
             </TouchableOpacity>
           </View>
-          <View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: colors.secondary, borderRadius: 15, backgroundColor : 'white', margin: 10}}>
-            <TouchableOpacity style={{
-              flex: 1,
-              alignItems: 'center',
-              flexDirection : 'row', 
-              justifyContent: 'center', 
-              width: "100%", 
-              height: "100%",
-              margin: 20, 
-              }} onPress={() => navigate('ContactProfile')}>
-                <Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>Nous contacter</Text>
+          <View style={{ flex: 1}}>
+            <TouchableOpacity onPress={() => navigate('ContactProfile')} style={{flex: 1, borderTopWidth: 1}}>
+              <View style={{flex: 1, flexDirection: 'row'}}>
+                <View style={{flex: 4}}>
+                  <Text style={{ padding: 20, fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}> Nous Contacter </Text>
+                </View>
+                <View style={{flex: 1, alignItems: "flex-end", padding: 15}}>
+                  <Icon
+                    name="chevron-right"
+                    color="#62BE87"
+                    size={35}
+                  />
+                </View>
+              </View>
             </TouchableOpacity>
           </View>
-          <View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: colors.secondary, borderRadius: 15, backgroundColor : 'white', margin: 10}}>
-            <TouchableOpacity style={{
-              flex: 1,
-              alignItems: 'center',
-              flexDirection : 'row', 
-              justifyContent: 'center', 
-              width: "100%", 
-              height: "100%",
-              margin: 20, 
-              }} onPress={() => navigate('AProposProfile')}>
-                <Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}>A propos</Text>
+          <View style={{ flex: 1}}>
+            <TouchableOpacity onPress={() => navigate('AProposProfile')} style={{flex: 1, borderTopWidth: 1}}>
+              <View style={{flex: 1, flexDirection: 'row'}}>
+                <View style={{flex: 4}}>
+                  <Text style={{ padding: 20, fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}> A Propos </Text>
+                </View>
+                <View style={{flex: 1, alignItems: "flex-end", padding: 15}}>
+                  <Icon
+                    name="chevron-right"
+                    color="#62BE87"
+                    size={35}
+                  />
+                </View>
+              </View>
             </TouchableOpacity>
           </View>
+          <View style={{flex: 5}}/>
         </View>
         <View style={{flex: 1}}>
         </View>
