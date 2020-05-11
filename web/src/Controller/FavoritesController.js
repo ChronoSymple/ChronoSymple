@@ -31,7 +31,7 @@ class FavoriteController extends PureComponent {
     if (filterOn) {
       Object.keys(this.state.selected).forEach(key => {
         if (this.state.selected[key] === true) {
-          filtered = filtered.filter(e => e.diseases && e.diseases[key] !== undefined);
+          filtered = filtered.filter(e => e && e.units && e.units.includes && e.units.includes(key));
         }
       });
     }
@@ -47,10 +47,17 @@ class FavoriteController extends PureComponent {
     //return this.setState({init: true, data});
     try {
       const rawdata = await Api.getPatients(this.props.token);
-      const data = await Promise.all(rawdata.map(e => e.patient_id).reduce((c, e) => c.includes(e) ? c : [...c, e], []).map(async id => {
+      let d = rawdata.map(e => ({ id: e.patient_id, unit: e.general_unit.name}));
+      const obj = (d.reduce((c, e) => {
+        const units = c[e.id] || [];
+        c[e.id] = [...units, e.unit];
+        return c;
+      }, {}));
+      const d2 = Object.keys(obj).reduce((c, k) => [...c, { id: k, units: obj[k]}], []);
+      const data = await Promise.all(d2.map(async({id, units}) => {
         const patientData = await Api.getPatient(this.props.token, id);
         const {first_name: firstname, last_name: lastname, ...others} = patientData;
-        return {...others, firstname, lastname, id};
+        return {...others, firstname, lastname, units, id};
       }));
       this.setState({init: true, data});
     } catch (e) {

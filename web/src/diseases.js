@@ -6,10 +6,12 @@ const diseases = {
     component: DiabeteCard
   },
   cancer: {
-    fullName: 'Cancer'
+    fullName: 'Cancer',
+    shortName: 'cancer',
+
   },
-  test: {
-    fullName: 'Test'
+  asthma: {
+    fullName: 'Asthme',
   }
 };
 export default diseases;
