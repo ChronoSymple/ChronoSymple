@@ -48,8 +48,6 @@ class Patient extends PureComponent {
         const rawdata = await Api.getPatientNotes(this.props.token, this.props.patientID);
         const diseases = rawdata.map( e => ({ id: e.id, name: e.general_unit.name}));
         //const patientNotes = await Api.getNotes(this.props.token, this.props.patientID);
-        console.log(rawdata);
-        console.log(diseases);
         this.setState({diseases});
       } catch (e) {
         console.warn(e);
@@ -84,7 +82,7 @@ class Patient extends PureComponent {
           </CardContent>
         </Card>
         {diseases.map(({name, id}) => 
-          <DiseaseCard key={name} diseaseName={name} token={this.props.token} unitId={id} defaultOpen={JSON.parse(window.localStorage.getItem('selectedDiseases') || window.localStorage.getItem('diseases') || [])[diseases] === true}/>)
+          <DiseaseCard key={name} diseaseName={name} token={this.props.token} unitId={id} defaultOpen={JSON.parse(window.localStorage.getItem('selectedDiseases') || window.localStorage.getItem('diseases') || [])[name] === true}/>)
         }
       </Request>
     );
