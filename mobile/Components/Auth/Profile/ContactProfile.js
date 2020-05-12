@@ -52,58 +52,61 @@ class ContactProfile extends React.Component {
 		}
 	}
 
+	returnPressed = () => {
+		this.props.navigation.navigate("SupportProfile")
+	}
+
 
 	render() {
 		let { navigate } = this.props.navigation;
 		return (
 			<View style={{flex: 1}}>
-				<Text> ContactProfile </Text>
-
-				<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10}}>
-		            <Text> Sujet </Text>
-		            <TextInput
-		              placeholder="Sujet"
-		              onChangeText={(text) => this.setSubject(text)}
-		              style={styles.textField, { width: windowSize.x / 1.5, borderWidth: 1 }}
-		            />
+				<View style={{ flex: 1, justifyContent: "center", marginLeft: 15, marginRight: 25}}>
+					<TextInput
+						placeholder="Sujet"
+						onChangeText={(text) => this.setSubject(text)}
+						style={styles.textField, { borderBottomWidth: 1 }}
+					/>
+					<Text style={{fontSize: 13, color: colors.secondary}}> Sujet </Text>
 				</View>
-				<View style={{ flex: 4, justifyContent: "flex-start", alignContent: 'center', marginLeft: 10}}>
-		            <Text> Message </Text>
+				<View style={{ flex: 4, justifyContent: "flex-start", alignContent: 'center', marginLeft: 15, marginRight: 15}}>
 		            <TextInput
 		              placeholder="Message"
 		              onChangeText={(text) => this.setMessage(text) }
-		              style={styles.textField, { width: windowSize.x / 1.5, height: windowSize.y / 2.75, borderWidth: 1 }}
+		              style={styles.textField, { borderWidth: 1 }}
 		            />
+		            <Text style={{fontSize: 13, color: colors.secondary}}> Message </Text>
 				</View>
-				<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10}}>
-		            <Text> Adresse mail </Text>
-		            <TextInput
-		              placeholder="Adresse.mail@exemple.com"
-		              onChangeText={(text) => this.setAdresseMail(text)}
-		              style={styles.textField, { width: windowSize.x / 1.5, borderWidth: 1 }}
-		              value={this.state.email}
-		            />
+				<View style={{ flex: 1, justifyContent: "center", marginLeft: 15, marginRight: 25}}>
+					<TextInput
+						placeholder="Adresse.mail@exemple.com"
+						onChangeText={(text) => this.setAdresseMail(text)}
+						style={styles.textField, { borderBottomWidth: 1 }}
+						value={this.state.email}
+					/>
+					<Text style={{fontSize: 13, color: colors.secondary}}> Adresse Mail </Text>
 				</View>
-				<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10}}>
-		            <Text> Numero de téléphone (facultatif) </Text>
-		            <TextInput
-		              placeholder="0123456789"
-		              onChangeText={(text) => this.setPhoneNumber(text)}
-		              style={styles.textField, { width: windowSize.x / 1.5, borderWidth: 1 }}
-		              value={this.state.phoneNumber}
-		            />
+				<View style={{ flex: 1, justifyContent: "center", marginLeft: 15, marginRight: 25}}>
+					<TextInput
+						placeholder="0123456789"
+						onChangeText={(text) => this.setPhoneNumber(text)}
+						style={styles.textField, { borderBottomWidth: 1 }}
+						value={this.state.phoneNumber}
+					/>
+					<Text style={{fontSize: 13, color: colors.secondary}}> Numero de telephone (facultatif) </Text>
 				</View>
 				{this.state.isConfirm ?
 					null
 					:
-					<Text style={{color: colors.errorColor}}> /!\ need to fill field subject, message and email at least /!\ </Text>
+					<Text style={{color: colors.errorColor, marginRight: 15, marginLeft: 15}}> /!\ sujet, message et / ou adresse mail non valide (ou vide) /!\ </Text>
 				}
+				<View style={{flex: 1}}/>
 				<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
 					<View>
 						<Button 
 							color="#62BE87"
 							style={{ height: 40, width: 50, borderWidth: 2, borderColor: '#000000'}}
-							onPress={() => {}}
+							onPress={() => this.returnPressed()}
 							title="Retour"
 						/>
 					</View>
@@ -116,6 +119,7 @@ class ContactProfile extends React.Component {
 						/>
 					</View>
 				</View>
+				<View style={{flex: 1}}/>
 			</View>
 		)
 	}

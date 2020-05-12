@@ -169,6 +169,8 @@ class Calendar extends React.Component {
 	}
 
 	exportPDFPressed = () => {
+		let startingDate = this.state.actualDateBeginDay + "/" + this.state.actualDateBeginMonth + "/" + this.state.actualDateBeginYear
+		let endDate = this.state.actualDateEndDay + "/" + this.state.actualDateEndMonth + "/" + this.state.actualDateEndYear
 		let PDFData = []
 		for (var i = 0; i < this.state.selectedNotes.length; i++) {
 			for (var j = 0; j < this.state.notes.length; j++) {
@@ -178,7 +180,7 @@ class Calendar extends React.Component {
 			}
 		}
 		this.setModalCheckboxVisible(false)
-		this.props.navigation.navigate('ExportPDF', {'PDFData': PDFData})
+		this.props.navigation.navigate('ExportPDF', {'PDFData': PDFData, "startDate": startingDate, "endDate": endDate})
 	}
 
 	setModalCheckboxVisible = (visible) => {	
