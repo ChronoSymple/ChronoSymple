@@ -64,7 +64,8 @@ class SignupCard extends Component {
     profession: '',
     workplace: '',
     workingHours: '',
-    isButtonDisabled: true
+    isButtonDisabled: true,
+    signedup: false
   };
   setName = e => {
     const name = e.target.value;
@@ -86,6 +87,10 @@ class SignupCard extends Component {
     const workingHours = e.target.value;
     this.setState({ workingHours });
   }
+  signedup = () => {
+    this.setState({signedup: true});
+  }
+
   render() {
     const {
       name,
@@ -96,6 +101,18 @@ class SignupCard extends Component {
     const {
       closeRegister
     } = this.props;
+    if (this.state.signedup) {
+      return (
+        <div className="Form">
+          <div className="FormContainer">
+            <Card className="CardCont">
+              <CardContent>
+                <div><b>Votre inscription à été prise en compte</b></div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>);
+    }
     return (
       <div className="Form">
         <div className="FormContainer">
@@ -153,7 +170,10 @@ class SignupCard extends Component {
               <Button className="SignUpBtu"
                 variant="contained"
                 color="primary"
-                disabled={this.state.isButtonDisabled}>Sign Up</Button>
+                disabled={this.state.isButtonDisabled}
+                onClick={this.signedup}>
+                {'S\'inscrire'}
+              </Button>
               <br />
               <br />
             </CardContent>

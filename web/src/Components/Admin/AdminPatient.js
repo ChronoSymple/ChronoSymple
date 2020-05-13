@@ -25,7 +25,7 @@ class AdminPatient extends PureComponent {
     }
     try {
       await Api.updatePatient(this.props.token, {
-        id: this.props.patientID,
+        id: Number(this.props.patientID),
         email: this.state.email
       });
     } catch (error) {

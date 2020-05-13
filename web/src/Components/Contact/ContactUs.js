@@ -15,12 +15,14 @@ export default class ContactUs extends Component {
       subject: '',
       message: '',
       responseOk: false,
-      cont: ''
+      cont: '',
+      send: false,
     };
   }
 
   handleFormSubmit = async e => {
     e.preventDefault();
+    this.setState({send: true});
     // TODO: Fix the URL
     const res = await fetch('constants.exchange_server.url + constants.exchange_server.contact_script', {
       method: 'POST',
@@ -55,8 +57,11 @@ export default class ContactUs extends Component {
     }
   }
 
-  toggleShow = show => {
-    this.setState({ show });
+  display = () => {
+    this.setState({ show :true });
+  }
+  hide = () => {
+    this.setState({ show: false, send: false, email: '', subject: '', message: '', });
   }
 
   // init = () => {
@@ -74,15 +79,15 @@ export default class ContactUs extends Component {
     const { show } = this.state;
     return (
       <div>
-        <Button onClick={() => this.toggleShow(true)} style={{ textDecoration: 'underline', textTransform: 'lowercase', color: 'white' }}>{i18n.t('contact') || 'Contact us'}</Button>
+        <Button onClick={this.display} style={{ textDecoration: 'underline', textTransform: 'lowercase', color: 'white' }}>{i18n.t('contact') || 'Contact us'}</Button>
         {/* <Example/> */}
         <PopPop open={show}
           closeBtn={true}
           closeOnEsc={true}
-          onClose={() => this.toggleShow(false)}
+          onClose={this.hide}
           closeOnOverlay={true}>
           <div style={{ textAlign: 'left', color: 'black' }}>
-            <div className="shadow bg-1 p-4 rounded">
+            {this.state.send === false ? <div className="shadow bg-1 p-4 rounded">
               <form className={`form form-contact${this.state.response_ok ? ' submitted' : ''}`} name="form-contact" data-response-message-animation="slide-in-up" onSubmit={this.handleFormSubmit}>
                 <div className="form-group">
                   <label htmlFor="contact_email" className="bold mb-0">Adresse E-mail</label>
@@ -108,7 +113,8 @@ export default class ContactUs extends Component {
                        <p className="response">Votre message a été envoyé, nous vous recontacterons dès que possible.</p> */}
                 </div>
               </div>
-            </div>
+            </div> : <div>Votre requête a bien été envoyé.</div>
+            }
           </div>
         </PopPop>
       </div>

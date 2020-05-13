@@ -5,6 +5,7 @@ import Notes from '../../../Controller/NotesController';
 import * as ChartAnnotation from 'chartjs-plugin-annotation';
 import Slider from '@material-ui/core/Slider';
 
+/*
 const test = [
   { date: new Date('2019-10-20T09:00:00Z'), data: 80 },
   { date: new Date('2019-10-20T12:00:00Z'), data: 90 },
@@ -29,7 +30,8 @@ const test = [
   { date: new Date('2019-10-26T12:00:00Z'), data: 78 },
   { date: new Date('2019-10-26T20:00:00Z'), data: 90 },
 ];
-
+*/
+/*
 const dateToProbs = (table2, step = 1) => {
   const table = [];
   const data = table.map(e => e.data);
@@ -51,14 +53,14 @@ const dateToProbs = (table2, step = 1) => {
   }));
   return ({points, labels});
 };
-
+*/
 class Diabetes extends PureComponent {
   setRef = ref => this.ref = ref;
   setRef2 = ref => this.ref2 = ref;
   chart2 = null;
   state = {step:1}
   componentDidMount() {
-    const table = this.props.data.filter(e => e.note !== undefined && e.note.data !== undefined && e.note.data !== undefined && e.note.data.BloodGlucose != '')
+    const table = this.props.data.filter(e => e.note !== undefined && e.note.data !== undefined && e.note.data !== undefined && e.note.data.BloodGlucose !== '')
       .map(e => ({ date: new Date(e.note.created_at), data: Number(e.note.data.BloodGlucose)}))
       .filter(e => Number.isNaN(e.data) === false);
     //const table = test; //this.props.data;
@@ -145,7 +147,8 @@ class Diabetes extends PureComponent {
     this.generateProbsGraph();
   }
   generateProbsGraph = () => {
-    return;
+    /*
+    TODO: Enable back
     if (this.chart2 !== null) {
       this.chart2.destroy();
     }
@@ -186,6 +189,7 @@ class Diabetes extends PureComponent {
         },
       }
     });
+    */
   }
 
   changeStep = (e, v) => {

@@ -7,8 +7,6 @@ const diseases = {
   },
   cancer: {
     fullName: 'Cancer',
-    shortName: 'cancer',
-
   },
   asthma: {
     fullName: 'Asthme',
