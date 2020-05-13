@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { colors } from '../StyleSheet'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import { APIGetDoctorProfile } from '../../API/APIDoctor'
-
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 /*
 Cette classe correspond a la page : fiche du medecin
@@ -45,7 +45,6 @@ class DoctorCard extends React.Component {
 	}
 
 	getSpecificDoctor = (id) => {
-
 		this.props.getUserToken().then(() => {
 			APIGetDoctorProfile(this.props.token.token, id).then(async data => {
 				let response = await data.json()
@@ -72,7 +71,25 @@ class DoctorCard extends React.Component {
 		this.props.getUserToken().then(() => {
 			APIAddDoctor(this.props.token.token, this.state.unitId, this.state.doctorId).then(async data => {
 				if (data.status == 200) {
+					if (this.state.mode == "change") {
+						showMessage({
+							message: this.state.firstName + " " + this.state.lastName + " est votre nouveau médecin",
+							type: "success",
+						});	
+					}
+					else {
+						showMessage({
+							message: "Le médecin " + this.state.firstName + " " + this.state.lastName + " a été ajouté",
+							type: "success",
+						});
+					}
 					this.props.navigation.navigate("Home")
+				}
+				else {
+					showMessage({
+						message: "Le médecin " + this.state.firstName + " " + this.state.lastName + " n'a pas a été ajouté",
+						type: "danger",
+					});
 				}
 			})
 		}).catch(error => {
@@ -84,18 +101,26 @@ class DoctorCard extends React.Component {
 	removeDoctorPressed = (navigate, id) => {
 		if (id == true)
 			id = this.state.actualDoctor
-		else (id == false)
+		else
 			id = this.state.doctorId
 		this.props.getUserToken().then(() => {
 			console.log(id, this.state.unitId)
 			APIRemoveDoctor(this.props.token.token, this.state.unitId, id).then(async data => {
-				console.log(data)
 				if (navigate && data.status == 200) {
-					console.log(this.state.pageToReturn)
+					showMessage({
+						message: "Le médecin " + this.state.firstName + " " + this.state.lastName + " a été supprimé",
+						type: "success",
+					});
 					if (this.state.pageToReturn == "AllDoctors")
 						this.props.navigation.navigate("Profile")
 					else
 						this.props.navigation.navigate("Home")
+				}
+				else if (data.status != 200) {
+					showMessage({
+						message: "Le médecin " + this.state.firstName + " " + this.state.lastName + " n'a pas a été supprimé",
+						type: "danger",
+					});
 				}
 			})
 		}).catch(error => {

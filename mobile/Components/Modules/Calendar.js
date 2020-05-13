@@ -1,7 +1,7 @@
 // Components/Calendar.js
 
 import React from 'react'
-import { ActivityIndicator, View, Text, StyleSheet, Image, Modal, Button, FlatList, TouchableOpacity, TouchableHighlight, ScrollView, BackHandler, Dimensions, SafeAreaView} from 'react-native'
+import { ActivityIndicator, View, Text, StyleSheet, Button, FlatList, TouchableOpacity, TouchableHighlight, BackHandler, Dimensions, SafeAreaView} from 'react-native'
 import { APIGetPatientNotesByDateIntervale,  APIRemovePatientNotes, APIShareNote, APIgetDoctorsOfModule, APIUnshareNote, APIDoctorOfNotes } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import { colors, windowSize } from '../StyleSheet';
@@ -11,9 +11,8 @@ import { CheckBox } from 'react-native-elements'
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import Modal2 from "react-native-modal";
 import CalendarPicker from 'react-native-calendar-picker'
-import { State } from 'react-native-gesture-handler';
-/*import { NoteItem } from './NoteItem' NOT USED*/
 import { showMessage, hideMessage } from "react-native-flash-message";
+import { StackActions } from 'react-navigation';
 
 class Calendar extends React.Component {
 
@@ -92,11 +91,11 @@ class Calendar extends React.Component {
 					for (let doc of response) {
 						doctor_ids.push(doc.id)
 					}
-					if (data.status == 200) {
+					if (data.status == 200 && doctor_ids.length > 0) {
 						APIShareNote(token, cur_modl, notes, doctor_ids).then(async data => {
 							if (data.status == 200) {
 								showMessage({
-						            message: "Note has been shared !",
+						            message: "La note a été partagée !",
 						            type: "success"
 					        	});
 								this.setState({
@@ -107,11 +106,18 @@ class Calendar extends React.Component {
 								  this._bootstrapAsync();
 							} else {
 								showMessage({
-						            message: "An issue occurred, your not was not shared",
+						            message: "Un problème est survenu, votre note n'a pas pu être partagé",
 						            type: "danger",
 					        	});
 							}
 						})
+					}
+					else if (data.status == 200)
+					{
+						showMessage({
+							message: "Aucun médecin assigné au module \"Diabète\", la note n'a pas été partagé",
+							type: "danger"
+						});
 					}
 				})
 			})
@@ -959,7 +965,7 @@ class Calendar extends React.Component {
 								name="add"
 								color={"white"}
 								size={45}
-								onPress={() => { this.props.navigation.navigate('AddNote') }}
+								onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "Calendrier"}) }}
 								style={{justifyContent: "flex-end"}}
 							/>
 							</View>

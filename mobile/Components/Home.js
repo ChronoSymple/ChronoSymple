@@ -16,6 +16,7 @@ import {
 import { connect } from 'react-redux';
 import { getUserToken, saveUserCurrentModule, saveUserCurrentModuleName, getUserCurrentModule } from '../Redux/Action/action';
 import { ScrollView } from 'react-native-gesture-handler';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 class Home extends React.Component {
 	constructor(props) {
@@ -26,15 +27,20 @@ class Home extends React.Component {
 			isModalVisible: false,
 			animatedValue: new Animated.Value(1)
 		}
-		this._bootstrapAsync();
-		const { navigation } = this.props;
-		this.focusListener = navigation.addListener('didFocus', () => {
+		this.focusListener = this.props.navigation.addListener('didFocus', () => {
 			this.state = {
 				Dmodules: null,
 				loading: true
 			}
-			this._bootstrapAsync();
-		});
+			this._bootstrapAsync()
+	  	});
+	}
+
+	reset = () => {
+		this.state = {
+			Dmodules: null,
+			loading: true
+		}
 	}
 		
 	UNSAFE_componentWillMount = () => {
@@ -46,6 +52,10 @@ class Home extends React.Component {
 		this.props.getUserToken().then(() => {
 			APIRemoveUnit(this.props.token.token, idModule).then(async data => {
 				if (data.status == 200) {
+					showMessage({
+						message: "Le module a été supprimé",
+						type: "success",
+					});
 					this.props.getUserCurrentModule().then(() => {
 						this.setState({
 							Dmodules: null,
@@ -165,6 +175,7 @@ class Home extends React.Component {
 	}
 
 	componentDidMount() {
+		this._bootstrapAsync();
 		BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
 	}
 

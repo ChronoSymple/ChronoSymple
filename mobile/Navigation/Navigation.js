@@ -55,9 +55,6 @@ const CalendarStackNavigator = createStackNavigator({
 	EditNote: {
 		screen: EditNote
 	},
-	AddNote: {
-		screen: AddNote
-	},
 	DetailNote: {
 		screen: DetailNote
 	},
@@ -288,7 +285,10 @@ const StackNavigtorGlobalHome = createStackNavigator({
 	SearchDoctorsStackNavigator: SearchDoctorsStackNavigator,
 	AllDoctorsStackNavigator: AllDoctorsStackNavigator,
 	ModuleDiabete: TabsDiabete,
-	ModuleAsthma : TabsAsthma
+	ModuleAsthma : TabsAsthma,
+	AddNote: {
+		screen: AddNote
+	}
 }, {
 	headerMode: 'none'
 });

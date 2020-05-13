@@ -721,7 +721,7 @@ class Statistic extends React.Component {
 							name="add"
 							color={"white"}
 							size={45}
-							onPress={() => { this.props.navigation.navigate('AddNote') }}
+							onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "StatisticDiabete"}) }}
 							style={{justifyContent: "flex-end"}}
 						/>
 						</View>

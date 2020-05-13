@@ -20,6 +20,7 @@ class Note extends React.Component {
 		var jour    = now.getDate();
 		var heure   = now.getHours();
 		var minute  = now.getMinutes();
+		
 		if (month < 10)
 			var date = jour + '/' + '0' + month + '/' + annee
 		else
@@ -29,6 +30,7 @@ class Note extends React.Component {
 		else
 			var horaire = heure + ':' + 0 + minute
 		this.state = { 
+			pageToReturn: this.props.navigation.getParam("pageToReturn"),
 			glycemie: "", 
 			insulineFood: "", 
 			insulineCorr: "", 

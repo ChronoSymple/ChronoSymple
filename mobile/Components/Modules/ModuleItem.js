@@ -74,7 +74,8 @@ class ModuleItem extends React.Component {
 	}
 
 	animationActionComplete= () => {
-		this.setModalVisible(true)
+		if (this._value <= SMALL)
+			this.setModalVisible(true)
 	}
 
  	displayDoctor = () => {

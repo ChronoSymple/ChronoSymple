@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { getUserToken, saveUserCurrentModule, saveUserCurrentModuleName } from '../../Redux/Action/action';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 class ModulePlace extends React.Component {
 	constructor (props) {
@@ -54,13 +55,25 @@ class ModulePlace extends React.Component {
 								.then(() => {
 									this.props.saveUserCurrentModuleName(moduleName)
 									.then(() => {
+										showMessage({
+											message: "Le module " + moduleName + " a été ajouté",
+											type: "success",
+										});
 										this.props.navigation.navigate('Module', {idModule: idModule})
 									})
 									.catch((error) => {
+										showMessage({
+											message: "Une erreur est survenue : Le module " + moduleName + " n'a été ajouté",
+											type: "danger",
+										});
 										this.setState({ error })
 									})
 								})
 								.catch((error) => {
+									showMessage({
+										message: "Une erreur est survenue : Le module " + moduleName + " n'a été ajouté",
+										type: "danger",
+									});
 									this.setState({ error })
 								})
 						}

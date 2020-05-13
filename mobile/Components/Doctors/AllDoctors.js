@@ -13,6 +13,7 @@ import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import DoctorsOfModule from "./DoctorsOfModule"
 import { colors } from '../StyleSheet'
 import { Icon } from 'react-native-elements'
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 class AllDoctors extends React.Component {
 	constructor(props) {
@@ -84,29 +85,29 @@ class AllDoctors extends React.Component {
 				</View>
                 <View style={{flex: 9}}>
                     {this.state.loading && 
-                    <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-                        <ActivityIndicator size='large' color='black' />
-                    </View>
+                    	<View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+                    	    <ActivityIndicator size='large' color='black' />
+                    	</View>
                     }
 				    { !this.state.loading && !this.state.Dmodules
-				    	?	
+				    ?	
 				    	<View style={{flex: 1}}>
 				    		<Text style={{ marginBottom : 30, fontSize: 20 }}>
 				    			Aucun module actif
-                                POUR UTILISER L'APPLICATION VOUS DEVEZ AJOUTER UN MODULE
+                    	        POUR UTILISER L'APPLICATION VOUS DEVEZ AJOUTER UN MODULE
 				    		</Text>
 				    	</View>
-				    	:
-				    	<FlatList
-				    		data={this.state.Dmodules}
-				    		keyExtractor={(item) => item.id.toString()}
-				    		renderItem={({item}) => (
-                                <DoctorsOfModule
-                                    dModule={item}
-                                    doctorpressed={this.doctorPressed}>
-                                </DoctorsOfModule>
-				    		)}
-				    	/>
+				    :
+					 	<FlatList 
+					 		data={this.state.Dmodules} 
+					 		keyExtractor={(item) => item.id.toString()} 
+					 		renderItem={({item}) => ( 
+					 	        <DoctorsOfModule 
+					 	            dModule={item} 
+					 	            doctorpressed={this.doctorPressed}> 
+					 	        </DoctorsOfModule> 
+					 		)} 
+					 	/> 
 				    }
                 </View>
 			</View>

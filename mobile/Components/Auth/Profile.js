@@ -225,6 +225,22 @@ class Profile extends React.Component {
 				</TouchableOpacity>
 			</View>
 			<View style={{ flex: 1}}>
+				<TouchableOpacity onPress={() => navigate('AllDoctors')} style={{flex: 1, borderTopWidth: 1}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}> Mes médecins</Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end", padding: 15}}>
+							<Icon
+								name="chevron-right"
+								color="#62BE87"
+								size={35}
+							/>
+						</View>
+					</View>
+				</TouchableOpacity>
+			</View>
+			<View style={{ flex: 1}}>
 				<TouchableOpacity onPress={() => navigate('Logout')} style={{flex: 1, borderTopWidth: 1}}>
 					<View style={{flex: 1, flexDirection: 'row'}}>
 						<View style={{flex: 4}}>
