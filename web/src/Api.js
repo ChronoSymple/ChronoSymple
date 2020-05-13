@@ -71,8 +71,13 @@ const getNotes = token =>
 const getPatientNotes = (token, patient) =>
   loggedRequest(`${prefix}/doctors/patients/${patient}/units`, token);
 
+const sendMail = (token, message) => loggedRequest(`${prefix}/send_mail_from_doctor`, token, {
+  method: 'POST',
+  body: JSON.stringify(message)
+});
+
 const getNotesByDateInterval = (token, unit, begin = new Date(0), end = new Date()) => {
-  end.setFullYear(end.getFullYear() + 1)
+  end.setFullYear(end.getFullYear() + 1);
   const formatDate = date => {
     const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' });
     const [{ value: mo }, , { value: da }, , { value: ye }] = dtf.formatToParts(date);
@@ -137,5 +142,6 @@ export default {
   getMyProfile,
   getNotes,
   getNotesByDateInterval,
-  getPatientNotes
+  getPatientNotes,
+  sendMail
 };

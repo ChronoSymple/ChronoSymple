@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import '../../assets/CSS/bootstrap.css';
 //import gecko from '../../assets/Img/Gecko.png';
 import i18n from 'i18next';
+import Api from '../../Api';
 
 export default class ContactUs extends Component {
   constructor(props) {
@@ -23,23 +24,13 @@ export default class ContactUs extends Component {
   handleFormSubmit = async e => {
     e.preventDefault();
     this.setState({send: true});
-    // TODO: Fix the URL
-    const res = await fetch('constants.exchange_server.url + constants.exchange_server.contact_script', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        Contact: {
-          email: this.state.email,
-          subject: this.state.subject,
-          message: this.state.message
-        }
-      })
+    const data = await Api.sendMail(localStorage.getItem('myToken'), {
+      email: this.state.email,
+      subject: this.state.subject,
+      message: this.state.message
     });
-    const data = await res.json();
-    return this.handleFormResponse(data);
+    return;
+    //return this.handleFormResponse(data);
   }
 
   handleChangeEmail = data => {
