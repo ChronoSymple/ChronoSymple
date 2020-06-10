@@ -12,6 +12,7 @@ import './i18n';
 i18n.init({
   interpolation: { escapeValue: false },  
 });
+i18n.changeLanguage(localStorage.getItem('lang') || 'fr');
 
 ReactDOM.render(<AppController />, document.getElementById('root'));
 

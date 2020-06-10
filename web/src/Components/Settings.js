@@ -16,19 +16,18 @@ export default class Settings extends PureComponent {
   }
 
   handleChange  = () => {
-    if (this.state.value === 'fr') {
-      this.setState({lang: 'anglais', value: 'en'});
-      i18n.changeLanguage('en');
-    } else if (this.state.value === 'en') {
-      this.setState({lang: 'Français', value: 'fr'});
+    if (i18n.language === 'en') {
+      localStorage.setItem('lang', 'fr');
       i18n.changeLanguage('fr');
-    }
-    if (i18n.language === 'fr')
-      this.setState({lang: 'Français', value: 'fr'});
-    else if (i18n.language === 'en')
       this.setState({lang: 'English', value: 'en'});
-    else 
+    } else if (i18n.language === 'fr') {
+      localStorage.setItem('lang', 'en');
+      i18n.changeLanguage('en');
       this.setState({lang: 'Français', value: 'fr'});
+    } else {
+      i18n.changeLanguage('en');
+      this.setState({lang: 'Français', value: 'fr'});
+    }
     this.forceUpdate();
     this.props.appController.forceUpdate();
   };
