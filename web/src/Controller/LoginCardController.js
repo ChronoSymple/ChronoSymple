@@ -17,8 +17,8 @@ class LoginCardController extends PureComponent {
   login = async e => {
     e.preventDefault();
     try {
-      const token = await Api.login(this.state.email, this.state.password);
-      this.props.setToken(token);
+      const data = await Api.login(this.state.email, this.state.password);
+      this.props.setToken(data.login_token, data.is_admin);
     } catch (e) {
       const error = e.toString();
       this.setState({error});

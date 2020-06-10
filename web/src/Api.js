@@ -37,7 +37,7 @@ const login = async(email, password) =>
   jsonRequest(`${prefix}/login`, {
     method: 'POST',
     body: JSON.stringify({ email, password })
-  }).then(res => res.login_token);
+  });
 
 
 const getPatients = token =>

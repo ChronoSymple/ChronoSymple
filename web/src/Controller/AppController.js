@@ -31,14 +31,16 @@ class App extends PureComponent {
     patient: null,
     token: localStorage.getItem('myToken') || null,
     profile: false,
-    settings: false
+    settings: false,
+    admin: localStorage.getItem('admin') === 'true'
   };
 
   setPatient = patient => (window.location = `/patient/${patient}`);
   setDoctor = doctor => (window.location = `/doctor/${doctor}`);
-  setToken = token => {
+  setToken = (token, admin) => {
+    localStorage.setItem('admin', admin);
     localStorage.setItem('myToken', token);
-    this.setState({ token });
+    this.setState({ token, admin });
   }
   disconnect = () => {
     localStorage.removeItem('myToken');
@@ -64,8 +66,8 @@ class App extends PureComponent {
     } = this.props;
     const {
       token,
+      admin
     } = this.state;
-    const admin = localStorage.getItem('admin') === 'true';
     return (
       <div className={classes.root}>
         <CssBaseline />
