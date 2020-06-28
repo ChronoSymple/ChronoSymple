@@ -4,7 +4,7 @@ import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search';
 import { withStyles } from '@material-ui/core';
-import exact from 'prop-types-exact';
+import i18n from 'i18next';
 
 const styles = {
   searchBar: {
@@ -44,7 +44,7 @@ class Searchbar extends PureComponent {
         <div className={classes.search}>
           <Typography className={classes.searchText}>
             <input
-              placeholder="Recherche..."
+              placeholder={i18n.t('search')}
               className={classes.searchBar}
               value={search}
               onChange={this.setSearchValue}
@@ -63,7 +63,7 @@ class Searchbar extends PureComponent {
   }
 }
 
-Searchbar.propTypes = exact({
+Searchbar.propTypes = {
   search: PropTypes.string.isRequired,
   classes: PropTypes.shape({
     searchBar: PropTypes.string.isRequired,
@@ -72,6 +72,6 @@ Searchbar.propTypes = exact({
     searchText: PropTypes.string.isRequired,
   }).isRequired,
   setSearchValue: PropTypes.func.isRequired,
-});
+};
 
 export default withStyles(styles)(Searchbar);

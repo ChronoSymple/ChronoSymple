@@ -1,36 +1,22 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import LoginCard from '../Components/Login';
-import Api from '../Api';
-
+import CenteredView from '../Components/CenteredView';
+import Register from '../Components/Register';
+import LoginCardController from '../Controller/LoginCardController';
 class LoginController extends PureComponent {
-  state = {password: '', email: ''}
-
-  setPassword = e => {
-    const password = e.target.value;
-    this.setState({password});
-  }
-  setEmail = e => {
-    const email = e.target.value;
-    this.setState({email});
-  }
-  login = async e => {
-    e.preventDefault();
-    this.props.setToken(await Api.login(this.state.email, this.state.password));
-  }
-
+  state = {
+    register: false
+  };
+  openRegister = () => this.setState({register: true});
+  closeRegister = () => this.setState({register: false});
   render() {
     const {
-      email,
-      password
-    } = this.state;
-    return (<LoginCard
-      email={email}
-      password={password}
-      setEmail={this.setEmail}
-      setPassword={this.setPassword}
-      login={this.login}
-    />);
+      setToken,
+    } = this.props;
+    return (<CenteredView>{this.state.register ?
+      <Register closeRegister={this.closeRegister}/> : 
+      <LoginCardController setToken={setToken} openRegister={this.openRegister} />
+    }</CenteredView>);
   }
 }
 

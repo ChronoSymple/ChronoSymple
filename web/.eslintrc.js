@@ -28,10 +28,6 @@ module.exports = {
       "error",
       2,
     ],
-    "linebreak-style": [
-      "error",
-      "unix",
-    ],
     "quotes": [
       "error",
       "single",
@@ -43,7 +39,7 @@ module.exports = {
     "no-template-curly-in-string": "error",
     "array-callback-return": "error",
     "no-alert": "error",
-    "camelcase": "error",
+    "camelcase": "warn",
     "no-duplicate-imports": "error",
     "prefer-template": "error",
     "keyword-spacing": "error",

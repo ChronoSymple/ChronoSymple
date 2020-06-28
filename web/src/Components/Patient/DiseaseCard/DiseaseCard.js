@@ -1,35 +1,54 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Diabetes from './Diabetes';
 import NotImplemented from './NotImplemented';
-
-const diseases = [
-  {name: 'diabetes', fullName: 'Diabète', component: Diabetes},
-  {default: true, component: NotImplemented}
-];
-
+import PropTypes from 'prop-types';
+import diseases from '../../../diseases';
+import Api from '../../../Api';
+import Request from '../../Request';
 class DiseaseCard extends PureComponent {
-  
+
+  state = {
+    loaded: false,
+    error: ''
+  }
+  componentDidMount = () => this.init();
+
+  init = async() => {
+    try {
+      const data = await Api.getNotesByDateInterval(this.props.token, this.props.unitId);
+      this.setState({data, loaded: true});
+    } catch (e) {
+      this.setState({ error: e.message });
+    }
+  }
+
   render() {
     const {
-      disease,
+      diseaseName,
+      defaultOpen,
     } = this.props;
-    const diseasesData = diseases.find(e => e.default || e.name === disease.name);
-    const Component = diseasesData.component;
+    const {
+      data,
+      loaded,
+      error
+    } = this.state;
+    const diseasesData = diseases[diseaseName] || {};
+    const Component = (diseasesData !== undefined && diseasesData.component !== undefined) ? diseasesData.component : NotImplemented;
     return (
       <Card style={{marginTop: 16}}>
-        <ExpansionPanel>
+        <ExpansionPanel defaultExpanded={defaultOpen}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="h6">{diseasesData.fullName || disease.name}</Typography>
+            <Typography variant="h6">{diseasesData.fullName || diseaseName}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Component data={disease.data}/>
+            <Request loading={!loaded} error={error}>
+              {(() => <Component data={data}/>)()}
+            </Request>
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </Card>
@@ -38,10 +57,10 @@ class DiseaseCard extends PureComponent {
 }
 
 DiseaseCard.propTypes = {
-  disease: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    data: PropTypes.any,
-  }).isRequired
+  diseaseName: PropTypes.string.isRequired,
+  unitId: PropTypes.number.isRequired,
+  defaultOpen: PropTypes.bool,
+  token: PropTypes.string.isRequired
 };
 
 export default DiseaseCard;
