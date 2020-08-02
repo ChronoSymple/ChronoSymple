@@ -9,10 +9,10 @@ import Profile from '../Components/Auth/Profile';
 import ModuleProfile from '../Components/Auth/ModuleProfile';
 import Calendar from '../Components/Modules/Calendar';
 import DetailNote from '../Components/Modules/DetailNote';
-import AddNote from '../Components/Modules/Note';
-import EditNote from '../Components/Modules/EditNote';
 import StatisticDiabete from '../Components/Modules/StatisticDiabete';
 import StatisticAsthma from '../Components/Modules/StatisticAsthma';
+import AddNote from '../Components/Modules/Note';
+import EditNote from '../Components/Modules/EditNote';
 import ExportPDF from '../Components/Modules/ExportPDF';
 import Logout from '../Components/Auth/Logout'
 import Loading from '../Components/Loading'
@@ -115,6 +115,20 @@ const SearchDoctorsStackNavigator = createStackNavigator({
 	headerMode: 'none'
 })
 
+const StackNavigtorWhithModule = createStackNavigator({
+	Check: {
+		screen: Check
+	},
+	StatisticDiabete: {
+		screen: StatisticDiabete
+	},
+	StatisticAsthma: {
+		screen: StatisticAsthma
+	}
+},{
+	headerMode: 'none'
+})
+
 const HomePrincipaleTabs = createBottomTabNavigator({
 	Home: {
 		screen: Home,
@@ -151,66 +165,9 @@ const HomePrincipaleTabs = createBottomTabNavigator({
 	},
 });
 
-const TabsAsthma = createBottomTabNavigator({
+const ModuleTab = createBottomTabNavigator({
 	Statistic: {
-		screen : StatisticAsthma,
-		navigationOptions: () => ({
-			tabBarIcon: ({tintColor}) => (
-			    <Icon
-				name="insert-chart"
-				color={tintColor}
-				size={40}
-			    />
-		)})
-	},
-	Calendar: {
-		screen : StatisticAsthma,
-		navigationOptions: () => ({
-			tabBarIcon: ({tintColor}) => (
-			    <Icon2
-				name="notes-medical"
-				color={tintColor}
-				size={40}
-			    />
-		)})
-	},
-	Profile: {
-		screen : Profile,
-		navigationOptions: () => ({
-			tabBarIcon: ({tintColor}) => (
-			    <Icon
-				name="account-circle"
-				color={tintColor}
-				size={40}
-			    />
-		)})
-	},
-	Home: {
-		screen : Home,
-		navigationOptions: () => ({
-			tabBarIcon: ({tintColor}) => (
-			    <Icon
-				name="apps"
-				color={tintColor}
-				size={40}
-			    />
-		)})
-	},
-}, {
-	
-	tabBarOptions: {
-	    showLabel: false,
-	    activeTintColor: '#F8F8F8',
-	    inactiveTintColor: colors.secondary,
-	    style: {
-		backgroundColor: colors.primary
-	    }
-	},
-});
-
-const TabsDiabete = createBottomTabNavigator({
-	Statistic: {
-		screen : StatisticDiabete,
+		screen : StackNavigtorWhithModule,
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
@@ -265,17 +222,9 @@ const TabsDiabete = createBottomTabNavigator({
 	},
 });
 
-const StackNavigtorWhithModule = createStackNavigator({
-	Check: {
-		screen: Check
-	},
-},{
-	headerMode: 'none'
-})
-
 const StackNavigtorGlobalHome = createStackNavigator({
 	HomeTabs : HomePrincipaleTabs,
-	Module : StackNavigtorWhithModule,
+	Module : ModuleTab,
 	Stack: {
 		screen: ModulePlace, navigationOptions: { title:'ModulePlace' }
 	},
@@ -284,8 +233,6 @@ const StackNavigtorGlobalHome = createStackNavigator({
 	DoctorCardStackNavigator : DoctorCardStackNavigator,
 	SearchDoctorsStackNavigator: SearchDoctorsStackNavigator,
 	AllDoctorsStackNavigator: AllDoctorsStackNavigator,
-	ModuleDiabete: TabsDiabete,
-	ModuleAsthma : TabsAsthma,
 	AddNote: {
 		screen: AddNote
 	}

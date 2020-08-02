@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Button, TextInput, ScrollView, BackHandler, Image, Picker} from 'react-native'
+import { View, Text, Button, TextInput, ScrollView, BackHandler, Image, Picker, FlatList} from 'react-native'
 import { LoginAPatientWithApi } from '../../API/APIConnection'
 import { styles, colors, windowSize } from '../StyleSheet'
 import { connect } from 'react-redux';
@@ -10,6 +10,293 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon_Ant from 'react-native-vector-icons/AntDesign';
 import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
 
+class Note extends React.Component {
+
+	constructor(props) {
+		super(props)
+		var now =  new Date()
+		var annee   = now.getFullYear();
+		var month    = now.getMonth() + 1;
+		var jour    = now.getDate();
+		var heure   = now.getHours();
+		var minute  = now.getMinutes();
+		
+		if (month < 10)
+			var date = jour + '/' + '0' + month + '/' + annee
+		else
+			var date = jour + '/' + month + '/' + annee
+		if (minute > 9)
+			var horaire = heure + ':' + minute
+		else
+			var horaire = heure + ':' + 0 + minute
+		this.state = { 
+			pageToReturn: this.props.navigation.getParam("pageToReturn"),
+			fieldsJSON: JSON.parse("[{\"name\": \"Glucose : \",\"defaultText\": \"\",\"tag\": \"bloodGlucose\",\"icon\": {\"icon_name\": \"\",\"icon_color\": \"yellow\"},\"field_type\": \"text\",\"placeholder\": \"mmol/L\",\"keyboardType\":\"numeric\"}, {\"name\": \"Insuline (Nourr)\",\"defaultText\": \"\",\"tag\": \"insulineFood\",\"icon\": {\"icon_name\": \"\",\"icon_color\": \"green\"},\"field_type\": \"text\",\"placeholder\": \"Unité\",\"keyboardType\":\"numeric\"}, {\"name\": \"insuline (Corr)\",\"defaultText\": \"\",\"tag\": \"insulineCorr\",\"icon\": {\"icon_name\": \"\",\"icon_color\": \"red\"},\"field_type\": \"text\",\"placeholder\": \"Unité\",\"keyboardType\":\"numeric\"}, {\"name\": \"Description : \",\"defaultText\": \"\",\"tag\": \"description\",\"icon\": {\"icon_name\": \"\",\"icon_color\": \"blue\"},\"field_type\": \"text\",\"placeholder\": \"ex: j'ai mangé...\",\"keyboardType\":\"default\"}, {\"name\": \"Quel période?\",\"defaultText\": \"Petit déjeuner\",\"tag\": \"wichLunch\",\"icon\": {\"icon_name\": \"\",\"icon_color\": \"blue\"},\"field_type\": \"select\",\"placeholder\": \"ex: j'ai mangé...\",\"select_values\": [\"Petit déjeuner\", \"Repas\", \"Goûter\", \"Grignotage\", \"Dîner\"]}]"),
+			myTab: new Map(),
+			glycemie: "", 
+			insulineFood: "", 
+			insulineCorr: "", 
+			description: "",
+			whichLunch: "",
+			date: date,
+			time: horaire,
+			isDateTimePickerVisible: false,
+			isTimePickerVisible: false,
+			textFiledFocusColor: colors.primary,
+			isInvalid: false,
+			bloodGlucoseFocused: false,
+			insulineFoodFocused: false,
+			InsulineaprepasFocused: false,
+			descriptionFocused: false
+		}
+		this._fillkeyInTab();
+		this.props.getUserCurrentModule().then(() => {
+		})
+	}
+
+	_fillkeyInTab = () => {
+		for (var values in this.state.fieldsJSON) {
+			this.setState({
+				myTab : this.state.myTab.set(this.state.fieldsJSON[values].tag, this.state.fieldsJSON[values].defaultText)
+			})
+		}
+	}
+	
+	_changeTabValue = (key, value) => {
+		this.setState({
+			whichLunch: value,
+			myTab: this.state.myTab.set(key, value),
+		})
+	}
+
+	_bootstrapAsync = () => {
+		let { navigate } = this.props.navigation;
+		print(this.state.myTab);
+		this.props.getUserToken().then(() => {
+			this.props.getUserCurrentModule().then(() => {
+				APIAddPatientNotes(this.props.token.token, this.state.myTab, this.props.currentModule.currentModule).then(data => {
+					if (data.status == 200) {
+						this.setState({ isSend: true })
+						navigate("Calendar")
+					}
+				}).catch(error => {
+						this.setState({ error })
+				})
+			})
+		}).catch(error => {
+			this.setState({ error })
+		})
+	}
+
+	textFieldFocused = (state) => {
+		this.setState({[state]: true})
+	}
+
+	textFieldBlured = (state) => {
+		this.setState({[state]: false})
+	}
+
+	showDateTimePicker = () => {
+		this.setState({ isDateTimePickerVisible: true });
+	};
+
+	hideDateTimePicker = () => {
+		this.setState({ isDateTimePickerVisible: false });
+	};
+
+	handleDatePicked = date => {
+		var date = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
+		this.setState({ date: date });
+		this.hideDateTimePicker();
+	};
+
+	showTimePicker = () => {
+		this.setState({ isTimePickerVisible: true });
+	};
+	 
+	hideTimePicker = () => {
+		this.setState({ isTimePickerVisible: false });
+	};
+	 
+	handleTimePicked = time => {
+		if (time.getMinutes() > 9)
+			var horaire = time.getHours() + ':' + time.getMinutes()
+		else
+			var horaire = time.getHours() + ':' + "0" + time.getMinutes()
+		this.setState({ time: horaire });
+		this.hideTimePicker();
+	};
+	//Sat Nov 09 2019 16:43:00 GMT+0900
+	checkFieldType = data => {
+		if (data.field_type == "text") {
+			return (
+				<View>
+					<View style={{flexDirection: "row"}}>
+						<View style={{flex:0.5}}></View>
+						<Text style={{fontSize: 15, textAlign: "center"}}>
+							{data.name}
+						</Text>
+						<View style={{flex:0.5}}></View>
+						<Icon
+							style={{flex:1}}
+							name={data.icon_name}
+							color={data.icon_color}
+							size={35}
+						/>
+						<View style={{flex:0.5}}></View>
+						<TextInput
+							pattern="[0-9]{10}"
+							keyboardType={data.keyboardType}
+							placeholder={data.placeholder}
+							autoCorrect={false}
+							onChangeText={(text) => this._changeTabValue(data.tag, text)}
+							value={this.state.myTab.get[data.tag]}
+						/>
+						<View style={{flex:0.5}}></View>
+					</View>				
+				</View>
+			);
+		}
+		else if (data.field_type == "select") {
+			let myUsers = data.select_values.map((myValue, myIndex)=>{
+				return(
+					<Picker.Item label={myValue} value={myIndex}/>
+				)
+			});
+			return (
+				<View>
+					<View style={{flexDirection: "row"}}>
+						 <View style={{flex:0.5}}></View>
+						<Text style={{flex:4, fontSize: 15, paddingTop: 20}}>
+							{data.name}
+						</Text>
+						<View style={{flex:0.5}}></View>
+						<Picker
+  							selectedValue={this.state.myTab.get(data.tag)}
+							style={{ flex:5}}
+							onValueChange={(itemValue, itemIndex) => this._changeTabValue(data.tag, itemValue)}>
+							{myUsers}
+						</Picker>
+						<View style={{flex:0.5}}></View>
+					</View>	
+				</View>
+			);
+		}
+	};
+	
+  	render() {
+		let { navigate } = this.props.navigation;
+
+    	return (
+			<View style={{flex:1}}>
+				<View style={{backgroundColor:colors.secondary, flex:1, flexDirection: 'column'}}>
+					<View style={{flex:1}}></View>
+					<View style={{flex:8, flexDirection: 'row', justifyContent:"space-between"}}>
+						<TouchableHighlight style={{margin: 10}}>
+							<Icon
+								name="clear"
+								color="#FFF"
+								size={35}
+								onPress={() => navigate("Calendar")}
+		    				/>
+						</TouchableHighlight>
+						<TouchableHighlight style={{margin: 10}}>
+							<Icon
+								name="check"
+								color="#FFF"
+								size={35}
+								onPress={() => this._bootstrapAsync()}
+		    				/>
+						</TouchableHighlight>
+					</View>
+					<View style={{flex:1}}></View>
+				</View>
+				<View style={{ flex: 1}}></View>
+				<View style={{ flex: 2, justifyContent: "center", alignCOntent: 'center'}}>
+					<View style={{flex: 0.5}}></View>
+					<View style={{flex: 4.25, fontSize: 20, flexDirection:"row"}}>
+						<View style={{ flex: 1.5}}></View>
+						<Icon_Ant
+							name="clockcircleo"
+							color="#000"
+							size={40}
+							onPress={this.showDateTimePicker}
+						/>
+						<View style={{ flex: 1.5}}></View>
+						<View style={{ flex: 5}}>
+        					<Button style={{fontSize: 20, borderRadius: 15,	borderWidth: 4,	borderColor: colors.primary }} color={colors.primary} title={this.state.date} onPress={this.showDateTimePicker} />
+        					<DateTimePicker
+        					  	isVisible={this.state.isDateTimePickerVisible}
+        					  	onConfirm={this.handleDatePicked}
+        					  	onCancel={this.hideDateTimePicker}
+			    		 	/>
+						</View>
+						<View style={{ flex: 1}}></View>
+					</View>
+					<View style={{flex: 0.5}}></View>
+					<View style={{flex: 4.25, flexDirection:"row"}}>
+						<View style={{ flex: 1.5}}></View>
+						<Icon_Ant
+							name="calendar"
+							color="#000"
+							size={40}
+							onPress={this.showTimePicker}
+						/>
+						<View style={{ flex: 1.5}}></View>
+						<View style={{ flex: 5}}>
+        					<Button style={{fontSize: 20, borderRadius: 15,	borderWidth: 4,	borderColor: colors.primary }} color={colors.primary}  title={this.state.time} onPress={this.showTimePicker} />
+        					<DateTimePicker
+								mode="time"
+        						isVisible={this.state.isTimePickerVisible}
+        						onConfirm={this.handleTimePicked}
+								onCancel={this.hideTimePicker}
+							/>
+						</View>
+						<View style={{ flex: 1}}></View>
+					</View>
+					<View style={{flex: 0.5}}></View>
+				</View>
+				<View style={{flex: 1}}></View>
+				<View style={{flex: 5}}>
+					<FlatList
+						data={this.state.fieldsJSON}
+						keyExtractor={(item) => item.toString()}
+						renderItem={({item}) => (
+							this.checkFieldType(item)
+						)}
+					/>
+				</View>
+				<View style={{ flex: 1}}></View>
+			</View>
+		)
+	}
+
+	componentDidMount() {
+		BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+	}
+
+	componentWillUnmount() {
+		BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+	}
+
+	handleBackPress = () => {
+		this.props.navigation.navigate('Calendar')
+		return true;
+	}
+}
+
+const mapStateToProps = state => ({
+	token: state.token,
+	currentModule: state.currentModule
+});
+
+const mapDispatchToProps = dispatch => ({
+	getUserToken: () => dispatch(getUserToken()),
+	getUserCurrentModule: () => dispatch(getUserCurrentModule())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Note);
+/*
 class Note extends React.Component {
 
 	constructor(props) {
@@ -378,3 +665,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Note);
+*/

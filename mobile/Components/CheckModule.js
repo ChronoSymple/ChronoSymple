@@ -22,9 +22,9 @@ class CheckMOdule extends React.Component {
 	_bootstrapAsync = () => {
 		this.props.getUserCurrentModuleName().then(() => {
 			if (this.props.currentModuleName.currentModuleName == "diabetes")
-				this.props.navigation.navigate('ModuleDiabete')
+				this.props.navigation.navigate('StatisticDiabete')
 			else
-				this.props.navigation.navigate('ModuleAsthma')
+				this.props.navigation.navigate('StatisticAsthma')
 		}).catch(error => {
 			this.setState({ error })
 		})
@@ -33,7 +33,7 @@ class CheckMOdule extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<ActivityIndicator size='large' color='white' />
+				<ActivityIndicator size='large' color='#62BE87' />
 			</View>
 		)
 	}
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		flexDirection: 'column',
-		backgroundColor: '#62BE87'
+		backgroundColor: 'white'
 	},
 
 })
