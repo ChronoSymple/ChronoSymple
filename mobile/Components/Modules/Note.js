@@ -4,11 +4,13 @@ import { LoginAPatientWithApi } from '../../API/APIConnection'
 import { styles, colors, windowSize } from '../StyleSheet'
 import { connect } from 'react-redux';
 import { APIAddPatientNotes } from '../../API/APIModule'
-import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
+import { getUserToken, getUserCurrentModule, getUserCurrentModuleName } from '../../Redux/Action/action';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon_Ant from 'react-native-vector-icons/AntDesign';
 import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
+import { APIGetModules, APIGetNotesParameters } from "../../API/APIModule"
+import { DebugInstructions } from 'react-native/Libraries/NewAppScreen';
 
 class Note extends React.Component {
 
@@ -31,8 +33,6 @@ class Note extends React.Component {
 			var horaire = heure + ':' + 0 + minute
 		this.state = { 
 			pageToReturn: this.props.navigation.getParam("pageToReturn"),
-			fieldsJSON: JSON.parse("[{\"name\": \"Glucose : \",\"defaultText\": \"\",\"tag\": \"bloodGlucose\",\"icon\": {\"icon_name\": \"\",\"icon_color\": \"yellow\"},\"field_type\": \"text\",\"placeholder\": \"mmol/L\",\"keyboardType\":\"numeric\"}, {\"name\": \"Insuline (Nourr)\",\"defaultText\": \"\",\"tag\": \"insulineFood\",\"icon\": {\"icon_name\": \"\",\"icon_color\": \"green\"},\"field_type\": \"text\",\"placeholder\": \"Unité\",\"keyboardType\":\"numeric\"}, {\"name\": \"insuline (Corr)\",\"defaultText\": \"\",\"tag\": \"insulineCorr\",\"icon\": {\"icon_name\": \"\",\"icon_color\": \"red\"},\"field_type\": \"text\",\"placeholder\": \"Unité\",\"keyboardType\":\"numeric\"}, {\"name\": \"Description : \",\"defaultText\": \"\",\"tag\": \"description\",\"icon\": {\"icon_name\": \"\",\"icon_color\": \"blue\"},\"field_type\": \"text\",\"placeholder\": \"ex: j'ai mangé...\",\"keyboardType\":\"default\"}, {\"name\": \"Quel période?\",\"defaultText\": \"Petit déjeuner\",\"tag\": \"wichLunch\",\"icon\": {\"icon_name\": \"\",\"icon_color\": \"blue\"},\"field_type\": \"select\",\"placeholder\": \"ex: j'ai mangé...\",\"select_values\": [\"Petit déjeuner\", \"Repas\", \"Goûter\", \"Grignotage\", \"Dîner\"]}]"),
-			myTab: new Map(),
 			glycemie: "", 
 			insulineFood: "", 
 			insulineCorr: "", 
@@ -49,32 +49,72 @@ class Note extends React.Component {
 			InsulineaprepasFocused: false,
 			descriptionFocused: false
 		}
-		this._fillkeyInTab();
 		this.props.getUserCurrentModule().then(() => {
 		})
+		this.getJson();
 	}
 
-	_fillkeyInTab = () => {
-		for (var values in this.state.fieldsJSON) {
-			this.setState({
-				myTab : this.state.myTab.set(this.state.fieldsJSON[values].tag, this.state.fieldsJSON[values].defaultText)
-			})
-		}
-	}
-	
 	_changeTabValue = (key, value) => {
 		this.setState({
 			whichLunch: value,
-			myTab: this.state.myTab.set(key, value),
+			mytab: this.state.mytab.set(key, value),
+		})
+	}
+
+	getJson = () => {
+		let { navigate } = this.props.navigation;
+		this.props.getUserToken().then(() => {
+			this.props.getUserCurrentModule().then(() => {
+				APIGetModules(this.props.token.token).then(async data => {
+					if (data.status == 200) {
+						let response = await data.json()
+						for (var i = 0; i < response.modules.length; i++) {
+							if (response.modules[i].name == this.props.currentModuleName.currentModuleName) {
+								APIGetNotesParameters(this.props.token.token, response.modules[i].id).then(async data => {
+									if (data.status == 200) {
+										var myTab = new Map()
+										var fieldsJSON = await data.json();
+										if (fieldsJSON != null) {
+											for (var values in fieldsJSON) {
+												myTab = myTab.set(fieldsJSON[values].tag, fieldsJSON[values].defaultText)
+											}
+										}
+										this.setState ({ 
+											fieldsJSON: fieldsJSON,
+											mytab: new Map(myTab)
+										})
+									}
+									else {
+										return (null);
+									}
+								}).catch(error => {
+										this.setState({ error })
+								})
+							}
+						}
+					}
+					else
+						return (null)
+				}).catch(error => {
+						this.setState({ error })
+				})
+			})
+		}).catch(error => {
+			this.setState({ error })
 		})
 	}
 
 	_bootstrapAsync = () => {
 		let { navigate } = this.props.navigation;
-		print(this.state.myTab);
+		let object = {};
+		this.state.mytab.forEach((value, key) => {
+		    var keys = key.split('.'),
+		        last = keys.pop();
+		    keys.reduce((r, a) => r[a] = r[a] || {}, object)[last] = value;
+		});
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
-				APIAddPatientNotes(this.props.token.token, this.state.myTab, this.props.currentModule.currentModule).then(data => {
+				APIAddPatientNotes(this.props.token.token, object, this.props.currentModule.currentModule).then(data => {
 					if (data.status == 200) {
 						this.setState({ isSend: true })
 						navigate("Calendar")
@@ -150,7 +190,7 @@ class Note extends React.Component {
 							placeholder={data.placeholder}
 							autoCorrect={false}
 							onChangeText={(text) => this._changeTabValue(data.tag, text)}
-							value={this.state.myTab.get[data.tag]}
+							value={this.state.mytab.get[data.tag]}
 						/>
 						<View style={{flex:0.5}}></View>
 					</View>				
@@ -172,7 +212,7 @@ class Note extends React.Component {
 						</Text>
 						<View style={{flex:0.5}}></View>
 						<Picker
-  							selectedValue={this.state.myTab.get(data.tag)}
+  							selectedValue={this.state.mytab.get(data.tag)}
 							style={{ flex:5}}
 							onValueChange={(itemValue, itemIndex) => this._changeTabValue(data.tag, itemValue)}>
 							{myUsers}
@@ -186,7 +226,6 @@ class Note extends React.Component {
 	
   	render() {
 		let { navigate } = this.props.navigation;
-
     	return (
 			<View style={{flex:1}}>
 				<View style={{backgroundColor:colors.secondary, flex:1, flexDirection: 'column'}}>
@@ -258,13 +297,16 @@ class Note extends React.Component {
 				</View>
 				<View style={{flex: 1}}></View>
 				<View style={{flex: 5}}>
+				{this.state.fieldsJSON
+					&&
 					<FlatList
-						data={this.state.fieldsJSON}
-						keyExtractor={(item) => item.toString()}
-						renderItem={({item}) => (
-							this.checkFieldType(item)
+					data={this.state.fieldsJSON}
+					keyExtractor={(item) => item.toString()}
+					renderItem={({item}) => (
+						this.checkFieldType(item)
 						)}
 					/>
+				}
 				</View>
 				<View style={{ flex: 1}}></View>
 			</View>
@@ -287,12 +329,14 @@ class Note extends React.Component {
 
 const mapStateToProps = state => ({
 	token: state.token,
-	currentModule: state.currentModule
+	currentModule: state.currentModule,
+	currentModuleName: state.currentModuleName
 });
 
 const mapDispatchToProps = dispatch => ({
 	getUserToken: () => dispatch(getUserToken()),
-	getUserCurrentModule: () => dispatch(getUserCurrentModule())
+	getUserCurrentModule: () => dispatch(getUserCurrentModule()),
+	getUserCurrentModuleName: () => dispatch(getUserCurrentModuleName())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Note);

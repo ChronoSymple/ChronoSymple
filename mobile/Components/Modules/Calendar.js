@@ -727,6 +727,19 @@ class Calendar extends React.Component {
 		})
 	}
 
+	displayDate = (created_at) => {
+		let date = new Date(created_at)
+		console.log(created_at.indexOf("\T"));
+		let time = created_at.substr(created_at.indexOf("\T") + 1, created_at.length);
+		let time2 = time.split(":")
+	//	dateDate = dateDate.split("-").join(" ")
+		return (
+			<Text style={styles.noteText}>
+				{time2[0]}H {time2[1]}:{time2[2].substr(0, time2[2].indexOf("."))}s
+			</Text>
+		);
+	}
+
 	render() {
 		const deviceWidth = Dimensions.get("window").width / 2;
 		const { selectedStartDate, selectedEndDate } = this.state;
@@ -1040,7 +1053,7 @@ class Calendar extends React.Component {
 													style={{flex: 2}}
 												/>
 												<View style={{flexDirection: "column"}}>
-													<Text style={styles.noteText}>{item.data.date} {item.data.time}</Text>
+													{this.displayDate(item.created_at)}
 													<View>
 														{ !item.data.description
 															?
