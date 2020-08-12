@@ -4,7 +4,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { 
   APIGetGeneralUnitNoteFileds,
   APIPatchChangeFilter,
-  APIGetFilter
+  APIGetFilter,
+  APIGetGeneralUnitId
   } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import { connect } from 'react-redux'
@@ -24,7 +25,6 @@ class ModalFilter extends React.Component {
   
   constructor (props) {
     super(props)
-    console.log("RECONSTRUCT");
     this.state = {
       modalVisible: this.props.modalShow,
       checkedBoxElem: [],
@@ -34,16 +34,32 @@ class ModalFilter extends React.Component {
 
   getNoteFileds = () => {
     this.props.getUserToken().then(() => {
+      
       this.props.getUserCurrentModule().then(() => {
-        APIGetGeneralUnitNoteFileds(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
-        let response = await data.json()
-        if (data.status == 200) {
-          this.setState({noteFields: response})
-        }
+        
+        APIGetGeneralUnitId(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
+          
+          let resp = await data.json();
+          let general_module_id = resp["id"]
+          APIGetGeneralUnitNoteFileds(this.props.token.token, general_module_id).then(async data => {
+          
+            let response = await data.json();
+            if (data.status == 200) {
+              this.setState({noteFields: response})
+            }
+          
+          }).catch(error => {
+            this.setState({ error })
+          })
+        
         }).catch(error => {
           this.setState({ error })
         })
+      
+      }).catch(error => {
+        this.setState({ error })
       })
+    
     }).catch(error => {
       this.setState({ error })
     })
@@ -51,17 +67,32 @@ class ModalFilter extends React.Component {
 
   setCheckedBoxElem = () => {
     this.props.getUserToken().then(() => {
+
       this.props.getUserCurrentModule().then(() => {
-        APIGetFilter(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
-        let response = await data.json()
-        if (data.status == 200) {
-          console.log(response);
-          this.setState({checkedBoxElem: response["only"]}, () => { this.getNoteFileds() })
-        }
+        
+        APIGetGeneralUnitId(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
+          
+          let resp = await data.json();
+          let general_module_id = resp["id"]
+          APIGetFilter(this.props.token.token, general_module_id).then(async data => {
+          
+          let response = await data.json()
+          if (data.status == 200) {
+            this.setState({checkedBoxElem: response["only"]}, () => { this.getNoteFileds() })
+          }
+          
+          }).catch(error => {
+            this.setState({ error })
+          })
+        
         }).catch(error => {
           this.setState({ error })
         })
+      
+      }).catch(error => {
+        this.setState({ error })
       })
+    
     }).catch(error => {
       this.setState({ error })
     })
@@ -74,7 +105,6 @@ class ModalFilter extends React.Component {
       var pos = checkedB.indexOf(elem);
       checkedB.splice(pos, 1);
     } else {
-      console.log(elem)
       checkedB.push(elem);
     }
     this.setState({checkedBoxElem: checkedB})
@@ -93,28 +123,35 @@ class ModalFilter extends React.Component {
  
   updateFilter = () => {
     var new_filter = this.gen_new_filter()
-    console.log(new_filter); 
+
     this.props.getUserToken().then(() => {
+
       this.props.getUserCurrentModule().then(() => {
+        
         APIPatchChangeFilter(this.props.token.token, this.props.currentModule.currentModule, new_filter).then(async data => {
-        let response = await data.json()
-        if (data.status == 200) {
-          showMessage({
-              message: "Le filtre a bien etait modifié !",
-              type: "success"
-            });
-        }
+        
+          let response = await data.json()
+          if (data.status == 200) {
+            showMessage({
+                message: "Le filtre a bien etait modifié !",
+                type: "success"
+              });
+          }
+        
         }).catch(error => {
           this.setState({ error })
         })
-      })
+
+      }).catch(error => {
+          this.setState({ error })
+        })
+    
     }).catch(error => {
       this.setState({ error })
     })
   }
 
   render() {
-    console.log("render");
     return(
       <View>
         <Modal
