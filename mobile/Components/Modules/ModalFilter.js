@@ -1,10 +1,15 @@
 import React from 'react'
 import { colors, windowSize } from '../StyleSheet';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { APIGetGeneralUnitNoteFileds } from '../../API/APIModule'
+import { 
+  APIGetGeneralUnitNoteFileds,
+  APIPatchChangeFilter,
+  APIGetFilter
+  } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import { connect } from 'react-redux'
 import { CheckBox } from 'react-native-elements'
+import { showMessage, hideMessage } from "react-native-flash-message";
 import {
   Alert,
   Modal,
@@ -22,13 +27,12 @@ class ModalFilter extends React.Component {
     console.log("RECONSTRUCT");
     this.state = {
       modalVisible: this.props.modalShow,
-      checkedBox: [],
+      checkedBoxElem: [],
       noteFields: []
     };
   }
 
   getNoteFileds = () => {
-    console.log("get data")
     this.props.getUserToken().then(() => {
       this.props.getUserCurrentModule().then(() => {
         APIGetGeneralUnitNoteFileds(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
@@ -45,23 +49,70 @@ class ModalFilter extends React.Component {
     })
   }
 
-  boxChecked = (elem, i) => {
-    let checkedB = this.state.checkedBox;
+  setCheckedBoxElem = () => {
+    this.props.getUserToken().then(() => {
+      this.props.getUserCurrentModule().then(() => {
+        APIGetFilter(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
+        let response = await data.json()
+        if (data.status == 200) {
+          console.log(response);
+          this.setState({checkedBoxElem: response["only"]}, () => { this.getNoteFileds() })
+        }
+        }).catch(error => {
+          this.setState({ error })
+        })
+      })
+    }).catch(error => {
+      this.setState({ error })
+    })
+  }
 
-    if (this.state.checkedBox.includes(elem)) {
+  boxChecked = (elem, i) => {
+    let checkedB = this.state.checkedBoxElem;
+
+    if (this.state.checkedBoxElem.includes(elem)) {
       var pos = checkedB.indexOf(elem);
       checkedB.splice(pos, 1);
     } else {
       console.log(elem)
       checkedB.push(elem);
     }
-    this.setState({checkedBox: checkedB})
+    this.setState({checkedBoxElem: checkedB})
   }
 
   isChecked = (elem) => {
-    return (this.state.checkedBox.includes(elem));
+    return (this.state.checkedBoxElem.includes(elem));
   }
-  
+
+  gen_new_filter = () => {
+    var json = {
+      "only": this.state.checkedBoxElem
+    }
+    return (json);
+  }
+ 
+  updateFilter = () => {
+    var new_filter = this.gen_new_filter()
+    console.log(new_filter); 
+    this.props.getUserToken().then(() => {
+      this.props.getUserCurrentModule().then(() => {
+        APIPatchChangeFilter(this.props.token.token, this.props.currentModule.currentModule, new_filter).then(async data => {
+        let response = await data.json()
+        if (data.status == 200) {
+          showMessage({
+              message: "Le filtre a bien etait modifié !",
+              type: "success"
+            });
+        }
+        }).catch(error => {
+          this.setState({ error })
+        })
+      })
+    }).catch(error => {
+      this.setState({ error })
+    })
+  }
+
   render() {
     console.log("render");
     return(
@@ -74,8 +125,10 @@ class ModalFilter extends React.Component {
         >
           <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            
-            <View style={{flex: 9}}>
+            <View style={{flex: 1}}>
+              <Text style={{color: colors.primary, fontSize: 15}} > Filtrez votre partage informations </Text>
+            </View>
+            <View style={{flex: 8}}>
               <ScrollView>
                 { 
                   this.state.noteFields.map((e, i) => {
@@ -109,7 +162,9 @@ class ModalFilter extends React.Component {
                <TouchableHighlight
                 style={{ ...styles.openButton, backgroundColor: colors.primary }}
                 onPress={() => {
-                  this.props.modalHide()
+                  this.updateFilter();
+                  this.props.modalHide();
+                  this.props.callBack();
                 }}
               >
                 <Text style={styles.textStyle}>Partager</Text>
@@ -125,8 +180,8 @@ class ModalFilter extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.modalShow !== prevProps.modalShow) {
-      if (this.state.noteFields.length == 0) {
-        this.getNoteFileds();
+      if (this.props.modalShow == true) {
+        this.setCheckedBoxElem();
       }
       this.setState({modalVisible: this.props.modalShow})
     }

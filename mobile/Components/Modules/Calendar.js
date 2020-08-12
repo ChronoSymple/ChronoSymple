@@ -762,7 +762,7 @@ class Calendar extends React.Component {
 				<ModalFilter 
 					modalShow={this.state.modalVisible}
 					modalHide={this.hideFilterModal}
-					callBack={ this.shareNote() }
+					callBack={ () => { this.shareNote() } }
 				/>
 				<View style={{flex: 0.8, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width}}>
 	         		<Text style={{color:"white", textAlign:'center', fontWeight: "bold", fontSize: 22}}>
