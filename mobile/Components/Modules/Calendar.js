@@ -5,6 +5,7 @@ import { ActivityIndicator, View, Text, StyleSheet, Button, FlatList, TouchableO
 import { APIGetPatientNotesByDateIntervale,  APIRemovePatientNotes, APIShareNote, APIgetDoctorsOfModule, APIUnshareNote, APIDoctorOfNotes } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import { colors, windowSize } from '../StyleSheet';
+import ModalFilter from "./ModalFilter"
 import { connect } from 'react-redux'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { CheckBox } from 'react-native-elements'
@@ -70,8 +71,10 @@ class Calendar extends React.Component {
 			doctorsOfModule: [],
 			displayDoctor: false,
 			finish: false,
-			shared: new Map()
+			shared: new Map(),
+			modalVisible: false
 		}
+		//this.hideFilterModal = this.hideFilterModal().bind(this)
 		this._bootstrapAsync();
 		const { navigation } = this.props;
 		this.focusListener = navigation.addListener('didFocus', () => {
@@ -709,6 +712,21 @@ class Calendar extends React.Component {
 		})
 	}
 
+	showFilterModal = () => {
+		console.log("VISBLE")
+		this.setState({
+			modalVisible: true
+		}, () => {console.log(this.state.modalVisible)})
+	}
+
+	hideFilterModal = () => {
+		console.log("HIDE")
+		this.setState({
+			modalVisible: false
+		}, () => {console.log(this.state.modalVisible)})
+		this.setModalCheckboxVisible(false);
+	}
+
 	getDoctors = () => {
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
@@ -741,6 +759,11 @@ class Calendar extends React.Component {
 		};
 		return (
 			<View style={styles.container}>
+				<ModalFilter 
+					modalShow={this.state.modalVisible}
+					modalHide={this.hideFilterModal}
+					callBack={ this.shareNote() }
+				/>
 				<View style={{flex: 0.8, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width}}>
 	         		<Text style={{color:"white", textAlign:'center', fontWeight: "bold", fontSize: 22}}>
 	         			Toutes vos notes
@@ -788,7 +811,7 @@ class Calendar extends React.Component {
 								<TouchableOpacity style={{ alignItems: 'center', height: windowSize.y / 10 }} onPress={() => { this.exportPDFPressed() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Exporter sous PDF </Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.shareNote() }}>
+								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {  this.showFilterModal() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager </Text>
 								</TouchableOpacity>
 								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.unshareNote() }}>
@@ -830,7 +853,7 @@ class Calendar extends React.Component {
 								<TouchableOpacity style={{ alignItems: 'center', height: windowSize.y / 10 }} onPress={() => { this.exportPDFPressed() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Exporter sous PDF </Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.shareNote() }}>
+								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.showFilterModal() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager </Text>
 								</TouchableOpacity>
 								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.unshareNote() }}>
@@ -870,7 +893,7 @@ class Calendar extends React.Component {
 							<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.exportPDFPressed() }}>
 								<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Exporter sous PDF </Text>
 							</TouchableOpacity>
-							<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.shareNote() }}>
+							<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.showFilterModal() }}>
 								<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager </Text>
 							</TouchableOpacity>
 							<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.unshareNote() }}>
