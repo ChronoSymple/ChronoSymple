@@ -69,7 +69,7 @@ class ModalFilter extends React.Component {
     this.props.getUserToken().then(() => {
 
       this.props.getUserCurrentModule().then(() => {
-        
+
         APIGetGeneralUnitId(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
           
           let resp = await data.json();
@@ -133,7 +133,7 @@ class ModalFilter extends React.Component {
           let response = await data.json()
           if (data.status == 200) {
             showMessage({
-                message: "Le filtre a bien etait modifié !",
+                message: "Le filtre à bien etait modifié !",
                 type: "success"
               });
           }
