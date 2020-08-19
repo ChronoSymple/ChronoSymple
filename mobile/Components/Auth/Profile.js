@@ -1,13 +1,14 @@
 // Components/Profile.js
 
 import React from 'react'
-import { View, Button, Image, Text, CameraRoll, ScrollView, StyleSheet, Dimensions, TouchableOpacity, TextInput, Modal, TouchableHighlight} from 'react-native'
+import { View, Button, Image, Text, CameraRoll, ScrollView, StyleSheet, Dimensions, TouchableOpacity, TextInput, Modal, TouchableHighlight, ActivityIndicator} from 'react-native'
 import { colors, windowSize } from '../StyleSheet';
 import { connect } from 'react-redux'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { getPatientInfoWithApi, updatePatientProfile } from '../../API/APIConnection';
 import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import ImgToBase64 from 'react-native-image-base64';
 
 
 
@@ -22,6 +23,7 @@ class Profile extends React.Component {
 			modalPictureVisible: false,
 			password : "",
 			isPasswordValid: true,
+			confirmPressed: false,
 		}
 		this.getPatientInfo()
 	}
@@ -35,14 +37,13 @@ class Profile extends React.Component {
 				email: response.email,
 				picture: response.picture ? response.picture : 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png',
 			})
-			console.log("valeur de picture profile :")
-			console.log(this.state.picture)
+			/*console.log("valeur de picture profile :")
+			console.log(this.state.picture)*/
 		})
-		
-
 	}
 
 	changeProfilePhoto = () => {
+
 	}
 
 	chooseImage = () => {
@@ -67,17 +68,26 @@ class Profile extends React.Component {
 				// You can also display the image using data:
 				// const source = { uri: 'data:image/jpeg;base64,' + response.data };
 				// alert(JSON.stringify(response));s
-				this.setState({
-					filePath: response,
-					fileData: response.data,
-					fileUri: response.uri
-				});
 				this.setState({modalPictureVisible: true })
+				ImgToBase64.getBase64String(response.uri)
+					.then(base64String => {
+						this.setState({
+							filePath: response,
+							fileData: base64String,
+							fileUri: response.uri
+						});
+
+					})
+					.catch(err => console.log(err));
+/*
+				console.log(response
+				console.log('valuer de limage:')
+				console.log(source)*/
 
 			}
 		});
 	}
-
+/*
 	launchCamera = () => {
 		let options = {
 		storageOptions: {
@@ -100,7 +110,7 @@ class Profile extends React.Component {
 			}
 		});
 	}
-
+*/
 	setModalPictureVisible = (visible) => {
 		this.setState({ modalPictureVisible: visible })
 	}
@@ -110,15 +120,17 @@ class Profile extends React.Component {
 	}
 
 	confirmNewPicturePressed = () => {
+		this.setState({ confirmPressed: true })
 		updatePatientProfile(this.props.token.token, "picture", this.state.fileData, this.state.password).then(async data => {
 			if (data.status == 200) {
 				this.setState({ isPasswordValid: true })
-				this.getPatientInfo()
 				this.setModalPictureVisible(!this.state.modalPictureVisible)
+				this.getPatientInfo()
 			} else {
 				let response = await data.json()
 				this.setState({ isPasswordValid: false })
 			}
+			this.setState({ confirmPressed: false})
 		})
 	}
 
@@ -157,8 +169,8 @@ class Profile extends React.Component {
 			<View style={{ flex: 3, alignItems: "center", justifyContent : "center" , flexDirection: 'row'}}>
 				<View style={{flex: 1, flexDirection: 'column', alignItems: "center", justifyContent : "center"}}>
 					<Image
-						source={{uri: this.state.picture}}
-					 	/*source={{uri: 'data:image/jpeg;base64,'+ this.state.picture }}*/
+						/*source={{uri: this.state.picture}}*/
+					 	source={{uri: 'data:image/jpeg;base64,'+ this.state.picture }}
 						style={{ width: 140, height: 140, borderRadius: 140 / 2, borderWidth : 1, borderColor: '#000000'}}
 					/>
 					<TouchableOpacity onPress={() => this.chooseImage()}>
@@ -295,6 +307,14 @@ class Profile extends React.Component {
 							/>
 						</View>
 					</View>
+					{this.state.confirmPressed ? 
+						<View style={styles.container}>
+							<ActivityIndicator size='large' color='#62BE87' />
+						</View>
+						:
+						<View style={{flex: 1}}>
+						</View>
+					}
 				</View>
 			</Modal>
 
@@ -355,6 +375,12 @@ const styles = StyleSheet.create({
 		marginBottom: 30,
 		borderBottomWidth: 1,
 		borderColor: "grey"
+	},
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		flexDirection: 'column'
 	}
 });
 

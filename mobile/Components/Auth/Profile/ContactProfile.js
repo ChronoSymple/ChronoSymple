@@ -1,9 +1,10 @@
 import React from 'react';
-import {View, Text, TouchableOpacity,  Button, TextInput} from 'react-native';
+import {View, Text, TouchableOpacity,  Button, TextInput, Linking} from 'react-native';
 import { styles, colors, windowSize } from '../../StyleSheet';
 import { connect } from 'react-redux';
 import { getUserToken } from '../../../Redux/Action/action';
 import { getPatientInfoWithApi } from '../../../API/APIConnection'
+import { sendEmail } from './send-email'
 
 
 class ContactProfile extends React.Component {
@@ -49,6 +50,13 @@ class ContactProfile extends React.Component {
 			this.setState({ isConfirm: false })
 		} else {
 			this.setState({ isConfirm: true })
+			let subject = this.state.subject
+			let email = this.state.email
+			let message = this.state.message
+			let phoneNumber = this.state.phoneNumber
+			sendEmail("victor.zhu@epitech.eu", subject, message, {email: email, phone: phoneNumber}).then(() => {
+				console.log("Your message was succesfully sent !")
+			})
 		}
 	}
 
