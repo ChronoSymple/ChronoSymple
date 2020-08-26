@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
 const styles = {
-  login: {
+  background: {
     position: 'fixed',
     top: 0,
     bottom: 0,
@@ -11,7 +11,10 @@ const styles = {
     right: 0,
     backgroundColor: '#DDDDDD',
     zIndex: 5000,
-    overflow: 'auto'
+    overflow: 'auto',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center'
   },
   horizontalCenter: {
     display: 'flex',
@@ -34,8 +37,11 @@ class CenteredView extends PureComponent {
       children,
       classes,
     } = this.props;
-    return (<div className={classes.login}>
-      <div className={classes.verticalCenter}>
+    return (<div className={classes.background} style={{
+      color: 'red',
+      backgroundImage: `url(${this.props.image})`
+      }}>
+      <div className={classes.verticalCenter} >
         <div className={classes.horizontalCenter}>
           {children}
         </div>
@@ -47,10 +53,11 @@ class CenteredView extends PureComponent {
 CenteredView.propTypes = {
   children: PropTypes.any.isRequired,
   classes: PropTypes.shape({
-    login: PropTypes.string.isRequired,
+    background: PropTypes.string.isRequired,
     verticalCenter: PropTypes.string.isRequired,
     horizontalCenter: PropTypes.string.isRequired,
-  }).isRequired
+  }).isRequired,
+  image: PropTypes.string
 };
 
 
