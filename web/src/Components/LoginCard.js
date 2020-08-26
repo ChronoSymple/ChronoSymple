@@ -36,7 +36,7 @@ const LoginCard = ({
       <div style={{display: 'flex'}}>
         <div style={{flex: 1}} />
         <a href='https://eip.epitech.eu/2021/chronosymple/'>
-          <Button style={{margin: 6}} color="default" variant="outlined" >Nous Contacter</Button>
+          <Button style={{margin: 6}} color="default" variant="outlined" >Qui sommes nous?</Button>
         </a>
       </div>
     </AppBar>
