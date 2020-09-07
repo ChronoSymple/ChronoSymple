@@ -40,7 +40,7 @@ class CenteredView extends PureComponent {
     return (<div className={classes.background} style={{
       color: 'red',
       backgroundImage: `url(${this.props.image})`
-      }}>
+    }}>
       <div className={classes.verticalCenter} >
         <div className={classes.horizontalCenter}>
           {children}

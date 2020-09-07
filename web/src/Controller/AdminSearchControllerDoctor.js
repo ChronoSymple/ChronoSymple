@@ -4,6 +4,8 @@ import { SearchBar } from '../Components/Search';
 import AdminDoctorList from '../Components/Admin/AdminDoctorList';
 import Api from '../Api';
 import Request from '../Components/Request';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 /*
 const data = [
@@ -13,7 +15,7 @@ const data = [
 */
 
 class AdminSearchController extends PureComponent {
-  
+
   state = {
     search: '',
     data: [],
@@ -21,6 +23,7 @@ class AdminSearchController extends PureComponent {
     init: false,
     selected: JSON.parse(localStorage.getItem('diseases') || '{}')
   };
+
   setSearchValue = search => this.setState({ search });
 
   filterData = data => {
@@ -52,7 +55,6 @@ class AdminSearchController extends PureComponent {
     }
   }
 
-
   deleteDoctor = async id => {
     try {
       await Api.deleteDoctor(this.props.token, id);
@@ -75,8 +77,13 @@ class AdminSearchController extends PureComponent {
         <SearchBar search={search} setSearchValue={this.setSearchValue}/>
         <br/>
         <Request error={error} loading={!init}>
-          <AdminDoctorList data={filterData} setDoctor={this.props.setDoctor} deleteDoctor={this.deleteDoctor}/>
+          <div style={{paddingBottom: 72}}>
+            <AdminDoctorList data={filterData} setDoctor={this.props.setDoctor} deleteDoctor={this.deleteDoctor}/>
+          </div>
         </Request>
+        <Fab color="secondary" style={{position: 'fixed', right: 20, bottom: 20}} onClick={this.props.addDoctor}>
+          <AddIcon/>
+        </Fab>
       </div>
     );
   }
@@ -84,6 +91,7 @@ class AdminSearchController extends PureComponent {
 
 AdminSearchController.propTypes = {
   setDoctor: PropTypes.func.isRequired,
+  addDoctor: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired
 };
 
