@@ -1,16 +1,14 @@
 // Components/DetailNote.js
 
 import React from 'react'
-import { View, Text, Button, StyleSheet, TextInput, TouchableOpacity, Image, BackHandler} from 'react-native'
+import { View, Text, Button, StyleSheet, TextInput, TouchableOpacity, Image, BackHandler, FlatList} from 'react-native'
 import { styles, colors, windowSize } from '../StyleSheet'
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon_Ant from 'react-native-vector-icons/AntDesign';
+import { DebugInstructions } from 'react-native/Libraries/NewAppScreen';
 
-<<<<<<< HEAD
-class ModulePlace extends React.Component {
-	
-=======
+
 class DetailNote extends React.Component {
 	constructor (props) {
 		super(props)
@@ -32,11 +30,21 @@ class DetailNote extends React.Component {
 			<Text> OK </Text>
 			{
 				/*<View style={{flex:0.5}}></View>
-				<Text style={{flex:4, fontSize: 22}}>
-					{elem}
-				</Text>
-				<View style={{flex:0.5}}></View>
-				<Icon
+
+	constructor (props) {
+		super(props)
+		this.state = {
+			myTab : []
+		}
+		console.log("oui")
+	}
+	checkFieldType = (key, elem) => {
+		console.log("LOL", key, elem)
+		return (
+			<View style={{flexDirection: "row"}}>
+				<Text> OK </Text>
+			 	{/* <View style={{flex:0.5}}></View>
+
 				style={{flex:1}}
 				name="bubble-chart"
 				color="#ffbb00"
@@ -54,22 +62,21 @@ class DetailNote extends React.Component {
 		)
 	};
 
->>>>>>> 52df199... fix FlatList render
 	render() {
-		let { navigate } = this.props.navigation;
-		let item = this.props.navigation.getParam('data')
 		return (
-<<<<<<< HEAD
 			<View style={{flex:1}}>
-=======
+
 			<View>
 				{/* {
 					this.state.noteSheme.forEach((key, element) => {
+			<View>
+				{/* {
+					this.state.myTab.forEach((key, element) => {
+
 						console.log(key, element)
 						//this.checkFieldType(key, element)
 						return (
 						<View style={{flexDirection: "row"}}>
-							<View style={{flex:0.5}}></View>
 							<Text style={{flex:4, fontSize: 22}}>
 								{element}
 							</Text>
@@ -98,7 +105,16 @@ class DetailNote extends React.Component {
 				/>
 			</View>
 			/* <View style={{flex:1}}>
->>>>>>> 52df199... fix FlatList render
+				<Text>pojpijpoj</Text>
+				<FlatList
+					data={	this.state.myTab}
+					keyExtractor={(item) => item.toString()}
+					renderItem={({item}) => (
+						this.checkFieldType(item)
+					)}
+				/>
+			</View>
+			/* <View style={{flex:1}}>
 					<View style={{backgroundColor:colors.secondary, flex:1, flexDirection: 'column'}}>
 						<View style={{flex:1}}></View>
 						<View style={{flex:8, flexDirection: 'row', justifyContent:"space-between"}}>
@@ -233,7 +249,7 @@ class DetailNote extends React.Component {
 							</View>
 					</View>
 					<View style={{flex: 0.5}}></View>
-				</View>
+				</View> */
 		)
 	}
 

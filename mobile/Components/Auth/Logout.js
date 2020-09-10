@@ -22,7 +22,6 @@ class Logout extends React.Component {
 		.catch(error => {
 			this.setState({ error })
 		})
-	
 	};
 	
 	render() {
