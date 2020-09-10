@@ -7,6 +7,7 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon_Ant from 'react-native-vector-icons/AntDesign';
 import { DebugInstructions } from 'react-native/Libraries/NewAppScreen';
+<<<<<<< HEAD
 
 
 class DetailNote extends React.Component {
@@ -73,10 +74,72 @@ class DetailNote extends React.Component {
 				{/* {
 					this.state.myTab.forEach((key, element) => {
 
+=======
+
+class ModulePlace extends React.Component {
+	constructor (props) {
+		super(props)
+		this.state = {
+			myTab : []
+		}
+		console.log("oui")
+	}
+	checkFieldType = (key, elem) => {
+		console.log("LOL", key, elem)
+		return (
+			<View style={{flexDirection: "row"}}>
+				<Text> OK </Text>
+			 	{/* <View style={{flex:0.5}}></View>
+				<Text style={{flex:4, fontSize: 22}}>
+					{elem}
+				</Text>
+				<View style={{flex:0.5}}></View>
+				<Icon
+					style={{flex:1}}
+					name="bubble-chart"
+					color="#ffbb00"
+					size={35}
+					onPress={() => navigate("Calendar")}
+				/>
+				<View style={{flex:0.5}}></View>
+				<Text style={{width: windowSize.x / 1.5, flex: 4 }}>
+					{key}
+				</Text>
+				<View style={{flex:0.5}}></View> */}
+			</View>
+		);
+	};
+
+	componentWillMount() {
+		let item2 = this.props.navigation.getParam('data')
+		let item = item2.data;
+		console.log("EEFDDFDDFF")
+		var tmp = this.state.myTab
+		if (item != null) {
+			for (var value in item) {
+				this.setState({
+					myTab : tmp.push([value, item[value]])
+				})
+				console.log(value)
+			}
+		}
+		console.log(this.state.myTab)
+	}
+
+	render() {
+		return (
+			<View>
+				{/* {
+					this.state.myTab.forEach((key, element) => {
+>>>>>>> 3a90f6e... début de détail note
 						console.log(key, element)
 						//this.checkFieldType(key, element)
 						return (
 						<View style={{flexDirection: "row"}}>
+<<<<<<< HEAD
+=======
+						 	<View style={{flex:0.5}}></View>
+>>>>>>> 3a90f6e... début de détail note
 							<Text style={{flex:4, fontSize: 22}}>
 								{element}
 							</Text>
@@ -97,6 +160,7 @@ class DetailNote extends React.Component {
 						)
 					})
 				} */}
+<<<<<<< HEAD
 
 				<FlatList
 					data={this.state.noteSheme}
@@ -105,6 +169,8 @@ class DetailNote extends React.Component {
 				/>
 			</View>
 			/* <View style={{flex:1}}>
+=======
+>>>>>>> 3a90f6e... début de détail note
 				<Text>pojpijpoj</Text>
 				<FlatList
 					data={	this.state.myTab}

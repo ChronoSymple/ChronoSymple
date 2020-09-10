@@ -336,7 +336,11 @@ class EditNote extends React.Component {
 		BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
 	}
 
+<<<<<<< HEAD
 	UNSAFE_componentWillUnmount() {
+=======
+	componentWillUnmount() {
+>>>>>>> 3a90f6e... début de détail note
 		BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
 	}
 
@@ -362,7 +366,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(EditNote);
 
 /*import React from 'react'
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 52df199... fix FlatList render
+=======
+>>>>>>> 3a90f6e... début de détail note
 =======
 >>>>>>> 3a90f6e... début de détail note
 import { View, Text, Button, TextInput, ScrollView, BackHandler, Image, Picker} from 'react-native'
