@@ -16,7 +16,8 @@ class AdminSearchController extends PureComponent {
     const {
       token,
       setPatient,
-      setDoctor
+      setDoctor,
+      addDoctor
     } = this.props;
     return (<div>
       <div style={{position: 'fixed', top:0, left: 0, right:0, zIndex:60}}>
@@ -32,7 +33,7 @@ class AdminSearchController extends PureComponent {
       <br/>
       { (this.state.value === 0) ?
         <AdminSearchControllerPatient token={token} setPatient={setPatient}/> :
-        <AdminSearchControllerDoctor token={token} setDoctor={setDoctor}/>
+        <AdminSearchControllerDoctor token={token} setDoctor={setDoctor} addDoctor={addDoctor}/>
       }
     </div>
     );
@@ -40,6 +41,7 @@ class AdminSearchController extends PureComponent {
 }
 
 AdminSearchController.propTypes = {
+  addDoctor: PropTypes.func.isRequired,
   setDoctor: PropTypes.func.isRequired,
   setPatient: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired

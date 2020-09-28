@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import CenteredView from '../Components/CenteredView';
 import Register from '../Components/Register';
 import LoginCardController from '../Controller/LoginCardController';
+import loginBackground from '../assets/Img/backgroundLogin.jpg';
+
 class LoginController extends PureComponent {
   state = {
     register: false
@@ -13,7 +15,7 @@ class LoginController extends PureComponent {
     const {
       setToken,
     } = this.props;
-    return (<CenteredView>{this.state.register ?
+    return (<CenteredView image={loginBackground}>{this.state.register ?
       <Register closeRegister={this.closeRegister}/> : 
       <LoginCardController setToken={setToken} openRegister={this.openRegister} />
     }</CenteredView>);
