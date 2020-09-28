@@ -3,8 +3,9 @@ import {View, Text, TouchableOpacity,  Button, TextInput, Modal, TouchableHighli
 import { styles, colors, windowSize } from '../../StyleSheet';
 import { connect } from 'react-redux';
 import { getUserToken } from '../../../Redux/Action/action';
-import { getPatientInfoWithApi, updatePatientProfile } from '../../../API/APIConnection'
+import { getPatientInfoWithApi, updatePatientProfile } from '../../../API/APIConnection';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import PasswordInputText from 'react-native-hide-show-password-input';
 
 
 class InfoProfile extends React.Component {
@@ -67,12 +68,14 @@ class InfoProfile extends React.Component {
 	}
 
 	confirmNewPhonePressed = () => {
+		console.log(this.state.password)
 		if (this.state.phoneRegExp.test(this.state.tmpPhoneNumber) == true) {
 			this.setState({ isPhoneNumberValid: true})
 			updatePatientProfile(this.props.token.token, "phoneNumber", this.state.tmpPhoneNumber, this.state.password).then(async data => {
 				if (data.status == 200) {
 					this.getPatientInfo()
 					this.setModalPhoneVisible(!this.state.modalPhoneVisible)
+					this.setState({ password: ''})
 				} else {
 					let response = await data.json()
 				}
@@ -119,18 +122,14 @@ class InfoProfile extends React.Component {
 				            <Text style={{fontSize: 13, color: colors.secondary}}> Numero de telephone </Text>
 						</View>
 						<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10, marginRight: 20}}>
-				            <TextInput
-				              placeholder="votre mot de passe"
-				              onChangeText={(text) => this.setPassword(text)}
-				              style={styles.textField, { borderBottomWidth: 1 }}
-				            />
+							<PasswordInputText
+								label="votre mot de passe"
+								value={this.state.password}
+								onChangeText={ (password) => this.setState({ password }) }
+							/>
 				            <Text style={{fontSize: 13, color: colors.secondary}}> Mot de passe</Text>
 						</View>
-						{this.state.isPhoneNumberValid ?
-							null
-							:
-							<Text style={{color: colors.errorColor}}> /!\ numero de telephone ou mot de passe incorrect ! /!\ </Text>
-						}
+						<View style={{flex: 1}}/>
 						<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
 							<View >
 								<Button 
@@ -149,6 +148,11 @@ class InfoProfile extends React.Component {
 								/>
 							</View>
 						</View>
+						{this.state.isPhoneNumberValid ?
+							null
+							:
+							<Text style={{color: colors.errorColor}}> /!\ numero de telephone ou mot de passe incorrect ! /!\ </Text>
+						}
 						<View style={{flex: 4}}/>
 		            </View>
 		        </Modal>
@@ -171,18 +175,14 @@ class InfoProfile extends React.Component {
 				            <Text style={{fontSize: 13, color: colors.secondary}}> Adresse mail</Text>
 						</View>
 						<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10, marginRight: 20}}>
-				            <TextInput
-				              placeholder="votre mot de passe"
-				              onChangeText={(text) => this.setPassword(text)}
-				              style={styles.textField, { borderBottomWidth: 1 }}
-				            />
+				            <PasswordInputText
+								label="votre mot de passe"
+								value={this.state.password}
+								onChangeText={ (password) => this.setState({ password }) }
+							/>
 				            <Text style={{fontSize: 13, color: colors.secondary}}> Mot de passe</Text>
 						</View>
-						{this.state.isMailValid ?
-							null
-							:
-							<Text style={{color: colors.errorColor}}> /!\ Invalid email ! /!\ </Text>
-						}
+						<View style={{flex: 1}}/>
 						<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
 							<View>
 								<Button 
@@ -201,6 +201,11 @@ class InfoProfile extends React.Component {
 								/>
 							</View>
 						</View>
+						{this.state.isMailValid ?
+							null
+							:
+							<Text style={{color: colors.errorColor}}> /!\ Invalid email ! /!\ </Text>
+						}
 						<View style={{flex: 4}}/>
 		            </View>
 		        </Modal>

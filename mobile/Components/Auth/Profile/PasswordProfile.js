@@ -5,6 +5,7 @@ import { styles, colors, windowSize } from '../../StyleSheet'
 import { connect } from 'react-redux'
 import { getUserToken } from '../../../Redux/Action/action';
 import { checkPatientPassword, updatePatientPassword } from '../../../API/APIConnection';
+import PasswordInputText from 'react-native-hide-show-password-input';
 
 class PasswordProfile extends React.Component {
   constructor(props) {
@@ -51,29 +52,30 @@ class PasswordProfile extends React.Component {
     return (
       <View style={{flex: 1}}>
         <View style={{ flex: 1, justifyContent: "center", marginLeft: 15, marginRight: 25}}>
-          <TextInput
-            placeholder="ancient mot de passe"
-            onChangeText={(text) => this.setOldPassword(text)}
-            style={styles.textField, { borderBottomWidth: 1 }}
+          <PasswordInputText
+            label="ancient mot de passe"
+            value={this.state.oldPassword}
+            onChangeText={ (oldPassword) => this.setState({ oldPassword }) }
           />
           <Text style={{fontSize: 13, color: colors.secondary}}> Mot De Passe </Text>
         </View>
         <View style={{ flex: 1, justifyContent: "center", marginLeft: 15, marginRight: 25}}>
-          <TextInput
-            placeholder="nouveau mot de passe"
-            onChangeText={(text) => this.setNewPassword(text)}
-            style={styles.textField, { borderBottomWidth: 1 }}
+          <PasswordInputText
+            label="nouveau mot de passe"
+            value={this.state.newPassword}
+            onChangeText={ (newPassword) => this.setState({ newPassword }) }
           />
           <Text style={{fontSize: 13, color: colors.secondary}}> Nouveau Mot De Passe </Text>
         </View>
         <View style={{flex: 1, justifyContent: "center", marginLeft: 15, marginRight: 25}}>
-          <TextInput
-            placeholder="confirmation"
-            onChangeText={(text) => this.setConfirmPassword(text)}
-            style={styles.textField, { borderBottomWidth: 1 }}
+          <PasswordInputText
+            label="confirmation"
+            value={this.state.confirmPassword}
+            onChangeText={ (confirmPassword) => this.setState({ confirmPassword }) }
           />
           <Text style={{fontSize: 13, color: colors.secondary}}> Confirmer votre nouveau Mot De Passe </Text>
         </View>
+        <View style={{flex: 1}}/>
         { this.state.sameNewPassword ?
           null
           :

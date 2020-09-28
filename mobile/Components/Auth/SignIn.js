@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import { saveUserToken } from '../../Redux/Action/action';
 import { ScrollView } from 'react-native-gesture-handler';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
+import PasswordInputText from 'react-native-hide-show-password-input';
+
 
 class SignIn extends React.Component {
 	static navigationOptions = {
@@ -446,8 +448,8 @@ class SignIn extends React.Component {
 										placeholder={placeholder_gender}
 										style={[this.state[genderFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5 }]}
 										autoCorrect={false}
-										onChangeText={(text) => this.setPassword(text)}
-										value={this.password}
+										onChangeText={(text) => this.setGender(text)}
+										value={this.GenderString}
 									/>}
 								</View>
 								<TextInput
@@ -456,30 +458,20 @@ class SignIn extends React.Component {
 									placeholder={placeholder_phoneNumber}
 									style={[this.state[phoneNumberFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5 }]}
 									autoCorrect={false}
-									onChangeText={(text) => this.setPassword(text)}
-									value={this.password}
+									onChangeText={(text) => this.setPhoneNumber(text)}
+									value={this.phoneNumber}
 									pattern="[0-9]{10}"
 									keyboardType="numeric"
 								/>
-								<TextInput
-									onFocus={() => this.textFieldFocused(passwordFocused)}
-									onBlur={() => this.textFieldBlured(passwordFocused)}
-									secureTextEntry={true}
-									placeholder={placeholder_password}
-									style={[this.state[passwordFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5 }]}
-									autoCorrect={false}
-									onChangeText={(text) => this.setPassword(text)}
-									value={this.password}
+								<PasswordInputText
+									label={placeholder_password}
+									value={this.state.password}
+									onChangeText={ (password) => this.setState({ password }) }
 								/>
-								<TextInput
-									onFocus={() => this.textFieldFocused(rePasswordFocused)}
-									onBlur={() => this.textFieldBlured(rePasswordFocused)}
-									secureTextEntry={true}
-									placeholder={placeholder_rePassword}
-									style={[this.state[rePasswordFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5 }]}
-									autoCorrect={false}
-									onChangeText={(text) => this.setRePassword(text)}
-									value={this.password}
+								<PasswordInputText
+									label={placeholder_rePassword}
+									value={this.state.rePassword}
+									onChangeText={ (rePassword) => this.setState({ rePassword }) }
 								/>
 							</ScrollView>
 						</View>

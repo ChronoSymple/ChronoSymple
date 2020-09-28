@@ -9,6 +9,7 @@ import { getPatientInfoWithApi, updatePatientProfile } from '../../API/APIConnec
 import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImgToBase64 from 'react-native-image-base64';
+import PasswordInputText from 'react-native-hide-show-password-input';
 
 
 
@@ -276,12 +277,11 @@ class Profile extends React.Component {
 				visible={this.state.modalPictureVisible}
 				>
 				<View style={{ flex: 1, marginTop: 22}}>		
-					<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10}}>
-						<Text> Mot de passe </Text>
-						<TextInput
-							placeholder="votre mot de passe"
-							onChangeText={(text) => this.setPassword(text)}
-							style={styles.textField, { width: windowSize.x / 1.5, borderWidth: 1 }}
+					<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 15, marginRight: 25}}>
+						<PasswordInputText
+							label="mot de passe"
+							value={this.state.password}
+							onChangeText={ (password) => this.setState({ password }) }
 						/>
 					</View>
 					{this.state.isPasswordValid ?
