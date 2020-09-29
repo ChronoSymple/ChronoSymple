@@ -6,6 +6,8 @@ import { getUserToken } from '../../../Redux/Action/action';
 import { getPatientInfoWithApi, updatePatientProfile } from '../../../API/APIConnection';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import PasswordInputText from 'react-native-hide-show-password-input';
+import { showMessage } from "react-native-flash-message";
+
 
 
 class InfoProfile extends React.Component {
@@ -23,8 +25,6 @@ class InfoProfile extends React.Component {
 			tmpPhoneNumber: "",
 			modalPhoneVisible: false,
 			modalMailVisible: false,
-			isPhoneNumberValid: true,
-			isMailValid: true,
 			phoneRegExp: new RegExp("^[0-9]{8,12}$", 'g'),
 			emailRegExp: new  RegExp(".*@.*\..*", 'g'),
 			}
@@ -68,38 +68,60 @@ class InfoProfile extends React.Component {
 	}
 
 	confirmNewPhonePressed = () => {
-		console.log(this.state.password)
 		if (this.state.phoneRegExp.test(this.state.tmpPhoneNumber) == true) {
-			this.setState({ isPhoneNumberValid: true})
 			updatePatientProfile(this.props.token.token, "phoneNumber", this.state.tmpPhoneNumber, this.state.password).then(async data => {
 				if (data.status == 200) {
 					this.getPatientInfo()
-					this.setModalPhoneVisible(!this.state.modalPhoneVisible)
 					this.setState({ password: ''})
+					showMessage({
+						message: "Le numero de telephone a bien été changé",
+						type: "success"
+					});
 				} else {
 					let response = await data.json()
+					showMessage({
+						message: "Une erreur est survenue. Recommencez. Si le probleme persiste contactez nous.",
+						type: "danger"
+					});
 				}
 			})
 		}
 		else {
-			this.setState({ isPhoneNumberValid: false})
+			showMessage({
+				message: "Votre numero de telephone ou mot de passe est invalide",
+				type: "danger"
+			});
+			this.setState({ password: ''})
 		}
+		this.setModalPhoneVisible(!this.state.modalPhoneVisible)
 	}
 
 	confirmNewAdressMailPressed = () => {
 		if (this.state.emailRegExp.test(this.state.tmpEmail) == true) {
-			this.setState({ isMailValid: true })
 			updatePatientProfile(this.props.token.token, "email", this.state.tmpEmail, this.state.password).then(async data => {
 				if (data.status == 200) {
 					this.getPatientInfo()
-					this.setModalMailVisible(!this.state.modalMailVisible)
+					this.setState({ password: ''})
+					showMessage({
+						message: "L'adresse mail a bien été changé",
+						type: "success"
+					});
 				} else {
 					let response = await data.json()
+					showMessage({
+						message: "Une erreur est survenue. Recommencez. Si le probleme persiste contactez nous.",
+						type: "danger"
+					});
 				}
 			})
 		} else {
-			this.setState({ isMailValid: false })
+			showMessage({
+				message: "Votre adresse mail ou mot de passe est invalide",
+				type: "danger"
+			});
+			this.setState({ password: ''})
 		}
+		this.setModalMailVisible(!this.state.modalMailVisible)
 	}
 
 	render() {
@@ -148,11 +170,6 @@ class InfoProfile extends React.Component {
 								/>
 							</View>
 						</View>
-						{this.state.isPhoneNumberValid ?
-							null
-							:
-							<Text style={{color: colors.errorColor}}> /!\ numero de telephone ou mot de passe incorrect ! /!\ </Text>
-						}
 						<View style={{flex: 4}}/>
 		            </View>
 		        </Modal>
@@ -201,11 +218,6 @@ class InfoProfile extends React.Component {
 								/>
 							</View>
 						</View>
-						{this.state.isMailValid ?
-							null
-							:
-							<Text style={{color: colors.errorColor}}> /!\ Invalid email ! /!\ </Text>
-						}
 						<View style={{flex: 4}}/>
 		            </View>
 		        </Modal>

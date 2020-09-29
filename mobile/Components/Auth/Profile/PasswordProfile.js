@@ -6,6 +6,8 @@ import { connect } from 'react-redux'
 import { getUserToken } from '../../../Redux/Action/action';
 import { checkPatientPassword, updatePatientPassword } from '../../../API/APIConnection';
 import PasswordInputText from 'react-native-hide-show-password-input';
+import { showMessage } from "react-native-flash-message";
+
 
 class PasswordProfile extends React.Component {
   constructor(props) {
@@ -14,24 +16,39 @@ class PasswordProfile extends React.Component {
       oldPassword: "",
       newPassword: "",
       confirmPassword: "",
-      sameNewPassword: true
     }
   }
 
   newPasswordSubmitted = () => {
     if (this.state.newPassword == this.state.confirmPassword && this.state.newPassword != "" && this.state.confirmPassword != "") {
       checkPatientPassword(this.props.token.token, this.state.oldPassword).then(async data => {
-        updatePatientPassword(this.props.token.token, this.state.oldPassword, this.state.newPassword).then(async data => {
-          if (data.status == 200) {
-            this.setState({ sameNewPassword: true })
-            this.props.navigation.navigate('Profile');
-          } else {
-            this.setState({ sameNewPassword: false })
-          }
-        })
+        if (data.status == 200) {
+          updatePatientPassword(this.props.token.token, this.state.oldPassword, this.state.newPassword).then(async data => {
+            if (data.status == 200) {
+              this.props.navigation.navigate('Profile');
+              showMessage({
+                message: "Le mot de passe a bien été changé",
+                type: "success"
+              });
+            } else {
+              showMessage({
+                message: "Une erreur est survenue. Recommencez. Si le probleme persiste contactez nous.",
+                type: "danger"
+              });
+            }
+          })
+        } else {
+         showMessage({
+            message: "Le mot de passe actuelle saisie est incorrecte",
+            type: "danger"
+          }); 
+        }
       })
     } else {
-      this.setState({ sameNewPassword: false })
+      showMessage({
+        message: "Les deux nouveaux mot de passe saisies sont differents ou vides",
+        type: "danger"
+      });
     }
   }
 
@@ -51,6 +68,7 @@ class PasswordProfile extends React.Component {
     let { navigate } = this.props.navigation;
     return (
       <View style={{flex: 1}}>
+        <View style={{flex: 0.5}}/>
         <View style={{ flex: 1, justifyContent: "center", marginLeft: 15, marginRight: 25}}>
           <PasswordInputText
             label="ancient mot de passe"
@@ -76,11 +94,6 @@ class PasswordProfile extends React.Component {
           <Text style={{fontSize: 13, color: colors.secondary}}> Confirmer votre nouveau Mot De Passe </Text>
         </View>
         <View style={{flex: 1}}/>
-        { this.state.sameNewPassword ?
-          null
-          :
-          <Text style={{color: colors.errorColor, marginLeft: 15, marginRight: 15}}> /!\ Mot de passe incorrect ou le nouveau mot de passe ne correspondent pas /!\ </Text>
-        }
         <View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around', marginTop: 25}}>
           <View>
             <Button 

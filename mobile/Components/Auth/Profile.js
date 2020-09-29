@@ -10,7 +10,7 @@ import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImgToBase64 from 'react-native-image-base64';
 import PasswordInputText from 'react-native-hide-show-password-input';
-
+import { showMessage } from "react-native-flash-message";
 
 
 class Profile extends React.Component {
@@ -23,7 +23,6 @@ class Profile extends React.Component {
 			picture: "https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png",
 			modalPictureVisible: false,
 			password : "",
-			isPasswordValid: true,
 			confirmPressed: false,
 		}
 		this.getPatientInfo()
@@ -123,14 +122,27 @@ class Profile extends React.Component {
 	confirmNewPicturePressed = () => {
 		this.setState({ confirmPressed: true })
 		updatePatientProfile(this.props.token.token, "picture", this.state.fileData, this.state.password).then(async data => {
+			console.log(data.status)
 			if (data.status == 200) {
-				this.setState({ isPasswordValid: true })
-				this.setModalPictureVisible(!this.state.modalPictureVisible)
 				this.getPatientInfo()
+				showMessage({
+					message: "Votre photo de profil a bien été modifié",
+					type: "success"
+				});
+			} else if (data.status == 403) {
+				showMessage({
+					message: "Le mot de passe saisie est incorrecte",
+					type: "danger"
+				});
 			} else {
 				let response = await data.json()
-				this.setState({ isPasswordValid: false })
+				showMessage({
+					message: "Une erreur est survenue. Recommencez. Si le probleme persiste contactez nous.",
+					type: "danger"
+				});
 			}
+			this.setState({ password: '' })
+			this.setModalPictureVisible(!this.state.modalPictureVisible)
 			this.setState({ confirmPressed: false})
 		})
 	}
@@ -284,11 +296,6 @@ class Profile extends React.Component {
 							onChangeText={ (password) => this.setState({ password }) }
 						/>
 					</View>
-					{this.state.isPasswordValid ?
-						null
-						:
-						<Text style={{color: colors.errorColor}}> /!\ Invalid password ! /!\ </Text>
-					}
 					<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
 						<View>
 							<Button 
