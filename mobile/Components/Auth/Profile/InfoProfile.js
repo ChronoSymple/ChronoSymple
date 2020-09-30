@@ -3,8 +3,12 @@ import {View, Text, TouchableOpacity,  Button, TextInput, Modal, TouchableHighli
 import { styles, colors, windowSize } from '../../StyleSheet';
 import { connect } from 'react-redux';
 import { getUserToken } from '../../../Redux/Action/action';
-import { getPatientInfoWithApi, updatePatientProfile } from '../../../API/APIConnection'
+import { getPatientInfoWithApi, updatePatientProfile } from '../../../API/APIConnection';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import PasswordInputText from 'react-native-hide-show-password-input';
+import { showMessage } from "react-native-flash-message";
+import NetInfo from "@react-native-community/netinfo";
+
 
 
 class InfoProfile extends React.Component {
@@ -22,8 +26,7 @@ class InfoProfile extends React.Component {
 			tmpPhoneNumber: "",
 			modalPhoneVisible: false,
 			modalMailVisible: false,
-			isPhoneNumberValid: true,
-			isMailValid: true,
+			modalInternetVisible: false,
 			phoneRegExp: new RegExp("^[0-9]{8,12}$", 'g'),
 			emailRegExp: new  RegExp(".*@.*\..*", 'g'),
 			}
@@ -31,6 +34,17 @@ class InfoProfile extends React.Component {
 	}
 
 	getPatientInfo = () => {
+		NetInfo.fetch().then((state) => {
+			console.log(
+				'is connected: ' +
+				state.isConnected
+			);
+			if (state.isConnected == true) {
+				this.setInternetModal(false)
+			} else {
+				this.setInternetModal(true)
+			}
+		})
 		getPatientInfoWithApi(this.props.token.token).then(async data => {
 			let response = await data.json()
 			this.setState({
@@ -54,6 +68,10 @@ class InfoProfile extends React.Component {
 		this.setState({ modalMailVisible: visible })
 	}
 
+	setInternetModal = (visible) => {
+		this.setState({ modalInternetVisible: visible })
+	}
+
 	setTmpPhoneNumber = (text) => {
 		this.setState({ tmpPhoneNumber: text })
 	}
@@ -68,41 +86,95 @@ class InfoProfile extends React.Component {
 
 	confirmNewPhonePressed = () => {
 		if (this.state.phoneRegExp.test(this.state.tmpPhoneNumber) == true) {
-			this.setState({ isPhoneNumberValid: true})
 			updatePatientProfile(this.props.token.token, "phoneNumber", this.state.tmpPhoneNumber, this.state.password).then(async data => {
 				if (data.status == 200) {
 					this.getPatientInfo()
-					this.setModalPhoneVisible(!this.state.modalPhoneVisible)
+					this.setState({ password: ''})
+					showMessage({
+						message: "Le numero de telephone a bien été changé",
+						type: "success"
+					});
 				} else {
 					let response = await data.json()
+					showMessage({
+						message: "Une erreur est survenue. Recommencez. Si le probleme persiste contactez nous.",
+						type: "danger"
+					});
 				}
 			})
 		}
 		else {
-			this.setState({ isPhoneNumberValid: false})
+			showMessage({
+				message: "Votre numero de telephone ou mot de passe est invalide",
+				type: "danger"
+			});
+			this.setState({ password: ''})
 		}
+		this.setModalPhoneVisible(!this.state.modalPhoneVisible)
 	}
 
 	confirmNewAdressMailPressed = () => {
 		if (this.state.emailRegExp.test(this.state.tmpEmail) == true) {
-			this.setState({ isMailValid: true })
 			updatePatientProfile(this.props.token.token, "email", this.state.tmpEmail, this.state.password).then(async data => {
 				if (data.status == 200) {
 					this.getPatientInfo()
-					this.setModalMailVisible(!this.state.modalMailVisible)
+					this.setState({ password: ''})
+					showMessage({
+						message: "L'adresse mail a bien été changé",
+						type: "success"
+					});
 				} else {
 					let response = await data.json()
+					showMessage({
+						message: "Une erreur est survenue. Recommencez. Si le probleme persiste contactez nous.",
+						type: "danger"
+					});
 				}
 			})
 		} else {
-			this.setState({ isMailValid: false })
+			showMessage({
+				message: "Votre adresse mail ou mot de passe est invalide",
+				type: "danger"
+			});
+			this.setState({ password: ''})
 		}
+		this.setModalMailVisible(!this.state.modalMailVisible)
 	}
 
 	render() {
 		let { navigate } = this.props.navigation;
 		return (
 			<View style={{ flex:1 }}>
+				<Modal
+					animationType="slide"
+					transparent={false}
+					visible={this.state.modalInternetVisible}
+				>
+					<View style={{ flex: 1, marginTop: 10}}>
+						<View style={{flex: 1 }}>
+						<TouchableHighlight style={{margin: 10}}>
+							<Icon
+								name="clear"
+								color="#62BE87"
+								size={35}
+								onPress={() => this.setInternetModal(false)}
+							/>
+						</TouchableHighlight>
+						</View>
+						<View style={{flex: 1}}>
+							<Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', color: '#62BE87'}}>
+								Un probleme est survenue.{'\n'}Ceci peut etre du a un probleme de connexion internet{'\n'}{'\n'}
+							</Text>
+							<Button 
+								style={styles.buttonNoModule}
+								color="#62BE87"
+								onPress={() => {this.getPatientInfo()}}
+								title="Actualiser la page"
+							/>
+						</View>
+						<View style={{flex: 1}}/>
+					</View>
+				</Modal>
 				<Modal
 		          animationType="slide"
 		          transparent={false}
@@ -119,18 +191,14 @@ class InfoProfile extends React.Component {
 				            <Text style={{fontSize: 13, color: colors.secondary}}> Numero de telephone </Text>
 						</View>
 						<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10, marginRight: 20}}>
-				            <TextInput
-				              placeholder="votre mot de passe"
-				              onChangeText={(text) => this.setPassword(text)}
-				              style={styles.textField, { borderBottomWidth: 1 }}
-				            />
+							<PasswordInputText
+								label="votre mot de passe"
+								value={this.state.password}
+								onChangeText={ (password) => this.setState({ password }) }
+							/>
 				            <Text style={{fontSize: 13, color: colors.secondary}}> Mot de passe</Text>
 						</View>
-						{this.state.isPhoneNumberValid ?
-							null
-							:
-							<Text style={{color: colors.errorColor}}> /!\ numero de telephone ou mot de passe incorrect ! /!\ </Text>
-						}
+						<View style={{flex: 1}}/>
 						<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
 							<View >
 								<Button 
@@ -171,18 +239,14 @@ class InfoProfile extends React.Component {
 				            <Text style={{fontSize: 13, color: colors.secondary}}> Adresse mail</Text>
 						</View>
 						<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10, marginRight: 20}}>
-				            <TextInput
-				              placeholder="votre mot de passe"
-				              onChangeText={(text) => this.setPassword(text)}
-				              style={styles.textField, { borderBottomWidth: 1 }}
-				            />
+				            <PasswordInputText
+								label="votre mot de passe"
+								value={this.state.password}
+								onChangeText={ (password) => this.setState({ password }) }
+							/>
 				            <Text style={{fontSize: 13, color: colors.secondary}}> Mot de passe</Text>
 						</View>
-						{this.state.isMailValid ?
-							null
-							:
-							<Text style={{color: colors.errorColor}}> /!\ Invalid email ! /!\ </Text>
-						}
+						<View style={{flex: 1}}/>
 						<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
 							<View>
 								<Button 

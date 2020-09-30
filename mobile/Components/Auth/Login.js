@@ -4,6 +4,8 @@ import { LoginAPatientWithApi } from '../../API/APIConnection'
 import { styles, colors, windowSize } from '../StyleSheet'
 import { connect } from 'react-redux';
 import { saveUserToken } from '../../Redux/Action/action';
+import PasswordInputText from 'react-native-hide-show-password-input';
+
 
 class Login extends React.Component {
 
@@ -93,15 +95,19 @@ class Login extends React.Component {
 								onChangeText={(text) => this.setMail(text)}
 								value={this.mail}
 							/>
-							<TextInput
+							{/*<TextInput
 								onFocus={() => this.textFieldFocused(passwordFocused)}
 								onBlur={() => this.textFieldBlured(passwordFocused)}
 								secureTextEntry={true}
 								placeholder={placeholder_password}
-								style={[this.state[passwordFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5 }]}
 								autoCorrect={false}
 								onChangeText={(text) => this.setPassword(text)}
 								value={this.password}
+							/>*/}
+							<PasswordInputText
+								label="mot de passe"
+								value={this.state.password}
+								onChangeText={ (password) => this.setState({ password }) }
 							/>
 						</View>
 						<View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>

@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, Text, TouchableOpacity,  Button, TextInput} from 'react-native';
+import {View, Text, TouchableOpacity,  Button, TextInput, Linking} from 'react-native';
 import { styles, colors, windowSize } from '../../StyleSheet';
 import { connect } from 'react-redux';
 import { getUserToken } from '../../../Redux/Action/action';
 import { getPatientInfoWithApi } from '../../../API/APIConnection'
-
+import { sendEmail } from './send-email'
+import { showMessage } from "react-native-flash-message";
 
 class ContactProfile extends React.Component {
 	constructor(props) {
@@ -14,7 +15,6 @@ class ContactProfile extends React.Component {
 			message: "",
 			email: "",
 			phoneNumber: "",
-			isConfirm: true
 		}
 
 		getPatientInfoWithApi(this.props.token.token).then(async data => {
@@ -45,10 +45,49 @@ class ContactProfile extends React.Component {
 	}
 
 	confirmPressed = () => {
-		if (this.state.subject == "" || this.state.message == "" || this.state.email == "") {
-			this.setState({ isConfirm: false })
+		if (this.state.subject == "" && this.state.message == "" && this.state.email == "") {
+			showMessage({
+				message: "Les champs sujet, message et adresse mail sont vide",
+				type: "danger"
+			});
+		} else if (this.state.subject == "" && this.state.message == "") {
+			showMessage({
+				message: "Les champs sujet et message sont vide",
+				type: "danger"
+			});
+		} else if (this.state.subject == "" && this.state.email == "") {
+			showMessage({
+				message: "Les champs sujet et Adresse mail sont vide",
+				type: "danger"
+			});
+		} else if (this.state.email == "" && this.state.message == "") {
+			showMessage({
+				message: "Les champs message et adresse mail sont vide",
+				type: "danger"
+			});
+		} else if (this.state.subject == "") {
+			showMessage({
+				message: "Votre sujet est vide",
+				type: "danger"
+			});
+		} else if (this.state.message == "") {
+			showMessage({
+				message: "Votre message est vide",
+				type: "danger"
+			});
+		} else if (this.state.email == "") {
+			showMessage({
+				message: "Votre adresse mail est incomplet",
+				type: "danger"
+			});
 		} else {
-			this.setState({ isConfirm: true })
+			let subject = this.state.subject
+			let email = this.state.email
+			let message = this.state.message
+			let phoneNumber = this.state.phoneNumber
+			sendEmail("victor.zhu@epitech.eu", subject, message, {email: email, phone: phoneNumber}).then(() => {
+				console.log("Your message was succesfully sent !")
+			})
 		}
 	}
 
@@ -95,11 +134,6 @@ class ContactProfile extends React.Component {
 					/>
 					<Text style={{fontSize: 13, color: colors.secondary}}> Numero de telephone (facultatif) </Text>
 				</View>
-				{this.state.isConfirm ?
-					null
-					:
-					<Text style={{color: colors.errorColor, marginRight: 15, marginLeft: 15}}> /!\ sujet, message et / ou adresse mail non valide (ou vide) /!\ </Text>
-				}
 				<View style={{flex: 1}}/>
 				<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
 					<View>
