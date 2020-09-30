@@ -7,7 +7,7 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon_Ant from 'react-native-vector-icons/AntDesign';
 import { DebugInstructions } from 'react-native/Libraries/NewAppScreen';
-<<<<<<< HEAD
+
 
 
 class DetailNote extends React.Component {
@@ -93,28 +93,15 @@ class DetailNote extends React.Component {
 		console.log(val)
 
 		return (
-			<View style={{flexDirection: "row"}}>
-			<Text> OK </Text>
-			{
-				/*<View style={{flex:0.5}}></View>
+			<View style={{flex:0.5}}>
 				<Text style={{flex:4, fontSize: 22}}>
-					{elem}
+					{val}
 				</Text>
-				<View style={{flex:0.5}}></View>
-				<Icon
-				style={{flex:1}}
-				name="bubble-chart"
-				color="#ffbb00"
-				size={35}
-				onPress={() => navigate("Calendar")}
-				/>
 				<View style={{flex:0.5}}></View>
 				<Text style={{width: windowSize.x / 1.5, flex: 4 }}>
 				{key}
 				</Text>
-				<View style={{flex:0.5}}></View> }
-				</View>*/
-			}
+				<View style={{flex:0.5}}></View> 
 			</View>
 		)
 	};
