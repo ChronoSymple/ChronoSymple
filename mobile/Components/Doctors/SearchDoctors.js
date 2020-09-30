@@ -1,14 +1,15 @@
 // Components/SearchDoctors.js
 
 import React from 'react'
-import { View, Text, TouchableOpacity, FlatList, SafeAreaView, Image, TouchableHighlight} from 'react-native'
+import { View, Text, TouchableOpacity, FlatList, SafeAreaView, Image, Modal, Button, TouchableHighlight} from 'react-native'
 import { SearchBar } from 'react-native-elements'
 import { connect } from 'react-redux'
-import { colors, windowSize } from '../StyleSheet'
+import { colors, windowSize, styles } from '../StyleSheet'
 import { APIAddPatientNotes } from '../../API/APIModule'
 import { APIGetDoctors, APIGetDoctorsInModule, APIGetDoctorProfile } from '../../API/APIDoctor'
 import { getUserToken} from '../../Redux/Action/action';
 import { Icon } from 'react-native-elements'
+import NetInfo from "@react-native-community/netinfo";
 
 class SearchDoctors extends React.Component {
 	constructor(props) {
@@ -18,7 +19,8 @@ class SearchDoctors extends React.Component {
 			general_unitId: this.props.navigation.getParam("general_unitId"),
 			unitId: this.props.navigation.getParam("unitId"),
 			doctors: [],
-			pageToReturn: this.props.navigation.getParam("pageToReturn")
+			pageToReturn: this.props.navigation.getParam("pageToReturn"),
+			modalInternetVisible: false,
 		}
 		/*this.getAllDoctorList()*/
 		this.getDoctorsList()
@@ -28,7 +30,18 @@ class SearchDoctors extends React.Component {
 		this.setState({ search: value })
 	}
 
-	getDoctorsList = () => {		
+	getDoctorsList = () => {
+		NetInfo.fetch().then((state) => {
+			console.log(
+				'is connected: ' +
+				state.isConnected
+			);
+			if (state.isConnected == true) {
+				this.setInternetModal(false)
+			} else {
+				this.setInternetModal(true)
+			}
+		})
 		this.props.getUserToken().then(() => {
 			APIGetDoctorsInModule(this.props.token.token, this.state.general_unitId).then(async data => {
 				let response = await data.json()
@@ -41,6 +54,10 @@ class SearchDoctors extends React.Component {
 		}).catch(error => {
 			this.setState({ error })
 		})
+	}
+
+	setInternetModal = (visible) => {
+		this.setState({ modalInternetVisible: visible })
 	}
 
 	doctorPressed = (item) => {
@@ -57,6 +74,36 @@ class SearchDoctors extends React.Component {
 		let { navigate } = this.props.navigation;
 		return (
 		<View style={{flex: 1}}>
+			<Modal
+				animationType="slide"
+				transparent={false}
+				visible={this.state.modalInternetVisible}
+			>
+				<View style={{ flex: 1, marginTop: 10}}>
+					<View style={{flex: 1 }}>
+					<TouchableHighlight style={{margin: 10}}>
+						<Icon
+							name="clear"
+							color="#62BE87"
+							size={35}
+							onPress={() => this.setInternetModal(false)}
+						/>
+					</TouchableHighlight>
+					</View>
+					<View style={{flex: 1}}>
+						<Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', color: '#62BE87'}}>
+							Un probleme est survenue.{'\n'}Ceci peut etre du a un probleme de connexion internet{'\n'}{'\n'}
+						</Text>
+						<Button 
+							style={styles.buttonNoModule}
+							color="#62BE87"
+							onPress={() => {this.getDoctorsList()}}
+							title="Actualiser la page"
+						/>
+					</View>
+					<View style={{flex: 1}}/>
+				</View>
+			</Modal>
 			<View style={{backgroundColor: colors.secondary, flex: 1, flexDirection: 'column'}}>
 					<View style={{flex:1}}/>
 					<View style={{flex:8, flexDirection: 'row', justifyContent:"space-between"}}>

@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImgToBase64 from 'react-native-image-base64';
 import PasswordInputText from 'react-native-hide-show-password-input';
 import { showMessage } from "react-native-flash-message";
+import NetInfo from "@react-native-community/netinfo";
 
 
 class Profile extends React.Component {
@@ -24,11 +25,23 @@ class Profile extends React.Component {
 			modalPictureVisible: false,
 			password : "",
 			confirmPressed: false,
+			modalInternetVisible: false,
 		}
 		this.getPatientInfo()
 	}
 
 	getPatientInfo = () => {
+		NetInfo.fetch().then((state) => {
+			console.log(
+				'is connected: ' +
+				state.isConnected
+			);
+			if (state.isConnected == true) {
+				this.setInternetModal(false)
+			} else {
+				this.setInternetModal(true)
+			}
+		})
 		getPatientInfoWithApi(this.props.token.token).then(async data => {
 			let response = await data.json()
 			this.setState({
@@ -115,6 +128,10 @@ class Profile extends React.Component {
 		this.setState({ modalPictureVisible: visible })
 	}
 
+	setInternetModal = (visible) => {
+		this.setState({ modalInternetVisible: visible })
+	}
+
 	setPassword = (text) => {
 		this.setState({ password: text })
 	}
@@ -177,6 +194,36 @@ class Profile extends React.Component {
 		let { navigate } = this.props.navigation;
 		return (
 		<View style={{ flex: 1}}>
+			<Modal
+				animationType="slide"
+				transparent={false}
+				visible={this.state.modalInternetVisible}
+			>
+				<View style={{ flex: 1, marginTop: 10}}>
+					<View style={{flex: 1 }}>
+					<TouchableHighlight style={{margin: 10}}>
+						<Icon
+							name="clear"
+							color="#62BE87"
+							size={35}
+							onPress={() => this.setInternetModal(false)}
+						/>
+					</TouchableHighlight>
+					</View>
+					<View style={{flex: 1}}>
+						<Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', color: '#62BE87'}}>
+							Un probleme est survenue.{'\n'}Ceci peut etre du a un probleme de connexion internet{'\n'}{'\n'}
+						</Text>
+						<Button 
+							style={styles.buttonNoModule}
+							color="#62BE87"
+							onPress={() => {this.getPatientInfo()}}
+							title="Actualiser la page"
+						/>
+					</View>
+					<View style={{flex: 1}}/>
+				</View>
+			</Modal>
 			<View style={{flex: 0.5}}>
 			</View>
 			<View style={{ flex: 3, alignItems: "center", justifyContent : "center" , flexDirection: 'row'}}>

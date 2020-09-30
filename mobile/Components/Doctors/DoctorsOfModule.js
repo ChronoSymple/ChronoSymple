@@ -4,14 +4,18 @@ import {
     View,
     TouchableOpacity,
     ActivityIndicator,
-    Image
+    Modal,
+    Image,
+    TouchableHighlight,
+    Button,
 	} from 'react-native'
 import { APIgetDoctorsOfModule } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import { connect } from 'react-redux';
-import { windowSize } from '../StyleSheet'
+import { styles, colors, windowSize } from '../StyleSheet';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { FlatList } from 'react-native-gesture-handler';
+import NetInfo from "@react-native-community/netinfo";
 
 class DoctorsOfModule extends React.Component {
 
@@ -20,6 +24,7 @@ class DoctorsOfModule extends React.Component {
         const { dModule, doctorpressed } = this.props
 		this.state = {
 			isModalVisible: false,
+			modalInternetVisible: false,
             dModule: dModule,
             doctorPressed: doctorpressed,
 			doctorsOfModule: this.getDoctors(),
@@ -37,7 +42,22 @@ class DoctorsOfModule extends React.Component {
 		})
 	}
 
+	setInternetModal = (visible) => {
+		this.setState({ modalInternetVisible: visible })
+	}
+
 	getDoctors = () => {
+		NetInfo.fetch().then((state) => {
+			console.log(
+				'is connected: ' +
+				state.isConnected
+			);
+			if (state.isConnected == true) {
+				this.setInternetModal(false)
+			} else {
+				this.setInternetModal(true)
+			}
+		})
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
 				APIgetDoctorsOfModule(this.props.token.token, this.state.dModule.id).then(async data => {
@@ -48,17 +68,47 @@ class DoctorsOfModule extends React.Component {
 						doctorsOfModule: response
 					})
 				}).catch(error => {
-					this.setState({ error, finish: true })
+					this.setState({ error, finish: true, doctorsOfModule: [] })
 				})
 			})
 		}).catch(error => {
-			this.setState({ error })
+			this.setState({ error, doctorsOfModule: [] })
 		})
 	}
 
 	render() {
 		return (
             <View style={{flex: 1}}>
+            <Modal
+				animationType="slide"
+				transparent={false}
+				visible={this.state.modalInternetVisible}
+			>
+				<View style={{ flex: 1, marginTop: 10}}>
+					<View style={{flex: 1 }}>
+					<TouchableHighlight style={{margin: 10}}>
+						<Icon
+							name="clear"
+							color="#62BE87"
+							size={35}
+							onPress={() => this.setInternetModal(false)}
+						/>
+					</TouchableHighlight>
+					</View>
+					<View style={{flex: 1}}>
+						<Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', color: '#62BE87'}}>
+							Un probleme est survenue.{'\n'}Ceci peut etre du a un probleme de connexion internet{'\n'}{'\n'}
+						</Text>
+						<Button 
+							style={styles.buttonNoModule}
+							color="#62BE87"
+							onPress={() => {this.getDoctors()}}
+							title="Actualiser la page"
+						/>
+					</View>
+					<View style={{flex: 1}}/>
+				</View>
+			</Modal>
                 <TouchableOpacity style={{ paddingLeft: 15, paddingRight: 15, flexDirection: "row", alignItems: 'center', justifyContent : "space-around"}} onPress={() => {this.displayDoctor()}}>
                     <Text style={{ flex: 9, marginTop: windowSize.y / 30, fontSize: windowSize.y / 40, textTransform: 'capitalize'}}>{this.state.dModule.general_unit.name}</Text>
                     { this.state.displayDoctor ?
