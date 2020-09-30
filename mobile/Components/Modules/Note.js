@@ -1,7 +1,6 @@
 import React from 'react'
-import { View, Text, Button, TextInput, ScrollView, BackHandler, Image, Picker, FlatList} from 'react-native'
-import { LoginAPatientWithApi } from '../../API/APIConnection'
-import { styles, colors, windowSize } from '../StyleSheet'
+import { View, Text, Button, TextInput, BackHandler, Picker, FlatList} from 'react-native'
+import { colors } from '../StyleSheet'
 import { connect } from 'react-redux';
 import { APIAddPatientNotes } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule, getUserCurrentModuleName } from '../../Redux/Action/action';
@@ -11,7 +10,6 @@ import Icon_Ant from 'react-native-vector-icons/AntDesign';
 import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
 import { showMessage } from "react-native-flash-message";
 import { APIGetModules, APIGetNotesParameters } from "../../API/APIModule"
-import { DebugInstructions } from 'react-native/Libraries/NewAppScreen';
 
 class Note extends React.Component {
 

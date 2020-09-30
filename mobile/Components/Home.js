@@ -72,6 +72,17 @@ class Home extends React.Component {
 					}).catch(error => {
 						this.setState({ error })
 					})
+				} else if (data.status == 404 && data.status == 500) {
+					showMessage({
+						message: "Un probleme est survenus, vous allez être déconnecté",
+						type: "danger",
+					});
+					this.props.navigation.navigate("Logout");
+				} else {
+					showMessage({
+						message: "Nous n'avons pas réussis à supprimer votre module, réessayez plus tard",
+						type: "danger",
+					});
 				}
 			})
 		}).catch(error => {
@@ -105,12 +116,22 @@ class Home extends React.Component {
 							Dmodules: [ ...response ],
 							loading: false
 						})
-					}
-					else {
+					} else {
 						this.setState({
 							loading: false
 						})
 					}
+				} else if (data.status == 404 && data.status == 500) {
+					showMessage({
+						message: "Un probleme est survenus, vous allez être déconnecté",
+						type: "danger",
+					});
+					this.props.navigation.navigate("Logout");
+				} else {
+					showMessage({
+						message: "Nous n'avons pas réussis à récupérer vos modules, réessayez plus tard",
+						type: "danger",
+					});
 				}
 			})
 		}).catch(error => {

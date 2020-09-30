@@ -54,22 +54,30 @@ class ExportPDF extends React.Component {
 
 	getDoctorInfo = () => {
 		APIGetMyDoctors(this.props.token.token).then(async data => {
-			console.log("APIGetMyDoctors - data")
-			console.log(data)
 			let response = await data.json()
-			for (var i = response.length - 1; i >= 0; i--) {
-				if (this.state.pdfData[0].unit_id == response[i].id) {
-					console.log("this is the right one !")
-					console.log(response[i])
-					this.setState({
-						doctorFirstName: response[i].doctors[0].user.first_name,
-						doctorLastName: response[i].doctors[0].user.last_name,
-						doctorEmail: response[i].doctors[0].user.email,
-						doctorAddress: response[i].doctors[0].user.address,
-					})
+			if (data.status == 200) {
+				for (var i = response.length - 1; i >= 0; i--) {
+					if (this.state.pdfData[0].unit_id == response[i].id) {
+						this.setState({
+							doctorFirstName: response[i].doctors[0].user.first_name,
+							doctorLastName: response[i].doctors[0].user.last_name,
+							doctorEmail: response[i].doctors[0].user.email,
+							doctorAddress: response[i].doctors[0].user.address,
+						})
+					}
 				}
+			} else if (data.status == 404 && data.status == 500) {
+				showMessage({
+					message: "Un probleme est survenus, vous allez être déconnecté",
+					type: "danger",
+				});
+				this.props.navigation.navigate("Logout");
+			} else {
+				showMessage({
+					message: "Un problème est survenus, nous n'avons pas réussis à récupérer la liste des modules",
+					type: "danger",
+				});
 			}
-
 		})
 		/*GET MYDOCTOR INFO */
 		console.log(this.state)
@@ -151,7 +159,6 @@ class ExportPDF extends React.Component {
 			});
 		}
 	}
-
 
 	render() {
 		return (
