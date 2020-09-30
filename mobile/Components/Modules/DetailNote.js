@@ -1,5 +1,3 @@
-// Components/DetailNote.js
-
 import React from 'react'
 import { View, Text, Button, StyleSheet, TextInput, TouchableOpacity, Image, BackHandler, FlatList} from 'react-native'
 import { styles, colors, windowSize } from '../StyleSheet'
@@ -7,74 +5,6 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon_Ant from 'react-native-vector-icons/AntDesign';
 import { DebugInstructions } from 'react-native/Libraries/NewAppScreen';
-
-
-
-class DetailNote extends React.Component {
-	constructor (props) {
-		super(props)
-		this.state = {
-			noteSheme : []
-		}
-		console.log("oui")
-	}
-
-	checkFieldType = ({item}) => {
-		console.log("item", item)
-		var key = Object.keys(item)[0];
-		var val = Object.values(item)[0];
-		console.log(key)
-		console.log(val)
-
-		return (
-			<View style={{flexDirection: "row"}}>
-			<Text> OK </Text>
-			{
-				/*<View style={{flex:0.5}}></View>
-
-	constructor (props) {
-		super(props)
-		this.state = {
-			myTab : []
-		}
-		console.log("oui")
-	}
-	checkFieldType = (key, elem) => {
-		console.log("LOL", key, elem)
-		return (
-			<View style={{flexDirection: "row"}}>
-				<Text> OK </Text>
-			 	{/* <View style={{flex:0.5}}></View>
-
-				style={{flex:1}}
-				name="bubble-chart"
-				color="#ffbb00"
-				size={35}
-				onPress={() => navigate("Calendar")}
-				/>
-				<View style={{flex:0.5}}></View>
-				<Text style={{width: windowSize.x / 1.5, flex: 4 }}>
-				{key}
-				</Text>
-				<View style={{flex:0.5}}></View> }
-				</View>*/
-			}
-			</View>
-		)
-	};
-
-	render() {
-		return (
-			<View style={{flex:1}}>
-
-			<View>
-				{/* {
-					this.state.noteSheme.forEach((key, element) => {
-			<View>
-				{/* {
-					this.state.myTab.forEach((key, element) => {
-
-=======
 
 class DetailNote extends React.Component {
 	constructor (props) {
@@ -115,6 +45,7 @@ class DetailNote extends React.Component {
 						//this.checkFieldType(key, element)
 						return (
 						<View style={{flexDirection: "row"}}>
+							<View style={{flex:0.5}}></View>
 							<Text style={{flex:4, fontSize: 22}}>
 								{element}
 							</Text>
@@ -136,15 +67,6 @@ class DetailNote extends React.Component {
 					})
 				} */}
 
-				<FlatList
-					data={this.state.noteSheme}
-					keyExtractor={(item, index) => index.toString()}
-					renderItem={this.checkFieldType}
-				/>
-			</View>
-			/* <View style={{flex:1}}>
-
-				<Text>pojpijpoj</Text>
 				<FlatList
 					data={this.state.noteSheme}
 					keyExtractor={(item, index) => index.toString()}
