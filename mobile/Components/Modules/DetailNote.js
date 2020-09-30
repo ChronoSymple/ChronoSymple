@@ -76,61 +76,54 @@ class DetailNote extends React.Component {
 
 =======
 
-class ModulePlace extends React.Component {
+class DetailNote extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
-			myTab : []
+			noteSheme : []
 		}
 		console.log("oui")
 	}
-	checkFieldType = (key, elem) => {
-		console.log("LOL", key, elem)
+
+	checkFieldType = ({item}) => {
+		console.log("item", item)
+		var key = Object.keys(item)[0];
+		var val = Object.values(item)[0];
+		console.log(key)
+		console.log(val)
+
 		return (
 			<View style={{flexDirection: "row"}}>
-				<Text> OK </Text>
-			 	{/* <View style={{flex:0.5}}></View>
+			<Text> OK </Text>
+			{
+				/*<View style={{flex:0.5}}></View>
 				<Text style={{flex:4, fontSize: 22}}>
 					{elem}
 				</Text>
 				<View style={{flex:0.5}}></View>
 				<Icon
-					style={{flex:1}}
-					name="bubble-chart"
-					color="#ffbb00"
-					size={35}
-					onPress={() => navigate("Calendar")}
+				style={{flex:1}}
+				name="bubble-chart"
+				color="#ffbb00"
+				size={35}
+				onPress={() => navigate("Calendar")}
 				/>
 				<View style={{flex:0.5}}></View>
 				<Text style={{width: windowSize.x / 1.5, flex: 4 }}>
-					{key}
+				{key}
 				</Text>
-				<View style={{flex:0.5}}></View> */}
-			</View>
-		);
-	};
-
-	componentWillMount() {
-		let item2 = this.props.navigation.getParam('data')
-		let item = item2.data;
-		console.log("EEFDDFDDFF")
-		var tmp = this.state.myTab
-		if (item != null) {
-			for (var value in item) {
-				this.setState({
-					myTab : tmp.push([value, item[value]])
-				})
-				console.log(value)
+				<View style={{flex:0.5}}></View> }
+				</View>*/
 			}
-		}
-		console.log(this.state.myTab)
-	}
+			</View>
+		)
+	};
 
 	render() {
 		return (
 			<View>
 				{/* {
-					this.state.myTab.forEach((key, element) => {
+					this.state.noteSheme.forEach((key, element) => {
 						console.log(key, element)
 						//this.checkFieldType(key, element)
 						return (
@@ -166,11 +159,9 @@ class ModulePlace extends React.Component {
 
 				<Text>pojpijpoj</Text>
 				<FlatList
-					data={	this.state.myTab}
-					keyExtractor={(item) => item.toString()}
-					renderItem={({item}) => (
-						this.checkFieldType(item)
-					)}
+					data={this.state.noteSheme}
+					keyExtractor={(item, index) => index.toString()}
+					renderItem={this.checkFieldType}
 				/>
 			</View>
 			/* <View style={{flex:1}}>
