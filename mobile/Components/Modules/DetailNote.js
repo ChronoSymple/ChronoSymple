@@ -131,15 +131,10 @@ class ModulePlace extends React.Component {
 			<View>
 				{/* {
 					this.state.myTab.forEach((key, element) => {
->>>>>>> 3a90f6e... début de détail note
 						console.log(key, element)
 						//this.checkFieldType(key, element)
 						return (
 						<View style={{flexDirection: "row"}}>
-<<<<<<< HEAD
-=======
-						 	<View style={{flex:0.5}}></View>
->>>>>>> 3a90f6e... début de détail note
 							<Text style={{flex:4, fontSize: 22}}>
 								{element}
 							</Text>
@@ -160,7 +155,6 @@ class ModulePlace extends React.Component {
 						)
 					})
 				} */}
-<<<<<<< HEAD
 
 				<FlatList
 					data={this.state.noteSheme}
@@ -169,8 +163,7 @@ class ModulePlace extends React.Component {
 				/>
 			</View>
 			/* <View style={{flex:1}}>
-=======
->>>>>>> 3a90f6e... début de détail note
+
 				<Text>pojpijpoj</Text>
 				<FlatList
 					data={	this.state.myTab}
