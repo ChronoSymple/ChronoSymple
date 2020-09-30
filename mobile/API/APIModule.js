@@ -144,6 +144,17 @@ export function APIDoctorOfNotes(token, note_id) {
 	.catch((error) => error)
 }
 
+export function APIGetGeneralUnitId(token, id) {
+	return fetch(baseUrl + '/api/patients/units/' + id + '/get_general_unit_id', {
+	method: 'GET',
+	headers: {
+		'Content-Type': 'application/json',
+		'Authorization': token,
+	}
+	})
+	.then((response) => response)
+	.catch((error) => error)
+}
 
 export function APIGetPatientNotesByDateIntervale(token, beginDate, endDate, idmodule) {
 	return fetch(baseUrl + '/api/patients/notes/notes_by_date_interval?begin_date=' + beginDate + "&end_date=" + endDate + "&unit=" + idmodule, {
@@ -155,6 +166,42 @@ export function APIGetPatientNotesByDateIntervale(token, beginDate, endDate, idm
 	})
 	.then((response) => response)
 	.catch((error) => error)
+}
+
+export function APIGetGeneralUnitNoteFileds(token, id) {
+	return fetch(baseUrl + '/api/patients/general_units/' + id + '/get_note_fileds', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token,
+        }
+    })
+    .then((response) => response)
+    .catch((error) => error)
+}
+
+export function APIPatchChangeFilter(token, unit_id, new_filter) {
+	return fetch(baseUrl + '/api/patients/units/' + unit_id + '/change_filter', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token,
+        }, body: JSON.stringify({
+		filter: new_filter,
+	})
+    }).then((response) => response)
+    .catch((error) => error)
+}
+
+export function APIGetFilter(token, unit_id,) {
+	return fetch(baseUrl + '/api/patients/units/' + unit_id + '/get_filter', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token,
+        }
+    }).then((response) => response)
+    .catch((error) => error)
 }
 
 export function APIgetDoctorsOfModule(token, id) {
