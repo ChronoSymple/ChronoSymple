@@ -1,14 +1,17 @@
 // Components/Profile.js
 
 import React from 'react'
-import { View, Button, Image, Text, CameraRoll, ScrollView, StyleSheet, Dimensions, TouchableOpacity, TextInput, Modal, TouchableHighlight} from 'react-native'
+import { View, Button, Image, Text, CameraRoll, ScrollView, StyleSheet, Dimensions, TouchableOpacity, TextInput, Modal, TouchableHighlight, ActivityIndicator} from 'react-native'
 import { colors, windowSize } from '../StyleSheet';
 import { connect } from 'react-redux'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { getPatientInfoWithApi, updatePatientProfile } from '../../API/APIConnection';
 import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
+import ImgToBase64 from 'react-native-image-base64';
+import PasswordInputText from 'react-native-hide-show-password-input';
+import { showMessage } from "react-native-flash-message";
+import NetInfo from "@react-native-community/netinfo";
 
 
 class Profile extends React.Component {
@@ -21,12 +24,24 @@ class Profile extends React.Component {
 			picture: "https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png",
 			modalPictureVisible: false,
 			password : "",
-			isPasswordValid: true,
+			confirmPressed: false,
+			modalInternetVisible: false,
 		}
 		this.getPatientInfo()
 	}
 
 	getPatientInfo = () => {
+		NetInfo.fetch().then((state) => {
+			console.log(
+				'is connected: ' +
+				state.isConnected
+			);
+			if (state.isConnected == true) {
+				this.setInternetModal(false)
+			} else {
+				this.setInternetModal(true)
+			}
+		})
 		getPatientInfoWithApi(this.props.token.token).then(async data => {
 			let response = await data.json()
 			this.setState({
@@ -35,14 +50,13 @@ class Profile extends React.Component {
 				email: response.email,
 				picture: response.picture ? response.picture : 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png',
 			})
-			console.log("valeur de picture profile :")
-			console.log(this.state.picture)
+			/*console.log("valeur de picture profile :")
+			console.log(this.state.picture)*/
 		})
-		
-
 	}
 
 	changeProfilePhoto = () => {
+
 	}
 
 	chooseImage = () => {
@@ -67,17 +81,26 @@ class Profile extends React.Component {
 				// You can also display the image using data:
 				// const source = { uri: 'data:image/jpeg;base64,' + response.data };
 				// alert(JSON.stringify(response));s
-				this.setState({
-					filePath: response,
-					fileData: response.data,
-					fileUri: response.uri
-				});
 				this.setState({modalPictureVisible: true })
+				ImgToBase64.getBase64String(response.uri)
+					.then(base64String => {
+						this.setState({
+							filePath: response,
+							fileData: base64String,
+							fileUri: response.uri
+						});
+
+					})
+					.catch(err => console.log(err));
+/*
+				console.log(response
+				console.log('valuer de limage:')
+				console.log(source)*/
 
 			}
 		});
 	}
-
+/*
 	launchCamera = () => {
 		let options = {
 		storageOptions: {
@@ -100,9 +123,13 @@ class Profile extends React.Component {
 			}
 		});
 	}
-
+*/
 	setModalPictureVisible = (visible) => {
 		this.setState({ modalPictureVisible: visible })
+	}
+
+	setInternetModal = (visible) => {
+		this.setState({ modalInternetVisible: visible })
 	}
 
 	setPassword = (text) => {
@@ -110,15 +137,30 @@ class Profile extends React.Component {
 	}
 
 	confirmNewPicturePressed = () => {
+		this.setState({ confirmPressed: true })
 		updatePatientProfile(this.props.token.token, "picture", this.state.fileData, this.state.password).then(async data => {
+			console.log(data.status)
 			if (data.status == 200) {
-				this.setState({ isPasswordValid: true })
 				this.getPatientInfo()
-				this.setModalPictureVisible(!this.state.modalPictureVisible)
+				showMessage({
+					message: "Votre photo de profil a bien été modifié",
+					type: "success"
+				});
+			} else if (data.status == 403) {
+				showMessage({
+					message: "Le mot de passe saisie est incorrecte",
+					type: "danger"
+				});
 			} else {
 				let response = await data.json()
-				this.setState({ isPasswordValid: false })
+				showMessage({
+					message: "Une erreur est survenue. Recommencez. Si le probleme persiste contactez nous.",
+					type: "danger"
+				});
 			}
+			this.setState({ password: '' })
+			this.setModalPictureVisible(!this.state.modalPictureVisible)
+			this.setState({ confirmPressed: false})
 		})
 	}
 
@@ -152,13 +194,43 @@ class Profile extends React.Component {
 		let { navigate } = this.props.navigation;
 		return (
 		<View style={{ flex: 1}}>
+			<Modal
+				animationType="slide"
+				transparent={false}
+				visible={this.state.modalInternetVisible}
+			>
+				<View style={{ flex: 1, marginTop: 10}}>
+					<View style={{flex: 1 }}>
+					<TouchableHighlight style={{margin: 10}}>
+						<Icon
+							name="clear"
+							color="#62BE87"
+							size={35}
+							onPress={() => this.setInternetModal(false)}
+						/>
+					</TouchableHighlight>
+					</View>
+					<View style={{flex: 1}}>
+						<Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', color: '#62BE87'}}>
+							Un probleme est survenue.{'\n'}Ceci peut etre du a un probleme de connexion internet{'\n'}{'\n'}
+						</Text>
+						<Button 
+							style={styles.buttonNoModule}
+							color="#62BE87"
+							onPress={() => {this.getPatientInfo()}}
+							title="Actualiser la page"
+						/>
+					</View>
+					<View style={{flex: 1}}/>
+				</View>
+			</Modal>
 			<View style={{flex: 0.5}}>
 			</View>
 			<View style={{ flex: 3, alignItems: "center", justifyContent : "center" , flexDirection: 'row'}}>
 				<View style={{flex: 1, flexDirection: 'column', alignItems: "center", justifyContent : "center"}}>
 					<Image
-						source={{uri: this.state.picture}}
-					 	/*source={{uri: 'data:image/jpeg;base64,'+ this.state.picture }}*/
+						/*source={{uri: this.state.picture}}*/
+					 	source={{uri: 'data:image/jpeg;base64,'+ this.state.picture }}
 						style={{ width: 140, height: 140, borderRadius: 140 / 2, borderWidth : 1, borderColor: '#000000'}}
 					/>
 					<TouchableOpacity onPress={() => this.chooseImage()}>
@@ -264,19 +336,13 @@ class Profile extends React.Component {
 				visible={this.state.modalPictureVisible}
 				>
 				<View style={{ flex: 1, marginTop: 22}}>		
-					<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10}}>
-						<Text> Mot de passe </Text>
-						<TextInput
-							placeholder="votre mot de passe"
-							onChangeText={(text) => this.setPassword(text)}
-							style={styles.textField, { width: windowSize.x / 1.5, borderWidth: 1 }}
+					<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 15, marginRight: 25}}>
+						<PasswordInputText
+							label="mot de passe"
+							value={this.state.password}
+							onChangeText={ (password) => this.setState({ password }) }
 						/>
 					</View>
-					{this.state.isPasswordValid ?
-						null
-						:
-						<Text style={{color: colors.errorColor}}> /!\ Invalid password ! /!\ </Text>
-					}
 					<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
 						<View>
 							<Button 
@@ -295,6 +361,14 @@ class Profile extends React.Component {
 							/>
 						</View>
 					</View>
+					{this.state.confirmPressed ? 
+						<View style={styles.container}>
+							<ActivityIndicator size='large' color='#62BE87' />
+						</View>
+						:
+						<View style={{flex: 1}}>
+						</View>
+					}
 				</View>
 			</Modal>
 
@@ -355,6 +429,12 @@ const styles = StyleSheet.create({
 		marginBottom: 30,
 		borderBottomWidth: 1,
 		borderColor: "grey"
+	},
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		flexDirection: 'column'
 	}
 });
 

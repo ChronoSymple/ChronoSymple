@@ -107,6 +107,12 @@ class Calendar extends React.Component {
 									loading: true
 								  })
 								  this._bootstrapAsync();
+							} else if (data.status == 404 && data.status == 500) {
+								showMessage({
+									message: "Un probleme est survenus, vous allez être déconnecté",
+									type: "danger",
+								});
+								this.props.navigation.navigate("Logout");
 							} else {
 								showMessage({
 						            message: "Un problème est survenu, votre note n'a pas pu être partagé",
@@ -114,12 +120,22 @@ class Calendar extends React.Component {
 					        	});
 							}
 						})
-					}
-					else if (data.status == 200)
+					} else if (data.status == 200)
 					{
 						showMessage({
 							message: "Aucun médecin assigné au module \"Diabète\", la note n'a pas été partagé",
 							type: "danger"
+						});
+					} else if (data.status == 404 && data.status == 500) {
+						showMessage({
+							message: "Un probleme est survenus, vous allez être déconnecté",
+							type: "danger",
+						});
+						this.props.navigation.navigate("Logout");
+					} else {
+						showMessage({
+							message: "Un problème est survenu, nous n'avons pas réussis à récupérer vos médecins, réessayez plus tard",
+							type: "danger",
 						});
 					}
 				})
@@ -137,20 +153,44 @@ class Calendar extends React.Component {
 				APIgetDoctorsOfModule(token, cur_modl).then(async data => {
 					let response = await data.json();
 					let doctor_ids = [];
-					for (let doc of response) {
-						doctor_ids.push(doc.id)
-					}
-					for (let note of notes) {
-						APIUnshareNote(token, note, doctor_ids).then(async data => {
-							if (data.status == 200) {
-								this.setState({
-									notes: [],
-									selectedNotes: [],	
-									loading: true
-								  })
-								  this._bootstrapAsync();
-							} 
-						})
+					if (data.status == 200) {
+						for (let doc of response) {
+							doctor_ids.push(doc.id)
+						}
+						for (let note of notes) {
+							APIUnshareNote(token, note, doctor_ids).then(async data => {
+								if (data.status == 200) {
+									this.setState({
+										notes: [],
+										selectedNotes: [],	
+										loading: true
+									})
+									this._bootstrapAsync();
+								} else if (data.status == 404 && data.status == 500) {
+									showMessage({
+										message: "Un probleme est survenus, vous allez être déconnecté",
+										type: "danger",
+									});
+									this.props.navigation.navigate("Logout");
+								} else {
+									showMessage({
+										message: "Un problème est survenus, nous n'avons pas réussis à enlever le partage de la note",
+										type: "danger",
+									});
+								}
+							})
+						}
+					} else if (data.status == 404 && data.status == 500) {
+						showMessage({
+							message: "Un probleme est survenus, vous allez être déconnecté",
+							type: "danger",
+						});
+						this.props.navigation.navigate("Logout");
+					} else {
+						showMessage({
+							message: "Un problème est survenus, nous n'avons pas réussis à récupérer vos médecins",
+							type: "danger",
+						});
 					}
 				})
 			})
@@ -210,7 +250,6 @@ class Calendar extends React.Component {
 			isSelectActive: true
 		})
 	}
-
 
 	_previousPeriod = () => {
 		if (this.state.datasMode == this.state.adminEnum.Month) {
@@ -487,23 +526,23 @@ class Calendar extends React.Component {
 	
 	getAndFindDay = (dateStr) =>
 	{
-	var date = new Date(dateStr);
-	date = date.toDateString()
-	nameOfDay = date.substr(0, date.indexOf(' '))
-	if (nameOfDay == "Mon")
-	  return 1
-	else if (nameOfDay == "Tue")
-	  return 2
-	else if (nameOfDay == "Wed")
-	  return 3
-	else if (nameOfDay == "Thu")
-	  return 4
-	else if (nameOfDay == "Fri")
-	  return 5
-	else if (nameOfDay == "Sat")
-	  return 6
-	else if (nameOfDay == "Sun")
-	  return 7
+		var date = new Date(dateStr);
+		date = date.toDateString()
+		nameOfDay = date.substr(0, date.indexOf(' '))
+		if (nameOfDay == "Mon")
+		  return 1
+		else if (nameOfDay == "Tue")
+		  return 2
+		else if (nameOfDay == "Wed")
+		  return 3
+		else if (nameOfDay == "Thu")
+		  return 4
+		else if (nameOfDay == "Fri")
+		  return 5
+		else if (nameOfDay == "Sat")
+		  return 6
+		else if (nameOfDay == "Sun")
+		  return 7
 	}
 
 	_handleChangeDatasMode = (id) => {
@@ -689,13 +728,34 @@ class Calendar extends React.Component {
 		this.props.getUserToken().then(() => {
 			for (let note of notes) {
 				APIRemovePatientNotes(this.props.token.token, note).then(data => {
-					if (data.status == 200)
+					if (data.status == 200) {
 						this._bootstrapAsync();
+						if (notes.length == 1) {
+							showMessage({
+								message: "La note ont bien été supprimé",
+								type: "success"
+							});
+						} else {
+							showMessage({
+								message: "Les notes ont bien été supprimé",
+								type: "success"
+							});
+						}
+					} else {
+						showMessage({
+							message: "Une erreur est survenue, reessayez. Si le probleme persiste contactez nous",
+							type: "danger"
+						});
+					}
 				})
 			}
 		}).catch(error => {
 			this.setState({loading: false});
 			this.setState({ error })
+			showMessage({
+				message: "Une erreur de session est survenue. actualisez la page. Si le probleme persiste contactez nous",
+				type: "danger"
+			});
 		})
 	}
 
@@ -743,6 +803,18 @@ class Calendar extends React.Component {
 		}).catch(error => {
 			this.setState({ error })
 		})
+	}
+
+	displayDate = (created_at) => {
+		let date = new Date(created_at)
+		let time = created_at.substr(created_at.indexOf("\T") + 1, created_at.length);
+		let time2 = time.split(":")
+	//	dateDate = dateDate.split("-").join(" ")
+		return (
+			<Text style={styles.noteText}>
+				{time2[0]}H {time2[1]}:{time2[2].substr(0, time2[2].indexOf("."))}
+			</Text>
+		);
 	}
 
 	render() {
@@ -817,7 +889,7 @@ class Calendar extends React.Component {
 								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.unshareNote() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Ne plus partager </Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => this.props.navigation.navigate('EditNote',  {itemDetail: this.getSelectedNote()[0] })}>
+								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => this.props.navigation.navigate('EditNote', {itemDetail: this.state.selectedNotes[0]})}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Editer </Text>
 								</TouchableOpacity>
 								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {this._deleteNote()}}>
@@ -1054,7 +1126,7 @@ class Calendar extends React.Component {
 									<TouchableOpacity
 										delayLongPress={800}
 										onLongPress={() => { this.noteChecked(item)	}}
-										onPress={() => this.props.navigation.navigate('DetailNote', item)}
+										onPress={() => this.props.navigation.navigate('DetailNote', {data: item})}
 										style={styles.note}>
 											<View style={{flex: 1, flexDirection: 'row'}}>
 												<CheckBox
@@ -1063,7 +1135,7 @@ class Calendar extends React.Component {
 													style={{flex: 2}}
 												/>
 												<View style={{flexDirection: "column"}}>
-													<Text style={styles.noteText}>{item.data.date} {item.data.time}</Text>
+													{this.displayDate(item.created_at)}
 													<View>
 														{ !item.data.description
 															?

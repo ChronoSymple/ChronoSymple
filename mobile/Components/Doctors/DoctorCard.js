@@ -7,6 +7,7 @@ import {
 	StyleSheet,
 	TouchableHighlight,
 	Image,
+	Modal,
 	ActivityIndicator} from 'react-native'
 import { Icon } from 'react-native-elements'
 import { APIAddDoctor, APIRemoveDoctor} from '../../API/APIDoctor';
@@ -15,6 +16,7 @@ import { colors } from '../StyleSheet'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import { APIGetDoctorProfile } from '../../API/APIDoctor'
 import { showMessage, hideMessage } from "react-native-flash-message";
+import NetInfo from "@react-native-community/netinfo";
 
 /*
 Cette classe correspond a la page : fiche du medecin
@@ -38,13 +40,25 @@ class DoctorCard extends React.Component {
 			hours: "",
 			pageToReturn: pageToReturn,
 			mode: this.props.navigation.getParam("mode"),
-			display: false
+			display: false,
+			modalInternetVisible: false,
 		}
 		console.log(this.state.doctorId)
 		this.getSpecificDoctor(id)
 	}
 
 	getSpecificDoctor = (id) => {
+		NetInfo.fetch().then((state) => {
+			console.log(
+				'is connected: ' +
+				state.isConnected
+			);
+			if (state.isConnected == true) {
+				this.setInternetModal(false)
+			} else {
+				this.setInternetModal(true)
+			}
+		})
 		this.props.getUserToken().then(() => {
 			APIGetDoctorProfile(this.props.token.token, id).then(async data => {
 				let response = await data.json()
@@ -66,6 +80,9 @@ class DoctorCard extends React.Component {
 		})
 	}
 
+	setInternetModal = (visible) => {
+		this.setState({ modalInternetVisible: visible })
+	}
 
 	addDoctorPressed = () => {
 		this.props.getUserToken().then(() => {
@@ -134,6 +151,36 @@ class DoctorCard extends React.Component {
 
 		return (
 			<View style={{flex: 1}}>
+				<Modal
+					animationType="slide"
+					transparent={false}
+					visible={this.state.modalInternetVisible}
+				>
+					<View style={{ flex: 1, marginTop: 10}}>
+						<View style={{flex: 1 }}>
+						<TouchableHighlight style={{margin: 10}}>
+							<Icon
+								name="clear"
+								color="#62BE87"
+								size={35}
+								onPress={() => this.setInternetModal(false)}
+							/>
+						</TouchableHighlight>
+						</View>
+						<View style={{flex: 1}}>
+							<Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', color: '#62BE87'}}>
+								Un probleme est survenue.{'\n'}Ceci peut etre du a un probleme de connexion internet{'\n'}{'\n'}
+							</Text>
+							<Button 
+								style={styles.buttonNoModule}
+								color="#62BE87"
+								onPress={() => {this.getSpecificDoctor(this.state.doctorId)}}
+								title="Actualiser la page"
+							/>
+						</View>
+						<View style={{flex: 1}}/>
+					</View>
+				</Modal>
 				<View style={{backgroundColor:colors.secondary, flex:1, flexDirection: 'column'}}>
 					<View style={{flex:1}}></View>
 					<View style={{flex:8, flexDirection: 'row', justifyContent:"space-between"}}>

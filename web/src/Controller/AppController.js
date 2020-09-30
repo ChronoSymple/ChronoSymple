@@ -10,6 +10,7 @@ import AdminSearch from './AdminSearchController';
 import Favorite from './FavoritesController';
 import AdminPatient from '../Components/Admin/AdminPatient';
 import AdminDoctor from '../Components/Admin/AdminDoctor';
+import AdminCreateDoctor from '../Components/Admin/AdminCreateDoctor';
 import Patient from '../Components/Patient';
 import Profile from '../Components/Profile';
 import Settings from '../Components/Settings';
@@ -37,6 +38,7 @@ class App extends PureComponent {
 
   setPatient = patient => (window.location = `/patient/${patient}`);
   setDoctor = doctor => (window.location = `/doctor/${doctor}`);
+  addDoctor = () => (window.location = '/doctor/add');
   setToken = (token, admin) => {
     localStorage.setItem('admin', admin);
     localStorage.setItem('myToken', token);
@@ -98,6 +100,27 @@ class App extends PureComponent {
               </main>
             </Route>
             {(admin === true) ?
+              <Route path='/doctor/add' render={({_, location}) =>
+                <div style={{flexGrow:1}}>
+                  <MyAppBarController title='Doctor'
+                    disconnect={this.disconnect}
+                    openProfile={this.openProfile}
+                    openSettings={this.openSettings}
+                    back={() => window.location = '/'}
+                  />
+                  <main className={classes.content}>
+                    <div className={classes.toolbar} />
+                    <AdminCreateDoctor
+                      token={token}
+                      location={location}
+                    />
+                  </main>
+                </div>
+              }>
+              </Route>
+              : null
+            }
+            {(admin === true) ?
               <Route path='/doctor/:id' render={({match}) =>
                 <div style={{flexGrow:1}}>
                   <MyAppBarController title='Doctor'
@@ -112,8 +135,8 @@ class App extends PureComponent {
                   </main>
                 </div>
               }>
-                
-              </Route> : null
+              </Route>
+              : null
             }
             <Route path='/patient/:id' render={({match}) => 
               <div style={{flexGrow:1}}>
@@ -158,7 +181,7 @@ class App extends PureComponent {
               <main className={classes.content}>
                 <div className={classes.toolbar} />
                 {(admin === true) ?
-                  <AdminSearch token={token} setPatient={this.setPatient} setDoctor={this.setDoctor} /> :
+                  <AdminSearch token={token} setPatient={this.setPatient} setDoctor={this.setDoctor} addDoctor={this.addDoctor} /> :
                   <Search token={token} setPatient={this.setPatient} />
                 }
               </main>

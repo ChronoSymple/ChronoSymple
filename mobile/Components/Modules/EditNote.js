@@ -1,4 +1,368 @@
 import React from 'react'
+import { View, Text, Button, TextInput, BackHandler, Picker, FlatList} from 'react-native'
+import { colors } from '../StyleSheet'
+import { connect } from 'react-redux';
+import { APIAddPatientNotes } from '../../API/APIModule'
+import { getUserToken, getUserCurrentModule, getUserCurrentModuleName } from '../../Redux/Action/action';
+import DateTimePicker from "react-native-modal-datetime-picker";
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon_Ant from 'react-native-vector-icons/AntDesign';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import { APIGetModules, APIGetNotesParameters } from "../../API/APIModule"
+
+class EditNote extends React.Component {
+
+	constructor(props) {
+		super(props)
+		let item = this.props.navigation.getParam("itemDetail")
+		var obj = item.data
+		console.log(item)
+		console.log(obj)
+		var now =  new Date()
+		var annee   = now.getFullYear();
+		var month    = now.getMonth() + 1;
+		var jour    = now.getDate();
+		var heure   = now.getHours();
+		var minute  = now.getMinutes();
+		
+		if (month < 10)
+			var date = jour + '/' + '0' + month + '/' + annee
+		else
+			var date = jour + '/' + month + '/' + annee
+		if (minute > 9)
+			var horaire = heure + ':' + minute
+		else
+			var horaire = heure + ':' + 0 + minute
+		this.state = { 
+			pageToReturn: this.props.navigation.getParam("pageToReturn"),
+			glycemie: "", 
+			insulineFood: "", 
+			insulineCorr: "", 
+			description: "",
+			whichLunch: "",
+			date: date,
+			time: horaire,
+			isDateTimePickerVisible: false,
+			isTimePickerVisible: false,
+			textFiledFocusColor: colors.primary,
+			isInvalid: false,
+			bloodGlucoseFocused: false,
+			insulineFoodFocused: false,
+			InsulineaprepasFocused: false,
+			descriptionFocused: false
+		}
+		this.props.getUserCurrentModule().then(() => {
+		})
+		this.getJson();
+	}
+
+	_changeTabValue = (key, value) => {
+		this.setState({
+			whichLunch: value,
+			mytab: this.state.mytab.set(key, value),
+		})
+	}
+
+	getJson = () => {
+		let { navigate } = this.props.navigation;
+		this.props.getUserToken().then(() => {
+			this.props.getUserCurrentModule().then(() => {
+				APIGetModules(this.props.token.token).then(async data => {
+					if (data.status == 200) {
+						let response = await data.json()
+						for (var i = 0; i < response.modules.length; i++) {
+							if (response.modules[i].name == this.props.currentModuleName.currentModuleName) {
+								APIGetNotesParameters(this.props.token.token, response.modules[i].id).then(async data => {
+									if (data.status == 200) {
+										var myTab = new Map()
+										var fieldsJSON = await data.json();
+										if (fieldsJSON != null) {
+											for (var values in fieldsJSON) {
+												myTab = myTab.set(fieldsJSON[values].tag, fieldsJSON[values].defaultText)
+											}
+										}
+										this.setState ({ 
+											fieldsJSON: fieldsJSON,
+											mytab: new Map(myTab)
+										})
+									} else if (data.status == 404 && data.status == 500) {
+										showMessage({
+											message: "Un probleme est survenus, vous allez être déconnecté",
+											type: "danger",
+										});
+										this.props.navigation.navigate("Logout");
+									} else {
+										showMessage({
+											message: "Un problème est survenus, nous n'avons pas réussis à récupérer vos médecins",
+											type: "danger",
+										});
+									}
+								}).catch(error => {
+										this.setState({ error })
+								})
+							}
+						}
+					} else if (data.status == 404 && data.status == 500) {
+						showMessage({
+							message: "Un probleme est survenus, vous allez être déconnecté",
+							type: "danger",
+						});
+						this.props.navigation.navigate("Logout");
+					} else {
+						showMessage({
+							message: "Un problème est survenus, nous n'avons pas réussis à récupérer la liste des modules",
+							type: "danger",
+						});
+					}
+				}).catch(error => {
+						this.setState({ error })
+				})
+			})
+		}).catch(error => {
+			this.setState({ error })
+		})
+	}
+
+	_bootstrapAsync = () => {
+		let { navigate } = this.props.navigation;
+		let object = {};
+		this.state.mytab.forEach((value, key) => {
+		    var keys = key.split('.'),
+		        last = keys.pop();
+		    keys.reduce((r, a) => r[a] = r[a] || {}, object)[last] = value;
+		});
+		this.props.getUserToken().then(() => {
+			this.props.getUserCurrentModule().then(() => {
+				APIAddPatientNotes(this.props.token.token, object, this.props.currentModule.currentModule).then(data => {
+					if (data.status == 200) {
+						this.setState({ isSend: true })
+						navigate("Calendar")
+					}
+				}).catch(error => {
+						this.setState({ error })
+				})
+			})
+		}).catch(error => {
+			this.setState({ error })
+		})
+	}
+
+	textFieldFocused = (state) => {
+		this.setState({[state]: true})
+	}
+
+	textFieldBlured = (state) => {
+		this.setState({[state]: false})
+	}
+
+	showDateTimePicker = () => {
+		this.setState({ isDateTimePickerVisible: true });
+	};
+
+	hideDateTimePicker = () => {
+		this.setState({ isDateTimePickerVisible: false });
+	};
+
+	handleDatePicked = date => {
+		var date = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
+		this.setState({ date: date });
+		this.hideDateTimePicker();
+	};
+
+	showTimePicker = () => {
+		this.setState({ isTimePickerVisible: true });
+	};
+	 
+	hideTimePicker = () => {
+		this.setState({ isTimePickerVisible: false });
+	};
+	 
+	handleTimePicked = time => {
+		if (time.getMinutes() > 9)
+			var horaire = time.getHours() + ':' + time.getMinutes()
+		else
+			var horaire = time.getHours() + ':' + "0" + time.getMinutes()
+		this.setState({ time: horaire });
+		this.hideTimePicker();
+	};
+	//Sat Nov 09 2019 16:43:00 GMT+0900
+	checkFieldType = data => {
+		if (data.field_type == "text") {
+			return (
+				<View>
+					<View style={{flexDirection: "row"}}>
+						<View style={{flex:0.5}}></View>
+						<Text style={{fontSize: 15, textAlign: "center"}}>
+							{data.name}
+						</Text>
+						<View style={{flex:0.5}}></View>
+						<Icon
+							style={{flex:1}}
+							name={data.icon_name}
+							color={data.icon_color}
+							size={35}
+						/>
+						<View style={{flex:0.5}}></View>
+						<TextInput
+							pattern="[0-9]{10}"
+							keyboardType={data.keyboardType}
+							placeholder={data.placeholder}
+							autoCorrect={false}
+							onChangeText={(text) => this._changeTabValue(data.tag, text)}
+							value={this.state.mytab.get[data.tag]}
+						/>
+						<View style={{flex:0.5}}></View>
+					</View>				
+				</View>
+			);
+		}
+		else if (data.field_type == "select") {
+			let myUsers = data.select_values.map((myValue, myIndex)=>{
+				return(
+					<Picker.Item label={myValue} value={myIndex}/>
+				)
+			});
+			return (
+				<View>
+					<View style={{flexDirection: "row"}}>
+						 <View style={{flex:0.5}}></View>
+						<Text style={{flex:4, fontSize: 15, paddingTop: 20}}>
+							{data.name}
+						</Text>
+						<View style={{flex:0.5}}></View>
+						<Picker
+  							selectedValue={this.state.mytab.get(data.tag)}
+							style={{ flex:5}}
+							onValueChange={(itemValue, itemIndex) => this._changeTabValue(data.tag, itemValue)}>
+							{myUsers}
+						</Picker>
+						<View style={{flex:0.5}}></View>
+					</View>	
+				</View>
+			);
+		}
+	};
+	
+  	render() {
+		let { navigate } = this.props.navigation;
+    	return (
+			<View style={{flex:1}}>
+				<View style={{backgroundColor:colors.secondary, flex:1, flexDirection: 'column'}}>
+					<View style={{flex:1}}></View>
+					<View style={{flex:8, flexDirection: 'row', justifyContent:"space-between"}}>
+						<TouchableHighlight style={{margin: 10}}>
+							<Icon
+								name="clear"
+								color="#FFF"
+								size={35}
+								onPress={() => navigate("Calendar")}
+		    				/>
+						</TouchableHighlight>
+						<TouchableHighlight style={{margin: 10}}>
+							<Icon
+								name="check"
+								color="#FFF"
+								size={35}
+								onPress={() => this._bootstrapAsync()}
+		    				/>
+						</TouchableHighlight>
+					</View>
+					<View style={{flex:1}}></View>
+				</View>
+				<View style={{ flex: 1}}></View>
+				<View style={{ flex: 2, justifyContent: "center", alignCOntent: 'center'}}>
+					<View style={{flex: 0.5}}></View>
+					<View style={{flex: 4.25, fontSize: 20, flexDirection:"row"}}>
+						<View style={{ flex: 1.5}}></View>
+						<Icon_Ant
+							name="clockcircleo"
+							color="#000"
+							size={40}
+							onPress={this.showDateTimePicker}
+						/>
+						<View style={{ flex: 1.5}}></View>
+						<View style={{ flex: 5}}>
+        					<Button style={{fontSize: 20, borderRadius: 15,	borderWidth: 4,	borderColor: colors.primary }} color={colors.primary} title={this.state.date} onPress={this.showDateTimePicker} />
+        					<DateTimePicker
+        					  	isVisible={this.state.isDateTimePickerVisible}
+        					  	onConfirm={this.handleDatePicked}
+        					  	onCancel={this.hideDateTimePicker}
+			    		 	/>
+						</View>
+						<View style={{ flex: 1}}></View>
+					</View>
+					<View style={{flex: 0.5}}></View>
+					<View style={{flex: 4.25, flexDirection:"row"}}>
+						<View style={{ flex: 1.5}}></View>
+						<Icon_Ant
+							name="calendar"
+							color="#000"
+							size={40}
+							onPress={this.showTimePicker}
+						/>
+						<View style={{ flex: 1.5}}></View>
+						<View style={{ flex: 5}}>
+        					<Button style={{fontSize: 20, borderRadius: 15,	borderWidth: 4,	borderColor: colors.primary }} color={colors.primary}  title={this.state.time} onPress={this.showTimePicker} />
+        					<DateTimePicker
+								mode="time"
+        						isVisible={this.state.isTimePickerVisible}
+        						onConfirm={this.handleTimePicked}
+								onCancel={this.hideTimePicker}
+							/>
+						</View>
+						<View style={{ flex: 1}}></View>
+					</View>
+					<View style={{flex: 0.5}}></View>
+				</View>
+				<View style={{flex: 1}}></View>
+				<View style={{flex: 5}}>
+				{this.state.fieldsJSON
+					&&
+					<FlatList
+					data={this.state.fieldsJSON}
+					keyExtractor={(item) => item.toString()}
+					renderItem={({item}) => (
+						this.checkFieldType(item)
+						)}
+					/>
+				}
+				</View>
+				<View style={{ flex: 1}}></View>
+			</View>
+		)
+	}
+
+	componentDidMount() {
+		BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+	}
+
+
+	UNSAFE_componentWillUnmount() {
+		BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+	}
+
+	handleBackPress = () => {
+		this.props.navigation.navigate('Calendar')
+		return true;
+	}
+}
+
+const mapStateToProps = state => ({
+	token: state.token,
+	currentModule: state.currentModule,
+	currentModuleName: state.currentModuleName
+});
+
+const mapDispatchToProps = dispatch => ({
+	getUserToken: () => dispatch(getUserToken()),
+	getUserCurrentModule: () => dispatch(getUserCurrentModule()),
+	getUserCurrentModuleName: () => dispatch(getUserCurrentModuleName())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditNote);
+
+/*import React from 'react'
+
 import { View, Text, Button, TextInput, ScrollView, BackHandler, Image, Picker} from 'react-native'
 import { LoginAPatientWithApi } from '../../API/APIConnection'
 import { styles, colors, windowSize } from '../StyleSheet'
@@ -55,6 +419,17 @@ class EditNote extends React.Component {
 					if (data.status == 200) {
 						this.setState({ isSend: true })
 						navigate("Calendar")
+					} else if (data.status == 404 && data.status == 500) {
+						showMessage({
+							message: "Un probleme est survenus, vous allez être déconnecté",
+							type: "danger",
+						});
+						this.props.navigation.navigate("Logout");
+					} else {
+						showMessage({
+							message: "La note n'a pas pu être édité, réessayez plus tard",
+							type: "danger",
+						});
 					}
 				}).catch(error => {
 						this.setState({ error })
@@ -360,171 +735,4 @@ const mapDispatchToProps = dispatch => ({
 	getUserCurrentModule: () => dispatch(getUserCurrentModule())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditNote);
-
-/*
-import React from 'react'
-import { View, Text, Button, StyleSheet} from 'react-native'
-import { connect } from 'react-redux'
-import { getUserToken } from '../../Redux/Action/action';
-import { APIRemovePatientNotes } from '../../API/APIModule'
-import { styles, colors, windowSize } from '../StyleSheet'
-import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
-import DateTimePicker from "react-native-modal-datetime-picker";
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import Icon_Ant from 'react-native-vector-icons/AntDesign';
-
-class EditNote extends React.Component {
-	constructor(props) {
-		super(props)
-		let item = this.props.navigation.getParam("itemDetail")
-		obj = item.data
-		this.state = {
-			BloodGlucose: obj.BloodGlucose, 
-			InsulineFood: obj.InsulineFood, 
-			InsulineCorr: obj.InsulineCorr, 
-			description: obj.description,
-			wichLunch: obj.wichLunch,
-			date: obj.date,
-			time: obj.time,
-			id: item.id
-		}
-	}
-   
- 	_bootstrapAsync = (id) => {
-            this.props.getUserToken().then(() => {
-            APIRemovePatientNotes(this.props.token.token, id).then(data => {
-                if (data.status == 200) {
-                    this.setState({ isRemoved: true })
-                    this.props.navigation.navigate('Calendar')
-                }
-            })
-        }).catch(error => {
-            this.setState({ error })
-        })
-    }
- 
-	render() {
-		let { navigate } = this.props.navigation;
-
-		return (
-			<View style={styles2.main_container}>
-				<View style={{backgroundColor:colors.secondary, flex:1, flexDirection: 'column'}}>
-					<View style={{flex:1}}></View>
-					<View style={{flex:8, flexDirection: 'row', justifyContent:"space-between"}}>
-						<TouchableHighlight style={{margin: 10}}>
-							<Icon
-								name="clear"
-								color="#FFF"
-								size={35}
-								onPress={() => navigate("Calendar")}
-			    			/>
-						</TouchableHighlight>
-						<TouchableHighlight style={{margin: 10}}>
-							<Icon
-								name="check"
-								color="#FFF"
-								size={35}
-								onPress={() => this._bootstrapAsync()}
-			    			/>
-						</TouchableHighlight>
-					</View>
-					<View style={{flex:1}}></View>
-				</View>
-                <View style={{ flex: 2, justifyContent: "center"}}>
-					<Text style={styles.label_green}>Edit</Text>
-				</View>
-				<View style={{ flex: 2, justifyContent: "center", alignCOntent: 'center'}}>
-					<View style={{flex: 0.5}}></View>
-					<View style={{flex: 4.25, fontSize: 20, flexDirection:"row"}}>
-						<View style={{ flex: 1.5}}></View>
-						<Icon_Ant
-							name="clockcircleo"
-							color="#000"
-							size={40}
-							onPress={this.showDateTimePicker}
-						/>
-						<View style={{ flex: 1.5}}></View>
-						<View style={{ flex: 5}}>
-        					<Button style={{fontSize: 20, borderRadius: 15,	borderWidth: 4,	borderColor: colors.primary }} color={colors.primary} title={"oui"} onPress={this.showDateTimePicker} />
-        					<DateTimePicker
-        					  	isVisible={this.state.isDateTimePickerVisible}
-        					  	onConfirm={this.handleDatePicked}
-        					  	onCancel={this.hideDateTimePicker}
-				    	 	/>
-						</View>
-						<View style={{ flex: 1}}></View>
-					</View>
-					<View style={{flex: 0.5}}></View>
-					<View style={{flex: 4.25, flexDirection:"row"}}>
-						<View style={{ flex: 1.5}}></View>
-						<Icon_Ant
-							name="calendar"
-							color="#000"
-							size={40}
-							onPress={this.showTimePicker}
-						/>
-						<View style={{ flex: 1.5}}></View>
-						<View style={{ flex: 5}}>
-        					<Button style={{fontSize: 20, borderRadius: 15,	borderWidth: 4,	borderColor: colors.primary }} color={colors.primary} title={"oui"} onPress={this.showTimePicker} />
-        					<DateTimePicker
-								mode="time"
-        						isVisible={this.state.isTimePickerVisible}
-        						onConfirm={this.handleTimePicked}
-								onCancel={this.hideTimePicker}
-							/>
-						</View>
-						<View style={{ flex: 1}}></View>
-					</View>
-					<View style={{flex: 0.5}}></View>
-				</View>
-                <View style={{ flex: 7, alignContent: "center"}}>
-				    <Text style={styles2.moduleText}>Glucose : {this.state.BloodGlucose}</Text>
-				    <Text>{"\n"}</Text>
-				    <Text style={styles2.moduleText}>InsulineFood : {this.state.InsulineFood}</Text>
-				    <Text>{"\n"}</Text>
-				    <Text style={styles2.moduleText}>InsulineCorr : {this.state.InsulineCorr}</Text>
-				    <Text>{"\n"}</Text>
-				    <Text style={styles2.moduleText}>Description : {this.state.description}</Text>
-				    <Text>{"\n"}</Text>			
-				    <Text style={styles2.moduleText}>Quelle période de la journée : {this.state.wichLunch}</Text>
-                    <Text>{"\n"}</Text>	
-                </View>
-                <View style={{ flex: 1}}>
-						<Button 
-							color={colors.primary}
-							title={"Editer la note"}
-						/>
-				</View>
-                <View style={{ flex: 1}}>
-						<Button 
-							color={"#CD3621"}
-							onPress={() => this._bootstrapAsync(this.state.id)}
-							title={"Supprimer la note"}
-						/>
-				</View>
-			</View>
-		)
-	}
-}
-
-const styles2 = StyleSheet.create({
-	main_container: {
-		flex: 1
-	},
-	moduleText: {
-        fontSize: 17,
-        width: windowSize.x / 1.2
-	}
-})
-
-const mapStateToProps = state => ({
-	token: state.token,
-});
-
-const mapDispatchToProps = dispatch => ({
-	getUserToken: () => dispatch(getUserToken()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditNote);
-*/
+export default connect(mapStateToProps, mapDispatchToProps)(EditNote);*/
