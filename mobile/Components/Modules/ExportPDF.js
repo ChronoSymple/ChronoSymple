@@ -12,6 +12,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '../StyleSheet'
 import { CheckBox } from 'react-native-elements'
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
+import { showMessage } from "react-native-flash-message";
+
 
 class ExportPDF extends React.Component {
 	constructor (props) {
@@ -30,7 +32,7 @@ class ExportPDF extends React.Component {
 			doctorLastName: "",
 			doctorEmail: "",
 			doctorAddress: "",
-
+			PDFcreated: "unknown",
 		}
 		this.getPatientInfo()
 		this.getDoctorInfo()
@@ -87,6 +89,10 @@ class ExportPDF extends React.Component {
 
 	async createPDF() {
 		console.log("creating pdf file ....")
+		showMessage({
+			message: "téléchargement du fichier ...",
+			type: "info"
+		});
 		let generalInfo='<h4 style="text-align: left"> Patient\
 							<span style="float:right"> Docteur</span>\
 						</h4>\
@@ -124,6 +130,8 @@ class ExportPDF extends React.Component {
 
 		let currentDate = new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()
 		let currentTime = new Date().getHours() + ":" + new Date().getMinutes()
+		let filename = 'Chronosymple_fiche_symptome_' + new Date().getDate() + (new Date().getMonth() + 1) + new Date().getFullYear()
+		console.log(filename)
 
 		let options = {
 			html: generalInfo + '<p style="text-align: left;">\
@@ -131,13 +139,25 @@ class ExportPDF extends React.Component {
 						<strong>Declaration des symptomes du ' + this.state.startDate + ' au ' + this.state.endDate + ': </strong>\
 					</p>' + patientNote + '\
 					<p>fait le ' + currentDate + ' à ' + currentTime + '</p',
-			fileName: 'Chronosymple_test_follow_up',
+			fileName: filename,
 			directory: 'docs',
 		}
+		try {
+			let file = await RNHTMLtoPDF.convert(options)
+			this.setState({ PDFcreated: "yes" })
+			showMessage({
+				message: "le document PDF a bien été télécharger",
+				type: "success"
+			});
+			this.props.navigation.navigate("Calendar")
+		} catch (error) {
 
-		let file = await RNHTMLtoPDF.convert(options)
-		this.props.navigation.navigate("Calendar")
-
+			console.log(error)
+			showMessage({
+				message: "Une erreur est survenue lors de l'export de note. Veuillez recommencer. Si le probleme persiste contactez nous",
+				type: "danger",
+			});
+		}
 	}
 
 	render() {

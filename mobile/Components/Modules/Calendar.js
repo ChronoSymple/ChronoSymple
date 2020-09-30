@@ -725,13 +725,34 @@ class Calendar extends React.Component {
 		this.props.getUserToken().then(() => {
 			for (let note of notes) {
 				APIRemovePatientNotes(this.props.token.token, note).then(data => {
-					if (data.status == 200)
+					if (data.status == 200) {
 						this._bootstrapAsync();
+						if (notes.length == 1) {
+							showMessage({
+								message: "La note ont bien été supprimé",
+								type: "success"
+							});
+						} else {
+							showMessage({
+								message: "Les notes ont bien été supprimé",
+								type: "success"
+							});
+						}
+					} else {
+						showMessage({
+							message: "Une erreur est survenue, reessayez. Si le probleme persiste contactez nous",
+							type: "danger"
+						});
+					}
 				})
 			}
 		}).catch(error => {
 			this.setState({loading: false});
 			this.setState({ error })
+			showMessage({
+				message: "Une erreur de session est survenue. actualisez la page. Si le probleme persiste contactez nous",
+				type: "danger"
+			});
 		})
 	}
 

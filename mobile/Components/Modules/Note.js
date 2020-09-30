@@ -7,7 +7,8 @@ import { getUserToken, getUserCurrentModule, getUserCurrentModuleName } from '..
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon_Ant from 'react-native-vector-icons/AntDesign';
-import { TouchableHighlight } from 'react-native-gesture-handler';
+import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
+import { showMessage } from "react-native-flash-message";
 import { APIGetModules, APIGetNotesParameters } from "../../API/APIModule"
 
 class Note extends React.Component {
@@ -397,13 +398,25 @@ class Note extends React.Component {
 					if (data.status == 200) {
 						this.setState({ isSend: true })
 						navigate("Calendar")
+						showMessage({
+							message: "La note a bien été crée",
+							type: "success"
+						});
 					}
 				}).catch(error => {
 						this.setState({ error })
+						showMessage({
+							message: "Une erreur est survenue lors de l'ajout de note. Veuillez recommencer. Si le probleme persiste contactez nous",
+							type: "danger"
+						});
 				})
 			})
 		}).catch(error => {
 			this.setState({ error })
+			showMessage({
+				message: "Une erreur est survenue avec votre session. reactualisez la page. Si le probleme persiste contactez nous",
+				type: "danger"
+			});
 		})
 	}
 

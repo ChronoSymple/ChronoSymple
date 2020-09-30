@@ -12,11 +12,15 @@ import {
 	BackHandler,
 	TouchableOpacity,
 	Animated,
+	Modal,
 } from 'react-native';
+import NetInfo from "@react-native-community/netinfo";
 import { connect } from 'react-redux';
 import { getUserToken, saveUserCurrentModule, saveUserCurrentModuleName, getUserCurrentModule } from '../Redux/Action/action';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableHighlight} from 'react-native-gesture-handler';
 import { showMessage, hideMessage } from "react-native-flash-message";
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 class Home extends React.Component {
 	constructor(props) {
@@ -25,7 +29,8 @@ class Home extends React.Component {
 			Dmodules: null,
 			loading: true,
 			isModalVisible: false,
-			animatedValue: new Animated.Value(1)
+			animatedValue: new Animated.Value(1),
+			modalInternetVisible: false,
 		}
 		this.focusListener = this.props.navigation.addListener('didFocus', () => {
 			this.state = {
@@ -87,6 +92,21 @@ class Home extends React.Component {
 
 	// Fetch the token from storage then navigate to our appropriate place
 	_bootstrapAsync = () => {
+		NetInfo.fetch().then((state) => {
+			console.log(
+				"Initial, type: " +
+				state.type +
+				', effectiveType: ' +
+				state.effectiveType +
+				', is connected: ' +
+				state.isConnected
+			);
+			if (state.isConnected == true) {
+				this.setState({ modalInternetVisible: false })
+			} else {
+				this.setState({ modalInternetVisible: true })
+			}
+		})
 		this.props.getUserToken().then(() => {
 			APIGetPatientModules(this.props.token.token).then(async data => {
 				if (data.status == 200) {
@@ -135,6 +155,12 @@ class Home extends React.Component {
 		})
 	}
 
+	setInternetModal = (visible) => {
+		this.setState({
+			modalInternetVisible: visible,
+		})
+	}
+
 	setModalVisible = (visible) => {
 		this.setState({
 			isModalVisible: visible,
@@ -152,6 +178,36 @@ class Home extends React.Component {
 		}
 		return (
 			<View style={styles.container}>
+				<Modal
+					animationType="slide"
+					transparent={false}
+					visible={this.state.modalInternetVisible}
+				>
+					<View style={{ flex: 1, marginTop: 10}}>
+						<View style={{flex: 1 }}>
+						<TouchableHighlight style={{margin: 10}}>
+							<Icon
+								name="clear"
+								color="#62BE87"
+								size={35}
+								onPress={() => this.setInternetModal(false)}
+							/>
+						</TouchableHighlight>
+						</View>
+						<View style={{flex: 1}}>
+							<Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', color: '#62BE87'}}>
+								Un probleme est survenue.{'\n'}Ceci peut etre du a un probleme de connexion internet{'\n'}{'\n'}
+							</Text>
+							<Button 
+								style={styles.buttonNoModule}
+								color="#62BE87"
+								onPress={() => {this._bootstrapAsync()}}
+								title="Actualiser la page"
+							/>
+						</View>
+						<View style={{flex: 1}}/>
+					</View>
+				</Modal>
         		<Text style={{color:"#62BE87", textAlign:'center', fontWeight: "bold", justifyContent: 'center', fontSize:30, margin: 30}}>Chronosymple</Text>
 				{this.state.loading && <ActivityIndicator size='large' color='black' />}
 				{ !this.state.loading && !this.state.Dmodules
