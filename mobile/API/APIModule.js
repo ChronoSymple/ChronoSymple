@@ -168,3 +168,15 @@ export function APIgetDoctorsOfModule(token, id) {
     .then((response) => response)
     .catch((error) => error)
 }
+
+export function APIGetNotesParameters(token, id) {
+    return fetch(baseUrl + '/api/patients/general_units/' + id + '/note_model', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token,
+        }
+    })
+    .then((response) => response)
+    .catch((error) => error)
+}
