@@ -44,6 +44,7 @@ class ModalFilter extends React.Component {
           APIGetGeneralUnitNoteFileds(this.props.token.token, general_module_id).then(async data => {
           
             let response = await data.json();
+
             if (data.status == 200) {
               this.setState({noteFields: response})
             }
@@ -69,12 +70,8 @@ class ModalFilter extends React.Component {
     this.props.getUserToken().then(() => {
 
       this.props.getUserCurrentModule().then(() => {
-
-        APIGetGeneralUnitId(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
           
-          let resp = await data.json();
-          let general_module_id = resp["id"]
-          APIGetFilter(this.props.token.token, general_module_id).then(async data => {
+          APIGetFilter(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
           
           let response = await data.json()
           if (data.status == 200) {
@@ -88,11 +85,6 @@ class ModalFilter extends React.Component {
         }).catch(error => {
           this.setState({ error })
         })
-      
-      }).catch(error => {
-        this.setState({ error })
-      })
-    
     }).catch(error => {
       this.setState({ error })
     })
