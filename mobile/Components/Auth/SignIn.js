@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { saveUserToken } from '../../Redux/Action/action';
 import { ScrollView } from 'react-native-gesture-handler';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
-import PasswordInputText from 'react-native-hide-show-password-input';
 
 
 class SignIn extends React.Component {
@@ -463,12 +462,14 @@ class SignIn extends React.Component {
 									pattern="[0-9]{10}"
 									keyboardType="numeric"
 								/>
-								<PasswordInputText
+								<TextInput 
+									secureTextEntry={true}
 									label={placeholder_password}
 									value={this.state.password}
 									onChangeText={ (password) => this.setState({ password }) }
 								/>
-								<PasswordInputText
+								<TextInput 
+									secureTextEntry={true}
 									label={placeholder_rePassword}
 									value={this.state.rePassword}
 									onChangeText={ (rePassword) => this.setState({ rePassword }) }

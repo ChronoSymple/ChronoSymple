@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { getUserToken } from '../../../Redux/Action/action';
 import { getPatientInfoWithApi, updatePatientProfile } from '../../../API/APIConnection';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import PasswordInputText from 'react-native-hide-show-password-input';
 import { showMessage } from "react-native-flash-message";
 import NetInfo from "@react-native-community/netinfo";
 
@@ -191,7 +190,8 @@ class InfoProfile extends React.Component {
 				            <Text style={{fontSize: 13, color: colors.secondary}}> Numero de telephone </Text>
 						</View>
 						<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10, marginRight: 20}}>
-							<PasswordInputText
+							<TextInput 
+								secureTextEntry={true}
 								label="votre mot de passe"
 								value={this.state.password}
 								onChangeText={ (password) => this.setState({ password }) }
@@ -239,7 +239,8 @@ class InfoProfile extends React.Component {
 				            <Text style={{fontSize: 13, color: colors.secondary}}> Adresse mail</Text>
 						</View>
 						<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10, marginRight: 20}}>
-				            <PasswordInputText
+				            <TextInput 
+				            	secureTextEntry={true}
 								label="votre mot de passe"
 								value={this.state.password}
 								onChangeText={ (password) => this.setState({ password }) }

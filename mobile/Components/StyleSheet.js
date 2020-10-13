@@ -6,17 +6,14 @@ const windowSize = {
 };
 
 const colors = {
-	//primary: 		"#06C4BF",
 	primary: 		"#62BE87",
 	activeTextField: 	this.primary,
 	secondary: 		"#00928C",
-	//tierce:			"#68E0A3",
 	tierce:			"#21B086",
 	borderColor: 		"grey",
 	labelColor: 		"grey",
 	errorColor: 		"#e94e62"
 };
-
 
 const styles = StyleSheet.create({
 	title: {
