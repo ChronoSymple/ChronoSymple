@@ -22,7 +22,7 @@ class Loading extends React.Component {
 			} else {
 				this.props.getUserAccountValid().then(() => {
 					console.log(this.props.token)
-					if (this.props.token.accountValid != true) {
+					if (this.props.token.accountValid != "true") {
 						this.props.navigation.navigate("AccountValidation")
 					} else {
 						this.props.navigation.navigate("Home")

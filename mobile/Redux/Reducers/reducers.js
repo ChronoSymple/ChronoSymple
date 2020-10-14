@@ -48,7 +48,7 @@ const rootReducer = (state = {
 
 export default combineReducers({
     token: rootReducer,
+    accountValid: rootReducer,
     currentModule: rootReducer,
     currentModuleName: rootReducer,
-    accountValid: rootReducer,
 });

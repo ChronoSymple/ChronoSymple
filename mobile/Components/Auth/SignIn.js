@@ -5,7 +5,7 @@ import { View, Text, TextInput, Button, ImageBackground, Picker, ToastAndroid} f
 import { SiginAPatientWithApi, confirmPatientEmail } from '../../API/APIConnection'
 import { styles, colors, windowSize } from '../StyleSheet'
 import { connect } from 'react-redux';
-import { saveUserToken, saveAccountValid } from '../../Redux/Action/action';
+import { saveUserToken, saveUserAccountValid } from '../../Redux/Action/action';
 import { ScrollView } from 'react-native-gesture-handler';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 
@@ -44,23 +44,23 @@ class SignIn extends React.Component {
 		}
 	}
 
-	_signInAsync = (oui) => {
-		mail = this.state.mail
-		password = this.state.password
-		this.props.saveUserToken(oui)
+	_signInAsync = (oui, accountData) => {
+		console.log("in _signInAsync")
+		console.log(accountData)
+    	this.props.saveUserAccountValid(accountData)
+    	.then(() => {
+			this.props.saveUserToken(oui)
 		    .then(() => {
-		    	this.props.saveAccountValid({ mail, password})
-		    	.then(() => {
-		    		console.log("token, mail and password savec. ! ")
-		    	})
-		    	.catch((error) => {
-		    		this.setState({ error })
-		    	})
-			this.props.navigation.navigate('AccountValidation');
+    			console.log("token, mail and password savec. ! ")
+				this.props.navigation.navigate('AccountValidation');
 		    })
 		    .catch((error) => {
-			this.setState({ error })
+				this.setState({ error })
 		    })
+    	})
+    	.catch((error) => {
+    		this.setState({ error })
+    	})
 	};
 	
 	verification = () => {
@@ -121,11 +121,12 @@ class SignIn extends React.Component {
 		SiginAPatientWithApi(this.state.fname, this.state.lname, this.state.mail, this.state.password, this.state.Gender, birthDate, this.state.phoneNumber).then(async data => {
 			if (data.status == 201) {
 				let response = await data.json()
-				this._signInAsync(response.login_token)
+				accountData = this.state.mail + "," + this.state.password
+				this._signInAsync(response.login_token, accountData)
 				if (response.login_token !== null) {
 					confirmPatientEmail(this.state.mail, this.state.password, response.login_token).then(async data => {
 						let response = await data.json()
-						navigate('AccountValidation', {mail: this.state.mail, password: this.state.password, matchCode: response.confirmation_token})
+						navigate('AccountValidation', {matchCode: response.confirmation_token})
 					})
 				}
 				else {
@@ -521,7 +522,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 	saveUserToken: (oui1) => dispatch(saveUserToken(oui1)),
-	saveAccountValid: (data) => dispatch(saveAccountValid(data)),
+	saveUserAccountValid: (data) => dispatch(saveUserAccountValid(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

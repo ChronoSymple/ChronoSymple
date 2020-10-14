@@ -197,7 +197,7 @@ export const saveUserAccountValid = (data) => dispatch =>
     AsyncStorage.setItem('accountValid', data)
         .then((data) => {
             dispatch(loading(false));
-            dispatch(saveAccountValid(" account validation set"));
+            dispatch(saveAccountValid("accountValidate Set"));
         })
         .catch((err) => {
             dispatch(loading(false))
