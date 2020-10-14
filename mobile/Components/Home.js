@@ -92,6 +92,8 @@ class Home extends React.Component {
 
 	// Fetch the token from storage then navigate to our appropriate place
 	_bootstrapAsync = () => {
+	  	console.log("HOME")
+	  	console.log(this.props.token)
 		NetInfo.fetch().then((state) => {
 			console.log(
 				"Initial, type: " +

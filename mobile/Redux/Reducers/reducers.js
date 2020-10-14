@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 
 const rootReducer = (state = {
     token: {},
+    accountValid: {},
     currentModule: {},
     currentModuleName: {},
     loading: true,
@@ -34,6 +35,10 @@ const rootReducer = (state = {
             return { ...state, loadingModule: action.isLoadingModule };
         case 'LOADING_MODULE_NAME':
             return { ...state, loadingModuleName: action.isLoadingModule };
+        case 'GET_ACCOUNT_VALID':
+            return { ...state, accountValid: action.accountValid };
+        case 'SAVE_ACCOUNT_VALID':
+            return { ...state, accountValid: action.accountValid };
         case 'ERROR':
             return { ...state, error: action.error };
         default:
@@ -44,5 +49,6 @@ const rootReducer = (state = {
 export default combineReducers({
     token: rootReducer,
     currentModule: rootReducer,
-    currentModuleName: rootReducer
+    currentModuleName: rootReducer,
+    accountValid: rootReducer,
 });

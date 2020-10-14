@@ -4,26 +4,46 @@ import {
 	View,
 	Text,
 	TextInput,
-	Button
+	Button,
+	TouchableHighlight,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { getUserToken } from '../../Redux/Action/action';
-import { colors, windowSize } from '../StyleSheet'
+import { getUserToken, getUserAccountValid } from '../../Redux/Action/action';
+import { colors, windowSize } from '../StyleSheet';
+import { confirmPatientEmail } from '../../API/APIConnection';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 class AccountValidation extends React.Component {
 	constructor(props) {
 		super(props)
-		this.state = { 
-			code: "", 
+		this.state = {
+			mail: this.props.navigation.getParam("mail"),
+			password: this.props.navigation.getParam("password"),
+			matchCode: this.props.navigation.getParam("matchCode"),
+			code: "",
 			isInvalid: false,
 			textFiledFocusColor: colors.primary,
 			passwordFocused: false,
 			codeFocused: false
 		}
+		this.props.getUserAccountValid().then(()=> {
+			this.props.getUserToken().then(() => {
+				console.log("get accountValid + token done")
+				console.log(this.props.token)
+			})
+		})
 	}
 
 	checkCodeValidation = () => {
-		this.props.navigation.navigate('Home');
+		console.log("toto")
+		console.log(this.props.token)
+		console.log(this.state.token)
+		confirmPatientEmail(this.state.mail, this.state.password, this.props.token.token).then(async data => {
+			console.log(data)
+			let response = await data.json()
+			console.log(response)
+		})
+		/*this.props.navigation.navigate('Home');*/
 	}
 
 	setCode = (text) => {
@@ -47,7 +67,16 @@ class AccountValidation extends React.Component {
 
 		return (
         <View style={styles.container}>
-			<View style={{ flex: 2}}></View>
+			<View style={{ flex: 2}}>
+				<TouchableHighlight style={{margin: 10}}>
+					<Icon
+						name="clear"
+						color="#62BE87"
+						size={35}
+						onPress={() => navigate("Home")}
+					/>
+				</TouchableHighlight>
+			</View>
 			<View style={{ flex: 3, justifyContent: "center", alignItems: "center"}}>
 				<View style={{ flex: 2}}></View>
             	<Text style={{ flex: 2, fontSize: 25}}>
@@ -98,12 +127,14 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
+	accountValid: state.accountValid,
 	token: state.token,
 });
 
 
 const mapDispatchToProps = dispatch => ({
 	getUserToken: () => dispatch(getUserToken()),
+	getUserAccountValid: () => dispatch(getUserAccountValid()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountValidation);

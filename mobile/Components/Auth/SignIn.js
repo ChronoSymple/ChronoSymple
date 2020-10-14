@@ -2,10 +2,10 @@
 
 import React from 'react'
 import { View, Text, TextInput, Button, ImageBackground, Picker, ToastAndroid} from 'react-native'
-import { SiginAPatientWithApi } from '../../API/APIConnection'
+import { SiginAPatientWithApi, confirmPatientEmail } from '../../API/APIConnection'
 import { styles, colors, windowSize } from '../StyleSheet'
 import { connect } from 'react-redux';
-import { saveUserToken } from '../../Redux/Action/action';
+import { saveUserToken, saveAccountValid } from '../../Redux/Action/action';
 import { ScrollView } from 'react-native-gesture-handler';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import PasswordInputText from 'react-native-hide-show-password-input';
@@ -46,8 +46,17 @@ class SignIn extends React.Component {
 	}
 
 	_signInAsync = (oui) => {
+		mail = this.state.mail
+		password = this.state.password
 		this.props.saveUserToken(oui)
 		    .then(() => {
+		    	this.props.saveAccountValid({ mail, password})
+		    	.then(() => {
+		    		console.log("token, mail and password savec. ! ")
+		    	})
+		    	.catch((error) => {
+		    		this.setState({ error })
+		    	})
 			this.props.navigation.navigate('AccountValidation');
 		    })
 		    .catch((error) => {
@@ -85,7 +94,7 @@ class SignIn extends React.Component {
 			return false
 		}
 		else if (this.state.mail == "" ) {
-			this.setState({ errorMessage: "Le champ \"E-mmil\" n'a pas été indiqué" })
+			this.setState({ errorMessage: "Le champ \"E-mail\" n'a pas été indiqué" })
 			return false
 		}
 		else if (this.state.password == "" ) {
@@ -100,6 +109,7 @@ class SignIn extends React.Component {
 	}
 
 	checkSignIn = () => {
+		console.log(this.props.token)
 		let { navigate } = this.props.navigation;
 		if (!this.verification()) {
 			this.setState({ isInvalid: true})
@@ -114,7 +124,10 @@ class SignIn extends React.Component {
 				let response = await data.json()
 				this._signInAsync(response.login_token)
 				if (response.login_token !== null) {
-					navigate('AccountValidation')
+					confirmPatientEmail(this.state.mail, this.state.password, response.login_token).then(async data => {
+						let response = await data.json()
+						navigate('AccountValidation', {mail: this.state.mail, password: this.state.password, matchCode: response.confirmation_token})
+					})
 				}
 				else {
 					navigate('SignIn')
@@ -501,10 +514,13 @@ class SignIn extends React.Component {
 
 const mapStateToProps = state => ({
 	token: state.token,
+	accountValid: state.accountValid,
+
 });
 
 const mapDispatchToProps = dispatch => ({
 	saveUserToken: (oui1) => dispatch(saveUserToken(oui1)),
+	saveAccountValid: (data) => dispatch(saveAccountValid(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

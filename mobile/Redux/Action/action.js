@@ -48,6 +48,15 @@ export const removeCurrentModule = () => ({
     type: 'REMOVE_CURRENT_MODULE',
 });
 
+export const getAccountValid = (accountValid) => ({
+    type: 'GET_ACCOUNT_VALID',
+    accountValid,
+});
+
+export const saveAccountValid = (accountValid) => ({
+    type: 'SAVE_ACCOUNT_VALID',
+    accountValid,
+});
 
 
 
@@ -172,3 +181,25 @@ export const removeUserCurrentModuleName = () => dispatch =>
             dispatch(loadingModuleName(false));
             dispatch(error(err.message || 'ERROR'));
 })
+
+export const getUserAccountValid = () => dispatch =>
+    AsyncStorage.getItem('accountValid')
+        .then((data) => {
+            dispatch(loading(false));
+            dispatch(getAccountValid(data));
+        })
+        .catch((err) => {
+            dispatch(loading(false))
+            dispatch(error(err.message || 'ERROR'))
+        })
+        
+export const saveUserAccountValid = (data) => dispatch =>
+    AsyncStorage.setItem('accountValid', data)
+        .then((data) => {
+            dispatch(loading(false));
+            dispatch(saveAccountValid(" account validation set"));
+        })
+        .catch((err) => {
+            dispatch(loading(false))
+            dispatch(error(err.message || 'ERROR'))
+        })
