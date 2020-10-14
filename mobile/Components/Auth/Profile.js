@@ -9,7 +9,6 @@ import { getPatientInfoWithApi, updatePatientProfile } from '../../API/APIConnec
 import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImgToBase64 from 'react-native-image-base64';
-import PasswordInputText from 'react-native-hide-show-password-input';
 import { showMessage } from "react-native-flash-message";
 import NetInfo from "@react-native-community/netinfo";
 
@@ -337,7 +336,8 @@ class Profile extends React.Component {
 				>
 				<View style={{ flex: 1, marginTop: 22}}>		
 					<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 15, marginRight: 25}}>
-						<PasswordInputText
+						<TextInput 
+							secureTextEntry={true}
 							label="mot de passe"
 							value={this.state.password}
 							onChangeText={ (password) => this.setState({ password }) }

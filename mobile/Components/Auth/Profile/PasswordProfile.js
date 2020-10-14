@@ -5,7 +5,6 @@ import { styles, colors, windowSize } from '../../StyleSheet'
 import { connect } from 'react-redux'
 import { getUserToken } from '../../../Redux/Action/action';
 import { checkPatientPassword, updatePatientPassword } from '../../../API/APIConnection';
-import PasswordInputText from 'react-native-hide-show-password-input';
 import { showMessage } from "react-native-flash-message";
 
 
@@ -70,7 +69,8 @@ class PasswordProfile extends React.Component {
       <View style={{flex: 1}}>
         <View style={{flex: 0.5}}/>
         <View style={{ flex: 1, justifyContent: "center", marginLeft: 15, marginRight: 25}}>
-          <PasswordInputText
+          <TextInput 
+            secureTextEntry={true}
             label="ancient mot de passe"
             value={this.state.oldPassword}
             onChangeText={ (oldPassword) => this.setState({ oldPassword }) }
@@ -78,7 +78,8 @@ class PasswordProfile extends React.Component {
           <Text style={{fontSize: 13, color: colors.secondary}}> Mot De Passe </Text>
         </View>
         <View style={{ flex: 1, justifyContent: "center", marginLeft: 15, marginRight: 25}}>
-          <PasswordInputText
+          <TextInput 
+            secureTextEntry={true}
             label="nouveau mot de passe"
             value={this.state.newPassword}
             onChangeText={ (newPassword) => this.setState({ newPassword }) }
@@ -86,7 +87,8 @@ class PasswordProfile extends React.Component {
           <Text style={{fontSize: 13, color: colors.secondary}}> Nouveau Mot De Passe </Text>
         </View>
         <View style={{flex: 1, justifyContent: "center", marginLeft: 15, marginRight: 25}}>
-          <PasswordInputText
+          <TextInput 
+            secureTextEntry={true}
             label="confirmation"
             value={this.state.confirmPassword}
             onChangeText={ (confirmPassword) => this.setState({ confirmPassword }) }

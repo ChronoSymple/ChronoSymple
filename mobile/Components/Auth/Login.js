@@ -4,7 +4,6 @@ import { LoginAPatientWithApi } from '../../API/APIConnection'
 import { styles, colors, windowSize } from '../StyleSheet'
 import { connect } from 'react-redux';
 import { saveUserToken } from '../../Redux/Action/action';
-import PasswordInputText from 'react-native-hide-show-password-input';
 
 
 class Login extends React.Component {
@@ -104,7 +103,8 @@ class Login extends React.Component {
 								onChangeText={(text) => this.setPassword(text)}
 								value={this.password}
 							/>*/}
-							<PasswordInputText
+							<TextInput 
+								secureTextEntry={true}
 								label="mot de passe"
 								value={this.state.password}
 								onChangeText={ (password) => this.setState({ password }) }
