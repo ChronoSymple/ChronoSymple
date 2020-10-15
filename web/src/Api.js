@@ -122,11 +122,17 @@ const getPatientsAsAdmin = token =>
 const getDoctorsAsAdmin = token =>
   loggedRequest(`${prefix}/admins/doctors`, token);
 
-
 const getPatient = (token, ID) =>
   loggedRequest(`${prefix}/doctors/patients/${ID}/profile`, token);
 
+const getLimits = (token, unitID) =>
+  loggedRequest(`${prefix}/doctors/doctor_units/${unitID}/get_fields_limits`);
 
+const setLimits = (token, unitID, obj) =>
+  loggedRequest(`${prefix}/doctors/doctor_units/${unitID}/get_fields_limits`, token, {
+    method: 'POST',
+    body: JSON.stringify(obj)
+  });
 
 export default {
   login,
@@ -143,5 +149,7 @@ export default {
   getNotes,
   getNotesByDateInterval,
   getPatientNotes,
-  sendMail
+  sendMail,
+  getLimits,
+  setLimits
 };
