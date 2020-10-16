@@ -9,19 +9,6 @@ import Table from '@material-ui/core/Table';
 import { withStyles } from '@material-ui/core';
 import { PatientPropTypes } from '../../MyPropTypes';
 import i18n from 'i18next';
-//import Alert from '../Alert/Alert';
-//import Fav from './Fav';
-//import PatIcon from './PatIcon';
-
-
-// const putFavInTab = (e) => {
-//   ArrayFav = [...ArrayFav, e.id];
-//   // var n = ArrayFav.includes(e.id);
-//   console.log(ArrayFav.length);
-//   console.log('weeeeey');
-//   // STAR = star2;
-
-// }
 
 const styles = {
   selectable : {
@@ -44,18 +31,8 @@ const PatientList = ({
     <Table>
       <TableHead>
         <TableRow style={{backgroundColor: '#EFEFEF', borderBottomWidth: 1, borderBottomColor: '#000000', borderBottomStyle: 'block'}}>
-          {
-            /*
-          <TableCell>{i18n.t('lastname')}</TableCell>
-          <TableCell>{i18n.t('firstname')}</TableCell>
-          <TableCell>Favorites</TableCell>
-          <TableCell>Icon</TableCell>
-          <TableCell>{i18n.t('patState')}</TableCell>
-            */
-          }
           <TableCell><b>{i18n.t('fullname')}</b></TableCell>
           <TableCell><b>{i18n.t('birthDate')}</b></TableCell>
-          {/* <Alert/> */}
         </TableRow>
       </TableHead>
       <TableBody>
@@ -66,16 +43,6 @@ const PatientList = ({
             onClick={() => setPatient(e.id)}
             style={{backgroundColor: (i % 2 !== 0) ? '#F7F7F7' : '#FFFFFF'}}
           >
-            {
-              /*
-              <TableCell>{e.firstname}</TableCell>
-              <TableCell>{e.birthdate}</TableCell>
-              
-              <TableCell><Fav favId={e.id}/></TableCell>
-              <TableCell><PatIcon patBirth={e.birthdate}/></TableCell>
-              <TableCell><Alert/></TableCell>
-              */
-            }
             <TableCell><b>{`${e.civility === 'homme' ? 'Mr' : 'Mme'} ${e.lastname.toLocaleUpperCase()} ${e.firstname}`}</b></TableCell>
             <TableCell><b>{e.birthdate}</b></TableCell>
           </TableRow>
