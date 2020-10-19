@@ -32,7 +32,7 @@ const LoginCard = ({
   error
 }) => (
   <div>
-    <AppBar>
+    <AppBar style={{ background: '#62BE87' }}>
       <div style={{display: 'flex'}}>
         <div style={{flex: 1}} />
         <a href='https://eip.epitech.eu/2021/chronosymple/'>
@@ -65,15 +65,15 @@ const LoginCard = ({
             <div style={{flex: 1}}/>
             <Button
               className={classes.loginButton}
-              color="primary"
               onClick={openRegister}
+              style={{ background: '#62BE87' }}
             >
               {'S\'inscrire'}
             </Button>
             <Button
+              style={{ background: '#62BE87' }}
               className={classes.loginButton}
               type="submit"
-              color="primary"
               variant="contained"
               onClick={login}
             >

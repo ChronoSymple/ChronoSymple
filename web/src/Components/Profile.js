@@ -149,7 +149,7 @@ class Profile extends React.Component {
             <TextField fullWidth value={profile.email || defaultProfile.email || ''}label="Email" onChange={this.changeEmail}/>
             <TextField type='password' fullWidth value={profile.password || ''} label="Mot de passe" onChange={this.setPassword} />
             <br/><br/>
-            <Button variant='contained' color="primary" onClick={this.save} disabled={askingApi || profile.password === '' || profile.password === undefined}>Modifiez</Button>
+            <Button variant='contained' style={{ background: '#62BE87' }} onClick={this.save} disabled={askingApi || profile.password === '' || profile.password === undefined}>Modifiez</Button>
             {askingApi && <CircularProgress style={{marginLeft: 10}} size={30} />}
             <p>* To change any information you need to enter your password</p>
           </div>
