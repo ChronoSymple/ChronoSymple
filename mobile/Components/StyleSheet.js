@@ -15,6 +15,34 @@ const colors = {
 	errorColor: 		"#e94e62"
 };
 
+const note_style = StyleSheet.create({
+	row: {
+		flexDirection: "row", 
+		alignItems: 'center',  
+		borderTopWidth: 1, 
+		borderColor: 'grey',
+		paddingTop: 8, 
+		paddingBottom: 8
+	},
+	date_time: {
+		margin: 10,
+		flex: 1,
+		flexDirection:"row",
+		justifyContent:'center', 
+		alignItems: 'center'
+	},
+	text_label: {
+		fontSize: 18, 
+		fontWeight: 'bold', 
+		color: colors.primary
+	},
+	text_label_box: {
+		flex: 5, 
+		alignItems: 'flex-start', 
+		paddingLeft: 20
+	}
+});
+
 const styles = StyleSheet.create({
 	title: {
 		fontSize: 24
@@ -83,4 +111,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export { styles, colors, windowSize }
+export { styles, colors, windowSize, note_style }

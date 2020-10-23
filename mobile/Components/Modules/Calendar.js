@@ -809,7 +809,6 @@ class Calendar extends React.Component {
 		let date = new Date(created_at)
 		let time = created_at.substr(created_at.indexOf("\T") + 1, created_at.length);
 		let time2 = time.split(":")
-	//	dateDate = dateDate.split("-").join(" ")
 		return (
 			<Text style={styles.noteText}>
 				{time2[0]}H {time2[1]}:{time2[2].substr(0, time2[2].indexOf("."))}
@@ -1135,7 +1134,7 @@ class Calendar extends React.Component {
 													style={{flex: 2}}
 												/>
 												<View style={{flexDirection: "column"}}>
-													{this.displayDate(item.created_at)}
+													{this.displayDate(item.date)}
 													<View>
 														{ !item.data.description
 															?
