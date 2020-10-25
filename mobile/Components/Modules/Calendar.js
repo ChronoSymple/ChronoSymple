@@ -1,7 +1,7 @@
 // Components/Calendar.js
 
 import React from 'react'
-import { ActivityIndicator, View, Text, StyleSheet, Button, FlatList, TouchableOpacity, TouchableHighlight, BackHandler, Dimensions, SafeAreaView} from 'react-native'
+import { ActivityIndicator, View, Text, StyleSheet, Button, FlatList, TouchableOpacity, TouchableHighlight, BackHandler, Dimensions, SafeAreaView, Picker} from 'react-native'
 import { APIGetPatientNotesByDateIntervale,  APIRemovePatientNotes, APIShareNote, APIgetDoctorsOfModule, APIUnshareNote, APIDoctorOfNotes } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import { colors, windowSize } from '../StyleSheet';
@@ -14,6 +14,7 @@ import Modal2 from "react-native-modal";
 import CalendarPicker from 'react-native-calendar-picker'
 import { showMessage, hideMessage } from "react-native-flash-message";
 import { StackActions } from 'react-navigation';
+
 
 class Calendar extends React.Component {
 
@@ -59,6 +60,7 @@ class Calendar extends React.Component {
 		  	gestureName: 'none',
 		  	backgroundColor: '#fff',
 			selectedNotes: [],
+			displayedNote: [],
 			loading: true,
 		  	isSelectActive: false,
 			refreshing: false,
@@ -718,11 +720,7 @@ class Calendar extends React.Component {
 		return(dateDate + '/' + dateMonth + '/' + dateYear)
 	  }
 	  
-	_accessDetailNote = (DataNote) => {
-		this.props.navigation.navigate('DetailNote', {data: JSON.parse(DataNote)})
-	}
-
-	_deleteNote = () => {
+	  _deleteNote = () => {
 		this.setModalCheckboxVisible(false);
 		let notes = this.state.selectedNotes;
 		this.props.getUserToken().then(() => {
@@ -787,6 +785,49 @@ class Calendar extends React.Component {
 		this.setModalCheckboxVisible(false);
 	}
 
+	showDetailedNote = (item) => {
+		let displayed = this.state.displayedNote;
+		if (this.state.displayedNote.includes(item.id)) {
+			var pos = displayed.indexOf(item.id);
+			displayed.splice(pos, 1)
+		}
+		else {
+			displayed.push(item.id);
+		}
+
+		this.setState({
+			displayedNote: displayed
+		})
+	}
+
+	detailedNote = (item) => {
+		let key = Object.keys(item)[0]
+		let val = item[key]
+		return (
+			<View style={{
+				flex: 1, 
+				flexDirection: 'row', 
+				alignItems: 'center', 
+				margin: 5, 
+				marginLeft: 20, 
+				marginRight: 20
+			}}>
+				<Text 
+					numberOfLines={1}
+					ellipsizeMode='tail'
+					style={{ color: colors.primary, fontSize: 15, marginRight: 10, flex: 1, fontWeight: 'bold'}}> 
+					{key}:
+				</Text>
+				<Text
+					numberOfLines={1}
+					ellipsizeMode='tail'
+					style={{flex: 2, marginRight: 20, fontSize: 15 }}> 
+					{val || '-'}
+				</Text>
+			</View>
+		);
+	}
+
 	getDoctors = () => {
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
@@ -802,6 +843,12 @@ class Calendar extends React.Component {
 			})
 		}).catch(error => {
 			this.setState({ error })
+		})
+	}
+
+	jsonToArray = (json) => {
+		return Object.keys(json).map(function(keyName) {
+			return {[keyName]: json[keyName]}
 		})
 	}
 
@@ -861,7 +908,7 @@ class Calendar extends React.Component {
 				    visible={this.state.modalCheckboxVisible}
 				    style={styles.view}
 				    swipeDirection={'down'}
-					animationInTiming="3000"
+					animationInTiming={3000}
 					animationType="slide"
 					animationIn="slideInUp"
 				  	animationOut="slideOutDown"
@@ -1118,42 +1165,71 @@ class Calendar extends React.Component {
 							data={this.state.notes}
 							keyExtractor={(item) => item.id.toString()}
 							renderItem={({item}) => (
-								<View style={{flexDirection: "row", borderWidth: 3.5, borderColor: '#F1F1F1', borderRadius: 10,  marginLeft: 12,
-								marginRight: 12,
-								marginTop: 6,
-								marginBottom: 6}}>
-									<TouchableOpacity
-										delayLongPress={800}
-										onLongPress={() => { this.noteChecked(item)	}}
-										onPress={() => this.props.navigation.navigate('DetailNote', {data: item})}
-										style={styles.note}>
-											<View style={{flex: 1, flexDirection: 'row'}}>
-												<CheckBox
-													checked={this.state.selectedNotes.includes(item.id)}
-													onPress={() => { this.noteChecked(item) }}
-													style={{flex: 2}}
-												/>
-												<View style={{flexDirection: "column"}}>
-													{this.displayDate(item.date)}
-													<View>
-														{ !item.data.description
-															?
-															<Text style={styles.description}>Pas de description</Text>
-															: (item.data.description.length > 20)
-															?
-															<Text style={styles.description}>{item.data.description.substr(0, 20)}...</Text>
-															:
-															<Text style={styles.description}>{item.data.description}</Text>
-														}
+								<View style={{flex: 1}}>
+									<View style={{
+										flexDirection: "row", 
+										borderWidth: 3.5, 
+										borderColor: '#F1F1F1', 
+										borderRadius: 10,  
+										marginLeft: 12,
+										marginRight: 12,
+										marginTop: 6,
+										marginBottom: 6}}>
+										<TouchableOpacity
+											delayLongPress={800}
+											onLongPress={() => { this.noteChecked(item)	}}
+											onPress={() => { this.showDetailedNote(item) } }
+											style={styles.note}
+											>
+												<View style={{flex: 1, flexDirection: 'row'}}>
+													<CheckBox
+														checked={this.state.selectedNotes.includes(item.id)}
+														onPress={() => { this.noteChecked(item) }}
+														style={{flex: 2}}
+													/>
+													<View style={{flexDirection: "column"}}>
+														{this.displayDate(item.date)}
+														<View>
+															{ !item.data.description
+																?
+																<Text style={styles.description}>Pas de description</Text>
+																: (item.data.description.length > 20)
+																?
+																<Text style={styles.description}>{item.data.description.substr(0, 20)}...</Text>
+																:
+																<Text style={styles.description}>{item.data.description}</Text>
+															}
+														</View>
 													</View>
 												</View>
+										</TouchableOpacity>
+										{ item.doctor_ids.length > 0 ?
+											<View style={{flex: 0.8, backgroundColor: "black",  borderWidth: 3.5, borderColor: 'black', borderBottomRightRadius: 8, borderTopRightRadius: 8}}/>
+										:
+											<View style={{flex: 0.8, backgroundColor: "#F1F1F1",  borderWidth: 3.5, borderColor: '#F1F1F1', borderBottomRightRadius: 8, borderTopRightRadius: 8}}/>
+										}
+									</View>
+										{ this.state.displayedNote.includes(item.id) &&
+											<View style={{
+												flex: 1,  
+												marginLeft: 12,
+												marginRight: 12,
+												marginBottom: 15,
+												borderWidth: 3,
+												borderTopWidth: 0,
+												borderRadius: 10,
+												borderColor: 'lightgrey'
+											}}>
+												<FlatList
+													hide={true}
+													data={this.jsonToArray(item.data)}
+													keyExtractor={(field, index) => index.toString()}
+													renderItem={({item}) => (
+														this.detailedNote(item)
+													)}
+												/>
 											</View>
-									</TouchableOpacity>
-									{ item.doctor_ids.length > 0 ?
-										<View style={{flex: 0.8, backgroundColor: "black",  borderWidth: 3.5, borderColor: 'black', borderBottomRightRadius: 8, borderTopRightRadius: 8}}/>
-									:
-										<View style={{flex: 0.8, backgroundColor: "#F1F1F1",  borderWidth: 3.5, borderColor: '#F1F1F1', borderBottomRightRadius: 8, borderTopRightRadius: 8}}/>
-									}
+										}
 								</View>
 							)}
 							/>
