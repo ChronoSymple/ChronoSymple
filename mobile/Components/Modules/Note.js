@@ -199,7 +199,7 @@ class Note extends React.Component {
 		else if (data.field_type == "select") {
 			let myUsers = data.select_values.map((myValue, myIndex)=>{
 				return(
-					<Picker.Item label={myValue} value={myIndex}/>
+					<Picker.Item label={myValue} value={myValue}/>
 				)
 			});
 			return (
