@@ -15,7 +15,7 @@ export default class Settings extends PureComponent {
     };
   }
 
-  handleChange  = () => {
+  handleChangeSettings  = () => {
     if (i18n.language === 'en') {
       localStorage.setItem('lang', 'fr');
       i18n.changeLanguage('fr');
@@ -42,7 +42,7 @@ export default class Settings extends PureComponent {
           <Typography variant="h5">
             {i18n.t('lang')}
           </Typography>
-          <Button onClick={this.handleChange} variant='contained' color="primary">{this.state.lang}</Button>
+          <Button onClick={this.handleChangeSettings} variant='contained' style={{ background: '#62BE87' }}>{this.state.lang}</Button>
         </CardContent>
       </Card>
     );

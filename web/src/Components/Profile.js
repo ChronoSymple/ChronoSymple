@@ -9,6 +9,8 @@ import diseases from '../diseases';
 import { withStyles, Divider, Button, TextField } from '@material-ui/core';
 import gecko from '../assets/Img/Gecko.png';
 import Api from '../Api';
+import i18n from 'i18next';
+
 //import Alert from '../Components/Alert/Alert';
 
 const classes = theme => ({
@@ -44,7 +46,9 @@ class Profile extends React.Component {
       selected: JSON.parse(localStorage.getItem('diseases') || '{}'),
       profile: {},
       defaultProfile: {},
-      askingApi: true
+      askingApi: true,
+      lang: i18n.t('language'),
+      value: 'Fra'
     };
   }
 
@@ -78,6 +82,23 @@ class Profile extends React.Component {
       reader.readAsDataURL(file);
     }
   }
+
+  handleChangeSettings  = () => {
+    if (i18n.language === 'en') {
+      localStorage.setItem('lang', 'fr');
+      i18n.changeLanguage('fr');
+      this.setState({lang: 'English', value: 'en'});
+    } else if (i18n.language === 'fr') {
+      localStorage.setItem('lang', 'en');
+      i18n.changeLanguage('en');
+      this.setState({lang: 'Français', value: 'fr'});
+    } else {
+      i18n.changeLanguage('en');
+      this.setState({lang: 'Français', value: 'fr'});
+    }
+    this.forceUpdate();
+    //this.props.appController.forceUpdate();
+  };
 
   changeEmail = e => {
     const email = e.target.value;
@@ -117,14 +138,15 @@ class Profile extends React.Component {
     } = this.state;
     return (<Card>
       <CardContent>
-        <Typography variant="h4">Profile</Typography>
+        <Typography variant="h4">{i18n.t('profile')}</Typography>
         <Divider />
         <div className={classes.container}>
           <div className={classes.contentLeft}>
             <div className={classes.contentImage}>
               <img src={profile.picture || defaultProfile.picture || gecko} width="200" height="200" alt="profilePicture" />
             </div>
-            <input type="file" onChange={this.changeImageProfile} />
+            <label for="avatar">{i18n.t('choose')}</label>
+            <input type="file" name='avatar' onChange={this.changeImageProfile} />
             {/* <br/>
             <Alert/> */}
           </div>
@@ -134,7 +156,7 @@ class Profile extends React.Component {
               {`${defaultProfile.civility || ''} ${defaultProfile.last_name || ''} ${defaultProfile.first_name || ''}`}
             </Typography>
             <Typography variant="subtitle1" color="textSecondary">
-              {'Spécialités: Admin'}
+              {i18n.t('specialities')}
             </Typography>
             <div>
               {
@@ -147,13 +169,21 @@ class Profile extends React.Component {
             </div>
             <br />
             <TextField fullWidth value={profile.email || defaultProfile.email || ''}label="Email" onChange={this.changeEmail}/>
-            <TextField type='password' fullWidth value={profile.password || ''} label="Mot de passe" onChange={this.setPassword} />
+            <TextField type='password' fullWidth value={profile.password || ''} label={i18n.t('password')} onChange={this.setPassword} />
             <br/><br/>
             <Button variant='contained' style={{ background: '#62BE87' }} onClick={this.save} disabled={askingApi || profile.password === '' || profile.password === undefined}>Modifiez</Button>
             {askingApi && <CircularProgress style={{marginLeft: 10}} size={30} />}
-            <p>* To change any information you need to enter your password</p>
+            <p>{i18n.t('changePasswd')}</p>
           </div>
         </div>
+        <Typography variant="h4">{i18n.t('settings')}</Typography>
+        <br/>
+        <br/>
+        <Divider />
+        <Typography variant="h5">
+          {i18n.t('lang')}
+        </Typography>
+        <Button onClick={this.handleChangeSettings} variant='contained' style={{ background: '#62BE87' }}>{this.state.lang}</Button>
       </CardContent>
     </Card>);
   }

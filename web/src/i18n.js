@@ -19,6 +19,10 @@ i18n.init({
         language: 'English',
         diabetes: 'Diabetes',
         born: 'born',
+        changePasswd: '* To change any information you need to enter your password',
+        specialities: 'specialities: Admin',
+        password: 'password',
+        choose: 'Choose a profile picture :'
       }
     },
 
@@ -39,6 +43,10 @@ i18n.init({
         language: 'Français',
         diabetes: 'Diabète',
         born: 'né(e) le',
+        changePasswd: '* Pour changer toute information, vous avez besoin de changer le mot de passe',
+        password: 'mot de passe',
+        specialities: 'spécialités: Admin',
+        choose: 'Choisissez votre photo de profil :'
       }
     }
   },
