@@ -40,10 +40,10 @@ class AccountValidation extends React.Component {
 	}
 
 	checkCodeValidation = () => {
-		console.log("user Code:")
+		/*console.log("user Code:")
 		console.log(this.state.code)
 		console.log("matchCode:")
-		console.log(this.state.matchCode)
+		console.log(this.state.matchCode)*/
 		if (this.state.code == this.state.matchCode) {
 			this.props.saveUserAccountValid("true").then(() => {
 				console.log("CODE CONFIRMED !!")

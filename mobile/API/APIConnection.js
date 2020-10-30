@@ -25,11 +25,6 @@ export function SiginAPatientWithApi (fname, lname, mail, password, civility, bi
 }
 
 export function confirmPatientEmail (mail, password, token) {
-  console.log("---")
-  console.log(mail)
-  console.log(password)
-  console.log(token)
-  console.log('----')
   return fetch(baseUrl + '/api/patient_email_confirm', {
     method: 'POST',
     headers: {
