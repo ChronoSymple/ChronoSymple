@@ -30,6 +30,7 @@ i18n.init({
         search: 'Recherche...',
         lang: 'choisissez la langue du site',
         lastname: 'Nom',
+        fullname: 'Full Name',
         firstname: 'Prénom',
         birthDate: 'Date de naissance',
         patState: 'Etat du patient',

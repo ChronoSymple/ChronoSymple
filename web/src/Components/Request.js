@@ -30,7 +30,7 @@ const Request = ({
 Request.propTypes = {
   error: PropTypes.string,
   loading: PropTypes.bool,
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]),
+  children: PropTypes.any,
   classes: PropTypes.shape({
     progress: PropTypes.string.isRequired
   }).isRequired

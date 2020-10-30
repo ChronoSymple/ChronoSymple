@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { createMuiTheme, withStyles, ThemeProvider } from '@material-ui/core/styles';
 import MyAppBarController from './MyAppBarController';
 import LoginController from './LoginController';
-import { withStyles } from '@material-ui/core/styles';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Search from './SearchController';
 import AdminSearch from './AdminSearchController';
@@ -24,6 +24,17 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+  },
+});
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#62BE87',
+    },
+    secondary: {
+      main: '#00928C',
+    },
   },
 });
 
@@ -72,123 +83,125 @@ class App extends PureComponent {
     } = this.state;
     return (
       <div className={classes.root}>
-        <CssBaseline />
-        {token ? <BrowserRouter>
-          <Switch>
-            <Route path='/profile'>
-              <MyAppBarController title='Profile'
-                disconnect={this.disconnect}
-                openProfile={this.openProfile}
-                openSettings={this.openSettings}
-                back={this.closeProfile}
-              />
-              <main className={classes.content}>
-                <div className={classes.toolbar} />
-                <Profile token={token} />
-              </main>
-            </Route>
-            <Route path='/settings'>
-              <MyAppBarController title={i18n.t('settings')}
-                disconnect={this.disconnect}
-                openProfile={this.openProfile}
-                openSettings={this.openSettings}
-                back={this.closeSettings}
-              />
-              <main className={classes.content}>
-                <div className={classes.toolbar} />
-                <Settings appController={this} />
-              </main>
-            </Route>
-            {(admin === true) ?
-              <Route path='/doctor/add' render={({_, location}) =>
-                <div style={{flexGrow:1}}>
-                  <MyAppBarController title='Doctor'
-                    disconnect={this.disconnect}
-                    openProfile={this.openProfile}
-                    openSettings={this.openSettings}
-                    back={() => window.location = '/'}
-                  />
-                  <main className={classes.content}>
-                    <div className={classes.toolbar} />
-                    <AdminCreateDoctor
-                      token={token}
-                      location={location}
-                    />
-                  </main>
-                </div>
-              }>
-              </Route>
-              : null
-            }
-            {(admin === true) ?
-              <Route path='/doctor/:id' render={({match}) =>
-                <div style={{flexGrow:1}}>
-                  <MyAppBarController title='Doctor'
-                    disconnect={this.disconnect}
-                    openProfile={this.openProfile}
-                    openSettings={this.openSettings}
-                    back={() => window.location = '/'}
-                  />
-                  <main className={classes.content}>
-                    <div className={classes.toolbar} />
-                    <AdminDoctor token={token} doctorID={match.params.id} />
-                  </main>
-                </div>
-              }>
-              </Route>
-              : null
-            }
-            <Route path='/patient/:id' render={({match}) => 
-              <div style={{flexGrow:1}}>
-                <MyAppBarController title='Patient'
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          {token ? <BrowserRouter>
+            <Switch>
+              <Route path='/profile'>
+                <MyAppBarController title='Profile'
                   disconnect={this.disconnect}
                   openProfile={this.openProfile}
                   openSettings={this.openSettings}
-                  back={() => window.location = '/'}
-                />
-                {
-                  <main className={classes.content}>
-                    <div className={classes.toolbar} id='toolbar'/>
-                    {
-                      (admin === true) ?
-                        <AdminPatient token={token} patientID={match.params.id}/> :
-                        <Patient token={token} patientID={match.params.id}/>
-                    }
-                  </main>
-                }
-              </div>
-            }/>
-            <Route path='/favorite'>
-              <div style={{flexGrow:1}}>
-                <MyAppBarController title='Favorite'
-                  disconnect={this.disconnect}
-                  openProfile={this.openProfile}
-                  openSettings={this.openSettings}
-                  back={() => window.location = '/'}
+                  back={this.closeProfile}
                 />
                 <main className={classes.content}>
-                  <div className={classes.toolbar} id='toolbar'/>
-                  <Favorite token={token} setPatient={this.setPatient} />
+                  <div className={classes.toolbar} />
+                  <Profile token={token} />
                 </main>
-              </div>
-            </Route>
-            <Route path='/'>
-              <MyAppBarController title={i18n.t('list')}
-                disconnect={this.disconnect}
-                openProfile={this.openProfile}
-                openSettings={this.openSettings}
-              />
-              <main className={classes.content}>
-                <div className={classes.toolbar} />
-                {(admin === true) ?
-                  <AdminSearch token={token} setPatient={this.setPatient} setDoctor={this.setDoctor} addDoctor={this.addDoctor} /> :
-                  <Search token={token} setPatient={this.setPatient} />
-                }
-              </main>
-            </Route>
-          </Switch>
-        </BrowserRouter> : <LoginController setToken={this.setToken} />
-        }
+              </Route>
+              <Route path='/settings'>
+                <MyAppBarController title={i18n.t('settings')}
+                  disconnect={this.disconnect}
+                  openProfile={this.openProfile}
+                  openSettings={this.openSettings}
+                  back={this.closeSettings}
+                />
+                <main className={classes.content}>
+                  <div className={classes.toolbar} />
+                  <Settings appController={this} />
+                </main>
+              </Route>
+              {(admin === true) ?
+                <Route path='/doctor/add' render={({_, location}) =>
+                  <div style={{flexGrow:1}}>
+                    <MyAppBarController title='Doctor'
+                      disconnect={this.disconnect}
+                      openProfile={this.openProfile}
+                      openSettings={this.openSettings}
+                      back={() => window.location = '/'}
+                    />
+                    <main className={classes.content}>
+                      <div className={classes.toolbar} />
+                      <AdminCreateDoctor
+                        token={token}
+                        location={location}
+                      />
+                    </main>
+                  </div>
+                }>
+                </Route>
+                : null
+              }
+              {(admin === true) ?
+                <Route path='/doctor/:id' render={({match}) =>
+                  <div style={{flexGrow:1}}>
+                    <MyAppBarController title='Doctor'
+                      disconnect={this.disconnect}
+                      openProfile={this.openProfile}
+                      openSettings={this.openSettings}
+                      back={() => window.location = '/'}
+                    />
+                    <main className={classes.content}>
+                      <div className={classes.toolbar} />
+                      <AdminDoctor token={token} doctorID={match.params.id} />
+                    </main>
+                  </div>
+                }>
+                </Route>
+                : null
+              }
+              <Route path='/patient/:id' render={({match}) => 
+                <div style={{flexGrow:1}}>
+                  <MyAppBarController title='Patient'
+                    disconnect={this.disconnect}
+                    openProfile={this.openProfile}
+                    openSettings={this.openSettings}
+                    back={() => window.location = '/'}
+                  />
+                  {
+                    <main className={classes.content}>
+                      <div className={classes.toolbar} id='toolbar'/>
+                      {
+                        (admin === true) ?
+                          <AdminPatient token={token} patientID={match.params.id}/> :
+                          <Patient token={token} patientID={match.params.id}/>
+                      }
+                    </main>
+                  }
+                </div>
+              }/>
+              <Route path='/favorite'>
+                <div style={{flexGrow:1}}>
+                  <MyAppBarController title='Favorite'
+                    disconnect={this.disconnect}
+                    openProfile={this.openProfile}
+                    openSettings={this.openSettings}
+                    back={() => window.location = '/'}
+                  />
+                  <main className={classes.content}>
+                    <div className={classes.toolbar} id='toolbar'/>
+                    <Favorite token={token} setPatient={this.setPatient} />
+                  </main>
+                </div>
+              </Route>
+              <Route path='/'>
+                <MyAppBarController title={i18n.t('list')}
+                  disconnect={this.disconnect}
+                  openProfile={this.openProfile}
+                  openSettings={this.openSettings}
+                />
+                <main className={classes.content}>
+                  <div className={classes.toolbar} />
+                  {(admin === true) ?
+                    <AdminSearch token={token} setPatient={this.setPatient} setDoctor={this.setDoctor} addDoctor={this.addDoctor} /> :
+                    <Search token={token} setPatient={this.setPatient} />
+                  }
+                </main>
+              </Route>
+            </Switch>
+          </BrowserRouter> : <LoginController setToken={this.setToken} />
+          }
+        </ThemeProvider>
       </div>
     );
   }

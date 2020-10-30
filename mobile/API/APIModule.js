@@ -49,7 +49,7 @@ export function APIGetPatientNotesByModule(token, idModule) {
 	.catch((error) => error)
 }
 
-export function APIAddPatientNotes(token, myTab, idModule) {
+export function APIAddPatientNotes(token, myTab, date, idModule) {
 	return fetch(baseUrl + '/api/patients/units/' + idModule + '/add_note', {
 	  method: 'POST',
 	  headers: {
@@ -57,7 +57,8 @@ export function APIAddPatientNotes(token, myTab, idModule) {
 	    'Authorization': token,
 		},
 		body: JSON.stringify({
-				data: myTab
+				data: myTab,
+				date: date
 		})
 	})
 	.then((response) => response)

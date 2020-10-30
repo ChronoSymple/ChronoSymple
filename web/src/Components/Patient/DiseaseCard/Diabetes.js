@@ -1,71 +1,70 @@
 import React, { PureComponent } from 'react';
 import Chart from 'chart.js';
 import PropTypes from 'prop-types';
-import Notes from '../../../Controller/NotesController';
-import * as ChartAnnotation from 'chartjs-plugin-annotation';
-import Slider from '@material-ui/core/Slider';
+import { createPalette } from '@material-ui/core';
+//import * as ChartAnnotation from 'chartjs-plugin-annotation';
 
-/*
-const test = [
-  { date: new Date('2019-10-20T09:00:00Z'), data: 80 },
-  { date: new Date('2019-10-20T12:00:00Z'), data: 90 },
-  { date: new Date('2019-10-20T13:00:00Z'), data: 135 },
-  { date: new Date('2019-10-20T20:00:00Z'), data: 100 },
-  { date: new Date('2019-10-21T09:00:00Z'), data: 65 },
-  { date: new Date('2019-10-21T12:00:00Z'), data: 74 },
-  { date: new Date('2019-10-21T20:00:00Z'), data: 85 },
-  { date: new Date('2019-10-22T09:00:00Z'), data: 97 },
-  { date: new Date('2019-10-22T12:00:00Z'), data: 95 },
-  { date: new Date('2019-10-22T20:00:00Z'), data: 71 },
-  { date: new Date('2019-10-23T09:00:00Z'), data: 93 },
-  { date: new Date('2019-10-23T12:00:00Z'), data: 81 },
-  { date: new Date('2019-10-23T20:00:00Z'), data: 73 },
-  { date: new Date('2019-10-24T09:00:00Z'), data: 96 },
-  { date: new Date('2019-10-24T12:00:00Z'), data: 71 },
-  { date: new Date('2019-10-24T20:00:00Z'), data: 76 },
-  { date: new Date('2019-10-25T09:00:00Z'), data: 94 },
-  { date: new Date('2019-10-25T12:00:00Z'), data: 97 },
-  { date: new Date('2019-10-25T20:00:00Z'), data: 88 },
-  { date: new Date('2019-10-26T09:00:00Z'), data: 55 },
-  { date: new Date('2019-10-26T12:00:00Z'), data: 78 },
-  { date: new Date('2019-10-26T20:00:00Z'), data: 90 },
-];
-*/
-/*
-const dateToProbs = (table2, step = 1) => {
-  const table = [];
-  const data = table.map(e => e.data);
-  const min = Math.floor(Math.min(...data) / step);
-  const max = Math.floor(Math.max(...data) / step);
-  let obj = {};
-  for (let i = min; i < max; i++) {
-    obj[i] = 0;
-  }
-  const r = data.reduce((p, c) => ({
-    ...p,
-    [Math.floor(c / step)]: (p[Math.floor(c / step)] || 0) + 1
-  }), obj);
-
-  const labels = Object.keys(r).map(k => (k * step).toString());
-  const points = Object.keys(r).map(k => ({
-    x: k,
-    y: r[k]
-  }));
-  return ({points, labels});
-};
-*/
 class Diabetes extends PureComponent {
   setRef = ref => this.ref = ref;
-  setRef2 = ref => this.ref2 = ref;
-  chart2 = null;
-  state = {step:1}
+
+  convertToGraphData = data => {
+    data = data.map(e => e.note);
+    const dateToValue = str => str.split('-').map(e => Number(e)).reduce((prev, cur) => prev * 1000 + cur, 0);
+    console.log(data);
+    const maxDate = data.reduce((prev, data) => Math.max(prev, dateToValue(data.data.date)), null);
+    const minDate = data.reduce((prev, data) => Math.min(prev, dateToValue(data.data.date)), null);
+    
+    const graphData = {
+
+    };
+    return {
+      type: 'bar',
+      data: graphData,
+      options: {
+        responsive: true,
+        legend: {
+          position: 'top',
+        }, 
+        title: {
+          display: true,
+          text: 'Glycémie'
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    };
+  }
+
   componentDidMount() {
-    const table = this.props.data.filter(e => e.note !== undefined && e.note.data !== undefined && e.note.data !== undefined && e.note.data.BloodGlucose !== '')
-      .map(e => ({ date: new Date(e.note.created_at), data: Number(e.note.data.BloodGlucose)}))
-      .filter(e => Number.isNaN(e.data) === false);
-    //const table = test; //this.props.data;
-    let ctx = this.ref.getContext('2d');
-    new Chart(ctx, {
+    this.ctx = this.ref.getContext('2d');
+    new Chart(this.ctx, this.convertToGraphData(this.props.data));
+  }
+
+  changeStep = (e, v) => this.setState({step: v}, this.generateProbsGraph);
+
+  render() {
+    return (
+      <canvas ref={this.setRef} width="400" height="500"/>
+    );
+  }
+}
+
+Diabetes.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.shape({
+    date: PropTypes.instanceOf(Date),
+    data: PropTypes.number
+  }))
+};
+
+export default Diabetes;
+
+/*
+{
       type: 'line',
       plugins: [ChartAnnotation],
       data: {
@@ -75,13 +74,6 @@ class Diabetes extends PureComponent {
           data: table.map(e => ({
             x: e.date.getTime(),
             y: e.data,
-          }))
-        }],
-      },
-      options: {
-        responsive: true,
-        legend: {
-          display: false
         },
         scales: {
           xAxes: [{
@@ -143,85 +135,5 @@ class Diabetes extends PureComponent {
           drawTime: 'afterDraw'
         }
       }
-    });
-    this.generateProbsGraph();
-  }
-  generateProbsGraph = () => {
-    /*
-    TODO: Enable back
-    if (this.chart2 !== null) {
-      this.chart2.destroy();
     }
-    const probs = dateToProbs(test, this.state.step);
-    this.chart2 = new Chart(this.ref2.getContext('2d'), {
-      type: 'bar',
-      plugins: [ChartAnnotation],
-      data: {
-        labels: probs.labels,
-        datasets: [{
-          label: 'Glycemie',
-          data: probs.points
-        }],
-      },
-      options: {
-        responsive: true,
-        legend: {
-          display: false
-        },
-        scales: {
-          xAxes: [{
-            display: true,
-            scaleLabel: {
-              display: true,
-              labelString: 'Taux de glycémie (g/L)'
-            }
-          }],
-          yAxes: [{
-            display: true,
-            scaleLabel: {
-              display: true,
-              labelString: 'Probabilités'
-            },
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        },
-      }
-    });
-    */
-  }
-
-  changeStep = (e, v) => {
-    this.setState({step: v}, this.generateProbsGraph);
-  }
-
-  render() {
-    return (
-      <div>
-        <canvas ref={this.setRef} width="400" height="500"></canvas>
-        {undefined && <Slider
-          defaultValue={1}
-          aria-labelledby="discrete-slider"
-          valueLabelDisplay="auto"
-          step={1}
-          marks
-          min={1}
-          max={30}
-          onChange={this.changeStep}
-        />}
-        {undefined && <canvas ref={this.setRef2} width="400" height="500"></canvas>}
-        <Notes/>
-      </div>
-    );
-  }
-}
-
-Diabetes.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    date: PropTypes.instanceOf(Date),
-    data: PropTypes.number
-  }))
-};
-
-export default Diabetes;
+*/

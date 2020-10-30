@@ -6,30 +6,15 @@ import CardContent from '@material-ui/core/CardContent';
 import DiseaseCard from './DiseaseCard/DiseaseCard';
 //import { PatientPropTypes } from '../../MyPropTypes';
 import i18n from 'i18next';
-import star1 from '../../assets/Img/filledStar.png';
-import star2 from '../../assets/Img/emptyStar.png';
-import boy from '../../assets/Img/boy.png';
-import girl from '../../assets/Img/girl.png';
-import baby from '../../assets/Img/baby.png';
-import woman from '../../assets/Img/woman.png';
-import man from '../../assets/Img/man.png';
 import Api from '../../Api';
 import Request from '../Request';
 
-const patients = [man, woman, boy, girl, baby];
-
 class Patient extends PureComponent {
   state = {
-    isFav: false,
-    type: 0,
     init: false,
     error: null,
     diseases: []
   };
-
-  patientsChange = () => this.setState(({type}) => ({type: (type + 1) % patients.length}));
-
-  handleChange = () => this.setState(({isFav}) => ({isFav: !isFav}));
 
   componentDidMount = () => this.init();
 
@@ -38,16 +23,10 @@ class Patient extends PureComponent {
       const patientData = await Api.getPatient(this.props.token, this.props.patientID);
       const {first_name: firstname, last_name: lastname, ...others} = patientData;
       const formalizeData = {...others, firstname, lastname};
-      /* TODO: Remove fake data
-      const data = {id: 1, firstname: 'Carl', lastname: 'DE GENTILE', birthdate: 'XX/XX/XXXX', civility: 'Mr', diseases: [
-        { name: 'diabetes', data: }
-      ]}
-      */
       this.setState({init:true, ...formalizeData});
       try {
         const rawdata = await Api.getPatientNotes(this.props.token, this.props.patientID);
         const diseases = rawdata.map( e => ({ id: e.id, name: e.general_unit.name}));
-        //const patientNotes = await Api.getNotes(this.props.token, this.props.patientID);
         this.setState({diseases});
       } catch (e) {
         console.warn(e);
@@ -66,8 +45,6 @@ class Patient extends PureComponent {
       lastname,
       birthdate,
       diseases,
-      type,
-      isFav
     } = this.state;
     return (
       <Request loading={!init} error={error}>
@@ -77,8 +54,6 @@ class Patient extends PureComponent {
             <Typography variant="subtitle1" color="textSecondary">
               { `${i18n.t('born')} ${birthdate}`}
             </Typography>
-            <img src={isFav ? star2 : star1} alt="favorite" onClick={this.handleChange} width="50" height="50"/>
-            <img src={patients[type]} alt="type" onClick={this.patientsChange} width="60" height="100"/>
           </CardContent>
         </Card>
         {diseases.map(({name, id}) => 

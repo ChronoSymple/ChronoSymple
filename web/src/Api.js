@@ -122,11 +122,50 @@ const getPatientsAsAdmin = token =>
 const getDoctorsAsAdmin = token =>
   loggedRequest(`${prefix}/admins/doctors`, token);
 
-
 const getPatient = (token, ID) =>
   loggedRequest(`${prefix}/doctors/patients/${ID}/profile`, token);
 
+const getLimits = (token, unitID) =>
+  loggedRequest(`${prefix}/doctors/doctor_units/${unitID}/get_fields_limits`, token);
 
+const setLimits = (token, unitID, obj) =>
+  loggedRequest(`${prefix}/doctors/doctor_units/${unitID}/set_fields_limits`, token, {
+    method: 'POST',
+    body: JSON.stringify(obj)
+  });
+
+const getGeneralUnits = token =>
+  loggedRequest(`${prefix}/admins/general_units`, token);
+
+const getDoctorUnits = (token, doctorID) =>
+  loggedRequest(`${prefix}/admins/doctors/${doctorID}/units`, token);
+
+const addDoctorUnit = (token, doctorID, unit) =>
+  loggedRequest(`${prefix}/admins/doctors/${doctorID}/add_unit`, token, {
+    method: 'PATCH',
+    body: unit.toString()
+  });
+
+const removeDoctorUnit = (token, doctorID, unit) =>
+  loggedRequest(`${prefix}/admins/doctors/${doctorID}/remove_unit`, token, {
+    method: 'PATCH',
+    body: unit.toString()
+  });
+
+const getPatientUnits = (token, patientID) =>
+  loggedRequest(`${prefix}/admins/patients/${patientID}/units`, token);
+
+const addPatientUnit = (token, patientID, unit) =>
+  loggedRequest(`${prefix}/admins/patients/${patientID}/add_unit`, token, {
+    method: 'PATCH',
+    body: unit.toString()
+  });
+
+const removePatientUnit = (token, patientID, unit) =>
+  loggedRequest(`${prefix}/admins/patients/${patientID}/remove_unit`, token, {
+    method: 'PATCH',
+    body: unit.toString()
+  });
 
 export default {
   login,
@@ -143,5 +182,14 @@ export default {
   getNotes,
   getNotesByDateInterval,
   getPatientNotes,
-  sendMail
+  sendMail,
+  getLimits,
+  setLimits,
+  getGeneralUnits,
+  getDoctorUnits,
+  addDoctorUnit,
+  removeDoctorUnit,
+  getPatientUnits,
+  addPatientUnit,
+  removePatientUnit,
 };

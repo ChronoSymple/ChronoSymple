@@ -8,7 +8,6 @@ import ModulePlace from '../Components/Modules/ModulePlace';
 import Profile from '../Components/Auth/Profile';
 import ModuleProfile from '../Components/Auth/ModuleProfile';
 import Calendar from '../Components/Modules/Calendar';
-import DetailNote from '../Components/Modules/DetailNote';
 import StatisticDiabete from '../Components/Modules/StatisticDiabete';
 import StatisticAsthma from '../Components/Modules/StatisticAsthma';
 import AddNote from '../Components/Modules/Note';
@@ -55,9 +54,6 @@ const CalendarStackNavigator = createStackNavigator({
 	},
 	EditNote: {
 		screen: EditNote
-	},
-	DetailNote: {
-		screen: DetailNote
 	},
 	ExportPDF: {
 		screen: ExportPDF

@@ -9,24 +9,25 @@ import { Button } from '@material-ui/core';
 import Api from '../../Api';
 import Request from '../Request';
 import Chip from '@material-ui/core/Chip';
-import diseases from '../../diseases';
 class AdminDoctor extends PureComponent {
   state = {
     doctor: {},
     loading: true,
-    selected: [],
+    units: [],
+    generalUnits: [],
     load: false,
   };
   timer = -1;
 
-  chipClick = disease => {
-    this.setState(state => {
-      const selected = { ...state.selected, [disease]: !state.selected[disease] };
-      localStorage.setItem('diseases', JSON.stringify(selected));
-      return ({ selected, load: true });
-    });
-    clearInterval(this.timer);
-    this.timer = setTimeout(() => this.setState({load: false}), 1000 + ((Math.random() - 0.5) * 600))
+  chipClick = async unitID => {
+    const doctorID = Number(this.props.doctorID);
+    if (this.state.units.includes(unitID)) {
+      await Api.removeDoctorUnit(this.props.token, doctorID, unitID);
+      this.setState(state => ({units: state.units.filter(e => e !== unitID)}));
+    } else {
+      await Api.addDoctorUnit(this.props.token, doctorID, unitID);
+      this.setState(state => ({units: [...state.units, unitID]}));
+    }
   }
   onEmailChange = e => {
     const newValue = e.target.value;
@@ -49,15 +50,29 @@ class AdminDoctor extends PureComponent {
     
   init = async() => {
     const ID = Number(this.props.doctorID);
-    const rawdata = await Api.getDoctorsAsAdmin(this.props.token);
-    const tmpdoctor = rawdata.filter(e => e != null).filter(e => e.id === ID)[0];
-    if (tmpdoctor !== undefined) {
-      const {first_name: firstname, last_name: lastname, ...tmp} = tmpdoctor;
-      const doctor = {...tmp, firstname, lastname};
-      this.setState({doctor, loading: false});
-    } else {
-      this.setState({error: 'Doctor not found'});
-    }
+    const promiseDoctor = Api.getDoctorsAsAdmin(this.props.token).then(rawdata => {
+      const tmpdoctor = rawdata.filter(e => e != null).filter(e => e.id === ID)[0];
+      if (tmpdoctor !== undefined) {
+        const {first_name: firstname, last_name: lastname, ...tmp} = tmpdoctor;
+        const doctor = {...tmp, firstname, lastname};
+        this.setState({doctor});
+      } else {
+        this.setState({error: 'Doctor not found'});
+      }
+    });
+    const promiseUnits = Api.getDoctorUnits(this.props.token, ID).then(resUnits => {
+      const units = resUnits.map(e => e.id);
+      this.setState({units});
+      console.log(units);
+    });
+    const promiseGeneralUnits = Api.getGeneralUnits(this.props.token).then(resUnits => {
+      const generalUnits = resUnits.modules;
+      this.setState({generalUnits});
+      console.log(generalUnits);
+    });
+    await Promise.all([promiseDoctor, promiseUnits, promiseGeneralUnits]).then(() => {
+      this.setState({loading: false});
+    });
   }
 
   componentDidMount() {
@@ -68,7 +83,9 @@ class AdminDoctor extends PureComponent {
     const {
       doctor,
       loading,
-      error
+      error,
+      units,
+      generalUnits
     } = this.state;
     return (
       <Request loading={loading} error={error}>
@@ -84,11 +101,11 @@ class AdminDoctor extends PureComponent {
             <Button variant='contained' color='primary' style={{margin:'5px 0'}}>Send reset password</Button>
             <div>
               {
-                Object.keys(diseases).map(key => <Chip
-                  key={key}
-                  color={this.state.selected[key] ? 'primary' : 'default'}
-                  label={diseases[key].fullName}
-                  onClick={() => this.chipClick(key)} />)
+                generalUnits.map(unit => <Chip
+                  key={unit.id}
+                  color={units.includes(unit.id) ? 'primary' : 'default'}
+                  label={unit.name}
+                  onClick={() => this.chipClick(unit.id)} />)
               }
               {this.state.load && <CircularProgress />}
             </div>
