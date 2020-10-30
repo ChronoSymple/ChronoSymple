@@ -11,7 +11,9 @@ import {LineChart} from "react-native-chart-kit";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import Modal from "react-native-modal";
-import CalendarPicker from 'react-native-calendar-picker'
+import CalendarPicker from 'react-native-calendar-picker';
+import NetInfo from "@react-native-community/netinfo";
+
 
 class Statistic extends React.Component {
   
@@ -69,6 +71,7 @@ class Statistic extends React.Component {
       gestureName: 'none',
       backgroundColor: '#fff',
       selectedStartDate: null,
+      modalInternetVisible: false,
     }
     this.onDateChange = this.onDateChange.bind(this);
     this._bootstrapAsync();
@@ -405,7 +408,22 @@ class Statistic extends React.Component {
     }
   }
 
+  setInternetModal = (visible) => {
+    this.setState({ modalInternetVisible: visible })
+  }
+
 	_bootstrapAsync = () => {
+    NetInfo.fetch().then((state) => {
+      console.log(
+        'is connected: ' +
+        state.isConnected
+      );
+      if (state.isConnected == true) {
+        this.setInternetModal(false)
+      } else {
+        this.setInternetModal(true)
+      }
+    })
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
 				APIGetPatientNotesByDateIntervale(this.props.token.token, this.state.actualDateBegin, this.state.actualDateEnd, this.props.currentModule.currentModule).then(async data => {
@@ -649,6 +667,36 @@ class Statistic extends React.Component {
     };
     return (
       <View style={styles.container}>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalInternetVisible}
+        >
+          <View style={{ flex: 1, marginTop: 10}}>
+            <View style={{flex: 1 }}>
+            <TouchableHighlight style={{margin: 10}}>
+              <Icon
+                name="clear"
+                color="#62BE87"
+                size={35}
+                onPress={() => this.setInternetModal(false)}
+              />
+            </TouchableHighlight>
+            </View>
+            <View style={{flex: 1}}>
+              <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', color: '#62BE87'}}>
+                Un probleme est survenue.{'\n'}Ceci peut etre du a un probleme de connexion internet{'\n'}{'\n'}
+              </Text>
+              <Button 
+                style={styles.buttonNoModule}
+                color="#62BE87"
+                onPress={() => {this.getJson()}}
+                title="Actualiser la page"
+              />
+            </View>
+            <View style={{flex: 1}}/>
+          </View>
+        </Modal>
           <View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width}}>
             <Text style={{color:"white", textAlign:'center', fontWeight: "bold", fontSize:22}}>Vos données statistiques</Text>
           </View>
