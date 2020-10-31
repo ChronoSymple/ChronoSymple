@@ -21,6 +21,8 @@ class Profile extends React.Component {
 			lastName: "",
 			email: "",
 			phoneNumber: "",
+			tmpEmail: "",
+			tmpPhoneNumber: "",
 			birthdate: "",
 			civility: "",
 			picture: "https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png",
@@ -30,6 +32,8 @@ class Profile extends React.Component {
 			modalInternetVisible: false,
 			modalPhoneVisible: false,
 			modalMailVisible: false,
+			phoneRegExp: new RegExp("^[0-9]{8,12}$", 'g'),
+			emailRegExp: new  RegExp(".*@.*\..*", 'g'),
 		}
 		this.getPatientInfo()
 	}
@@ -138,6 +142,14 @@ class Profile extends React.Component {
 
 	setInternetModal = (visible) => {
 		this.setState({ modalInternetVisible: visible })
+	}
+
+	setTmpPhoneNumber = (text) => {
+		this.setState({ tmpPhoneNumber: text })
+	}
+
+	setTmpAdresseMail = (text) => {
+		this.setState({ tmpEmail: text })
 	}
 
 	setPassword = (text) => {

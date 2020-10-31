@@ -52,7 +52,7 @@ class SignIn extends React.Component {
 			this.props.saveUserToken(oui)
 		    .then(() => {
     			console.log("token, mail and password savec. ! ")
-				this.props.navigation.navigate('AccountValidation');
+				this.props.navigation.navigate('AccountValidation', {matchCode: response.confirmation_token});
 		    })
 		    .catch((error) => {
 				this.setState({ error })
