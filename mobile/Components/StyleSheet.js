@@ -84,7 +84,8 @@ const styles = StyleSheet.create({
 	LoginMainContainer: {
 		marginTop: 80, 
 		marginBottom: 80,
-		width: windowSize.x / 1.2,
+		marginLeft: 40,
+		marginRight: 40
 	},
 	SigninMainContainer: {
 		marginTop: 40, 
@@ -98,10 +99,6 @@ const styles = StyleSheet.create({
 		borderRadius: 15,
 		borderWidth: 1,
 		borderColor: 'white',
-		//shadowColor: '#000',
-		//shadowOffset: { width: 0, height: 2 },
-		//shadowOpacity: 0.8,
-		//shadowRadius: 2,
 		elevation: 10
 	},
 	WhithoutModule: {
