@@ -1,5 +1,6 @@
 #!/bin/bash
 
 rm -rf android/app/build/*
-npm clean-install
+rm -f package-loke.json
+npm install
 npx react-native run-android
