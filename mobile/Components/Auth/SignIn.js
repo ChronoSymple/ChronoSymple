@@ -2,10 +2,10 @@
 
 import React from 'react'
 import { View, Text, TextInput, Button, ImageBackground, Picker, ToastAndroid} from 'react-native'
-import { SiginAPatientWithApi } from '../../API/APIConnection'
+import { SiginAPatientWithApi, confirmPatientEmail } from '../../API/APIConnection'
 import { styles, colors, windowSize } from '../StyleSheet'
 import { connect } from 'react-redux';
-import { saveUserToken } from '../../Redux/Action/action';
+import { saveUserToken, saveUserAccountValid } from '../../Redux/Action/action';
 import { ScrollView } from 'react-native-gesture-handler';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 
@@ -44,14 +44,23 @@ class SignIn extends React.Component {
 		}
 	}
 
-	_signInAsync = (oui) => {
-		this.props.saveUserToken(oui)
+	_signInAsync = (oui, accountData) => {
+		console.log("in _signInAsync")
+		console.log(accountData)
+    	this.props.saveUserAccountValid(accountData)
+    	.then(() => {
+			this.props.saveUserToken(oui)
 		    .then(() => {
-			this.props.navigation.navigate('AccountValidation');
+    			console.log("token, mail and password savec. ! ")
+				this.props.navigation.navigate('AccountValidation');
 		    })
 		    .catch((error) => {
-			this.setState({ error })
+				this.setState({ error })
 		    })
+    	})
+    	.catch((error) => {
+    		this.setState({ error })
+    	})
 	};
 	
 	verification = () => {
@@ -84,7 +93,7 @@ class SignIn extends React.Component {
 			return false
 		}
 		else if (this.state.mail == "" ) {
-			this.setState({ errorMessage: "Le champ \"E-mmil\" n'a pas été indiqué" })
+			this.setState({ errorMessage: "Le champ \"E-mail\" n'a pas été indiqué" })
 			return false
 		}
 		else if (this.state.password == "" ) {
@@ -99,6 +108,7 @@ class SignIn extends React.Component {
 	}
 
 	checkSignIn = () => {
+		console.log(this.props.token)
 		let { navigate } = this.props.navigation;
 		if (!this.verification()) {
 			this.setState({ isInvalid: true})
@@ -111,9 +121,13 @@ class SignIn extends React.Component {
 		SiginAPatientWithApi(this.state.fname, this.state.lname, this.state.mail, this.state.password, this.state.Gender, birthDate, this.state.phoneNumber).then(async data => {
 			if (data.status == 201) {
 				let response = await data.json()
-				this._signInAsync(response.login_token)
+				accountData = this.state.mail + "," + this.state.password
+				this._signInAsync(response.login_token, accountData)
 				if (response.login_token !== null) {
-					navigate('AccountValidation')
+					confirmPatientEmail(this.state.mail, this.state.password, response.login_token).then(async data => {
+						let response = await data.json()
+						navigate('AccountValidation', {matchCode: response.confirmation_token})
+					})
 				}
 				else {
 					navigate('SignIn')
@@ -502,10 +516,13 @@ class SignIn extends React.Component {
 
 const mapStateToProps = state => ({
 	token: state.token,
+	accountValid: state.accountValid,
+
 });
 
 const mapDispatchToProps = dispatch => ({
 	saveUserToken: (oui1) => dispatch(saveUserToken(oui1)),
+	saveUserAccountValid: (data) => dispatch(saveUserAccountValid(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

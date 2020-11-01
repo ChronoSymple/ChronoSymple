@@ -24,6 +24,23 @@ export function SiginAPatientWithApi (fname, lname, mail, password, civility, bi
   .catch((error) => error)
 }
 
+export function confirmPatientEmail (mail, password, token) {
+  return fetch(baseUrl + '/api/patient_email_confirm', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    },
+    body: JSON.stringify({
+      email: mail,
+      password: password
+    }),
+  })
+  .then((response) => response)
+  .catch((error) => error)
+}
+
 export function LoginAPatientWithApi (mail, password) {
   return fetch(baseUrl + '/api/login', {
     method: 'POST',

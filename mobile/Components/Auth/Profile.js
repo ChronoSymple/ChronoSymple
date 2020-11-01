@@ -20,11 +20,16 @@ class Profile extends React.Component {
 			firstName: "",
 			lastName: "",
 			email: "",
+			phoneNumber: "",
+			birthdate: "",
+			civility: "",
 			picture: "https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png",
 			modalPictureVisible: false,
 			password : "",
 			confirmPressed: false,
 			modalInternetVisible: false,
+			modalPhoneVisible: false,
+			modalMailVisible: false,
 		}
 		this.getPatientInfo()
 	}
@@ -47,6 +52,9 @@ class Profile extends React.Component {
 				firstName: response.first_name,
 				lastName: response.last_name,
 				email: response.email,
+				phoneNumber: response.phone_number ? response.phone_number : "",
+				birthdate: response.birthdate,
+				civility: response.civility,
 				picture: response.picture ? response.picture : 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png',
 			})
 			/*console.log("valeur de picture profile :")
@@ -54,9 +62,6 @@ class Profile extends React.Component {
 		})
 	}
 
-	changeProfilePhoto = () => {
-
-	}
 
 	chooseImage = () => {
 		let options = {
@@ -91,10 +96,6 @@ class Profile extends React.Component {
 
 					})
 					.catch(err => console.log(err));
-/*
-				console.log(response
-				console.log('valuer de limage:')
-				console.log(source)*/
 
 			}
 		});
@@ -125,6 +126,14 @@ class Profile extends React.Component {
 */
 	setModalPictureVisible = (visible) => {
 		this.setState({ modalPictureVisible: visible })
+	}
+
+	setModalPhoneVisible = (visible) => {
+		this.setState({ modalPhoneVisible: visible })
+	}
+
+	setModalMailVisible = (visible) => {
+		this.setState({ modalMailVisible: visible })
 	}
 
 	setInternetModal = (visible) => {
@@ -162,6 +171,65 @@ class Profile extends React.Component {
 			this.setState({ confirmPressed: false})
 		})
 	}
+
+
+	confirmNewPhonePressed = () => {
+		if (this.state.phoneRegExp.test(this.state.tmpPhoneNumber) == true) {
+			updatePatientProfile(this.props.token.token, "phoneNumber", this.state.tmpPhoneNumber, this.state.password).then(async data => {
+				if (data.status == 200) {
+					this.getPatientInfo()
+					this.setState({ password: ''})
+					showMessage({
+						message: "Le numero de telephone a bien été changé",
+						type: "success"
+					});
+				} else {
+					let response = await data.json()
+					showMessage({
+						message: "Une erreur est survenue. Recommencez. Si le probleme persiste contactez nous.",
+						type: "danger"
+					});
+				}
+			})
+		}
+		else {
+			showMessage({
+				message: "Votre numero de telephone ou mot de passe est invalide",
+				type: "danger"
+			});
+			this.setState({ password: ''})
+		}
+		this.setModalPhoneVisible(!this.state.modalPhoneVisible)
+	}
+
+	confirmNewAdressMailPressed = () => {
+		if (this.state.emailRegExp.test(this.state.tmpEmail) == true) {
+			updatePatientProfile(this.props.token.token, "email", this.state.tmpEmail, this.state.password).then(async data => {
+				if (data.status == 200) {
+					this.getPatientInfo()
+					this.setState({ password: ''})
+					showMessage({
+						message: "L'adresse mail a bien été changé",
+						type: "success"
+					});
+				} else {
+					let response = await data.json()
+					showMessage({
+						message: "Une erreur est survenue. Recommencez. Si le probleme persiste contactez nous.",
+						type: "danger"
+					});
+				}
+			})
+		} else {
+			showMessage({
+				message: "Votre adresse mail ou mot de passe est invalide",
+				type: "danger"
+			});
+			this.setState({ password: ''})
+		}
+		this.setModalMailVisible(!this.state.modalMailVisible)
+	}
+
 
 	renderFileData() {
 		if (this.state.fileData) {
@@ -223,29 +291,235 @@ class Profile extends React.Component {
 					<View style={{flex: 1}}/>
 				</View>
 			</Modal>
-			<View style={{flex: 0.5}}>
-			</View>
-			<View style={{ flex: 3, alignItems: "center", justifyContent : "center" , flexDirection: 'row'}}>
-				<View style={{flex: 1, flexDirection: 'column', alignItems: "center", justifyContent : "center"}}>
+			<Modal
+		          animationType="slide"
+		          transparent={false}
+		          visible={this.state.modalPhoneVisible}
+			>
+				<View style={{ flex: 1, marginTop: 10}}>
+					<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10, marginRight: 20}}>
+						<TextInput
+				            placeholder="nouveau numero de telephone"
+				            onChangeText={(text) => this.setTmpPhoneNumber(text)}
+				            style={styles.textField, {borderBottomWidth: 1 }}
+				            value={this.state.tmpPhoneNumber}
+				        />
+				        <Text style={{fontSize: 13, color: colors.secondary}}> Numero de telephone </Text>
+					</View>
+					<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10, marginRight: 20}}>
+						<TextInput 
+							secureTextEntry={true}
+							label="votre mot de passe"
+							value={this.state.password}
+							onChangeText={ (password) => this.setState({ password }) }
+						/>
+				        <Text style={{fontSize: 13, color: colors.secondary}}> Mot de passe</Text>
+					</View>
+					<View style={{flex: 1}}/>
+					<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
+						<View >
+							<Button 
+								color="#62BE87"
+								style={{ height: 40, width: 50, borderWidth: 2, borderColor: '#000000'}}
+								onPress={() => this.setModalPhoneVisible(!this.state.modalPhoneVisible) }
+								title="Retour"
+							/>
+						</View>
+						<View >
+							<Button 
+								color="#62BE87"
+								style={{ height: 40, width: 50, borderWidth: 2, borderColor: '#000000'}}
+								onPress={() => this.confirmNewPhonePressed()}
+								title="Confirmer"
+							/>
+						</View>
+					</View>
+					<View style={{flex: 4}}/>
+		        </View>
+		    </Modal>
+
+		    <Modal
+		        animationType="slide"
+		        transparent={false}
+		        visible={this.state.modalMailVisible}
+		        onRequestClose={() => {
+					Alert.alert('Modal for adresse mail has been closed.');
+		        }}
+			>
+		        <View style={{ flex: 1, marginTop: 22}}>
+		    		<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10, marginRight: 20}}>
+				        <TextInput
+				            placeholder="nouvelle adresse mail"
+				            onChangeText={(text) => this.setTmpAdresseMail(text)}
+				            style={styles.textField, { borderBottomWidth: 1 }}
+				            value={this.state.tmpEmail}
+				        />
+				        <Text style={{fontSize: 13, color: colors.secondary}}> Adresse mail</Text>
+					</View>
+					<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10, marginRight: 20}}>
+				        <TextInput 
+				    	   	secureTextEntry={true}
+							label="votre mot de passe"
+							value={this.state.password}
+							onChangeText={ (password) => this.setState({ password }) }
+						/>
+				        <Text style={{fontSize: 13, color: colors.secondary}}> Mot de passe</Text>
+					</View>
+					<View style={{flex: 1}}/>
+					<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>
+						<View>
+							<Button 
+								color="#62BE87"
+								style={{ height: 40, width: 50, borderWidth: 2, borderColor: '#000000'}}
+								onPress={() => this.setModalMailVisible(!this.state.modalMailVisible) }
+								title="Retour"
+							/>
+						</View>
+						<View>
+							<Button 
+								color="#62BE87"
+								style={{ height: 40, width: 50, borderWidth: 2, borderColor: '#000000'}}
+								onPress={() => this.confirmNewAdressMailPressed()}
+								title="Confirmer"
+							/>
+						</View>
+					</View>
+					<View style={{flex: 4}}/>
+		        </View>
+		    </Modal>
+			<View style={{flex: 0.5}}/>
+			<View style={{ flex: 2, alignItems: "center", justifyContent : "center" , flexDirection: 'row'}}>
+				<TouchableOpacity onPress={() => this.chooseImage()}>
 					<Image
 						/*source={{uri: this.state.picture}}*/
 					 	source={{uri: 'data:image/jpeg;base64,'+ this.state.picture }}
 						style={{ width: 140, height: 140, borderRadius: 140 / 2, borderWidth : 1, borderColor: '#000000'}}
 					/>
-					<TouchableOpacity onPress={() => this.chooseImage()}>
-					 <Text style={{fontSize: 16, color: colors.secondary}}> changer </Text>
-					</TouchableOpacity>
-				</View>
-				<View style={{flex: 1, flexDirection: 'column', alignItems: "center", justifyContent : "center"}}>
-					<Text style={{fontSize: 20}}>
-						{this.state.lastName} {this.state.firstName}
-					</Text>
-					<Text style={{}}>
-						email: {this.state.email}
-					</Text>
-				</View>
+				</TouchableOpacity>
 			</View>
-			<View style={{flex: 1}}>
+			<View style={{flex: 0.5}}/>
+			<View style={{flex: 7}}>
+				<TouchableOpacity onPress={() => { this.setModalMailVisible(true); }} style={{flex: 1, borderTopWidth: 1, flexDirection: 'row', backgroundColor: '#F7F7F7'}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}> Email </Text>
+						</View>
+						<View style={{flex: 3}}>
+							<Text style={{paddingTop: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}>{this.state.email}</Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end", padding: 10}}>
+							<Icon
+								name="chevron-right"
+								color="#62BE87"
+								size={35}
+							/>
+						</View>
+					</View>
+				</TouchableOpacity>
+				<TouchableOpacity style={{flex: 1, borderTopWidth: 1, flexDirection: 'row', backgroundColor: '#F7F7F7'}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}> Nom </Text>
+						</View>
+						<View style={{flex: 3}}>
+							<Text style={{paddingTop: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}>{this.state.lastName}</Text>
+						</View>
+						<View style={{flex: 1, padding: 10}}/>
+					</View>
+				</TouchableOpacity>
+				<TouchableOpacity style={{flex: 1, borderTopWidth: 1, flexDirection: 'row', backgroundColor: '#F7F7F7'}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}> Prenom </Text>
+						</View>
+						<View style={{flex: 3}}>
+							<Text style={{paddingTop: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}>{this.state.firstName}</Text>
+						</View>
+						<View style={{flex: 1, padding: 10}}/>
+					</View>
+				</TouchableOpacity>
+				<TouchableOpacity onPress={() => { this.setModalPhoneVisible(true); }} style={{flex: 1, borderTopWidth: 1, flexDirection: 'row', backgroundColor: '#F7F7F7'}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}> Telephone </Text>
+						</View>
+						<View style={{flex: 3}}>
+							<Text style={{paddingTop: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}>{this.state.phoneNumber}</Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end", padding: 10}}>
+							<Icon
+								name="chevron-right"
+								color="#62BE87"
+								size={35}
+							/>
+						</View>
+					</View>
+				</TouchableOpacity>
+				<TouchableOpacity style={{flex: 1, borderTopWidth: 1, flexDirection: 'row', backgroundColor: '#F7F7F7'}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}> Civilite </Text>
+						</View>
+						<View style={{flex: 3}}>
+							<Text style={{paddingTop: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}>{this.state.civility}</Text>
+						</View>
+						<View style={{flex: 1, padding: 10}}/>
+					</View>
+				</TouchableOpacity>
+				<TouchableOpacity style={{flex: 1, borderTopWidth: 1, flexDirection: 'row', backgroundColor: '#F7F7F7'}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}> Date de naissance </Text>
+						</View>
+						<View style={{flex: 3}}>
+							<Text style={{paddingTop: 20, fontSize: 13, color: colors.secondary, textTransform: 'capitalize' }}>{this.state.birthdate}</Text>
+						</View>
+						<View style={{flex: 1, padding: 10}}/>
+					</View>
+				</TouchableOpacity>
+				<View style={{flex: 0.5}}/>
+				<View style={{flex: 2}}>
+					<View style={{flex: 1}}>
+						<View style={{flexDirection: 'row'}}>
+							<View style={{flex: 0.1}}/>
+							<View style={{flex: 1}}>
+								<Button
+									onPress={() => navigate('PasswordProfile')}
+									title="Changer de mot de passe"
+									color="#00928C"
+								/>
+							</View>
+							<View style={{flex: 0.1}}/>
+						</View>
+						<View style={{flex: 0.3}}/>
+						<View style={{flexDirection: 'row'}}>
+							<View style={{flex: 0.1}}/>
+							<View style={{flex: 1}}>
+								<Button
+									onPress={() => navigate('Logout')}
+									title="Se deconnecter"
+									color="#00928C"
+								/>
+							</View>
+							<View style={{flex: 0.1}}/>
+						</View>
+					</View>
+				</View>
+				<View style={{flexDirection: 'row', justifyContent:'space-between'}}>
+					<Button
+						onPress={() => navigate('AllDoctors')}
+						title="Medecin"
+						color="#00928C"
+					/>
+					<Button
+						onPress={() => navigate('Settings')}
+						title="Parametre"
+						color="#00928C"
+					/>
+				</View>
+				<View style={{flex: 0.5}}/>
+			</View>
+			{/*<View style={{flex: 1}}>
 			</View>
 			<View style={{ flex: 1}}>
 				<TouchableOpacity onPress={() => navigate('InfoProfile')} style={{flex: 1, borderTopWidth: 1}}>
@@ -328,7 +602,7 @@ class Profile extends React.Component {
 				</TouchableOpacity>
 			</View>
 			<View style={{flex: 1}}>
-			</View>
+			</View>*/}
 			<Modal
 				animationType="slide"
 				transparent={false}

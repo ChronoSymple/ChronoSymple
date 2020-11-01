@@ -23,6 +23,7 @@ import FAQProfile from '../Components/Auth/Profile/FAQProfile';
 import InfoProfile from '../Components/Auth/Profile/InfoProfile';
 import PasswordProfile from '../Components/Auth/Profile/PasswordProfile';
 import SupportProfile from '../Components/Auth/Profile/SupportProfile';
+import Settings from '../Components/Auth/Profile/Settings';
 
 import DoctorCard from '../Components/Doctors/DoctorCard';
 import SearchDoctors from '../Components/Doctors/SearchDoctors';
@@ -82,6 +83,9 @@ const ProfileStackNavigator = createStackNavigator({
 	},
 	AProposProfile: {
 		screen: AProposProfile,
+	},
+	Settings: {
+		screen: Settings,
 	}
 }, {
 		headerMode: 'none'

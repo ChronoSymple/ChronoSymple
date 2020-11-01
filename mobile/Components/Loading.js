@@ -8,7 +8,7 @@ import {
 	Dimensions
 } from 'react-native';
 import { connect } from 'react-redux';
-import { getUserToken } from '../Redux/Action/action';
+import { getUserToken, getUserAccountValid } from '../Redux/Action/action';
 
 class Loading extends React.Component {
 	componentDidMount() {
@@ -17,7 +17,21 @@ class Loading extends React.Component {
 	
 	_bootstrapAsync = () => {
 		this.props.getUserToken().then(() => {
-			this.props.navigation.navigate(this.props.token.token !== null ? 'Home' : 'Login');
+			if (this.props.token.token == null) {
+				this.props.navigation.navigate('Login');
+			} else {
+				this.props.getUserAccountValid().then(() => {
+					console.log(this.props.token)
+					if (this.props.token.accountValid != "true") {
+						this.props.navigation.navigate("AccountValidation")
+					} else {
+						this.props.navigation.navigate("Home")
+					}
+				})
+				.catch(error => {
+					this.setState({ error })
+				})
+			}
 		})
 		.catch(error => {
 			this.setState({ error })
@@ -46,11 +60,13 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
 	token: state.token,
+	accountValid: state.accountValid,
 });
 
 
 const mapDispatchToProps = dispatch => ({
 	getUserToken: () => dispatch(getUserToken()),
+	getUserAccountValid: () => dispatch(getUserAccountValid()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Loading);

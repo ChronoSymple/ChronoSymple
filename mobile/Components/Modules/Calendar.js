@@ -1,7 +1,7 @@
 // Components/Calendar.js
 
 import React from 'react'
-import { ActivityIndicator, View, Text, StyleSheet, Button, FlatList, TouchableOpacity, TouchableHighlight, BackHandler, Dimensions, SafeAreaView, Picker} from 'react-native'
+import { ActivityIndicator, View, Text, StyleSheet, Button, FlatList, TouchableOpacity, TouchableHighlight, BackHandler, Dimensions, SafeAreaView, Modal, Picker} from 'react-native'
 import { APIGetPatientNotesByDateIntervale,  APIRemovePatientNotes, APIShareNote, APIgetDoctorsOfModule, APIUnshareNote, APIDoctorOfNotes } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import { colors, windowSize } from '../StyleSheet';
@@ -14,6 +14,8 @@ import Modal2 from "react-native-modal";
 import CalendarPicker from 'react-native-calendar-picker'
 import { showMessage, hideMessage } from "react-native-flash-message";
 import { StackActions } from 'react-navigation';
+import NetInfo from "@react-native-community/netinfo";
+
 
 
 class Calendar extends React.Component {
@@ -74,7 +76,8 @@ class Calendar extends React.Component {
 			displayDoctor: false,
 			finish: false,
 			shared: new Map(),
-			modalVisible: false
+			modalVisible: false,
+			modalInternetVisible: false,
 		}
 		//this.hideFilterModal = this.hideFilterModal().bind(this)
 		this._bootstrapAsync();
@@ -499,6 +502,17 @@ class Calendar extends React.Component {
 	}
 
 	_bootstrapAsync = () => {
+		NetInfo.fetch().then((state) => {
+			console.log(
+				'is connected: ' +
+				state.isConnected
+			);
+			if (state.isConnected == true) {
+				this.setInternetModal(false)
+			} else {
+				this.setInternetModal(true)
+			}
+		})
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
 				APIGetPatientNotesByDateIntervale(this.props.token.token, this.state.actualDateBegin, this.state.actualDateEnd, this.props.currentModule.currentModule).then(async data => {
@@ -524,6 +538,10 @@ class Calendar extends React.Component {
 		}).catch(error => {
 			this.setState({ error })
 		})
+	}
+
+	setInternetModal = (visible) => {
+		this.setState({ modalInternetVisible: visible })
 	}
 	
 	getAndFindDay = (dateStr) =>
@@ -877,6 +895,36 @@ class Calendar extends React.Component {
 		};
 		return (
 			<View style={styles.container}>
+				<Modal
+					animationType="slide"
+					transparent={false}
+					visible={this.state.modalInternetVisible}
+				>
+					<View style={{ flex: 1, marginTop: 10}}>
+						<View style={{flex: 1 }}>
+						<TouchableHighlight style={{margin: 10}}>
+							<Icon
+								name="clear"
+								color="#62BE87"
+								size={35}
+								onPress={() => this.setInternetModal(false)}
+							/>
+						</TouchableHighlight>
+						</View>
+						<View style={{flex: 1}}>
+							<Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', color: '#62BE87'}}>
+								Un probleme est survenue.{'\n'}Ceci peut etre du a un probleme de connexion internet{'\n'}{'\n'}
+							</Text>
+							<Button 
+								style={styles.buttonNoModule}
+								color="#62BE87"
+								onPress={() => {this._bootstrapAsync()}}
+								title="Actualiser la page"
+							/>
+						</View>
+						<View style={{flex: 1}}/>
+					</View>
+				</Modal>
 				<ModalFilter 
 					modalShow={this.state.modalVisible}
 					modalHide={this.hideFilterModal}
