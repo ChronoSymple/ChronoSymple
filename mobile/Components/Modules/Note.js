@@ -114,7 +114,6 @@ class Note extends React.Component {
 		        last = keys.pop();
 		    keys.reduce((r, a) => r[a] = r[a] || {}, note)[last] = value;
 		});
-		console.log(note)
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
 				APIAddPatientNotes(this.props.token.token, note, this.state.original_dt, this.props.currentModule.currentModule).then(data => {
@@ -123,8 +122,6 @@ class Note extends React.Component {
 						navigate("Calendar")
 					}
 				}).catch(error => {
-						console.log("E")
-
 						this.setState({ error })
 				})
 			})
@@ -149,8 +146,9 @@ class Note extends React.Component {
 		this.setState({ isDateTimePickerVisible: false });
 	};
 
-	handleDatePicked = date => {
-		var date = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
+	handleDatePicked = datetime => {
+		this.setState({ original_dt: datetime});
+		var date = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear()
 		this.setState({ date: date });
 		this.hideDateTimePicker();
 	};
@@ -163,11 +161,12 @@ class Note extends React.Component {
 		this.setState({ isTimePickerVisible: false });
 	};
 	
-	handleTimePicked = time => {
-		if (time.getMinutes() > 9)
-			var horaire = time.getHours() + ':' + time.getMinutes()
+	handleTimePicked = datetime => {
+		this.setState({ original_dt: datetime});
+		if (datetime.getMinutes() > 9)
+			var horaire = datetime.getHours() + ':' + datetime.getMinutes()
 		else
-			var horaire = time.getHours() + ':' + "0" + time.getMinutes()
+			var horaire = datetime.getHours() + ':' + "0" + datetime.getMinutes()
 		this.setState({ time: horaire });
 		this.hideTimePicker();
 	};
@@ -251,20 +250,20 @@ class Note extends React.Component {
 
 					<View style={note_style.date_time}>
 						<Icon_Ant
-							name="clockcircleo"
+							name="calendar"
 							color="#000"
 							size={40}
 							style={{paddingRight: 20}}
 							onPress={this.showDateTimePicker}
 						/>
 						<View style={{width: 150}}>
-
 							<Button 
 								color={colors.primary} 
 								title={this.state.date} 
 								onPress={this.showDateTimePicker} 
 							/>
 							<DateTimePicker
+								date={this.state.original_dt}
 							  	isVisible={this.state.isDateTimePickerVisible}
 							  	onConfirm={this.handleDatePicked}
 							  	onCancel={this.hideDateTimePicker}
@@ -273,7 +272,7 @@ class Note extends React.Component {
 					</View>
 					<View style={note_style.date_time}>
 						<Icon_Ant
-							name="calendar"
+							name="clockcircleo"
 							color="#000"
 							size={40}
 							style={{paddingRight: 20}}
@@ -287,6 +286,7 @@ class Note extends React.Component {
 							/>
 							<DateTimePicker
 								mode="time"
+								date={this.state.original_dt}
 								isVisible={this.state.isTimePickerVisible}
 								onConfirm={this.handleTimePicked}
 								onCancel={this.hideTimePicker}
