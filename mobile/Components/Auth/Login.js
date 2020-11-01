@@ -79,7 +79,7 @@ class Login extends React.Component {
 			>
 				<View style={[styles.AuthMainContainer, styles.LoginMainContainer]}>
 
-      				<View style={{ width: windowSize.x * 0.7, flex: 1, justifyContent: "center", alignItems: "center"}}>
+      				<View style={{ width: windowSize.x * 0.8, flex: 1, justifyContent: "center", alignItems: "center"}}>
 						
 						<Text style={{
 							margin: 20,
