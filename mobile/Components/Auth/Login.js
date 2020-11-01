@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Button, TextInput, ImageBackground, BackHandler } from 'react-native'
+import { ScrollView, View, Text, Button, TextInput, ImageBackground, BackHandler } from 'react-native'
 import { LoginAPatientWithApi } from '../../API/APIConnection'
 import { styles, colors, windowSize } from '../StyleSheet'
 import { connect } from 'react-redux';
@@ -53,10 +53,6 @@ class Login extends React.Component {
 		this.setState({ mail: text.trim() })
 	}
 
-	setPassword = (text) => {
-		this.setState({ password: text })
-	}
-
 	textFieldFocused = (state) => {
 		this.setState({[state]: true})
 	}
@@ -75,67 +71,83 @@ class Login extends React.Component {
 		let emailFocused 		= "emailFocused";
 		let passwordFocused 		= "passwordFocused"
 
-    		return (
-			<ImageBackground source={require("./../../assets/pexels-photo-247478.jpeg")} style={{width: '100%', height: '100%'}}>
-    				<View style={[styles.AuthMainContainer, styles.LoginMainContainer]}>
-	      				<View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
-					      	<View style={{flex: 0.5}}></View>
-						<View style={{ flex: 2, justifyContent: "center"}}>
-							<Text style={styles.label}>CONNECTION</Text>
+		return (
+			<ScrollView
+			contentContainerStyle={{height: windowSize.y * 0.9}} 
+			centerContent={true} 
+			style={{flex: 1, backgroundColor: '#44808A' }}
+			>
+				<View style={[styles.AuthMainContainer, styles.LoginMainContainer]}>
+
+      				<View style={{ width: windowSize.x * 0.7, flex: 1, justifyContent: "center", alignItems: "center"}}>
+						
+						<Text style={{
+							margin: 20,
+							marginTop: 40,
+							fontSize: 25,
+							fontWeight: 'bold',
+							color: "grey"
+						}}>
+							CONNECTION
+						</Text>
+
+      					<View style={{ flex: 3, justifyContent: "center", alignCOntent: 'center', alignSelf:'stretch', padding: 40}}>
+      						<View style={{flex: 1}}>
+								<TextInput
+									onFocus={() => this.textFieldFocused(emailFocused)}
+									onBlur={() => this.textFieldBlured(emailFocused)}
+									placeholder={placeholder_email}
+									autoCorrect={false}
+									style={{borderBottomWidth: 1, borderColor: 'grey'}}
+									onChangeText={(text) => this.setMail(text)}
+									value={this.mail}
+								/>	
+							</View>
+
+      						<View style={{flex: 1}}>
+								<TextInput
+									onFocus={() => this.textFieldFocused(passwordFocused)}
+									onBlur={() => this.textFieldBlured(passwordFocused)}
+									secureTextEntry={true}
+									label="mot de passe"
+									autoCorrect={false}
+									style={{borderBottomWidth: 1, borderColor: 'grey'}}
+									value={this.state.password}
+									onChangeText={ (password) => this.setState({ password }) }
+									placeholder={placeholder_password}
+								/>
+							</View>
+							{
+								this.state.isInvalid && 
+								<View style={{ padding: 20, flex: 1, justifyContent: "center", alignItems: "center"}}>
+									<Text style={{ color: colors.errorColor, textAlign: 'center'}}>
+										{errorMessage}
+									</Text>
+								</View>
+							}
 						</View>
-						<View style={{flex: 0.5}}></View>
-	      					<View style={{ flex: 3, justifyContent: "center", alignCOntent: 'center'}}>
-							<TextInput
-								onFocus={() => this.textFieldFocused(emailFocused)}
-								onBlur={() => this.textFieldBlured(emailFocused)}
-								placeholder={placeholder_email}
-								style={[this.state[emailFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5 }]}
-								autoCorrect={false}
-								onChangeText={(text) => this.setMail(text)}
-								value={this.mail}
-							/>
-							{/*<TextInput
-								onFocus={() => this.textFieldFocused(passwordFocused)}
-								onBlur={() => this.textFieldBlured(passwordFocused)}
-								secureTextEntry={true}
-								placeholder={placeholder_password}
-								autoCorrect={false}
-								onChangeText={(text) => this.setPassword(text)}
-								value={this.password}
-							/>*/}
-							<TextInput 
-								secureTextEntry={true}
-								label="mot de passe"
-								value={this.state.password}
-								onChangeText={ (password) => this.setState({ password }) }
-							/>
+
+
+						<View style={{flex: 2}}>
+							<View style={{flex: 1, justifyContent: "center"}}>
+								<Button 
+									color={colors.secondary}
+									onPress={() => navigate('SignIn')}
+									title={notSubscribe}
+								/>
+							</View>
+
+							<View style={{flex: 1, justifyContent: "center", marginBottom: 20}}>
+								<Button 
+									color={colors.primary}
+									onPress={() => this.checkLogin()}
+									title={login}
+								/>
+							</View>
 						</View>
-						<View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
-								{this.state.isInvalid && <Text style={{ color: colors.errorColor }}>{errorMessage}</Text>}
-						</View>
-						<View style={{ flex: 1, justifyContent: "center", width: windowSize.x / 1.5}}>
-							<Button 
-								color={colors.secondary}
-								onPress={() => navigate('SignIn')}
-								title={notSubscribe}
-							/>
-						</View>
-						<View style={{flex: 0.5}}></View>
-						<View style={{ flex: 1, justifyContent: "center", width: windowSize.x / 1.5}}>
-							<Button 
-								color={colors.primary}
-								onPress={() => this.checkLogin()}
-								title={login}
-							/>
-						</View>
-						<View style={{flex: 0.25}}></View>
-						<View style={{ flex: 1, justifyContent: "center", width: windowSize.x / 1.5 }}>
-							<Text style={{textAlign: 'justify'}}>Vous avez oublié votre mot de passe cliquez ici ?</Text>
-						</View>
-						<View style={{flex: 0.5}}></View>
 					</View>
 				</View>
-			</ImageBackground>
+			</ScrollView>
 		)
 	}
 
