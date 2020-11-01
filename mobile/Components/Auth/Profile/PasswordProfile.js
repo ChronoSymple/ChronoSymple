@@ -65,6 +65,10 @@ class PasswordProfile extends React.Component {
 
   render() {
     let { navigate } = this.props.navigation;
+
+    let placeholder_oldPassword  = "ancient mot de passe";
+    let placeholder_newPassword = "nouveau mot de passe";
+    let placeholder_confirmPassword = "confirmation mot de passe";
     return (
       <View style={{flex: 1}}>
         <View style={{flex: 0.5}}/>
@@ -72,8 +76,11 @@ class PasswordProfile extends React.Component {
           <TextInput 
             secureTextEntry={true}
             label="ancient mot de passe"
+            autoCorrect={false}
+            style={{borderBottomWidth: 1, borderColor: 'grey'}}
             value={this.state.oldPassword}
             onChangeText={ (oldPassword) => this.setState({ oldPassword }) }
+            placeholder={placeholder_oldPassword}
           />
           <Text style={{fontSize: 13, color: colors.secondary}}> Mot De Passe </Text>
         </View>
@@ -81,8 +88,11 @@ class PasswordProfile extends React.Component {
           <TextInput 
             secureTextEntry={true}
             label="nouveau mot de passe"
+            autoCorrect={false}
+            style={{borderBottomWidth: 1, borderColor: 'grey'}}
             value={this.state.newPassword}
             onChangeText={ (newPassword) => this.setState({ newPassword }) }
+            placeholder={placeholder_newPassword}
           />
           <Text style={{fontSize: 13, color: colors.secondary}}> Nouveau Mot De Passe </Text>
         </View>
@@ -90,8 +100,11 @@ class PasswordProfile extends React.Component {
           <TextInput 
             secureTextEntry={true}
             label="confirmation"
+            autoCorrect={false}
+            style={{borderBottomWidth: 1, borderColor: 'grey'}}
             value={this.state.confirmPassword}
             onChangeText={ (confirmPassword) => this.setState({ confirmPassword }) }
+            placeholder={placeholder_confirmPassword}
           />
           <Text style={{fontSize: 13, color: colors.secondary}}> Confirmer votre nouveau Mot De Passe </Text>
         </View>
