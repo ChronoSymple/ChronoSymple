@@ -21,6 +21,8 @@ class Profile extends React.Component {
 			lastName: "",
 			email: "",
 			phoneNumber: "",
+			tmpEmail: "",
+			tmpPhoneNumber: "",
 			birthdate: "",
 			civility: "",
 			picture: "https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png",
@@ -30,6 +32,10 @@ class Profile extends React.Component {
 			modalInternetVisible: false,
 			modalPhoneVisible: false,
 			modalMailVisible: false,
+			passwordFocused: false,
+			emailFocused: false,
+			phoneRegExp: new RegExp("^[0-9]{8,12}$", 'g'),
+			emailRegExp: new  RegExp(".*@.*\..*", 'g'),
 		}
 		this.getPatientInfo()
 	}
@@ -140,8 +146,24 @@ class Profile extends React.Component {
 		this.setState({ modalInternetVisible: visible })
 	}
 
+	setTmpPhoneNumber = (text) => {
+		this.setState({ tmpPhoneNumber: text })
+	}
+
+	setTmpAdresseMail = (text) => {
+		this.setState({ tmpEmail: text })
+	}
+
 	setPassword = (text) => {
 		this.setState({ password: text })
+	}
+
+	textFieldFocused = (state) => {
+		this.setState({[state]: true})
+	}
+
+	textFieldBlured = (state) => {
+		this.setState({[state]: false})
 	}
 
 	confirmNewPicturePressed = () => {
@@ -178,7 +200,7 @@ class Profile extends React.Component {
 			updatePatientProfile(this.props.token.token, "phoneNumber", this.state.tmpPhoneNumber, this.state.password).then(async data => {
 				if (data.status == 200) {
 					this.getPatientInfo()
-					this.setState({ password: ''})
+					this.setState({ password: '', tmpPhoneNumber: ''})
 					showMessage({
 						message: "Le numero de telephone a bien été changé",
 						type: "success"
@@ -197,7 +219,7 @@ class Profile extends React.Component {
 				message: "Votre numero de telephone ou mot de passe est invalide",
 				type: "danger"
 			});
-			this.setState({ password: ''})
+			this.setState({ password: '', tmpPhoneNumber: ''})
 		}
 		this.setModalPhoneVisible(!this.state.modalPhoneVisible)
 	}
@@ -205,9 +227,10 @@ class Profile extends React.Component {
 	confirmNewAdressMailPressed = () => {
 		if (this.state.emailRegExp.test(this.state.tmpEmail) == true) {
 			updatePatientProfile(this.props.token.token, "email", this.state.tmpEmail, this.state.password).then(async data => {
+				console.log(data)
 				if (data.status == 200) {
 					this.getPatientInfo()
-					this.setState({ password: ''})
+					this.setState({ password: '', tmpEmail: ''})
 					showMessage({
 						message: "L'adresse mail a bien été changé",
 						type: "success"
@@ -225,7 +248,7 @@ class Profile extends React.Component {
 				message: "Votre adresse mail ou mot de passe est invalide",
 				type: "danger"
 			});
-			this.setState({ password: ''})
+			this.setState({ password: '', tmpEmail: ''})
 		}
 		this.setModalMailVisible(!this.state.modalMailVisible)
 	}
@@ -259,6 +282,10 @@ class Profile extends React.Component {
 
 	render() {
 		let { navigate } = this.props.navigation;
+		let placeholder_password 	= "Mot de passe";
+		let placeholder_email = "nouvelle adresse mail";
+		let emailFocused 		= "emailFocused";
+		let passwordFocused 		= "passwordFocused"
 		return (
 		<View style={{ flex: 1}}>
 			<Modal
@@ -307,11 +334,16 @@ class Profile extends React.Component {
 				        <Text style={{fontSize: 13, color: colors.secondary}}> Numero de telephone </Text>
 					</View>
 					<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10, marginRight: 20}}>
-						<TextInput 
+						<TextInput
+							onFocus={() => this.textFieldFocused(passwordFocused)}
+							onBlur={() => this.textFieldBlured(passwordFocused)}
 							secureTextEntry={true}
 							label="votre mot de passe"
+							autoCorrect={false}
+							style={{borderBottomWidth: 1, borderColor: 'grey'}}
 							value={this.state.password}
 							onChangeText={ (password) => this.setState({ password }) }
+							placeholder={placeholder_password}
 						/>
 				        <Text style={{fontSize: 13, color: colors.secondary}}> Mot de passe</Text>
 					</View>
@@ -349,19 +381,28 @@ class Profile extends React.Component {
 		        <View style={{ flex: 1, marginTop: 22}}>
 		    		<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10, marginRight: 20}}>
 				        <TextInput
-				            placeholder="nouvelle adresse mail"
-				            onChangeText={(text) => this.setTmpAdresseMail(text)}
-				            style={styles.textField, { borderBottomWidth: 1 }}
-				            value={this.state.tmpEmail}
-				        />
+							onFocus={() => this.textFieldFocused(emailFocused)}
+							onBlur={() => this.textFieldBlured(emailFocused)}
+							label="nouvelle adresse mail"
+							autoCorrect={false}
+							style={{borderBottomWidth: 1, borderColor: 'grey'}}
+							value={this.state.tmpEmail}
+							onChangeText={ (text) => this.setTmpAdresseMail(text) }
+							placeholder={placeholder_email}
+						/>
 				        <Text style={{fontSize: 13, color: colors.secondary}}> Adresse mail</Text>
 					</View>
 					<View style={{ flex: 1, justifyContent: "center", alignContent: 'center', marginLeft: 10, marginRight: 20}}>
-				        <TextInput 
-				    	   	secureTextEntry={true}
+				        <TextInput
+							onFocus={() => this.textFieldFocused(passwordFocused)}
+							onBlur={() => this.textFieldBlured(passwordFocused)}
+							secureTextEntry={true}
 							label="votre mot de passe"
+							autoCorrect={false}
+							style={{borderBottomWidth: 1, borderColor: 'grey'}}
 							value={this.state.password}
 							onChangeText={ (password) => this.setState({ password }) }
+							placeholder={placeholder_password}
 						/>
 				        <Text style={{fontSize: 13, color: colors.secondary}}> Mot de passe</Text>
 					</View>
@@ -613,8 +654,11 @@ class Profile extends React.Component {
 						<TextInput 
 							secureTextEntry={true}
 							label="mot de passe"
+							autoCorrect={false}
+            				style={{borderBottomWidth: 1, borderColor: 'grey'}}
 							value={this.state.password}
 							onChangeText={ (password) => this.setState({ password }) }
+							placeholder={placeholder_password}
 						/>
 					</View>
 					<View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-around'}}>

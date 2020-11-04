@@ -52,7 +52,7 @@ class SignIn extends React.Component {
 			this.props.saveUserToken(oui)
 		    .then(() => {
     			console.log("token, mail and password savec. ! ")
-				this.props.navigation.navigate('AccountValidation');
+				this.props.navigation.navigate('AccountValidation', {matchCode: response.confirmation_token});
 		    })
 		    .catch((error) => {
 				this.setState({ error })
@@ -479,14 +479,20 @@ class SignIn extends React.Component {
 								<TextInput 
 									secureTextEntry={true}
 									label={placeholder_password}
+									autoCorrect={false}
+            						style={{borderBottomWidth: 1, borderColor: 'grey'}}
 									value={this.state.password}
 									onChangeText={ (password) => this.setState({ password }) }
+									placeholder={placeholder_password}
 								/>
 								<TextInput 
 									secureTextEntry={true}
 									label={placeholder_rePassword}
+									autoCorrect={false}
+            						style={{borderBottomWidth: 1, borderColor: 'grey'}}
 									value={this.state.rePassword}
 									onChangeText={ (rePassword) => this.setState({ rePassword }) }
+									placeholder={placeholder_rePassword}
 								/>
 							</ScrollView>
 						</View>
