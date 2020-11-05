@@ -20,7 +20,6 @@ import Check from '../Components/CheckModule'
 import AProposProfile from '../Components/Auth/Profile/AProposProfile';
 import ContactProfile from '../Components/Auth/Profile/ContactProfile';
 import FAQProfile from '../Components/Auth/Profile/FAQProfile';
-import InfoProfile from '../Components/Auth/Profile/InfoProfile';
 import PasswordProfile from '../Components/Auth/Profile/PasswordProfile';
 import SupportProfile from '../Components/Auth/Profile/SupportProfile';
 import Settings from '../Components/Auth/Profile/Settings';
@@ -63,9 +62,6 @@ const CalendarStackNavigator = createStackNavigator({
 })
 
 const ProfileStackNavigator = createStackNavigator({
-	InfoProfile: {
-		screen: InfoProfile,
-	},
 	ModuleProfile: {
 		screen: ModuleProfile,
 	},
