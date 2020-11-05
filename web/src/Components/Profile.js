@@ -110,10 +110,10 @@ class Profile extends React.Component {
     try {
       this.setState({askingApi: true});
       const profile = await Api.updateMyProfile(localStorage.getItem('myToken'), this.state.profile);
-      console.log(profile);
+      //console.log(profile);
       this.setState({defaultProfile: profile, profile: {}, askingApi: false});
     } catch (err) {
-      console.error(err);
+      //console.error(err);
     }
   }
   
@@ -121,9 +121,9 @@ class Profile extends React.Component {
     try {
       const profile = await Api.getMyProfile(localStorage.getItem('myToken'));
       this.setState({defaultProfile: profile, askingApi: false});
-      console.log(profile);
+      //console.log(profile);
     } catch (err) {
-      console.error(err);
+      //console.error(err);
     }
   }
 
@@ -145,7 +145,7 @@ class Profile extends React.Component {
             <div className={classes.contentImage}>
               <img src={profile.picture || defaultProfile.picture || gecko} width="200" height="200" alt="profilePicture" />
             </div>
-            <label for="avatar">{i18n.t('choose')}</label>
+            <label htmlFor="avatar">{i18n.t('choose')}</label>
             <input type="file" name='avatar' onChange={this.changeImageProfile} />
             {/* <br/>
             <Alert/> */}

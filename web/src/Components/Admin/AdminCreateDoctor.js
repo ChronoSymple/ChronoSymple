@@ -30,7 +30,7 @@ class AdminCreateDoctor extends Component {
       firstname,
       lastname,
       email,
-    })
+    });
   }
   setLastname = e => {
     const lastname = e.target.value;

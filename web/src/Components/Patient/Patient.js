@@ -29,7 +29,7 @@ class Patient extends PureComponent {
         const diseases = rawdata.map( e => ({ id: e.id, name: e.general_unit.name}));
         this.setState({diseases});
       } catch (e) {
-        console.warn(e);
+        //console.warn(e);
       }
     } catch (error) {
       this.setState({error});

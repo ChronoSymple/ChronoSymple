@@ -44,7 +44,7 @@ class AdminPatient extends PureComponent {
         email: this.state.email
       });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
   

@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import star1 from '../../assets/Img/emptyStar.png'
-import star2 from '../../assets/Img/filledStar.png'
+import star1 from '../../assets/Img/emptyStar.png';
+import star2 from '../../assets/Img/filledStar.png';
 
 export default class Fav extends PureComponent {
   constructor(props) {
@@ -22,7 +22,7 @@ export default class Fav extends PureComponent {
       this.setState({isFav: false});
     }
     localStorage.setItem('favorites', JSON.stringify(fav));
-    console.log(fav);
+    //console.log(fav);
   }
 
   render() {

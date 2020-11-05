@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Chart from 'chart.js';
 import PropTypes from 'prop-types';
-import { createPalette } from '@material-ui/core';
+//import { createPalette } from '@material-ui/core';
 //import * as ChartAnnotation from 'chartjs-plugin-annotation';
 
 class Diabetes extends PureComponent {
@@ -9,13 +9,14 @@ class Diabetes extends PureComponent {
 
   convertToGraphData = data => {
     data = data.map(e => e.note);
-    const dateToValue = str => str.split('-').map(e => Number(e)).reduce((prev, cur) => prev * 1000 + cur, 0);
-    console.log(data);
-    const maxDate = data.reduce((prev, data) => Math.max(prev, dateToValue(data.data.date)), null);
-    const minDate = data.reduce((prev, data) => Math.min(prev, dateToValue(data.data.date)), null);
+    //WIP
+    //const dateToValue = str => str.split('-').map(e => Number(e)).reduce((prev, cur) => prev * 1000 + cur, 0);
+    //console.log(data);
+    //const maxDate = data.reduce((prev, data) => Math.max(prev, dateToValue(data.data.date)), null);
+    //const minDate = data.reduce((prev, data) => Math.min(prev, dateToValue(data.data.date)), null);
     
     const graphData = {
-
+      data
     };
     return {
       type: 'bar',

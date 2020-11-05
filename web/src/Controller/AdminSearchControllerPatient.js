@@ -92,7 +92,7 @@ class AdminSearchControllerPatient extends PureComponent {
     try {
       await Api.deletePatient(this.props.token, id);
     } catch (err) {
-      console.error(err);
+      //console.error(err);
     }
   }
 

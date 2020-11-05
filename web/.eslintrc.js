@@ -24,6 +24,10 @@ module.exports = {
     "jest",
   ],
   "rules": {
+    "no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_" }
+    ],
     "indent": [
       "error",
       2,

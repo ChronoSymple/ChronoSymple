@@ -43,7 +43,7 @@ class AdminDoctor extends PureComponent {
         email: this.state.email
       });
     } catch (error) {
-      console.error(error);
+      //console.error(error);
     }
   }
 
@@ -63,12 +63,12 @@ class AdminDoctor extends PureComponent {
     const promiseUnits = Api.getDoctorUnits(this.props.token, ID).then(resUnits => {
       const units = resUnits.map(e => e.id);
       this.setState({units});
-      console.log(units);
+      //console.log(units);
     });
     const promiseGeneralUnits = Api.getGeneralUnits(this.props.token).then(resUnits => {
       const generalUnits = resUnits.modules;
       this.setState({generalUnits});
-      console.log(generalUnits);
+      //console.log(generalUnits);
     });
     await Promise.all([promiseDoctor, promiseUnits, promiseGeneralUnits]).then(() => {
       this.setState({loading: false});

@@ -21,7 +21,7 @@ class FavoriteController extends PureComponent {
   setSearchValue = search => this.setState({ search });
 
   filterData = (data, filterOn) => {
-    console.log(data);
+  //console.log(data);
 
     const words = this.state.search.split(' ');
     let filtered = data.filter(e => JSON.parse(localStorage.getItem('favorites') || '[]').includes(e.id)).filter(e => words.map(s =>

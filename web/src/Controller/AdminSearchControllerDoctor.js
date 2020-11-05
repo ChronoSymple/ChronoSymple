@@ -60,7 +60,7 @@ class AdminSearchController extends PureComponent {
       await Api.deleteDoctor(this.props.token, id);
     }
     catch (e) {
-      console.error(e);
+      //console.error(e);
     }
   }
 
