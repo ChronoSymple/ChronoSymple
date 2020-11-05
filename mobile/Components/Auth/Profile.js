@@ -1,7 +1,7 @@
 // Components/Profile.js
 
 import React from 'react'
-import { View, Button, Image, Text, CameraRoll, ScrollView, StyleSheet, Dimensions, TouchableOpacity, TextInput, Modal, TouchableHighlight, ActivityIndicator} from 'react-native'
+import { View, Button, Image, Text, CameraRoll, StyleSheet, Dimensions, TouchableOpacity, TextInput, Modal, TouchableHighlight, ActivityIndicator} from 'react-native'
 import { colors, windowSize } from '../StyleSheet';
 import { connect } from 'react-redux'
 import { Colors } from 'react-native/Libraries/NewAppScreen';

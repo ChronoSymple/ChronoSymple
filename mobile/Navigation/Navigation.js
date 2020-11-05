@@ -6,7 +6,6 @@ import SignIn from '../Components/Auth/SignIn';
 import Home from '../Components/Home';
 import ModulePlace from '../Components/Modules/ModulePlace';
 import Profile from '../Components/Auth/Profile';
-import ModuleProfile from '../Components/Auth/ModuleProfile';
 import Calendar from '../Components/Modules/Calendar';
 import StatisticDiabete from '../Components/Modules/StatisticDiabete';
 import StatisticAsthma from '../Components/Modules/StatisticAsthma';
@@ -62,9 +61,6 @@ const CalendarStackNavigator = createStackNavigator({
 })
 
 const ProfileStackNavigator = createStackNavigator({
-	ModuleProfile: {
-		screen: ModuleProfile,
-	},
 	PasswordProfile: {
 		screen: PasswordProfile,
 	},
