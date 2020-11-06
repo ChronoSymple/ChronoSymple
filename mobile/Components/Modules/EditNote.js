@@ -1,6 +1,7 @@
 import React from 'react'
-import { View, Text, Button, TextInput, BackHandler, Picker, FlatList} from 'react-native'
-import { colors } from '../StyleSheet'
+import { View, Text, Button, TextInput, BackHandler, FlatList} from 'react-native';
+import { Picker } from '@react-native-community/picker';
+import { colors } from '../StyleSheet';
 import { connect } from 'react-redux';
 import { APIAddPatientNotes } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule, getUserCurrentModuleName } from '../../Redux/Action/action';

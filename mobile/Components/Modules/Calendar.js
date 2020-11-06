@@ -1,7 +1,7 @@
 // Components/Calendar.js
 
 import React from 'react'
-import { ActivityIndicator, View, Text, StyleSheet, Button, FlatList, TouchableOpacity, TouchableHighlight, BackHandler, Dimensions, SafeAreaView, Modal, Picker} from 'react-native'
+import { ActivityIndicator, View, Text, StyleSheet, Button, FlatList, TouchableOpacity, TouchableHighlight, BackHandler, Dimensions, SafeAreaView, Modal} from 'react-native'
 import { APIGetPatientNotesByDateIntervale,  APIRemovePatientNotes, APIShareNote, APIgetDoctorsOfModule, APIUnshareNote, APIDoctorOfNotes } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import { colors, windowSize } from '../StyleSheet';
@@ -999,7 +999,7 @@ class Calendar extends React.Component {
 				    visible={this.state.modalCheckboxVisible}
 				    style={styles.view}
 				    swipeDirection={'down'}
-					animationInTiming="3000"
+					animationInTiming={3000}
 					animationType="slide"
 					animationIn="slideInUp"
 				  	animationOut="slideOutDown"
@@ -1036,7 +1036,7 @@ class Calendar extends React.Component {
 					visible={this.state.modalCheckboxVisible}
 					style={styles.view}
 					swipeDirection={'down'}
-					animationInTiming="3000"
+					animationInTiming={3000}
 					animationType="slide"
 					animationIn="slideInUp"
 					animationOut="slideOutDown"
