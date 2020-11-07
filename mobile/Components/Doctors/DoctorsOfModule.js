@@ -8,13 +8,13 @@ import {
     Image,
     TouchableHighlight,
     Button,
+    FlatList,
 	} from 'react-native'
 import { APIgetDoctorsOfModule } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import { connect } from 'react-redux';
 import { styles, colors, windowSize } from '../StyleSheet';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { FlatList } from 'react-native-gesture-handler';
 import NetInfo from "@react-native-community/netinfo";
 
 class DoctorsOfModule extends React.Component {

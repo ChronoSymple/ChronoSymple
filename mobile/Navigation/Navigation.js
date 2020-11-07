@@ -6,7 +6,6 @@ import SignIn from '../Components/Auth/SignIn';
 import Home from '../Components/Home';
 import ModulePlace from '../Components/Modules/ModulePlace';
 import Profile from '../Components/Auth/Profile';
-import ModuleProfile from '../Components/Auth/ModuleProfile';
 import Calendar from '../Components/Modules/Calendar';
 import StatisticDiabete from '../Components/Modules/StatisticDiabete';
 import StatisticAsthma from '../Components/Modules/StatisticAsthma';
@@ -20,7 +19,6 @@ import Check from '../Components/CheckModule'
 import AProposProfile from '../Components/Auth/Profile/AProposProfile';
 import ContactProfile from '../Components/Auth/Profile/ContactProfile';
 import FAQProfile from '../Components/Auth/Profile/FAQProfile';
-import InfoProfile from '../Components/Auth/Profile/InfoProfile';
 import PasswordProfile from '../Components/Auth/Profile/PasswordProfile';
 import SupportProfile from '../Components/Auth/Profile/SupportProfile';
 import Settings from '../Components/Auth/Profile/Settings';
@@ -63,12 +61,6 @@ const CalendarStackNavigator = createStackNavigator({
 })
 
 const ProfileStackNavigator = createStackNavigator({
-	InfoProfile: {
-		screen: InfoProfile,
-	},
-	ModuleProfile: {
-		screen: ModuleProfile,
-	},
 	PasswordProfile: {
 		screen: PasswordProfile,
 	},

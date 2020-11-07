@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { View, Button, Text, TextInput, TouchableOpacity, TouchableHighlight, Flatlist } from 'react-native'
+import { View, Button, Text, TextInput, TouchableOpacity, TouchableHighlight } from 'react-native'
 import { styles, colors, windowSize } from '../../StyleSheet'
 import { connect } from 'react-redux'
 import { getUserToken } from '../../../Redux/Action/action';

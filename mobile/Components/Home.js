@@ -17,7 +17,7 @@ import {
 import NetInfo from "@react-native-community/netinfo";
 import { connect } from 'react-redux';
 import { getUserToken, saveUserCurrentModule, saveUserCurrentModuleName, getUserCurrentModule } from '../Redux/Action/action';
-import { ScrollView, TouchableHighlight} from 'react-native-gesture-handler';
+import { TouchableHighlight} from 'react-native-gesture-handler';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
