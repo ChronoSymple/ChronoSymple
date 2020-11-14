@@ -20,10 +20,7 @@ class CheckMOdule extends React.Component {
 
 	_bootstrapAsync = () => {
 		this.props.getUserCurrentModuleName().then(() => {
-			if (this.props.currentModuleName.currentModuleName == "diabetes")
-				this.props.navigation.navigate('StatisticDiabete')
-			else
-				this.props.navigation.navigate('StatisticAsthma')
+			this.props.navigation.navigate('Statistic' + this.props.currentModuleName.currentModuleName.charAt(0).toUpperCase() + this.props.currentModuleName.currentModuleName.slice(1))
 		}).catch(error => {
 			this.setState({ error })
 		})

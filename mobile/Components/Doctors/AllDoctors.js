@@ -6,14 +6,14 @@ import {
 	SafeAreaView,
 	FlatList,
     Text,
-    TouchableOpacity
+	Dimensions,
+	Alert
 } from 'react-native';
 import { connect } from 'react-redux';
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import DoctorsOfModule from "./DoctorsOfModule"
 import { colors } from '../StyleSheet'
 import { Icon } from 'react-native-elements'
-import { showMessage, hideMessage } from "react-native-flash-message";
 
 class AllDoctors extends React.Component {
 	constructor(props) {
@@ -64,25 +64,38 @@ class AllDoctors extends React.Component {
 		let { navigate } = this.props.navigation;
 		return (
 			<View style={{flex: 1}}>
-                <View style={{backgroundColor:colors.secondary, flex:1, flexDirection: 'column'}}>
-					<View style={{flex:1}}></View>
-					<View style={{flex:8, flexDirection: 'row', justifyContent:"space-between"}}>
-						<TouchableOpacity style={{margin: 10, flex: 2}}>
-							<Icon
-								name="arrow-back"
-								color="#FFF"
-								size={35}
-								onPress={() => navigate("Profile")}
-		    				/>
-						</TouchableOpacity>
-						<View style={{margin: 10, flex: 8, alignItems: "center", justifyContent: "center"}}>
-							<Text style={{color:"white", textAlign:'center', fontWeight: "bold", fontSize:22}}>
-								Tous les médecins
-							</Text>
-						</View>
-					</View>
-					<View style={{flex:1}}></View>
-				</View>
+                <View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row"}}>
+					<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
+            			<Icon
+						  	name="arrow-back"
+						  	color={"white"}
+						  	size={45}
+						  	onPress={() => { this.props.navigation.navigate('Profile') }}
+						  	style={{justifyContent: "flex-end"}}
+						/>
+            		</View>
+            		<View style={{flex: 6, justifyContent: "center", alignItems: "center"}}>
+            			<Text style={{color: "white", fontWeight: "bold", fontSize:22}}>Vos médecins</Text>
+            		</View>
+					<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
+            			<Icon
+						  	name="exit-to-app"
+						  	color={"white"}
+							size={45}
+							onPress={() => Alert.alert(
+								'Déconnexion',
+								"Etes vous sûr de vouloir vous déconnecter ?",
+								[
+									{text: 'Annuler', style: 'cancel'},
+									{text: 'OK', onPress: () => navigate('Logout')},
+								],
+								{ cancelable: false }
+							)}
+						  	style={{justifyContent: "flex-end"}}
+						/>
+            		</View>
+          		</View>
+				  
                 <View style={{flex: 9}}>
                     {this.state.loading && 
                     	<View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
@@ -91,13 +104,13 @@ class AllDoctors extends React.Component {
                     }
 				    { !this.state.loading && !this.state.Dmodules
 				    ?	
-				    	<View style={{flex: 1}}>
+						<View style={{flex: 1}}>
 				    		<Text style={{ marginBottom : 30, fontSize: 20 }}>
 				    			Aucun module actif
                     	        POUR UTILISER L'APPLICATION VOUS DEVEZ AJOUTER UN MODULE
 				    		</Text>
 				    	</View>
-				    :
+					:
 					 	<FlatList 
 					 		data={this.state.Dmodules} 
 					 		keyExtractor={(item) => item.id.toString()} 

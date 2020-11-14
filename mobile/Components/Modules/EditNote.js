@@ -1,39 +1,22 @@
 import React from 'react'
-import { View, Text, Button, TextInput, BackHandler, FlatList} from 'react-native';
-import { Picker } from '@react-native-community/picker';
-import { colors } from '../StyleSheet';
+import { View, Text, Button, TextInput, BackHandler, FlatList, Dimensions, Alert} from 'react-native'
 import { connect } from 'react-redux';
-import { APIAddPatientNotes } from '../../API/APIModule'
+import { APIEditPatientNotes, APIGetGeneralUnitId } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule, getUserCurrentModuleName } from '../../Redux/Action/action';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon_Ant from 'react-native-vector-icons/AntDesign';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { APIGetModules, APIGetNotesParameters } from "../../API/APIModule"
+import { styles, colors, windowSize, note_style } from '../StyleSheet'
+import { Picker } from '@react-native-community/picker';
 
 class EditNote extends React.Component {
-
+	
 	constructor(props) {
 		super(props)
-		let item = this.props.navigation.getParam("itemDetail")
-		var obj = item.data
-		console.log(item)
-		console.log(obj)
-		var now =  new Date()
-		var annee   = now.getFullYear();
-		var month    = now.getMonth() + 1;
-		var jour    = now.getDate();
-		var heure   = now.getHours();
-		var minute  = now.getMinutes();
-		
-		if (month < 10)
-			var date = jour + '/' + '0' + month + '/' + annee
-		else
-			var date = jour + '/' + month + '/' + annee
-		if (minute > 9)
-			var horaire = heure + ':' + minute
-		else
-			var horaire = heure + ':' + 0 + minute
+		var now =  new Date();
+
 		this.state = { 
 			pageToReturn: this.props.navigation.getParam("pageToReturn"),
 			glycemie: "", 
@@ -41,8 +24,9 @@ class EditNote extends React.Component {
 			insulineCorr: "", 
 			description: "",
 			whichLunch: "",
-			date: date,
-			time: horaire,
+			date: "",
+			time: "",
+			original_dt: new Date(Date.now() - (now.getTimezoneOffset() * 60 * 1000)),
 			isDateTimePickerVisible: false,
 			isTimePickerVisible: false,
 			textFiledFocusColor: colors.primary,
@@ -50,10 +34,9 @@ class EditNote extends React.Component {
 			bloodGlucoseFocused: false,
 			insulineFoodFocused: false,
 			InsulineaprepasFocused: false,
-			descriptionFocused: false
+			descriptionFocused: false,
+			noteSheme: []
 		}
-		this.props.getUserCurrentModule().then(() => {
-		})
 		this.getJson();
 	}
 
@@ -68,53 +51,33 @@ class EditNote extends React.Component {
 		let { navigate } = this.props.navigation;
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
-				APIGetModules(this.props.token.token).then(async data => {
+				APIGetGeneralUnitId(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
 					if (data.status == 200) {
 						let response = await data.json()
-						for (var i = 0; i < response.modules.length; i++) {
-							if (response.modules[i].name == this.props.currentModuleName.currentModuleName) {
-								APIGetNotesParameters(this.props.token.token, response.modules[i].id).then(async data => {
-									if (data.status == 200) {
-										var myTab = new Map()
-										var fieldsJSON = await data.json();
-										if (fieldsJSON != null) {
-											for (var values in fieldsJSON) {
-												myTab = myTab.set(fieldsJSON[values].tag, fieldsJSON[values].defaultText)
-											}
-										}
-										this.setState ({ 
-											fieldsJSON: fieldsJSON,
-											mytab: new Map(myTab)
-										})
-									} else if (data.status == 404 && data.status == 500) {
-										showMessage({
-											message: "Un probleme est survenus, vous allez être déconnecté",
-											type: "danger",
-										});
-										this.props.navigation.navigate("Logout");
-									} else {
-										showMessage({
-											message: "Un problème est survenus, nous n'avons pas réussis à récupérer vos médecins",
-											type: "danger",
-										});
+						APIGetNotesParameters(this.props.token.token, response.id).then(async data => {
+							if (data.status == 200) {
+								var myTab = new Map()
+								var fieldsJSON = await data.json();
+								if (fieldsJSON != null) {
+									for (var values in fieldsJSON) {
+										myTab = myTab.set(fieldsJSON[values].tag, this.fillField(fieldsJSON[values].tag))
 									}
-								}).catch(error => {
-										this.setState({ error })
+								}
+								this.setState ({ 
+									fieldsJSON: fieldsJSON,
+									mytab: new Map(myTab)
 								})
+								this.getParamTab();
 							}
-						}
-					} else if (data.status == 404 && data.status == 500) {
-						showMessage({
-							message: "Un probleme est survenus, vous allez être déconnecté",
-							type: "danger",
-						});
-						this.props.navigation.navigate("Logout");
-					} else {
-						showMessage({
-							message: "Un problème est survenus, nous n'avons pas réussis à récupérer la liste des modules",
-							type: "danger",
-						});
+							else {
+								return (null);
+							}
+						}).catch(error => {
+								this.setState({ error })
+						})
 					}
+					else
+						return (null)
 				}).catch(error => {
 						this.setState({ error })
 				})
@@ -122,6 +85,13 @@ class EditNote extends React.Component {
 		}).catch(error => {
 			this.setState({ error })
 		})
+	}
+
+	fillField = (fieldTag) => {
+		for (var value in this.state.noteSheme) {
+			if (fieldTag == value)
+				return (this.state.noteSheme[value])
+		}
 	}
 
 	_bootstrapAsync = () => {
@@ -134,7 +104,8 @@ class EditNote extends React.Component {
 		});
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
-				APIAddPatientNotes(this.props.token.token, object, this.props.currentModule.currentModule).then(data => {
+				APIEditPatientNotes(this.props.token.token, object, this.props.navigation.getParam('id'), this.state.original_dt).then(async data => {
+					let response = await data.json()
 					if (data.status == 200) {
 						this.setState({ isSend: true })
 						navigate("Calendar")
@@ -164,8 +135,10 @@ class EditNote extends React.Component {
 		this.setState({ isDateTimePickerVisible: false });
 	};
 
-	handleDatePicked = date => {
-		var date = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
+	handleDatePicked = datetime => {
+		this.setState({ original_dt: datetime});
+		var date = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear()
+		console.log(date)
 		this.setState({ date: date });
 		this.hideDateTimePicker();
 	};
@@ -178,157 +151,206 @@ class EditNote extends React.Component {
 		this.setState({ isTimePickerVisible: false });
 	};
 	 
-	handleTimePicked = time => {
-		if (time.getMinutes() > 9)
-			var horaire = time.getHours() + ':' + time.getMinutes()
+	handleTimePicked = datetime => {
+		this.setState({ original_dt: datetime});
+		if (datetime.getMinutes() > 9)
+			var horaire = datetime.getHours() + ':' + datetime.getMinutes()
 		else
-			var horaire = time.getHours() + ':' + "0" + time.getMinutes()
+			var horaire = datetime.getHours() + ':' + "0" + datetime.getMinutes()
 		this.setState({ time: horaire });
 		this.hideTimePicker();
 	};
-	//Sat Nov 09 2019 16:43:00 GMT+0900
+
+	getParamTab() {
+		BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+
+		let item2 = this.props.navigation.getParam('itemDetail')
+		let item = item2.data;
+		let tmp = this.state.noteSheme
+		if (item != null) {
+			for (var val in item) {
+				tmp.push({[val]: item[val]})
+			}
+		}
+		this.setState({
+			noteSheme : tmp
+		})
+		
+		for (var temp in item) {
+			this.setState({
+				mytab: this.state.mytab.set(temp, item[temp])
+			})
+		}
+
+		let itemDate = item2.date
+		console.log(itemDate)
+		var now =  new Date(item2.date)
+		console.log(now)
+		var annee   = now.getFullYear();
+		var month    = now.getMonth() + 1;
+		var jour    = now.getDate();
+		var heure   = now.getHours();
+		var minute  = now.getMinutes();
+		if (month < 10)
+			var date = jour + '/' + '0' + month + '/' + annee
+		else
+			var date = jour + '/' + month + '/' + annee
+		if (minute > 9)
+			var horaire = heure + ':' + minute
+		else
+			var horaire = heure + ':' + 0 + minute
+		this.setState({
+			date: date,
+			time: horaire,
+		})
+	}
+
 	checkFieldType = data => {
+		const iterator1 = this.state.mytab.values();
 		if (data.field_type == "text") {
 			return (
-				<View>
-					<View style={{flexDirection: "row"}}>
-						<View style={{flex:0.5}}></View>
-						<Text style={{fontSize: 15, textAlign: "center"}}>
-							{data.name}
+				<View style={note_style.row}>
+					<View style={note_style.text_label_box}>
+						<Text style={note_style.text_label}>
+							{data.name} :
 						</Text>
-						<View style={{flex:0.5}}></View>
-						<Icon
-							style={{flex:1}}
-							name={data.icon_name}
-							color={data.icon_color}
-							size={35}
-						/>
+					</View>
+					<View style={{flex: 5, paddingLeft: 10, paddingRight: 20}}>
 						<View style={{flex:0.5}}></View>
 						<TextInput
 							pattern="[0-9]{10}"
 							keyboardType={data.keyboardType}
-							placeholder={data.placeholder}
+							placeholder={this.state.mytab.get(data.tag)}
 							autoCorrect={false}
 							onChangeText={(text) => this._changeTabValue(data.tag, text)}
-							value={this.state.mytab.get[data.tag]}
+							value={this.state.mytab.get(data.tag)}
 						/>
 						<View style={{flex:0.5}}></View>
 					</View>				
-				</View>
+				</View>				
 			);
 		}
 		else if (data.field_type == "select") {
 			let myUsers = data.select_values.map((myValue, myIndex)=>{
 				return(
-					<Picker.Item label={myValue} value={myIndex}/>
+					<Picker.Item label={myValue} value={myValue}/>
 				)
 			});
 			return (
-				<View>
-					<View style={{flexDirection: "row"}}>
-						 <View style={{flex:0.5}}></View>
-						<Text style={{flex:4, fontSize: 15, paddingTop: 20}}>
+				<View style={note_style.row}>
+					<View style={note_style.text_label_box}>
+						<Text style={note_style.text_label}>
 							{data.name}
 						</Text>
-						<View style={{flex:0.5}}></View>
+					</View>
+					<View style={{flex: 5, paddingLeft: 10, paddingRight: 20}}>
 						<Picker
-  							selectedValue={this.state.mytab.get(data.tag)}
-							style={{ flex:5}}
+							selectedValue={this.state.mytab.get(data.tag)}
+							style={{alignItems: 'center'}}
 							onValueChange={(itemValue, itemIndex) => this._changeTabValue(data.tag, itemValue)}>
 							{myUsers}
 						</Picker>
-						<View style={{flex:0.5}}></View>
-					</View>	
-				</View>
+					</View>
+				</View>	
 			);
 		}
 	};
 	
-  	render() {
+	render() {
 		let { navigate } = this.props.navigation;
     	return (
 			<View style={{flex:1}}>
-				<View style={{backgroundColor:colors.secondary, flex:1, flexDirection: 'column'}}>
-					<View style={{flex:1}}></View>
-					<View style={{flex:8, flexDirection: 'row', justifyContent:"space-between"}}>
-						<TouchableHighlight style={{margin: 10}}>
-							<Icon
-								name="clear"
-								color="#FFF"
-								size={35}
-								onPress={() => navigate("Calendar")}
-		    				/>
-						</TouchableHighlight>
-						<TouchableHighlight style={{margin: 10}}>
-							<Icon
-								name="check"
-								color="#FFF"
-								size={35}
-								onPress={() => this._bootstrapAsync()}
-		    				/>
-						</TouchableHighlight>
-					</View>
-					<View style={{flex:1}}></View>
-				</View>
-				<View style={{ flex: 1}}></View>
-				<View style={{ flex: 2, justifyContent: "center", alignCOntent: 'center'}}>
-					<View style={{flex: 0.5}}></View>
-					<View style={{flex: 4.25, fontSize: 20, flexDirection:"row"}}>
-						<View style={{ flex: 1.5}}></View>
-						<Icon_Ant
-							name="clockcircleo"
-							color="#000"
-							size={40}
-							onPress={this.showDateTimePicker}
+				<View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row"}}>
+            		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
+						<Icon
+						  	name="clear"
+						  	color={"white"}
+							size={45}
+							onPress={() => Alert.alert(
+								"",
+								"Toutes vos modifications seront annulées !",
+								[
+									{text: 'Annuler', style: 'cancel'},
+									{text: 'OK', onPress: () => navigate('Calendar')},
+								],
+								{ cancelable: false }
+							)}
+						  	style={{justifyContent: "flex-end"}}
 						/>
-						<View style={{ flex: 1.5}}></View>
-						<View style={{ flex: 5}}>
-        					<Button style={{fontSize: 20, borderRadius: 15,	borderWidth: 4,	borderColor: colors.primary }} color={colors.primary} title={this.state.date} onPress={this.showDateTimePicker} />
-        					<DateTimePicker
-        					  	isVisible={this.state.isDateTimePickerVisible}
-        					  	onConfirm={this.handleDatePicked}
-        					  	onCancel={this.hideDateTimePicker}
-			    		 	/>
-						</View>
-						<View style={{ flex: 1}}></View>
-					</View>
-					<View style={{flex: 0.5}}></View>
-					<View style={{flex: 4.25, flexDirection:"row"}}>
-						<View style={{ flex: 1.5}}></View>
-						<Icon_Ant
-							name="calendar"
-							color="#000"
-							size={40}
-							onPress={this.showTimePicker}
+            		</View>
+            		<View style={{flex: 6}}>
+            		</View>
+            		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
+            			<Icon
+						  	name="check"
+						  	color={"white"}
+							size={45}
+						  	onPress={() => this._bootstrapAsync()}
+						  	style={{justifyContent: "flex-end"}}
 						/>
-						<View style={{ flex: 1.5}}></View>
-						<View style={{ flex: 5}}>
-        					<Button style={{fontSize: 20, borderRadius: 15,	borderWidth: 4,	borderColor: colors.primary }} color={colors.primary}  title={this.state.time} onPress={this.showTimePicker} />
-        					<DateTimePicker
-								mode="time"
-        						isVisible={this.state.isTimePickerVisible}
-        						onConfirm={this.handleTimePicked}
-								onCancel={this.hideTimePicker}
+            		</View>
+          		</View>
+				<View style={{flex:9}}>
+					<View style={{flex:2}}>
+						<View style={note_style.date_time}>
+							<Icon_Ant
+								name="calendar"
+								color="#000"
+								size={40}
+								style={{paddingRight: 20}}
+								onPress={this.showDateTimePicker}
 							/>
+							<View style={{width: 150}}>
+								<Button 
+									color={colors.primary} 
+									title={this.state.date} 
+									onPress={this.showDateTimePicker} 
+								/>
+								<DateTimePicker
+									date={this.state.original_dt}
+								  	isVisible={this.state.isDateTimePickerVisible}
+								  	onConfirm={this.handleDatePicked}
+								  	onCancel={this.hideDateTimePicker}
+			    			 	/>
+			    			</View>
 						</View>
-						<View style={{ flex: 1}}></View>
+						<View style={note_style.date_time}>
+							<Icon_Ant
+								name="clockcircleo"
+								color="#000"
+								size={40}
+								style={{paddingRight: 20}}
+								onPress={this.showTimePicker}
+							/>
+							<View style={{width: 150}}>
+								<Button
+									color={colors.primary} 
+									title={this.state.time} 
+									onPress={this.showTimePicker} 
+								/>
+								<DateTimePicker
+									mode="time"
+									date={this.state.original_dt}
+									isVisible={this.state.isTimePickerVisible}
+									onConfirm={this.handleTimePicked}
+									onCancel={this.hideTimePicker}
+								/>
+							</View>
+						</View>
 					</View>
-					<View style={{flex: 0.5}}></View>
+					<View style={{flex: 8, marginTop: 10}}>
+						{this.state.fieldsJSON
+							&&
+							<FlatList
+							data={this.state.fieldsJSON}
+							keyExtractor={(item, index) => index.toString()}
+							renderItem={({item}) => (
+								this.checkFieldType(item)
+								)}
+								/>
+							}
+					</View>
 				</View>
-				<View style={{flex: 1}}></View>
-				<View style={{flex: 5}}>
-				{this.state.fieldsJSON
-					&&
-					<FlatList
-					data={this.state.fieldsJSON}
-					keyExtractor={(item) => item.toString()}
-					renderItem={({item}) => (
-						this.checkFieldType(item)
-						)}
-					/>
-				}
-				</View>
-				<View style={{ flex: 1}}></View>
 			</View>
 		)
 	}
@@ -337,8 +359,7 @@ class EditNote extends React.Component {
 		BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
 	}
 
-
-	UNSAFE_componentWillUnmount() {
+	componentWillUnmount() {
 		BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
 	}
 
@@ -361,379 +382,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditNote);
-
-/*import React from 'react'
-
-import { View, Text, Button, TextInput, ScrollView, BackHandler, Image, Picker} from 'react-native'
-import { LoginAPatientWithApi } from '../../API/APIConnection'
-import { styles, colors, windowSize } from '../StyleSheet'
-import { connect } from 'react-redux';
-import { APIEditPatientNotes } from '../../API/APIModule'
-import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
-import DateTimePicker from "react-native-modal-datetime-picker";
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import Icon_Ant from 'react-native-vector-icons/AntDesign';
-import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
-
-class EditNote extends React.Component {
-
-	constructor(props) {
-		super(props)
-		let item = this.props.navigation.getParam("itemDetail")
-		obj = item.data
-		this.state = { 
-			id: item.id, 
-			BloodGlucose: obj.BloodGlucose, 
-			InsulineFood: obj.InsulineFood, 
-			InsulineCorr: obj.InsulineCorr, 
-			description: obj.description,
-			wichLunch: obj.wichLunch,
-			date: obj.date,
-			time: obj.time,
-			isDateTimePickerVisible: false,
-			isTimePickerVisible: false,
-			isInvalid: false,
-			textFiledFocusColor: colors.primary,
-			bloodGlucoseFocused: false,
-			insulineFoodFocused: false,
-			InsulineaprepasFocused: false,
-			descriptionFocused: false
-		}
-		this.props.getUserCurrentModule().then(() => {
-		})
-	}
-	
-	_bootstrapAsync = () => {
-		let { navigate } = this.props.navigation;
-		let myTab = {
-			"BloodGlucose" : this.state.BloodGlucose,
-			"InsulineFood" : this.state.InsulineFood,
-			"InsulineCorr" : this.state.InsulineCorr,
-			"description"  : this.state.description,
-			"wichLunch"    : this.state.wichLunch,
-			"date"		   : this.state.date,
-			"time"         : this.state.time
-		}
-		this.props.getUserToken().then(() => {
-			this.props.getUserCurrentModule().then(() => {
-				APIEditPatientNotes(this.props.token.token, myTab, this.state.id).then(data => {
-					if (data.status == 200) {
-						this.setState({ isSend: true })
-						navigate("Calendar")
-					} else if (data.status == 404 && data.status == 500) {
-						showMessage({
-							message: "Un probleme est survenus, vous allez être déconnecté",
-							type: "danger",
-						});
-						this.props.navigation.navigate("Logout");
-					} else {
-						showMessage({
-							message: "La note n'a pas pu être édité, réessayez plus tard",
-							type: "danger",
-						});
-					}
-				}).catch(error => {
-						this.setState({ error })
-				})
-			})
-		}).catch(error => {
-			this.setState({ error })
-		})
-	}
-
-	setBloodGlucose = (text) => {
-		this.setState({ BloodGlucose: text })
-	}
-
-	setInsulineFood = (text) => {
-	    this.setState({ InsulineFood: text})
-	}
-
-	setInsulineCorr = (text) => {
-	    this.setState({ InsulineCorr: text})
-	}
-
-	setDescription = (text) => {
-	    this.setState({ description: text})
-	}
-
-	textFieldFocused = (state) => {
-		this.setState({[state]: true})
-	}
-
-	textFieldBlured = (state) => {
-		this.setState({[state]: false})
-	}
-
-	showDateTimePicker = () => {
-		this.setState({ isDateTimePickerVisible: true });
-	};
-	 
-	hideDateTimePicker = () => {
-		this.setState({ isDateTimePickerVisible: false });
-	};
-	 
-	handleDatePicked = date => {
-		var date = date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
-		this.setState({ date: date });
-		this.hideDateTimePicker();
-	};
-
-	showTimePicker = () => {
-		this.setState({ isTimePickerVisible: true });
-	};
-	 
-	hideTimePicker = () => {
-		this.setState({ isTimePickerVisible: false });
-	};
-	 
-	handleTimePicked = time => {
-		if (time.getMinutes() > 9)
-			var horaire = time.getHours() + ':' + time.getMinutes()
-		else
-			var horaire = time.getHours() + ':' + "0" + time.getMinutes()
-		this.setState({ time: horaire });
-		this.hideTimePicker();
-	};
-
-  	render() {
-		let { navigate } = this.props.navigation;
-		let placeholder_glycemie			= "mmol/L";
-		let placeholder_insuline 			= "Unité";
-		let placeholder_description		 	= "ex: j'ai mangé...";
-		let errorMessage 					= "Ne message n'a pas été envoyé";
-		let bloodGlucoseFocused				= "bloodGlucoseFocused";
-		let insulineFoodFocused 			= "insulineFood";
-		let insulineCorrFocused 			= "insulineCorr";
-		let descriptionFocused				= "descriptionFocused";
-
-    		return (
-				<View style={{flex:1}}>
-					<View style={{backgroundColor:colors.secondary, flex:1, flexDirection: 'column'}}>
-						<View style={{flex:1}}></View>
-						<View style={{flex:8, flexDirection: 'row', justifyContent:"space-between"}}>
-							<TouchableHighlight style={{margin: 10}}>
-								<Icon
-									name="clear"
-									color="#FFF"
-									size={35}
-									onPress={() => navigate("Calendar")}
-			    				/>
-							</TouchableHighlight>
-							<Text style={{textSize:65, color: "white", margin: 10}}>EDITER</Text>
-							<TouchableHighlight style={{margin: 10}}>
-								<Icon
-									name="check"
-									color="#FFF"
-									size={35}
-									onPress={() => this._bootstrapAsync()}
-			    				/>
-							</TouchableHighlight>
-						</View>
-						<View style={{flex:1}}></View>
-					</View>
-					<View style={{ flex: 1}}></View>
-					<View style={{ flex: 2, justifyContent: "center", alignCOntent: 'center'}}>
-						<View style={{flex: 0.5}}></View>
-						<View style={{flex: 4.25, fontSize: 20, flexDirection:"row"}}>
-							<View style={{ flex: 1.5}}></View>
-							<Icon_Ant
-								name="clockcircleo"
-								color="#000"
-								size={40}
-								onPress={this.showDateTimePicker}
-							/>
-							<View style={{ flex: 1.5}}></View>
-							<View style={{ flex: 5}}>
-        						<Button style={{fontSize: 20, borderRadius: 15,	borderWidth: 4,	borderColor: colors.primary }} color={colors.primary} title={this.state.date} onPress={this.showDateTimePicker} />
-        						<DateTimePicker
-        						  	isVisible={this.state.isDateTimePickerVisible}
-        						  	onConfirm={this.handleDatePicked}
-        						  	onCancel={this.hideDateTimePicker}
-				    		 	/>
-							</View>
-							<View style={{ flex: 1}}></View>
-						</View>
-						<View style={{flex: 0.5}}></View>
-						<View style={{flex: 4.25, flexDirection:"row"}}>
-							<View style={{ flex: 1.5}}></View>
-							<Icon_Ant
-								name="calendar"
-								color="#000"
-								size={40}
-								onPress={this.showTimePicker}
-							/>
-							<View style={{ flex: 1.5}}></View>
-							<View style={{ flex: 5}}>
-        						<Button style={{fontSize: 20, borderRadius: 15,	borderWidth: 4,	borderColor: colors.primary }} color={colors.primary}  title={this.state.time} onPress={this.showTimePicker} />
-        						<DateTimePicker
-									mode="time"
-        							isVisible={this.state.isTimePickerVisible}
-        							onConfirm={this.handleTimePicked}
-									onCancel={this.hideTimePicker}
-								/>
-							</View>
-							<View style={{ flex: 1}}></View>
-						</View>
-						<View style={{flex: 0.5}}></View>
-					</View>
-					<View style={{ flex: 1}}></View>
-					<View style={{ flex: 5, justifyContent: "center"}}>
-							<View style={{flexDirection: "row"}}>
-								<View style={{flex:0.5}}></View>
-								<Text style={{fontSize: 15}}>
-									Glucose
-								</Text>
-								<View style={{flex:0.5}}></View>
-								<Icon
-									style={{flex:1}}
-									name="bubble-chart"
-									color="#ffbb00"
-									size={35}
-								/>
-								<View style={{flex:0.5}}></View>
-								<TextInput
-									pattern="[0-9]{10}"
-									keyboardType="numeric"
-									onFocus={() => this.textFieldFocused(bloodGlucoseFocused)}
-									onBlur={() => this.textFieldBlured(bloodGlucoseFocused)}
-									placeholder={placeholder_glycemie}
-									style={[this.state[bloodGlucoseFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5, flex:4 }]}
-									autoCorrect={false}
-									onChangeText={(text) => this.setBloodGlucose(text)}
-									value={this.state.BloodGlucose}
-								/>
-								<View style={{flex:0.5}}></View>
-
-							</View>
-							<View style={{flexDirection: "row"}}>
-								<View style={{flex:0.5}}></View>
-								<Text style={{fontSize: 15}}>
-									Insuline (Nourr.)
-								</Text>
-								<View style={{flex:0.5}}></View>
-								<Icon
-									style={{flex:1}}
-									name="lens"
-									color="#b2ff00"
-									size={35}
-								/>
-								<View style={{flex:0.5}}></View>
-								<TextInput
-									pattern="[0-9]{10}"
-									keyboardType="numeric"
-									onFocus={() => this.textFieldFocused(insulineFoodFocused)}
-									onBlur={() => this.textFieldBlured(insulineFoodFocused)}
-									placeholder={placeholder_insuline}
-									style={[this.state[insulineFoodFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5, flex:4 }]}
-									autoCorrect={false}
-									onChangeText={(text) => this.setInsulineFood(text)}
-									value={this.state.InsulineFood}
-								/>
-								<View style={{flex:0.5}}></View>
-							</View>
-							<View style={{flexDirection: "row"}}>
-								<View style={{flex:0.5}}></View>
-								<Text style={{fontSize: 15}}>
-									Insuline (Corr.)
-								</Text>
-								<View style={{flex:0.5}}></View>
-								<Icon
-									style={{flex:1}}
-									name="label"
-									color="red"
-									size={35}
-								/>
-								<View style={{flex:0.5}}></View>
-								<TextInput
-									pattern="[0-9]{10}"
-									keyboardType="numeric"
-									onFocus={() => this.textFieldFocused(insulineCorrFocused)}
-									onBlur={() => this.textFieldBlured(insulineCorrFocused)}
-									placeholder={placeholder_insuline}
-									style={[this.state[insulineCorrFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5, flex:4 }]}
-									autoCorrect={false}
-									onChangeText={(text) => this.setInsulineCorr(text)}
-									value={this.state.InsulineCorr}
-								/>
-								<View style={{flex:0.5}}></View>
-							</View>
-							<View style={{flexDirection: "row"}}>
-								<View style={{flex:0.5}}></View>
-								<Text style={{fontSize: 15}}>
-									Description
-								</Text>
-								<View style={{flex:0.5}}></View>
-								<Icon
-									style={{flex:1}}
-									name="textsms"
-									color="#00bfff"
-									size={35}
-									onPress={() => navigate("Calendar")}
-								/>
-								<View style={{flex:0.5}}></View>
-								<TextInput
-									onFocus={() => this.textFieldFocused(descriptionFocused)}
-									onBlur={() => this.textFieldBlured(descriptionFocused)}
-									placeholder={placeholder_description}
-									style={[this.state[descriptionFocused] ? styles.textFieldFocus : styles.textField, { width: windowSize.x / 1.5, flex:4 }]}
-									autoCorrect={false}
-									onChangeText={(text) => this.setDescription(text)}
-									value={this.state.description}
-								/>
-								<View style={{flex:0.5}}></View>
-							</View>
-							<View style={{flexDirection: "row"}}>
-								<View style={{flex:0.5}}></View>
-								<Text style={{fontSize: 15}}>
-									Quelle période ?
-								</Text>
-								<View style={{flex:0.5}}></View>
-								<Picker
-  									selectedValue={this.state.wichLunch}
-  									style={{ flex:5}}
-  									onValueChange={(itemValue, itemIndex) =>
-  									  this.setState({wichLunch: itemValue})
-  									}>
-  									<Picker.Item label="Petit déjeuner" value="Petit déjeuner" />
-  									<Picker.Item label="Repas" value="Repas" />
-  									<Picker.Item label="Goûter" value="Gouter" />
-  									<Picker.Item label="Grignotage" value="Grignotage" />
-  									<Picker.Item label="Dîner" value="Diner" />
-								</Picker>
-								<View style={{flex:0.5}}></View>
-							</View>
-					</View>
-					<View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
-									{this.state.isInvalid && <Text style={{ color: colors.errorColor }}>{errorMessage}</Text>}
-					</View>
-					<View style={{flex: 0.5}}></View>
-				</View>
-			)
-	}
-
-	componentDidMount() {
-		BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
-	}
-
-	componentWillUnmount() {
-		BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
-	}
-
-	handleBackPress = () => {
-		this.props.navigation.navigate('Calendar')
-		return true;
-	}
-}
-
-const mapStateToProps = state => ({
-	token: state.token,
-	currentModule: state.currentModule
-});
-
-const mapDispatchToProps = dispatch => ({
-	getUserToken: () => dispatch(getUserToken()),
-	getUserCurrentModule: () => dispatch(getUserCurrentModule())
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditNote);*/

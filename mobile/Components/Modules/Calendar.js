@@ -3,7 +3,7 @@
 import React from 'react'
 import { ActivityIndicator, View, Text, StyleSheet, Button, FlatList, TouchableOpacity, TouchableHighlight, BackHandler, Dimensions, SafeAreaView, Modal} from 'react-native'
 import { APIGetPatientNotesByDateIntervale,  APIRemovePatientNotes, APIShareNote, APIgetDoctorsOfModule, APIUnshareNote, APIDoctorOfNotes } from '../../API/APIModule'
-import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
+import { getUserToken, getUserCurrentModule, getUserCurrentModuleName } from '../../Redux/Action/action';
 import { colors, windowSize } from '../StyleSheet';
 import ModalFilter from "./ModalFilter"
 import { connect } from 'react-redux'
@@ -13,10 +13,7 @@ import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import Modal2 from "react-native-modal";
 import CalendarPicker from 'react-native-calendar-picker'
 import { showMessage, hideMessage } from "react-native-flash-message";
-import { StackActions } from 'react-navigation';
 import NetInfo from "@react-native-community/netinfo";
-
-
 
 class Calendar extends React.Component {
 
@@ -70,6 +67,7 @@ class Calendar extends React.Component {
 			modalManySelected: false,
 			modalOneSelected: false,
 			notes: [],
+			editNote: [],
 			displayDoctor: false,
 			doctorOfNote: "",
 			doctorsOfModule: [],
@@ -78,7 +76,13 @@ class Calendar extends React.Component {
 			shared: new Map(),
 			modalVisible: false,
 			modalInternetVisible: false,
+			currentModuleName: null
 		}
+		this.props.getUserCurrentModuleName().then(() => {
+			this.setState({
+				currentModuleName: this.props.currentModuleName.currentModuleName,
+			})
+		})
 		//this.hideFilterModal = this.hideFilterModal().bind(this)
 		this._bootstrapAsync();
 		const { navigation } = this.props;
@@ -381,11 +385,12 @@ class Calendar extends React.Component {
 			loading: true
 		  })
 		  this._bootstrapAsync();
+		  month  = parseInt(this.state.actualDateBeginMonth, 10) + 1
+		  if (month >= 12) {
+			year = parseInt(this.state.actualDateBeginYear, 10) + 1
+			month = 1
+		  }
 		  return
-		} month  = parseInt(this.state.actualDateBeginMonth, 10) + 1	
-		if (month >= 12) {
-		  year = parseInt(this.state.actualDateBeginYear, 10) + 1
-		  month = 1
 		}
 		else if (this.state.datasMode == this.state.adminEnum.Week) {
 			var dateBeginDay = this.state.actualDateBeginDay + 7
@@ -503,10 +508,6 @@ class Calendar extends React.Component {
 
 	_bootstrapAsync = () => {
 		NetInfo.fetch().then((state) => {
-			console.log(
-				'is connected: ' +
-				state.isConnected
-			);
 			if (state.isConnected == true) {
 				this.setInternetModal(false)
 			} else {
@@ -548,7 +549,7 @@ class Calendar extends React.Component {
 	{
 		var date = new Date(dateStr);
 		date = date.toDateString()
-		nameOfDay = date.substr(0, date.indexOf(' '))
+		var nameOfDay = date.substr(0, date.indexOf(' '))
 		if (nameOfDay == "Mon")
 		  return 1
 		else if (nameOfDay == "Tue")
@@ -738,6 +739,14 @@ class Calendar extends React.Component {
 		return(dateDate + '/' + dateMonth + '/' + dateYear)
 	  }
 	  
+	  	_editNote = () => {
+			this.setState({
+				selectedNotes: []
+			})
+			this.setModalCheckboxVisible(false);
+			this.props.navigation.navigate('EditNote', {"itemDetail": this.state.editNote, "id": this.state.selectedNotes[0]});
+	  	}
+
 	  _deleteNote = () => {
 		this.setModalCheckboxVisible(false);
 		let notes = this.state.selectedNotes;
@@ -789,17 +798,15 @@ class Calendar extends React.Component {
 	}
 
 	showFilterModal = () => {
-		console.log("VISBLE")
 		this.setState({
 			modalVisible: true
-		}, () => {console.log(this.state.modalVisible)})
+		}, () => {})
 	}
 
 	hideFilterModal = () => {
-		console.log("HIDE")
 		this.setState({
 			modalVisible: false
-		}, () => {console.log(this.state.modalVisible)})
+		}, () => {})
 		this.setModalCheckboxVisible(false);
 	}
 
@@ -876,7 +883,7 @@ class Calendar extends React.Component {
 		let time2 = time.split(":")
 		return (
 			<Text style={styles.noteText}>
-				{time2[0]}H {time2[1]}:{time2[2].substr(0, time2[2].indexOf("."))}
+				{time2[0]}h{time2[1]}
 			</Text>
 		);
 	}
@@ -930,11 +937,41 @@ class Calendar extends React.Component {
 					modalHide={this.hideFilterModal}
 					callBack={ () => { this.shareNote() } }
 				/>
-				<View style={{flex: 0.8, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width}}>
-	         		<Text style={{color:"white", textAlign:'center', fontWeight: "bold", fontSize: 22}}>
-	         			Toutes vos notes
-	         		</Text>
-	         	</View>
+				<View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row"}}>
+            		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
+            	  		<Icon
+						  	name="home"
+						  	color={"white"}
+						  	size={45}
+						  	onPress={() => { this.props.navigation.navigate('Home') }}
+						  	style={{justifyContent: "flex-end"}}
+						/>
+            		</View>
+            		<View style={{flex: 6, justifyContent: "center", alignItems: "center"}}>
+            			<Text style={{color: "white", fontWeight: "bold", fontSize:22}}>Calendrier</Text>
+						{
+							this.state.currentModuleName == "diabetes" &&
+								<Text style={{color: "white", fontSize: 18}}>Diabètes</Text>
+						}
+						{
+							this.state.currentModuleName == "asthma" &&
+								<Text style={{color: "white", fontSize: 18}}>Asthme</Text>
+						}
+						{
+							this.state.currentModuleName == "hypertension" &&
+								<Text style={{color: "white", fontSize: 18}}>Hypertension</Text>
+						}
+            		</View>
+            		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
+            			<Icon
+						  	name="person"
+						  	color={"white"}
+						  	size={45}
+							onPress={() => { this.props.navigation.navigate('Infos', {"pageToReturn": "Calendar"})}}
+						  	style={{justifyContent: "flex-end"}}
+						/>
+            		</View>
+          		</View>
          		<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignContent: "stretch", width: Dimensions.get('window').width}}>
          			<View style={{flex: 1.8}}>
          		    	<Button color={this.state.firstButton} onPress={() => {this._handleChangeDatasMode(3)}} title={"Mois"}/>
@@ -950,50 +987,80 @@ class Calendar extends React.Component {
          		   	</View>
          		</View>
 
-				 { this.state.notes.length == 1 && this.state.selectedNotes.length == 1
+				 { this.state.selectedNotes.length == 1
 				 ?
-				 <Modal2
-				    visible={this.state.modalCheckboxVisible}
-				    style={styles.view}
-				    swipeDirection={'down'}
-					animationInTiming={3000}
-					animationType="slide"
-					animationIn="slideInUp"
-				  	animationOut="slideOutDown"
-					onSwipeComplete={() => this.setModalCheckboxVisible(false)}
-					transparent={true}
-					backdropColor="rgba(0,0,0,0)"
-					onBackdropPress = {() => this.setModalCheckboxVisible(false)}>
-				    	<View style={styles.modalContent}>
-							<TouchableHighlight style={{margin: 1}}>
-								<Icon
-									name="clear"
-									color="#62BE87"
-									size={35}
-									onPress={() => { this.setModalCheckboxVisible(false) }}
-	    						/>
-							</TouchableHighlight>
-							<View style={styles.modalContentCenter}>
-								<TouchableOpacity style={{ alignItems: 'center', height: windowSize.y / 10 }} onPress={() => { this.exportPDFPressed() }}>
-									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Exporter sous PDF </Text>
+				 	this.state.notes.length == 1
+				 	?
+				 	<Modal2
+				    	visible={this.state.modalCheckboxVisible}
+				    	style={styles.view}
+				    	swipeDirection={'down'}
+						animationInTiming="3000"
+						animationType="slide"
+						animationIn="slideInUp"
+				  		animationOut="slideOutDown"
+						onSwipeComplete={() => this.setModalCheckboxVisible(false)}
+						transparent={true}
+						backdropColor="rgba(0,0,0,0)"
+						onBackdropPress = {() => this.setModalCheckboxVisible(false)}>
+					    	<View style={styles.modalContent}>
+								<View style={styles.modalContentCenter}>
+									<TouchableOpacity style={{ alignItems: 'center', height: windowSize.y / 10 }} onPress={() => { this.exportPDFPressed() }}>
+										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Exporter sous PDF </Text>
+									</TouchableOpacity>
+									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.setModalCheckboxVisible(false), this.showFilterModal()}}>
+										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager </Text>
+									</TouchableOpacity>
+									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.setModalCheckboxVisible(false), this.unshareNote() }}>
+										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Ne plus partager </Text>
+									</TouchableOpacity>
+									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => this._editNote()}>
+										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Editer </Text>
+									</TouchableOpacity>
+									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {this._deleteNote()}}>
+										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Supprimer </Text>
+									</TouchableOpacity>
+								</View>
+					  		</View>
+					</Modal2>
+					:
+					<Modal2
+					    visible={this.state.modalCheckboxVisible}
+					    style={styles.view}
+					    swipeDirection={'down'}
+						animationInTiming="3000"
+						animationType="slide"
+						animationIn="slideInUp"
+				  		animationOut="slideOutDown"
+						onSwipeComplete={() => this.setModalCheckboxVisible(false)}
+						transparent={true}
+						backdropColor="rgba(0,0,0,0)"
+						onBackdropPress = {() => this.setModalCheckboxVisible(false)}>
+				    		<View style={styles.modalContent}>
+								<View style={styles.modalContentCenter}>
+									<TouchableOpacity style={{ alignItems: 'center', height: windowSize.y / 10 }} onPress={() => { this.selectAllPressed() }}>
+										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Tout Selectionner </Text>
+									</TouchableOpacity>
+									<TouchableOpacity style={{ alignItems: 'center', height: windowSize.y / 10 }} onPress={() => { this.exportPDFPressed() }}>
+										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Exporter sous PDF </Text>
+									</TouchableOpacity>
+									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {  this.showFilterModal() }}>
+										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager </Text>
+									</TouchableOpacity>
+									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.unshareNote() }}>
+										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Ne plus partager </Text>
+									</TouchableOpacity>
+									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => this._editNote()}>
+										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Editer </Text>
+									</TouchableOpacity>
+									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {this._deleteNote()}}>
+										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Supprimer </Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {  this.showFilterModal() }}>
-									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager </Text>
-								</TouchableOpacity>
-								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.unshareNote() }}>
-									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Ne plus partager </Text>
-								</TouchableOpacity>
-								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => this.props.navigation.navigate('EditNote', {itemDetail: this.state.selectedNotes[0]})}>
-									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Editer </Text>
-								</TouchableOpacity>
-								<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {this._deleteNote()}}>
-									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Supprimer </Text>
-								</TouchableOpacity>
-							</View>
-				  		</View>
-				</Modal2>
+								</View>
+				  			</View>
+					</Modal2>
 				:
-				this.state.selectedNotes.length == this.state.notes.length 
+				this.state.selectedNotes.length > 0 && this.state.selectedNotes.length == this.state.notes.length 
 				?				
 				<Modal2
 				    visible={this.state.modalCheckboxVisible}
@@ -1007,14 +1074,6 @@ class Calendar extends React.Component {
 					backdropColor="rgba(0,0,0,0)"
 					onBackdropPress = {() => this.setModalCheckboxVisible(false)}>
 				    	<View style={styles.modalContent}>
-							<TouchableHighlight style={{margin: 1}}>
-								<Icon
-									name="clear"
-									color="#62BE87"
-									size={35}
-									onPress={() => { this.setModalCheckboxVisible(false) }}
-	    						/>
-							</TouchableHighlight>
 							<View style={styles.modalContentCenter}>
 								<TouchableOpacity style={{ alignItems: 'center', height: windowSize.y / 10 }} onPress={() => { this.exportPDFPressed() }}>
 									<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Exporter sous PDF </Text>
@@ -1044,14 +1103,6 @@ class Calendar extends React.Component {
 					backdropColor="rgba(0,0,0,0)"
 					onBackdropPress = {() => this.setModalCheckboxVisible(false)}>
 					<View style={styles.modalContent}>
-						<TouchableHighlight style={{margin: 1}}>
-							<Icon
-								name="clear"
-								color="#62BE87"
-								size={35}
-								onPress={() => { this.setModalCheckboxVisible(false) }}
-							/>
-						</TouchableHighlight>
 						<View style={styles.modalContentCenter}>
 							<TouchableOpacity style={{ alignItems: 'center', height: windowSize.y / 10 }} onPress={() => { this.selectAllPressed() }}>
 								<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Tout Selectionner </Text>
@@ -1083,19 +1134,19 @@ class Calendar extends React.Component {
        			   	  	<View style={styles.modalView}>
        			   	  	  	<Text>{this.displaytDate(startDate)} {this.displaytDate(endDate)}</Text>
        			   	  	  	<CalendarPicker
-       			   	  	  	  startFromMonday={true}
-       			   	  	  	  allowRangeSelection={true}
-       			   	  	  	  minDate={minDate}
-       			   	  	  	  maxDate={maxDate}
-       			   	  	  	  todayBackgroundColor="#f2e6ff"
-       			   	  	  	  selectedDayColor="#7300e6"
-       			   	  	  	  selectedDayTextColor="#FFFFFF"
-       			   	  	  	  onDateChange={this.onDateChange}
-       			   	  	  	  style={{flex : 1}}
-       			   	  	  	  previousTitle="Précedent"
-       			   	  	  	  nextTitle="Suivant"
-       			      	  	 months={["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]}
-       			      	  	 weekdays={["Lun","Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]}
+       			   	  	  	  	startFromMonday={true}
+       			   	  	  	  	allowRangeSelection={true}
+       			   	  	  	  	minDate={minDate}
+       			   	  	  	  	maxDate={maxDate}
+       			   	  	  	  	todayBackgroundColor="#f2e6ff"
+       			   	  	  	  	selectedDayColor="#7300e6"
+       			   	  	  	  	selectedDayTextColor="#FFFFFF"
+       			   	  	  	  	onDateChange={this.onDateChange}
+       			   	  	  	  	style={{flex : 1}}
+       			   	  	  	  	previousTitle="Précedent"
+       			   	  	  	  	nextTitle="Suivant"
+       			      	  	 	months={["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]}
+       			      	  	 	weekdays={["Lun","Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]}
        			      	 	/>
        			      	 <Button title="OK" onPress={() => this.validateDates(startDate, endDate)}/>
        			     	</View>
@@ -1103,18 +1154,70 @@ class Calendar extends React.Component {
 				<GestureRecognizer
         		  onSwipe={this.onSwipe}
         		  config={config}
-        		  style={{flex: 7}}
+        		  style={{flex: 9}}
         		>
+					<View style={{position:'absolute', bottom:10, zIndex: 2, right:130}}>
+						<View
+						style={{
+						   	borderWidth:1,
+						   	borderColor:"white",
+						   	alignItems:'center',
+						   	justifyContent:'center',
+						   	width:100,
+						   	height:100,
+						   	backgroundColor:colors.secondary,
+						   	borderRadius:50,
+						 	shadowColor: '#000',
+							shadowOffset: { width: 1, height: 2 },
+							shadowOpacity: 1,
+							shadowRadius: 1.5,
+							elevation: 10
+						}}>
+						<Icon
+							name="add"
+							color={"white"}
+							size={100}
+							onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "Calendar"}) }}
+							style={{justifyContent: "flex-end"}}
+						/>
+						</View>
+					</View>
+        			<View style={{position:'absolute', bottom:10, zIndex: 2, left: 50}}>
+						<View
+						style={{
+						   	borderWidth:1,
+						   	borderColor:"white",
+						   	alignItems:'center',
+						   	justifyContent:'center',
+						   	width:70,
+						   	height:70,
+						   	backgroundColor:colors.secondary,
+						   	borderRadius:50,
+						 		shadowColor: '#000',
+							shadowOffset: { width: 1, height: 2 },
+							shadowOpacity: 1,
+							shadowRadius: 1.5,
+							elevation: 10
+						}}>
+						<Icon
+							name="insert-chart"
+							color={"white"}
+							size={50}
+							onPress={() => { this.props.navigation.navigate('Check', {pageToReturn: "Check"}) }}
+							style={{justifyContent: "flex-end"}}
+						/>
+						</View>
+					</View>	
 					{ this.state.selectedNotes.length > 0 ?
-						 <View style={{position:'absolute',bottom:10, zIndex: 2, right: 10}}>
+						<View style={{position:'absolute',bottom:10, zIndex: 2, right: 50}}>
 							<View
 							style={{
 								borderWidth:1,
 								borderColor:"white",
 								alignItems:'center',
 								justifyContent:'center',
-								width:60,
-								height:60,
+								width:70,
+								height:70,
 								backgroundColor:colors.secondary,
 								borderRadius:50,
 								shadowColor: '#000',
@@ -1126,45 +1229,20 @@ class Calendar extends React.Component {
 								<Icon
 									name="more-vert"
 									color={"white"}
-									size={45}
+									size={50}
 									onPress={() => { this.setModalCheckboxVisible(true); }}
 									style={{justifyContent: "flex-end"}}
 								/>
 							</View>
 						</View>
 						:
-						<View style={{position:'absolute',bottom:10, zIndex: 2, right: 10}}>
-							<View
-							style={{
-							   	borderWidth:1,
-							   	borderColor:"white",
-							   	alignItems:'center',
-							   	justifyContent:'center',
-							   	width:60,
-							   	height:60,
-							   	backgroundColor:colors.secondary,
-							   	borderRadius:50,
-						   		shadowColor: '#000',
-								shadowOffset: { width: 1, height: 2 },
-								shadowOpacity: 1,
-								shadowRadius: 1.5,
-								elevation: 10
-							}}>
-							<Icon
-								name="add"
-								color={"white"}
-								size={45}
-								onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "Calendrier"}) }}
-								style={{justifyContent: "flex-end"}}
-							/>
-							</View>
-						</View>
+						<View></View>
 					}
         			<View style={{ flex: 1, justifyContent: 'center', alignContent: "center", flexDirection: 'row', backgroundColor: "", width: Dimensions.get('window').width}}>
         				<View style={{ flex: 2 }}></View>
         				{ this.state.datasMode != this.state.adminEnum.Custom &&
         					<Icon
-								name="arrow-back"
+							name="arrow-back"
 								color={"black"}
 								size={20}
         					  	onPress={() => this._previousPeriod()}
@@ -1213,6 +1291,7 @@ class Calendar extends React.Component {
 							data={this.state.notes}
 							keyExtractor={(item) => item.id.toString()}
 							renderItem={({item}) => (
+								item.id == this.state.selectedNotes[0] ? this.state.editNote = item : this.state.editNote = this.state.editNote,
 								<View style={{flex: 1}}>
 									<View style={{
 										flexDirection: "row", 
@@ -1310,7 +1389,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 	},
 	note: {
-	  	flex: 9.2,
+	  	flex: 9,
 	  	alignItems: 'center',
 	  	justifyContent: 'center',
 	  	padding: 15,
@@ -1403,12 +1482,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
 	token: state.token,
-	currentModule: state.currentModule
+	currentModule: state.currentModule,
+	currentModuleName: state.currentModuleName
 });
 
 const mapDispatchToProps = dispatch => ({
 	getUserToken: () => dispatch(getUserToken()),
-	getUserCurrentModule: () => dispatch(getUserCurrentModule())
+	getUserCurrentModule: () => dispatch(getUserCurrentModule()),
+	getUserCurrentModuleName: () => dispatch(getUserCurrentModuleName())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar);

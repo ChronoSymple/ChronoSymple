@@ -5,8 +5,7 @@ import { View, Text, TouchableOpacity, FlatList, SafeAreaView, Image, Modal, But
 import { SearchBar } from 'react-native-elements'
 import { connect } from 'react-redux'
 import { colors, windowSize, styles } from '../StyleSheet'
-import { APIAddPatientNotes } from '../../API/APIModule'
-import { APIGetDoctors, APIGetDoctorsInModule, APIGetDoctorProfile } from '../../API/APIDoctor'
+import { APIGetDoctorsInModule } from '../../API/APIDoctor'
 import { getUserToken} from '../../Redux/Action/action';
 import { Icon } from 'react-native-elements'
 import NetInfo from "@react-native-community/netinfo";
@@ -32,10 +31,6 @@ class SearchDoctors extends React.Component {
 
 	getDoctorsList = () => {
 		NetInfo.fetch().then((state) => {
-			console.log(
-				'is connected: ' +
-				state.isConnected
-			);
 			if (state.isConnected == true) {
 				this.setInternetModal(false)
 			} else {

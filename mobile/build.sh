@@ -1,6 +1,7 @@
 #!/bin/bash
 
 rm -rf android/app/build/*
+rm -rf node_modules/*
 rm -f package-loke.json
 rm -rf node_modules/*
 npm cache verify

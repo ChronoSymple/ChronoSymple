@@ -10,9 +10,6 @@ export async function sendEmail(to, subject, body, option = {}) {
 
     body += `\n\nmail: ${email}`
 
-    console.log("valeur de phone: ")
-    console.log(phone)
-
     if (phone) {
         body += `\nTelephone: ${phone}`
     }

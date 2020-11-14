@@ -57,8 +57,8 @@ export function APIAddPatientNotes(token, myTab, date, idModule) {
 	    'Authorization': token,
 		},
 		body: JSON.stringify({
-				data: myTab,
-				date: date
+			data: myTab,
+			date: date
 		})
 	})
 	.then((response) => response)
@@ -77,15 +77,16 @@ export function APIRemovePatientNotes(token, idNote) {
 	.catch((error) => error)
 }
 
-export function APIEditPatientNotes(token, myTab, idNote) {
+export function APIEditPatientNotes(token, myTab, idNote, date) {
 	return fetch(baseUrl + '/api/patients/notes/' + idNote, {
-		method: 'PUT',
+		method: 'PATCH',
 		headers: {
       		'Content-Type': 'application/json',	
 		    'Authorization': token,
 		},
 		body: JSON.stringify({
-				data: myTab
+			data: myTab,
+			date: date		
 		})
 	})
 	.then((response) => response)

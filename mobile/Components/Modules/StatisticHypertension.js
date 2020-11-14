@@ -1,12 +1,11 @@
 // Components/Statistic.js
 
 import React from 'react'
-import { View, Text, Dimensions, ScrollView, StyleSheet, ActivityIndicator } from 'react-native'
-import { colors, windowSize } from '../StyleSheet'
+import { View, Text, Dimensions, StyleSheet } from 'react-native'
+import { colors } from '../StyleSheet'
 import { connect } from 'react-redux';
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import Icon2 from 'react-native-vector-icons/FontAwesome5';
 
 class Statistic extends React.Component {
@@ -19,11 +18,6 @@ class Statistic extends React.Component {
   }
 
 	render() {
-    const config = {
-      velocityThreshold: 0.6,
-      directionalOffsetThreshold: 100
-    };
-
 		return (
 			<View style={styles.container}>
           		<View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row"}}>
@@ -38,19 +32,23 @@ class Statistic extends React.Component {
             		</View>
             		<View style={{flex: 6, justifyContent: "center", alignItems: "center"}}>
             			<Text style={{color: "white", fontWeight: "bold", fontSize:22}}>Statistiques</Text>
-            			<Text style={{color: "white", fontSize:18}}>Asthme</Text>
+            			<Text style={{color: "white", fontSize:18}}>Hypertension</Text>
             		</View>
             		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
             			<Icon
 						  	name="person"
 						  	color={"white"}
 						  	size={45}
-							onPress={() => { this.props.navigation.navigate('Infos', {"pageToReturn": "StatisticAsthma"})}}
+							onPress={() => { this.props.navigation.navigate('Infos', {"pageToReturn": "StatisticHypertension"})}}
 						  	style={{justifyContent: "flex-end"}}
 						/>
             		</View>
           		</View>
-				  <View style={{position:'absolute', bottom: 10, zIndex: 2, width: "100%", flexDirection: "row"}}>            
+				<View
+        			onSwipe={this.onSwipe}
+        			style={{flex: 9}}
+        		>
+          			<View style={{position:'absolute', bottom:10, zIndex: 2, width: "100%", flexDirection: "row"}}>            
           				<View style={{flex: 3, alignItems: "flex-end", justifyContent: "flex-end"}}>
               				<View
                 				style={{
@@ -100,19 +98,20 @@ class Statistic extends React.Component {
                 					name="add"
                 					color={"white"}
                 					size={100}
-                					onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "StatisticAsthma"}) }}
+                					onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "StatisticHypertension"}) }}
                 					style={{justifyContent: "flex-end"}}
                 				/>
               				</View>
             			</View>
             			<View style={{flex: 3}}/>
           			</View>
-				<View style={{flex: 9, justifyContent: 'center', alignContent: 'center'}}>
+          			<View style={{flex: 9, justifyContent: 'center', alignContent: 'center'}}>
 					<View style={{marginLeft: 30, marginRight: 30}}>
 						<Text style={{textAlign: "center"}}>
-							Pas encore de page statistique dédiée créée pour le module Asthme
+							Pas encore de page statistique dédiée créée pour le module Hypertension
 						</Text>
 					</View>
+        		</View>
         		</View>
       		</View>
 		)
@@ -145,6 +144,5 @@ const mapDispatchToProps = dispatch => ({
 	getUserToken: () => dispatch(getUserToken()),
 	getUserCurrentModule: () => dispatch(getUserCurrentModule())
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Statistic);

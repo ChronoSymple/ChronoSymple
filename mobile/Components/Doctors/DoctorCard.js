@@ -43,16 +43,11 @@ class DoctorCard extends React.Component {
 			display: false,
 			modalInternetVisible: false,
 		}
-		console.log(this.state.doctorId)
 		this.getSpecificDoctor(id)
 	}
 
 	getSpecificDoctor = (id) => {
 		NetInfo.fetch().then((state) => {
-			console.log(
-				'is connected: ' +
-				state.isConnected
-			);
 			if (state.isConnected == true) {
 				this.setInternetModal(false)
 			} else {
@@ -121,7 +116,6 @@ class DoctorCard extends React.Component {
 		else
 			id = this.state.doctorId
 		this.props.getUserToken().then(() => {
-			console.log(id, this.state.unitId)
 			APIRemoveDoctor(this.props.token.token, this.state.unitId, id).then(async data => {
 				if (navigate && data.status == 200) {
 					showMessage({

@@ -13,6 +13,7 @@ import {
 	TouchableOpacity,
 	Animated,
 	Modal,
+	Dimensions
 } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
 import { connect } from 'react-redux';
@@ -20,7 +21,7 @@ import { getUserToken, saveUserCurrentModule, saveUserCurrentModuleName, getUser
 import { TouchableHighlight} from 'react-native-gesture-handler';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
+import { colors, note_style } from './StyleSheet'
 
 class Home extends React.Component {
 	constructor(props) {
@@ -93,14 +94,6 @@ class Home extends React.Component {
 	// Fetch the token from storage then navigate to our appropriate place
 	_bootstrapAsync = () => {
 		NetInfo.fetch().then((state) => {
-			console.log(
-				"Initial, type: " +
-				state.type +
-				', effectiveType: ' +
-				state.effectiveType +
-				', is connected: ' +
-				state.isConnected
-			);
 			if (state.isConnected == true) {
 				this.setState({ modalInternetVisible: false })
 			} else {
@@ -208,9 +201,26 @@ class Home extends React.Component {
 						<View style={{flex: 1}}/>
 					</View>
 				</Modal>
-        		<Text style={{color:"#62BE87", textAlign:'center', fontWeight: "bold", justifyContent: 'center', fontSize:30, margin: 30}}>Chronosymple</Text>
-				{this.state.loading && <ActivityIndicator size='large' color='black' />}
-				{ !this.state.loading && !this.state.Dmodules
+        		<View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row"}}>
+            		<View style={{flex: 2}}>
+            		</View>
+            		<View style={{flex: 6, justifyContent: "center", alignItems: "center"}}>
+            			<Text style={{color: "white", fontWeight: "bold", fontSize:22}}>Chronosymple</Text>
+            		</View>
+            		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
+            			<Icon
+						  	name="person"
+						  	color={"white"}
+							size={45}
+						  	onPress={() => { this.props.navigation.navigate('Infos', {"pageToReturn": "Home"})}}
+						  	style={{justifyContent: "flex-end"}}
+						/>
+            		</View>
+          		</View>
+				{this.state.loading ?
+				<ActivityIndicator style={{flex: 8}} size='large' color='black' />
+				:
+				!this.state.Dmodules
 					?	
 					<View style={styles.WhithoutModule}>
 						<Text style={{ marginBottom : 30, fontSize: 20 }}>
@@ -224,7 +234,7 @@ class Home extends React.Component {
 						/>
 					</View>
 					:
-					<SafeAreaView style={{flex: 1}}>
+					<SafeAreaView style={{flex: 8, marginTop: 10}}>
 						<View style={styles.list}>
 							<FlatList
 								data={this.state.Dmodules}
@@ -240,13 +250,13 @@ class Home extends React.Component {
 								)}
 							/>
 						</View>
-						<View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: "black", borderStyle: "dashed", borderRadius: 15, margin: 10}}>
-							<TouchableOpacity style={{ margin: 20, flexDirection : 'row', alignItems: 'center', justifyContent: 'center', width: "100%", height: "100%"}} onPress={() => navigate('Stack')}>
-								<Text style={{fontSize: 20}}>Ajouter un module</Text>						
-							</TouchableOpacity>
-						</View>
 					</SafeAreaView>
 				}
+				<View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: "black", borderStyle: "dashed", borderRadius: 15, margin: 10}}>
+					<TouchableOpacity style={{ margin: 20, flexDirection : 'row', alignItems: 'center', justifyContent: 'center', width: "100%", height: "100%"}} onPress={() => navigate('Stack')}>
+						<Text style={{fontSize: 20}}>Ajouter un module</Text>						
+					</TouchableOpacity>
+				</View>
 			</View>
 		)
 	}
@@ -271,7 +281,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	WhithoutModule: {
-		flex: 1,
+		flex: 8,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},

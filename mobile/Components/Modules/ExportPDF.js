@@ -80,7 +80,6 @@ class ExportPDF extends React.Component {
 			}
 		})
 		/*GET MYDOCTOR INFO */
-		console.log(this.state)
 	}
 
 	returnPressed = () => {
@@ -88,7 +87,6 @@ class ExportPDF extends React.Component {
 	}
 
 	async createPDF() {
-		console.log("creating pdf file ....")
 		showMessage({
 			message: "téléchargement du fichier ...",
 			type: "info"
@@ -131,8 +129,6 @@ class ExportPDF extends React.Component {
 		let currentDate = new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()
 		let currentTime = new Date().getHours() + ":" + new Date().getMinutes()
 		let filename = 'Chronosymple_fiche_symptome_' + new Date().getDate() + (new Date().getMonth() + 1) + new Date().getFullYear()
-		console.log(filename)
-
 		let options = {
 			html: generalInfo + '<p style="text-align: left;">\
 						<br>\
@@ -151,8 +147,6 @@ class ExportPDF extends React.Component {
 			});
 			this.props.navigation.navigate("Calendar")
 		} catch (error) {
-
-			console.log(error)
 			showMessage({
 				message: "Une erreur est survenue lors de l'export de note. Veuillez recommencer. Si le probleme persiste contactez nous",
 				type: "danger",

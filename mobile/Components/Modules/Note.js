@@ -1,6 +1,5 @@
 import React from 'react'
-import { View, Text, Button, TextInput, BackHandler, FlatList} from 'react-native'
-import { Picker } from '@react-native-community/picker';
+import { View, Text, Button, TextInput, BackHandler, FlatList, Dimensions, Alert} from 'react-native'
 import { colors, note_style } from '../StyleSheet'
 import { connect } from 'react-redux';
 import { APIAddPatientNotes } from '../../API/APIModule'
@@ -8,10 +7,9 @@ import { getUserToken, getUserCurrentModule, getUserCurrentModuleName } from '..
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon_Ant from 'react-native-vector-icons/AntDesign';
-import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler';
-import { showMessage } from "react-native-flash-message";
-import { APIGetModules, APIGetNotesParameters } from "../../API/APIModule"
-import Moment from 'moment';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import { APIGetNotesParameters, APIGetGeneralUnitId } from "../../API/APIModule"
+import { Picker } from '@react-native-community/picker';
 
 class Note extends React.Component {
 
@@ -32,6 +30,7 @@ class Note extends React.Component {
 			var horaire = heure + ':' + minute
 		else
 			var horaire = heure + ':' + 0 + minute
+	
 		this.state = { 
 			pageToReturn: this.props.navigation.getParam("pageToReturn"),
 			glycemie: "",
@@ -54,6 +53,7 @@ class Note extends React.Component {
 		}
 		this.props.getUserCurrentModule().then(() => {
 		})
+		console.log(this.props.navigation.getParam("pageToReturn"))
 		this.getJson();
 	}
 
@@ -68,33 +68,34 @@ class Note extends React.Component {
 		let { navigate } = this.props.navigation;
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
-				APIGetModules(this.props.token.token).then(async data => {
+				APIGetGeneralUnitId(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
 					if (data.status == 200) {
 						let response = await data.json()
-						for (var i = 0; i < response.modules.length; i++) {
-							if (response.modules[i].name == this.props.currentModuleName.currentModuleName) {
-								APIGetNotesParameters(this.props.token.token, response.modules[i].id).then(async data => {
-									if (data.status == 200) {
-										var myTab = new Map()
-										var fieldsJSON = await data.json();
-										if (fieldsJSON != null) {
-											for (var values in fieldsJSON) {
-												myTab = myTab.set(fieldsJSON[values].tag, fieldsJSON[values].defaultText)
-											}
-										}
-										this.setState ({ 
-											fieldsJSON: fieldsJSON,
-											mytab: new Map(myTab)
-										})
+						APIGetNotesParameters(this.props.token.token, response.id).then(async data => {
+							if (data.status == 200) {
+								var myTab = new Map()
+								var fieldsJSON = await data.json();
+								if (fieldsJSON[0] != null) {
+									for (var values in fieldsJSON) {
+										myTab = myTab.set(fieldsJSON[values].tag, fieldsJSON[values].defaultText)
 									}
-									else {
-										return (null);
-									}
-								}).catch(error => {
-										this.setState({ error })
-								})
+									this.setState ({ 
+										fieldsJSON: fieldsJSON,
+										mytab: new Map(myTab)
+									})
+								}
+								else {
+									this.setState ({ 
+										fieldsJSON: []
+									})
+								}
 							}
-						}
+							else {
+								return (null);
+							}
+						}).catch(error => {
+								this.setState({ error })
+						})
 					}
 					else
 						return (null)
@@ -120,10 +121,10 @@ class Note extends React.Component {
 				APIAddPatientNotes(this.props.token.token, note, this.state.original_dt, this.props.currentModule.currentModule).then(data => {
 					if (data.status == 200) {
 						this.setState({ isSend: true })
-						navigate("Calendar")
+						navigate(this.state.pageToReturn)
 					}
 				}).catch(error => {
-						this.setState({ error })
+					this.setState({ error })
 				})
 			})
 		}).catch(error => {
@@ -226,87 +227,103 @@ class Note extends React.Component {
 		let { navigate } = this.props.navigation;
     	return (
 			<View style={{flex:1}}>
-				<View style={{backgroundColor:colors.secondary, flex:1.5 }}>
-					<View style={{flex:1, flexDirection: 'row', justifyContent:"space-between", alignItems: 'center'}}>
-						<TouchableHighlight style={{padding: 10}}>
-							<Icon
-								name="clear"
-								color="#FFF"
-								size={35}
-								onPress={() => navigate("Calendar")}
-		    				/>
-						</TouchableHighlight>
-						<TouchableHighlight style={{padding: 10}}>
-							<Icon
-								name="check"
-								color="#FFF"
-								size={35}
-								onPress={() => this._bootstrapAsync()}
-		    				/>
-						</TouchableHighlight>
-					</View>
-				</View>
-
-				<View style={{flex:3}}>
-
-					<View style={note_style.date_time}>
-						<Icon_Ant
-							name="calendar"
-							color="#000"
-							size={40}
-							style={{paddingRight: 20}}
-							onPress={this.showDateTimePicker}
+				<View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row"}}>
+            		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
+						<Icon
+						  	name="clear"
+						  	color={"white"}
+							size={45}
+							onPress={() => Alert.alert(
+								"",
+								"Votre note ne sera pas enregistrée !",
+								[
+									{text: 'Annuler', style: 'cancel'},
+									{text: 'OK', onPress: () => navigate(this.state.pageToReturn)},
+								],
+								{ cancelable: false }
+							)}
+						  	style={{justifyContent: "flex-end"}}
 						/>
-						<View style={{width: 150}}>
-							<Button 
-								color={colors.primary} 
-								title={this.state.date} 
-								onPress={this.showDateTimePicker} 
-							/>
-							<DateTimePicker
-								date={this.state.original_dt}
-							  	isVisible={this.state.isDateTimePickerVisible}
-							  	onConfirm={this.handleDatePicked}
-							  	onCancel={this.hideDateTimePicker}
-			    		 	/>
-			    		</View>
-					</View>
-					<View style={note_style.date_time}>
-						<Icon_Ant
-							name="clockcircleo"
-							color="#000"
-							size={40}
-							style={{paddingRight: 20}}
-							onPress={this.showTimePicker}
+            		</View>
+            		<View style={{flex: 6}}>
+            		</View>
+            		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
+            			<Icon
+						  	name="check"
+						  	color={"white"}
+							size={45}
+						  	onPress={() => this._bootstrapAsync()}
+						  	style={{justifyContent: "flex-end"}}
 						/>
-						<View style={{width: 150}}>
-							<Button
-								color={colors.primary} 
-								title={this.state.time} 
-								onPress={this.showTimePicker} 
+            		</View>
+          		</View>
+
+				{this.state.fieldsJSON != []
+				?
+				<View style={{flex:9}}>
+					<View style={{flex:2}}>
+						<View style={note_style.date_time}>
+							<Icon_Ant
+								name="calendar"
+								color="#000"
+								size={40}
+								style={{paddingRight: 20}}
+								onPress={this.showDateTimePicker}
 							/>
-							<DateTimePicker
-								mode="time"
-								date={this.state.original_dt}
-								isVisible={this.state.isTimePickerVisible}
-								onConfirm={this.handleTimePicked}
-								onCancel={this.hideTimePicker}
+							<View style={{width: 150}}>
+								<Button 
+									color={colors.primary} 
+									title={this.state.date} 
+									onPress={this.showDateTimePicker} 
+								/>
+								<DateTimePicker
+									date={this.state.original_dt}
+								  	isVisible={this.state.isDateTimePickerVisible}
+								  	onConfirm={this.handleDatePicked}
+								  	onCancel={this.hideDateTimePicker}
+			    			 	/>
+			    			</View>
+						</View>
+						<View style={note_style.date_time}>
+							<Icon_Ant
+								name="clockcircleo"
+								color="#000"
+								size={40}
+								style={{paddingRight: 20}}
+								onPress={this.showTimePicker}
 							/>
+							<View style={{width: 150}}>
+								<Button
+									color={colors.primary} 
+									title={this.state.time} 
+									onPress={this.showTimePicker} 
+								/>
+								<DateTimePicker
+									mode="time"
+									date={this.state.original_dt}
+									isVisible={this.state.isTimePickerVisible}
+									onConfirm={this.handleTimePicked}
+									onCancel={this.hideTimePicker}
+								/>
+							</View>
 						</View>
 					</View>
+					<View style={{flex: 8, marginTop: 10}}>
+						{this.state.fieldsJSON
+							&&
+							<FlatList
+							data={this.state.fieldsJSON}
+							keyExtractor={(item, index) => index.toString()}
+							renderItem={({item}) => (
+								this.checkFieldType(item)
+								)}
+							/>
+						}
+					</View>
 				</View>
-				<View style={{flex: 10}}>
-					{this.state.fieldsJSON
-						&&
-						<FlatList
-						data={this.state.fieldsJSON}
-						keyExtractor={(item, index) => index.toString()}
-						renderItem={({item}) => (
-							this.checkFieldType(item)
-							)}
-						/>
-					}
-				</View>
+				:
+				<View/>
+				}
 			</View>
 		)
 	}

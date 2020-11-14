@@ -45,13 +45,10 @@ class SignIn extends React.Component {
 	}
 
 	_signInAsync = (oui, accountData) => {
-		console.log("in _signInAsync")
-		console.log(accountData)
     	this.props.saveUserAccountValid(accountData)
     	.then(() => {
 			this.props.saveUserToken(oui)
 		    .then(() => {
-    			console.log("token, mail and password savec. ! ")
 				this.props.navigation.navigate('AccountValidation', {matchCode: response.confirmation_token});
 		    })
 		    .catch((error) => {
@@ -108,7 +105,6 @@ class SignIn extends React.Component {
 	}
 
 	checkSignIn = () => {
-		console.log(this.props.token)
 		let { navigate } = this.props.navigation;
 		if (!this.verification()) {
 			this.setState({ isInvalid: true})

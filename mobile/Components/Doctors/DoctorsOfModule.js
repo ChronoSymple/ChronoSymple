@@ -48,10 +48,6 @@ class DoctorsOfModule extends React.Component {
 
 	getDoctors = () => {
 		NetInfo.fetch().then((state) => {
-			console.log(
-				'is connected: ' +
-				state.isConnected
-			);
 			if (state.isConnected == true) {
 				this.setInternetModal(false)
 			} else {
@@ -62,7 +58,6 @@ class DoctorsOfModule extends React.Component {
 			this.props.getUserCurrentModule().then(() => {
 				APIgetDoctorsOfModule(this.props.token.token, this.state.dModule.id).then(async data => {
                     let response = await data.json()
-                    console.log(response)
 					this.setState({ 
 						finish: true,
 						doctorsOfModule: response
@@ -109,28 +104,32 @@ class DoctorsOfModule extends React.Component {
 					<View style={{flex: 1}}/>
 				</View>
 			</Modal>
-                <TouchableOpacity style={{ paddingLeft: 15, paddingRight: 15, flexDirection: "row", alignItems: 'center', justifyContent : "space-around"}} onPress={() => {this.displayDoctor()}}>
-                    <Text style={{ flex: 9, marginTop: windowSize.y / 30, fontSize: windowSize.y / 40, textTransform: 'capitalize'}}>{this.state.dModule.general_unit.name}</Text>
-                    { this.state.displayDoctor ?
-                        <Icon
-                            style={{ flex: 1, marginTop: windowSize.y / 30 }}
-                            name="keyboard-arrow-up"
-                            color="#000"
-                            size={25}
-                            onPress={() => { this.displayDoctor() }}
-                        />
-                        :
-                        <Icon
-                            style={{ flex: 1, marginTop: windowSize.y / 30 }}
-                            name="keyboard-arrow-down"
-                            size={25}
-                            color="#000"
-                            onPress={() => { this.displayDoctor() }}
-                        />
-                    }
-                </TouchableOpacity>
+				<TouchableOpacity style={{flex: 1, borderTopWidth: 1}}>
+					<View style={{flex: 1, flexDirection: 'row'}}>
+						<View style={{flex: 4}}>
+							<Text style={{ padding: 20, fontSize: 18, color: "black", textTransform: 'capitalize' }}>{this.state.dModule.general_unit.name}</Text>
+						</View>
+						<View style={{flex: 1, alignItems: "flex-end", padding: 15}}>
+						{ this.state.displayDoctor ?
+                    	    <Icon
+                    	        name="keyboard-arrow-up"
+                    	        color="black"
+								size={35}
+								onPress={() => { this.displayDoctor() }}
+                    	    />
+                    	    :
+                    	    <Icon
+                    	        name="keyboard-arrow-down"
+                    	        color="black"
+								size={35}
+								onPress={() => { this.displayDoctor() }}
+                    	    />
+                    	}
+						</View>
+					</View>
+				</TouchableOpacity>
                 {this.state.displayDoctor && !this.state.finish && 
-                    <ActivityIndicator size='large' color='black' />
+                    <ActivityIndicator size='large' color='black' style={{marginBottom: 10}} />
                 }
                 { this.state.finish && this.state.displayDoctor && this.state.doctorsOfModule.length > 0 &&
                     <View>
@@ -142,7 +141,7 @@ class DoctorsOfModule extends React.Component {
 									<TouchableOpacity
 										onPress={() => {this.state.doctorPressed(item, this.state.dModule.id)}}
                                         >
-										<View style={{height: windowSize.y / 4, backgroundColor: "#f2f3f4", margin: 3, borderRadius: 15, borderWidth: 1, borderColor: '#e5e6e8', flexDirection: "row"}}>
+										<View style={{height: windowSize.y / 4, backgroundColor: "#f2f3f4", margin: 3, borderRadius: 15, borderWidth: 1, borderColor: '#e5e6e8', flexDirection: "row", marginBottom: 10}}>
 										<Image
 											source={{
                                                 uri: 'https://image.flaticon.com/icons/png/512/122/122454.png',

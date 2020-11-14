@@ -40,16 +40,8 @@ class AccountValidation extends React.Component {
 	}
 
 	checkCodeValidation = () => {
-		/*console.log("user Code:")
-		console.log(this.state.code)
-		console.log("matchCode:")
-		console.log(this.state.matchCode)*/
-		console.log(this.state.code)
-		console.log(this.state.matchCode)
 		if (this.state.code == this.state.matchCode) {
 			this.props.saveUserAccountValid("true").then(() => {
-				console.log("CODE CONFIRMED !!")
-				console.log(this.props)
 				this.props.navigation.navigate("Home")
 			})
 		} else {
@@ -64,10 +56,8 @@ class AccountValidation extends React.Component {
 
 	resendCode = () => {
 		confirmPatientEmail(this.state.mail, this.state.password, this.props.token.token).then(async data => {
-			console.log(data)
 			if (data.status == 200) {
 				let response = await data.json()
-				console.log(response)
 				showMessage({
 						message: "Le code a bien été envoyé a l'adresse mail: " + this.state.mail,
 						type: "success"

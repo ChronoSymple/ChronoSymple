@@ -10,18 +10,23 @@ import {
 	View,
 	FlatList,
 	SafeAreaView,
-	Text
+	Text,
+	Dimensions
 } from 'react-native';
 import { connect } from 'react-redux';
 import { getUserToken, saveUserCurrentModule, saveUserCurrentModuleName } from '../../Redux/Action/action';
-import { showMessage, hideMessage } from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message";
+import { colors } from '../StyleSheet'
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { SearchBar } from 'react-native-elements'
 
 class ModulePlace extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
 			Dmodules: [],
-			loading: true
+			loading: true,
+			search: false
 		}
 		this._bootstrapAsync();
 	}
@@ -93,12 +98,35 @@ class ModulePlace extends React.Component {
 	render() {
 		return(
 			<View style={styles.main_container}>
-        			<Text style={{color:"#62BE87", textAlign:'center', fontWeight: "bold", justifyContent: 'center', fontSize:30, margin: 30}}>Tous les modules</Text>
+        		<View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row"}}>
+					<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
+            			<Icon
+						  	name="arrow-back"
+						  	color={"white"}
+							size={45}
+						  	onPress={() => { this.props.navigation.navigate('Home')}}
+						  	style={{justifyContent: "flex-end"}}
+						/>
+            		</View>
+            		<View style={{flex: 6, justifyContent: "center", alignItems: "center"}}>
+            			<Text style={{color: "white", fontWeight: "bold", fontSize:22}}>Tous les modules</Text>
+            		</View>
+            		<View style={{flex: 2}}>
+            		</View>
+          		</View>
 				{this.state.loading
 					?	
-					<ActivityIndicator size='large' color='black' />
+					<ActivityIndicator style={{flex: 9}} size='large' color='black' />
 					:
-					<SafeAreaView style={{flex: 1}}>
+					<SafeAreaView style={{flex: 9, flexDirection: "column"}}>
+						<SearchBar					
+							round
+							lightTheme
+							placeholder="Search here ..."
+							onChangeText={(text) => this.updateSearch(text)}
+							value={this.state.search}
+							style={{flex: 1, backgroundColor: "green"}}>
+						</SearchBar>
 						<FlatList
 							style={styles.list}
 							data={this.state.Dmodules}
@@ -134,7 +162,6 @@ class ModulePlace extends React.Component {
 const styles = StyleSheet.create({
 	main_container: {
 		flex: 1,
-		margin: 10,
 		justifyContent: 'center',
 	},
 	search: { 
@@ -146,7 +173,7 @@ const styles = StyleSheet.create({
 		paddingLeft: 5
 	},
 	list: {
-		flex: 1,
+		flex: 9
   	},
 	container: {
 		flex: 1,

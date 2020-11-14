@@ -11,9 +11,9 @@ import {LineChart} from "react-native-chart-kit";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import Modal from "react-native-modal";
-import CalendarPicker from 'react-native-calendar-picker';
+import CalendarPicker from 'react-native-calendar-picker'
 import NetInfo from "@react-native-community/netinfo";
-
+import Icon2 from 'react-native-vector-icons/FontAwesome5';
 
 class Statistic extends React.Component {
   
@@ -80,17 +80,17 @@ class Statistic extends React.Component {
   _createStats = async (response) => {
     for (i = 0; i < response.length; i++) {
       obj = response[i].data
-      if (parseInt(obj.BloodGlucose, 10))
+      if (parseInt(obj.bloodGlucose, 10))
       {
         this.setState({
-          Glycemie: this.state.Glycemie.concat([parseInt(obj.BloodGlucose, 10)]),
+          Glycemie: this.state.Glycemie.concat([parseInt(obj.bloodGlucose, 10)]),
         })
-         if (parseInt(obj.BloodGlucose, 10) < 4) {
+         if (parseInt(obj.bloodGlucose, 10) < 4) {
           this.setState({
             hypo: this.state.hypo + 1
           })
         }
-        else if (parseInt(obj.BloodGlucose, 10) > 17) {
+        else if (parseInt(obj.bloodGlucose, 10) > 17) {
           this.setState({
             hyper:  this.state.hyper + 1
           })
@@ -111,7 +111,7 @@ class Statistic extends React.Component {
     }
     let dataClone = {...this.state.data}
     dataClone.datasets[0].data = this.state.Glycemie;
-    dataClone.labels = this.state.Date;
+    dataClone.labels = response.date;
     this.setState({
         isLoading: false,
         data: dataClone,
@@ -291,11 +291,12 @@ class Statistic extends React.Component {
         loading: true
       })
       this._bootstrapAsync();
+      month  = parseInt(this.state.actualDateBeginMonth, 10) + 1	
+      if (month >= 12) {
+        year = parseInt(this.state.actualDateBeginYear, 10) + 1
+        month = 1
+      }
       return
-    } month  = parseInt(this.state.actualDateBeginMonth, 10) + 1	
-    if (month >= 12) {
-      year = parseInt(this.state.actualDateBeginYear, 10) + 1
-      month = 1
     }
     else if (this.state.datasMode == this.state.adminEnum.Week) {
 			var dateBeginDay = this.state.actualDateBeginDay + 7
@@ -414,10 +415,6 @@ class Statistic extends React.Component {
 
 	_bootstrapAsync = () => {
     NetInfo.fetch().then((state) => {
-      console.log(
-        'is connected: ' +
-        state.isConnected
-      );
       if (state.isConnected == true) {
         this.setInternetModal(false)
       } else {
@@ -445,7 +442,7 @@ class Statistic extends React.Component {
   {
     var date = new Date(dateStr);
     date = date.toDateString()
-    nameOfDay = date.substr(0, date.indexOf(' '))
+    var nameOfDay = date.substr(0, date.indexOf(' '))
     if (nameOfDay == "Mon")
       return 1
     else if (nameOfDay == "Tue")
@@ -697,8 +694,29 @@ class Statistic extends React.Component {
             <View style={{flex: 1}}/>
           </View>
         </Modal>
-          <View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width}}>
-            <Text style={{color:"white", textAlign:'center', fontWeight: "bold", fontSize:22}}>Vos données statistiques</Text>
+          <View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row"}}>
+            <View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
+              <Icon
+						  	name="home"
+						  	color={"white"}
+						  	size={45}
+						  	onPress={() => { this.props.navigation.navigate('Home') }}
+						  	style={{justifyContent: "flex-end"}}
+						  />
+            </View>
+            <View style={{flex: 6, justifyContent: "center", alignItems: "center"}}>
+              <Text style={{color: "white", fontWeight: "bold", fontSize:22}}>Statistiques</Text>
+              <Text style={{color: "white", fontSize:18}}>Diabètes</Text>
+            </View>
+            <View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
+              <Icon
+						  	name="person"
+						  	color={"white"}
+						  	size={45}
+                onPress={() => { this.props.navigation.navigate('Infos', {"pageToReturn": "StatisticDiabete"})}}
+						  	style={{justifyContent: "flex-end"}}
+						  />
+            </View>
           </View>
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignContent: "stretch", width: Dimensions.get('window').width}}>
             <View style={{flex: 1.8}}>
@@ -746,34 +764,63 @@ class Statistic extends React.Component {
         <GestureRecognizer
           onSwipe={this.onSwipe}
           config={config}
-          style={{flex: 7}}
+          style={{flex: 9}}
         >
-					<View style={{position:'absolute',bottom:10, zIndex: 2, right: 10}}>
-						<View
-						style={{
-						   	borderWidth:1,
-						   	borderColor:"white",
-						   	alignItems:'center',
-						   	justifyContent:'center',
-						   	width:60,
-						   	height:60,
-						   	backgroundColor:colors.secondary,
-						   	borderRadius:50,
-						 		shadowColor: '#000',
-							shadowOffset: { width: 1, height: 2 },
-							shadowOpacity: 1,
-							shadowRadius: 1.5,
-							elevation: 10
-						}}>
-						<Icon
-							name="add"
-							color={"white"}
-							size={45}
-							onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "StatisticDiabete"}) }}
-							style={{justifyContent: "flex-end"}}
-						/>
-						</View>
-					</View>					
+          <View style={{position:'absolute', bottom:10, zIndex: 2, width: "100%", flexDirection: "row"}}>            
+            <View style={{flex: 3, alignItems: "flex-end", justifyContent: "flex-end"}}>
+              <View
+                style={{
+                  borderWidth:1,
+                  borderColor:colors.secondary,
+                  alignItems:'center',
+                  justifyContent:'center',
+                  width:70,
+                  height:70,
+                  backgroundColor:colors.secondary,
+                  borderRadius:50,
+                  shadowColor: '#000',
+                  shadowOffset: { width: 1, height: 2 },
+                  shadowOpacity: 1,
+                  shadowRadius: 1.5,
+                  elevation: 10
+              }}>
+                <Icon2
+                  name="notes-medical"
+                  color={"white"}
+                  size={40}
+                  onPress={() => { this.props.navigation.navigate('Calendar', {pageToReturn: "Check"}) }}
+                  style={{justifyContent: "flex-end"}}
+                />
+              </View>
+            </View>
+            <View style={{flex: 3, alignItems: "center"}}>
+              <View
+                style={{
+                  borderWidth:1,
+                  borderColor:colors.secondary,
+                  alignItems:'center',
+                  justifyContent:'center',
+                  width:100,
+                  height:100,
+                  backgroundColor:colors.secondary,
+                  borderRadius:50,
+                  shadowColor: '#000',
+                  shadowOffset: { width: 1, height: 2 },
+                  shadowOpacity: 1,
+                  shadowRadius: 1.5,
+                  elevation: 10
+              }}>
+                <Icon
+                  name="add"
+                  color={"white"}
+                  size={100}
+                  onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "StatisticDiabete"}) }}
+                  style={{justifyContent: "flex-end"}}
+                />
+              </View>
+            </View>
+            <View style={{flex: 3}}/>
+          </View>
           <View style={{ flex: 1, justifyContent: 'center', alignContent: "center", flexDirection: 'row', backgroundColor: "", width: Dimensions.get('window').width}}>
             <View style={{ flex: 2 }}></View>
             { this.state.datasMode != this.state.adminEnum.Custom &&

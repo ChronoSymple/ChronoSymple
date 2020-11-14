@@ -4,7 +4,6 @@ import {
 	TouchableOpacity,
 	TouchableHighlight,
 	View,
-	Animated,
 	StyleSheet,
 	TouchableWithoutFeedback,
 	Alert,
@@ -17,6 +16,7 @@ import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { FlatList } from 'react-native-gesture-handler';
+import { color } from 'react-native-reanimated';
 
 var SMALL = 0.9;
 var ACTION_TIMER = 2;
@@ -34,7 +34,6 @@ class ModuleItem extends React.Component {
 			doctorChoice: doctorChoice,
 			generalUnit: generalUnit, 
 			deleteUnit: deleteUnit,
-			animatedValue: new Animated.Value(1),
 			doctorsOfModule: this.getDoctors(),
 			displayDoctor: false,
 			finish: false
@@ -47,37 +46,6 @@ class ModuleItem extends React.Component {
 		})
 	}
 	
-	UNSAFE_componentWillMount = () => {
-		this._value = 0;
-		this.state.animatedValue.addListener((v) => this._value = v.value);
-
-	}
-
-  	handlePressIn = () => {
-		Animated.spring(this.state.animatedValue, {
-			duration: ACTION_TIMER,
-			toValue: SMALL,
-			friction: 40,
-			useNativeDriver: true
-		}).start(this.animationActionComplete)
-	}
-
-	handlePressOut= () => {
-		if (this._value > SMALL) {
-			this.state.triggerModule(this.state.dModule.id, this.state.dModule.general_unit.name)
-		}
-		Animated.spring(this.state.animatedValue, {
-			duration: ACTION_TIMER,
-			toValue: 1,
-			useNativeDriver: true
-		}).start()
-	}
-
-	animationActionComplete= () => {
-		if (this._value <= SMALL)
-			this.setModalVisible(true)
-	}
-
  	displayDoctor = () => {
 		if (!this.state.displayDoctor == true)
 			this.getDoctors()
@@ -96,8 +64,8 @@ class ModuleItem extends React.Component {
 						finish: true,
 						doctorsOfModule: response
 					})
-				}).catch(error => {
 					this.setState({ error, finish: true })
+				}).catch(error => {
 				})
 			})
 		}).catch(error => {
@@ -107,9 +75,6 @@ class ModuleItem extends React.Component {
 
 
 	render() {
-		const animatedStyle = {
-			transform: [{ scale: this.state.animatedValue }]
-		}
 		return (
 			<View>
 				<Modal
@@ -124,14 +89,6 @@ class ModuleItem extends React.Component {
 					backdropColor="rgba(0,0,0,0)"
 					onBackdropPress = {() => this.setModalVisible(false)}>
 				    	<View style={styles.modalContent}>
-							<TouchableHighlight style={{margin: 1}}>
-								<Icon
-									name="clear"
-									color="#62BE87"
-									size={35}
-									onPress={() => { this.setModalVisible(false) }}
-	    						/>
-							</TouchableHighlight>
 							<View style={styles.modalContentCenter}>
 								<TouchableOpacity style={{ alignItems: 'center', height: windowSize.y / 10 }}  onPress={() => Alert.alert(
 								'Retirer le module',
@@ -169,8 +126,8 @@ class ModuleItem extends React.Component {
 								}
 								{ this.state.finish && this.state.doctorsOfModule.length == 0 && this.state.displayDoctor  &&
 										<View style={{flexDirection : "row", height: windowSize.y / 20}} onPress={() => {}}>								
-											<TouchableOpacity style={{backgroundColor: "#2296F3", marginTop: windowSize.y / 60, flex: 4, fontSize: windowSize.y / 48}}>
-												<Text style={{color:"white", textAlign: "center", paddingLeft: 30, paddingRight: 30}} onPress={() => {this.displayDoctor(), this.setModalVisible(false), this.state.doctorChoice(this.state.dModule.id, this.state.dModule.general_unit.id, "add", null)}}>Assigner</Text>
+											<TouchableOpacity style={{backgroundColor: colors.primary, marginTop: windowSize.y / 60, flex: 4, marginRight: 10, marginLeft: 10}}>
+												<Text style={{color:"white", textAlign: "center"}} onPress={() => {this.displayDoctor(), this.setModalVisible(false), this.state.doctorChoice(this.state.dModule.id, this.state.dModule.general_unit.id, "add", null)}}>Assigner</Text>
 											</TouchableOpacity>
 										</View>	
 								}
@@ -182,7 +139,7 @@ class ModuleItem extends React.Component {
 												renderItem={({item}) => (
 													<View style={{flexDirection: "row", justifyContent: "space-between"}}>
 														<Text style={{marginTop: windowSize.y / 40, flex: 6, fontSize: windowSize.y / 48}}>Dr. {item.user.first_name} {item.user.last_name}</Text>
-														<TouchableOpacity style={{backgroundColor: "#2296F3", marginTop: windowSize.y / 40, flex: 4, fontSize: windowSize.y / 48}} onPress={() => {this.displayDoctor(), this.setModalVisible(false), this.state.doctorChoice(this.state.dModule.id, this.state.dModule.general_unit.id, "change", item.id)}}>
+														<TouchableOpacity style={{backgroundColor: colors.primary, marginTop: windowSize.y / 40, flex: 4, fontSize: windowSize.y / 48}} onPress={() => {this.displayDoctor(), this.setModalVisible(false), this.state.doctorChoice(this.state.dModule.id, this.state.dModule.general_unit.id, "change", item.id)}}>
 															<Text style={{color:"white", textAlign: "center"}}>Changer</Text>
 														</TouchableOpacity>
 													</View>
@@ -218,15 +175,20 @@ class ModuleItem extends React.Component {
 					</View>
 				</TouchableOpacity>
 				:
-				<TouchableWithoutFeedback
-					onPressIn={this.handlePressIn} 
-					onPressOut={this.handlePressOut}>
-					<Animated.View style={[animatedStyle, styles.moduleBox]} >
+				<TouchableOpacity onPress={() => this.state.triggerModule(this.state.dModule.id, this.state.dModule.general_unit.name)}>
+					<View style={styles.moduleBox}>
 						<View style={styles.moduleTitle}>
-								<Text style={{ fontSize: 18, textTransform: 'capitalize' }}>{this.state.dModule.general_unit.name}</Text>
+							<Text style={{ fontSize: 18, textTransform: 'capitalize', flex: 8 }}>{this.state.dModule.general_unit.name}</Text>
 						</View>
-					</Animated.View>
-				</TouchableWithoutFeedback>
+						<Icon
+							name="more-vert"
+							size={35}
+							color={colors.primary}
+							onPress={() => { this.setModalVisible(true) }}
+							style={styles.moduleMoreVer}
+						/>
+					</View>
+				</TouchableOpacity>
 			}
 			</View>
 		)
@@ -262,22 +224,28 @@ const styles = StyleSheet.create({
 		marginBottom: 12,
 	},
 	moduleTitle: {
-		flex: 1,
-		alignItems: 'center',
-		flexDirection : 'row', 
+		flex: 8,
+		paddingLeft: 50,
 		justifyContent: 'center', 
 		width: "100%", 
 		height: "100%",
-		margin: 20
+	},
+	moduleMoreVer: {
+		flex: 2,
+		alignItems: 'center',
+		justifyContent: 'center', 
+		width: "100%", 
+		height: "100%",
 	},
 	moduleBox: {
 		flex: 1, 
-		justifyContent : 'center', 
-		alignItems: 'center', 
+		flexDirection: "row",
 		borderWidth: 3, 
 		borderColor: colors.secondary, 
 		borderRadius: 15, 
-		margin: 10
+		margin: 5,
+		paddingTop: 17,
+		paddingBottom: 17
 	},
 	list: {
 		paddingRight : 10,
