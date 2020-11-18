@@ -117,7 +117,12 @@ class Calendar extends React.Component {
 									loading: true
 								  })
 								  this._bootstrapAsync();
-							} else if (data.status == 404 && data.status == 500) {
+							} else if (data.status == 404 || data.status == 500) {
+								showMessage({
+									message: "Un probleme est survenus, si le probleme persiste contactez nous",
+									type: "danger",
+								});
+							} else if (data.status == 401) {
 								showMessage({
 									message: "Un probleme est survenus, vous allez être déconnecté",
 									type: "danger",
@@ -136,7 +141,12 @@ class Calendar extends React.Component {
 							message: "Aucun médecin assigné au module \"Diabète\", la note n'a pas été partagé",
 							type: "danger"
 						});
-					} else if (data.status == 404 && data.status == 500) {
+					} else if (data.status == 404 || data.status == 500) {
+						showMessage({
+							message: "Un probleme est survenus, si le probleme persiste contactez nous",
+							type: "danger",
+						});
+					} else if (data.status == 401) {
 						showMessage({
 							message: "Un probleme est survenus, vous allez être déconnecté",
 							type: "danger",
@@ -176,7 +186,12 @@ class Calendar extends React.Component {
 										loading: true
 									})
 									this._bootstrapAsync();
-								} else if (data.status == 404 && data.status == 500) {
+								} else if (data.status == 404 || data.status == 500) {
+									showMessage({
+										message: "Un probleme est survenus, si le probleme persiste contactez nous",
+										type: "danger",
+									});
+								} else if (data.status == 401) {
 									showMessage({
 										message: "Un probleme est survenus, vous allez être déconnecté",
 										type: "danger",
@@ -190,7 +205,12 @@ class Calendar extends React.Component {
 								}
 							})
 						}
-					} else if (data.status == 404 && data.status == 500) {
+					} else if (data.status == 404 || data.status == 500) {
+						showMessage({
+							message: "Un probleme est survenus, si le probleme persiste contactez nous",
+							type: "danger",
+						});
+					} else if (data.status == 401) {
 						showMessage({
 							message: "Un probleme est survenus, vous allez être déconnecté",
 							type: "danger",
@@ -496,13 +516,26 @@ class Calendar extends React.Component {
 		this.props.getUserToken().then(() => {
 			APIDoctorOfNotes(this.props.token.token, note_id).then(async data => {
 				let response = await data.json();
-				if (response.length == 0)
-					shared = true
-				else
-					shared = false
-				this.setState({
-					shared: this.state.shared.set(note_id, shared)
-				})
+				if (data.status == 200) {
+					if (response.length == 0)
+						shared = true
+					else
+						shared = false
+					this.setState({
+						shared: this.state.shared.set(note_id, shared)
+					})
+				} else if (data.status == 404) {
+					showMessage({
+		              message: "L'unit n'a pas été trouvé. Recommencez. Si le probleme persiste contactez nous",
+		              type: "danger",
+		            });
+				} else if (data.status == 401) {
+					showMessage({
+		              message: "Un probleme est survenus, vous allez être déconnecté",
+		              type: "danger",
+		            });
+		            this.props.navigation.navigate("Logout")
+				}
 			})
 		})
 	}
@@ -532,6 +565,18 @@ class Calendar extends React.Component {
 							i = i + 1
 						}
 					}
+				} else if (data.status == 422) {
+					showMessage({
+		              message: "Des parametres sont absents. Recommencez. Si le probleme persiste contactez nous",
+		              type: "danger",
+		            });
+		            this.props.navigation.navigate("Logout")
+				} else if (data.status == 401) {
+					showMessage({
+		              message: "Un probleme est survenus, vous allez être déconnecté",
+		              type: "danger",
+		            });
+		            this.props.navigation.navigate("Logout")
 				}
 				}).catch(error => {
 					this.setState({ error })
@@ -767,9 +812,20 @@ class Calendar extends React.Component {
 								type: "success"
 							});
 						}
+					} else if (data.status == 404) {
+						showMessage({
+							message: "La note n'a pas été trouvé. Recommencez. Si le probleme persiste contactez nous",
+							type: "danger",
+						});
+					} else if (data.status == 401) {
+						showMessage({
+							message: "Un probleme est survenus, vous allez être déconnecté",
+							type: "danger",
+						});
+						this.props.navigation.navigate("Logout");
 					} else {
 						showMessage({
-							message: "Une erreur est survenue, reessayez. Si le probleme persiste contactez nous",
+							message: "Une erreur " + data.status.toString() + ", reessayez. Si le probleme persiste contactez nous",
 							type: "danger"
 						});
 					}

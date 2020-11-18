@@ -73,9 +73,14 @@ class Home extends React.Component {
 					}).catch(error => {
 						this.setState({ error })
 					})
-				} else if (data.status == 404 && data.status == 500) {
+				} else if (data.status == 404 || data.status == 500) {
 					showMessage({
-						message: "Un probleme est survenus, vous allez être déconnecté",
+						message: "Un probleme est survenus. Si le probleme persiste contactez nous",
+						type: "danger",
+					});
+				} else if (data.status == 401) {
+					showMessage({
+						message: "Un probleme est survenus. Vous allez etre déconnecte",
 						type: "danger",
 					});
 					this.props.navigation.navigate("Logout");
@@ -114,9 +119,14 @@ class Home extends React.Component {
 							loading: false
 						})
 					}
-				} else if (data.status == 404 && data.status == 500) {
+				} else if (data.status == 404 || data.status == 500) {
 					showMessage({
-						message: "Un probleme est survenus, vous allez être déconnecté",
+						message: "Un probleme est survenus, si le probleme persiste contactez nous",
+						type: "danger",
+					});
+				} else if (data.status == 401) {
+					showMessage({
+						message: "Un probleme est survenus. Vous allez etre déconnecte",
 						type: "danger",
 					});
 					this.props.navigation.navigate("Logout");
