@@ -147,11 +147,10 @@ class EditNote extends React.Component {
 	};
 
 	handleDatePicked = datetime => {
+		this.hideDateTimePicker();
 		this.setState({ original_dt: datetime});
 		var date = datetime.getDate() + '/' + (datetime.getMonth() + 1) + '/' + datetime.getFullYear()
-		console.log(date)
 		this.setState({ date: date });
-		this.hideDateTimePicker();
 	};
 
 	showTimePicker = () => {
@@ -163,13 +162,13 @@ class EditNote extends React.Component {
 	};
 	 
 	handleTimePicked = datetime => {
-		this.setState({ original_dt: datetime});
+		this.hideTimePicker();
+		this.setState({original_dt: datetime})
 		if (datetime.getMinutes() > 9)
 			var horaire = datetime.getHours() + ':' + datetime.getMinutes()
 		else
 			var horaire = datetime.getHours() + ':' + "0" + datetime.getMinutes()
 		this.setState({ time: horaire });
-		this.hideTimePicker();
 	};
 
 	getParamTab() {
@@ -194,9 +193,8 @@ class EditNote extends React.Component {
 		}
 
 		let itemDate = item2.date
-		console.log(itemDate)
 		var now =  new Date(item2.date)
-		console.log(now)
+		var oui =  new Date()
 		var annee   = now.getFullYear();
 		var month    = now.getMonth() + 1;
 		var jour    = now.getDate();
@@ -213,6 +211,7 @@ class EditNote extends React.Component {
 		this.setState({
 			date: date,
 			time: horaire,
+			original_dt: new Date(now - (oui.getTimezoneOffset() * 60 * 1000)),
 		})
 	}
 

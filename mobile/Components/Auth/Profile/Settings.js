@@ -15,15 +15,7 @@ class Settings extends React.Component {
 		return (
 			<View style={{flex: 1}}>
 				<View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row"}}>
-					<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
-            			<Icon
-						  	name="arrow-back"
-						  	color={"white"}
-						  	size={45}
-						  	onPress={() => { this.props.navigation.navigate('Profile') }}
-						  	style={{justifyContent: "flex-end"}}
-						/>
-            		</View>
+					<View style={{flex: 2}}/>
             		<View style={{flex: 6, justifyContent: "center", alignItems: "center"}}>
             			<Text style={{color: "white", fontWeight: "bold", fontSize:22}}>Paramètres</Text>
             		</View>

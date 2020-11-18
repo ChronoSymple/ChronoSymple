@@ -88,6 +88,11 @@ class Calendar extends React.Component {
 		this._bootstrapAsync();
 		const { navigation } = this.props;
 		this.focusListener = navigation.addListener('didFocus', () => {
+			this.setState({
+				notes: [],
+				selectedNotes: [],
+				loading: true
+			})
 			this._bootstrapAsync();
 	  });
 	}
@@ -540,7 +545,7 @@ class Calendar extends React.Component {
 		})
 	}
 
-	_bootstrapAsync = () => {
+	_bootstrapAsync = async () => {
 		NetInfo.fetch().then((state) => {
 			if (state.isConnected == true) {
 				this.setInternetModal(false)
@@ -1235,7 +1240,7 @@ class Calendar extends React.Component {
           			        name="notes-medical"
           			        color={"white"}
           			        size={40}
-          			        onPress={() => { this.props.navigation.navigate('Calendar', {pageToReturn: "Check"}) }}
+          			        onPress={() => { this.props.navigation.navigate('Check') }}
           			        style={{justifyContent: "flex-end"}}
           			      />
           			    </View>
