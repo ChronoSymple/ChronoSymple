@@ -66,7 +66,12 @@ class ExportPDF extends React.Component {
 						})
 					}
 				}
-			} else if (data.status == 404 && data.status == 500) {
+			} else if (data.status == 404 || data.status == 500) {
+				showMessage({
+					message: "Un probleme est survenus, si le probleme persiste contactez nous",
+					type: "danger",
+				});
+			} else if (data.status == 401) {
 				showMessage({
 					message: "Un probleme est survenus, vous allez être déconnecté",
 					type: "danger",

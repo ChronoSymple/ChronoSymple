@@ -109,6 +109,17 @@ class EditNote extends React.Component {
 					if (data.status == 200) {
 						this.setState({ isSend: true })
 						navigate("Calendar")
+					} else if (data.status == 404) {
+						showMessage({
+							message: "La note n'a pas pu etre ajouter. Recommencez. Si le probleme persiste contactez nous",
+							type: "danger",
+						});
+					} else if (data.status == 401) {
+						showMessage({
+							message: "Un probleme est survenus, vous allez être déconnecté",
+							type: "danger",
+						});
+						this.props.navigation.navigate("Logout");
 					}
 				}).catch(error => {
 						this.setState({ error })
