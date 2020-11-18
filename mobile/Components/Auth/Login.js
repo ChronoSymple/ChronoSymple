@@ -4,6 +4,7 @@ import { LoginAPatientWithApi } from '../../API/APIConnection'
 import { styles, colors, windowSize } from '../StyleSheet'
 import { connect } from 'react-redux';
 import { saveUserToken } from '../../Redux/Action/action';
+import { showMessage } from "react-native-flash-message";
 
 
 class Login extends React.Component {
@@ -42,9 +43,17 @@ class Login extends React.Component {
 				else {
 					navigate('SignIn')
 				}
-			}
-			else {
+			} else if (data.status == 401) {
 				this.setState({ isInvalid: true, errorText: "Problème de connection" })
+				showMessage({
+					message: "Votre adresse mail ou mot de passe est incorrect",
+					type: "danger"
+				});
+			} else {
+				showMessage({
+					message: "Une erreur est survenue. Recommencez. Si le probleme persiste contactez nous.",
+					type: "danger"
+				});
 			}
 		});
 	}

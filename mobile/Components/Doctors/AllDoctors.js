@@ -49,6 +49,17 @@ class AllDoctors extends React.Component {
 							loading: false
 						})
 					}
+				} else if (data.status == 404 || data.status == 500) {
+					showMessage({
+						message: "Un probleme est survenus. Si le probleme persiste contactez nous",
+						type: "danger",
+					});
+				} else if (data.status == 401) {
+					showMessage({
+						message: "Une erreur est survenue, vous avez été deconnecter",
+						type: "danger",
+					});
+					this.props.navigation.navigate("Logout");
 				}
 			})
 		}).catch(error => {

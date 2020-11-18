@@ -58,10 +58,24 @@ class DoctorsOfModule extends React.Component {
 			this.props.getUserCurrentModule().then(() => {
 				APIgetDoctorsOfModule(this.props.token.token, this.state.dModule.id).then(async data => {
                     let response = await data.json()
-					this.setState({ 
-						finish: true,
-						doctorsOfModule: response
-					})
+                    if (data.status == 200) {
+						this.setState({ 
+							finish: true,
+							doctorsOfModule: response
+						})
+                    } else if (data.status == 404) {
+						showMessage({
+							message: "l'unit n'a pas été trouvé. Recommencez. Si le probleme persiste contactez nous",
+							type: "danger",
+						});
+						this.props.navigation.navigate("Logout");
+                    } else if (data.status == 401) {
+                    	showMessage({
+							message: "Un probleme est survenus, vous allez être déconnecté",
+							type: "danger",
+						});
+						this.props.navigation.navigate("Logout");
+                    }
 				}).catch(error => {
 					this.setState({ error, finish: true, doctorsOfModule: [] })
 				})

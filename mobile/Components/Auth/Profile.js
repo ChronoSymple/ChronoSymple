@@ -143,6 +143,12 @@ class Profile extends React.Component {
 					message: "Le mot de passe saisie est incorrecte",
 					type: "danger"
 				});
+			} else if (data.status == 401) {
+				showMessage({
+					message: "Vous avez été deconnecte",
+					type: "danger"
+				});
+				this.props.navigation.navigate("Logout")
 			} else {
 				let response = await data.json()
 				showMessage({
@@ -167,6 +173,17 @@ class Profile extends React.Component {
 						message: "Le numero de telephone a bien été changé",
 						type: "success"
 					});
+				} else if (data.status == 403) {
+					showMessage({
+						message: "Le mot de passe saisie est incorrecte",
+						type: "danger"
+					});
+				} else if (data.status == 401) {
+					showMessage({
+						message: "Vous avez été deconnecte",
+						type: "danger"
+					});
+					this.props.navigation.navigate("Logout")
 				} else {
 					let response = await data.json()
 					showMessage({
@@ -196,6 +213,17 @@ class Profile extends React.Component {
 						message: "L'adresse mail a bien été changé",
 						type: "success"
 					});
+				} else if (data.status == 403) {
+					showMessage({
+						message: "Le mot de passe saisie est incorrecte",
+						type: "danger"
+					});
+				} else if (data.status == 401) {
+					showMessage({
+						message: "Vous avez été deconnecte",
+						type: "danger"
+					});
+					this.props.navigation.navigate("Logout")
 				} else {
 					let response = await data.json()
 					showMessage({

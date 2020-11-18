@@ -124,12 +124,31 @@ class SignIn extends React.Component {
 						let response = await data.json()
 						navigate('AccountValidation', {matchCode: response.confirmation_token})
 					})
+				} else if (data.status == 401) {
+					showMessage({
+						message: "un erreur est survenue. Vous avez été deconnecte",
+						type: "danger"
+					});
+					navigate("Logout")
 				}
 				else {
+					showMessage({
+						message: "Une erreur est survenue. Si le probleme persiste, contactez nous",
+						type: "danger"
+					});
 					navigate('SignIn')
 				}
+			} else if (data.status == 422) {
+				showMessage({
+					message: "Les parametres saisie sont incorrects ou le compte existe deja.",
+					type: "danger"
+				});
 			}
 			else {
+				showMessage({
+					message: "un erreur est survenue. Si le probleme persiste contactez nous",
+					type: "danger"
+				});
 				this.setState({ isInvalid: true})
 			}
 		});

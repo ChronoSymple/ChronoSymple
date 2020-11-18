@@ -63,6 +63,17 @@ class AccountValidation extends React.Component {
 						type: "success"
 					});	
 				this.setState({ matchCode: response.confirmation_token })
+			} else if (data.status == 401) {
+				showMessage({
+					message: "un erreur est survenue. Vous avez été deconnecte",
+					type: "danger"
+				});
+				this.props.navigation.navigate("Logout")
+			} else {
+				showMessage({
+					message: "Une erreur est survenue. Si le probleme persiste, contactez nous",
+					type: "danger"
+				});
 			}
 		})
 	}

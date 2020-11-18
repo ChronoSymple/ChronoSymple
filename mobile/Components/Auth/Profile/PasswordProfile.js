@@ -29,6 +29,17 @@ class PasswordProfile extends React.Component {
                 message: "Le mot de passe a bien été changé",
                 type: "success"
               });
+            } else if (data.status == 403) {
+              showMessage({
+                message: "incorrect mot de passe",
+                type: "danger"
+              });
+            } else if (data.status == 401) {
+              showMessage({
+                message: "Vous avez été deconnecte",
+                type: "danger"
+              });
+              this.props.navigation.navigate("Logout")
             } else {
               showMessage({
                 message: "Une erreur est survenue. Recommencez. Si le probleme persiste contactez nous.",
@@ -36,9 +47,20 @@ class PasswordProfile extends React.Component {
               });
             }
           })
+        } else if (data.status == 403) {
+          showMessage({
+            message: "incorrect mot de passe",
+            type: "danger"
+          });
+        } else if (data.status == 401) {
+          showMessage({
+            message: "Vous avez été deconnecte",
+            type: "danger"
+          });
+          this.props.navigation.navigate("Logout")
         } else {
          showMessage({
-            message: "Le mot de passe actuelle saisie est incorrecte",
+            message: "Une erreur est survenue. Recommencez. Si le probleme persiste contactez nous.",
             type: "danger"
           }); 
         }

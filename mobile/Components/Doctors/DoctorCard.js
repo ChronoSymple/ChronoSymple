@@ -68,6 +68,17 @@ class DoctorCard extends React.Component {
 						hours: "",
 						display: true
 					})
+				} else if (data.status == 404) {
+					showMessage({
+						message: "le docteur n'a pas été trouvé. Recommencez. Si le probleme persiste contactez nous",
+						type: "danger",
+					});
+				} else if (data.status == 401) {
+					showMessage({
+						message: "Un probleme est survenus, vous allez être déconnecté",
+						type: "danger",
+					});
+					this.props.navigation.navigate("Logout");
 				}
 			})
 		}).catch(error => {
@@ -96,8 +107,18 @@ class DoctorCard extends React.Component {
 						});
 					}
 					this.props.navigation.navigate("Home")
-				}
-				else {
+				} else if (data.status == 404) {
+					showMessage({
+						message: "Le docteur ou l'unit(Module) n'a pas été trouver. Recommencez. Si le probleme persiste contactez nous",
+						type: "danger",
+					});
+				} else if (data.status == 401) {
+					showMessage({
+						message: "Un probleme est survenus, vous allez être déconnecté",
+						type: "danger",
+					});
+					this.props.navigation.navigate("Logout");
+				} else {
 					showMessage({
 						message: "Le médecin " + this.state.firstName + " " + this.state.lastName + " n'a pas a été ajouté",
 						type: "danger",
@@ -126,8 +147,18 @@ class DoctorCard extends React.Component {
 						this.props.navigation.navigate("Profile")
 					else
 						this.props.navigation.navigate("Home")
-				}
-				else if (data.status != 200) {
+				} else if (data.status == 404) {
+					showMessage({
+						message: "Le docteur ou l'unit (Module) n'a pas été trouver. Recommencez. Si le probleme persiste contactez nous",
+						type: "danger",
+					});
+				} else if (data.status == 401) {
+					showMessage({
+						message: "Un probleme est survenus, vous allez être déconnecté",
+						type: "danger",
+					});
+					this.props.navigation.navigate("Logout");
+				} else {
 					showMessage({
 						message: "Le médecin " + this.state.firstName + " " + this.state.lastName + " n'a pas a été supprimé",
 						type: "danger",
