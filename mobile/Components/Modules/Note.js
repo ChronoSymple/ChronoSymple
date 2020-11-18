@@ -121,6 +121,7 @@ class Note extends React.Component {
 				APIAddPatientNotes(this.props.token.token, note, this.state.original_dt, this.props.currentModule.currentModule).then(data => {
 					if (data.status == 200) {
 						this.setState({ isSend: true })
+						console.log(this.state.pageToReturn)
 						navigate(this.state.pageToReturn)
 					}
 				}).catch(error => {

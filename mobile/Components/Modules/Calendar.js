@@ -8,6 +8,7 @@ import { colors, windowSize } from '../StyleSheet';
 import ModalFilter from "./ModalFilter"
 import { connect } from 'react-redux'
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon2 from 'react-native-vector-icons/FontAwesome5';
 import { CheckBox } from 'react-native-elements'
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import Modal2 from "react-native-modal";
@@ -1156,88 +1157,90 @@ class Calendar extends React.Component {
         		  config={config}
         		  style={{flex: 9}}
         		>
-					<View style={{position:'absolute', bottom:10, zIndex: 2, right:130}}>
-						<View
-						style={{
-						   	borderWidth:1,
-						   	borderColor:"white",
-						   	alignItems:'center',
-						   	justifyContent:'center',
-						   	width:100,
-						   	height:100,
-						   	backgroundColor:colors.secondary,
-						   	borderRadius:50,
-						 	shadowColor: '#000',
-							shadowOffset: { width: 1, height: 2 },
-							shadowOpacity: 1,
-							shadowRadius: 1.5,
-							elevation: 10
-						}}>
-						<Icon
-							name="add"
-							color={"white"}
-							size={100}
-							onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "Calendar"}) }}
-							style={{justifyContent: "flex-end"}}
-						/>
-						</View>
-					</View>
-        			<View style={{position:'absolute', bottom:10, zIndex: 2, left: 50}}>
-						<View
-						style={{
-						   	borderWidth:1,
-						   	borderColor:"white",
-						   	alignItems:'center',
-						   	justifyContent:'center',
-						   	width:70,
-						   	height:70,
-						   	backgroundColor:colors.secondary,
-						   	borderRadius:50,
-						 		shadowColor: '#000',
-							shadowOffset: { width: 1, height: 2 },
-							shadowOpacity: 1,
-							shadowRadius: 1.5,
-							elevation: 10
-						}}>
-						<Icon
-							name="insert-chart"
-							color={"white"}
-							size={50}
-							onPress={() => { this.props.navigation.navigate('Check', {pageToReturn: "Check"}) }}
-							style={{justifyContent: "flex-end"}}
-						/>
-						</View>
-					</View>	
+					<View style={{position:'absolute', bottom:10, zIndex: 2, width: "100%", flexDirection: "row"}}>            
+          			  <View style={{flex: 3, alignItems: "flex-end", justifyContent: "flex-end"}}>
+          			    <View
+          			      style={{
+          			        borderWidth:1,
+          			        borderColor:colors.secondary,
+          			        alignItems:'center',
+          			        justifyContent:'center',
+          			        width:70,
+          			        height:70,
+          			        backgroundColor:colors.secondary,
+          			        borderRadius:50,
+          			        shadowColor: '#000',
+          			        shadowOffset: { width: 1, height: 2 },
+          			        shadowOpacity: 1,
+          			        shadowRadius: 1.5,
+          			        elevation: 10
+          			    }}>
+          			      <Icon2
+          			        name="notes-medical"
+          			        color={"white"}
+          			        size={40}
+          			        onPress={() => { this.props.navigation.navigate('Calendar', {pageToReturn: "Check"}) }}
+          			        style={{justifyContent: "flex-end"}}
+          			      />
+          			    </View>
+          			  </View>
+          			  <View style={{flex: 3, alignItems: "center"}}>
+          			    <View
+          			      style={{
+          			        borderWidth:1,
+          			        borderColor:colors.secondary,
+          			        alignItems:'center',
+          			        justifyContent:'center',
+          			        width:100,
+          			        height:100,
+          			        backgroundColor:colors.secondary,
+          			        borderRadius:50,
+          			        shadowColor: '#000',
+          			        shadowOffset: { width: 1, height: 2 },
+          			        shadowOpacity: 1,
+          			        shadowRadius: 1.5,
+          			        elevation: 10
+          			    }}>
+          			      <Icon
+          			        name="add"
+          			        color={"white"}
+          			        size={100}
+          			        onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "Calendar"}) }}
+          			        style={{justifyContent: "flex-end"}}
+          			      />
+          			    </View>
+          			  </View>
 					{ this.state.selectedNotes.length > 0 ?
-						<View style={{position:'absolute',bottom:10, zIndex: 2, right: 50}}>
+						<View style={{flex: 3, alignItems: "flex-start", justifyContent: "flex-end"}}>
 							<View
-							style={{
-								borderWidth:1,
-								borderColor:"white",
-								alignItems:'center',
-								justifyContent:'center',
-								width:70,
-								height:70,
-								backgroundColor:colors.secondary,
-								borderRadius:50,
-								shadowColor: '#000',
-							 shadowOffset: { width: 1, height: 2 },
-							 shadowOpacity: 1,
-							 shadowRadius: 1.5,
-							 elevation: 10
-							}}>
-								<Icon
-									name="more-vert"
-									color={"white"}
-									size={50}
-									onPress={() => { this.setModalCheckboxVisible(true); }}
-									style={{justifyContent: "flex-end"}}
-								/>
+          			      		style={{
+									borderWidth:1,
+									borderColor:colors.secondary,
+									alignItems:'center',
+									justifyContent:'center',
+									width:70,
+									height:70,
+									backgroundColor:colors.secondary,
+									borderRadius:50,
+									shadowColor: '#000',
+									shadowOffset: { width: 1, height: 2 },
+									shadowOpacity: 1,
+									shadowRadius: 1.5,
+									elevation: 10
+								}}>
+									<Icon
+										name="more-vert"
+										color={"white"}
+										size={50}
+										onPress={() => { this.setModalCheckboxVisible(true); }}
+										style={{justifyContent: "flex-end"}}
+									/>
 							</View>
 						</View>
 						:
-						<View></View>
+						<View style={{flex: 3}}/>
 					}
+          			</View>
         			<View style={{ flex: 1, justifyContent: 'center', alignContent: "center", flexDirection: 'row', backgroundColor: "", width: Dimensions.get('window').width}}>
         				<View style={{ flex: 2 }}></View>
         				{ this.state.datasMode != this.state.adminEnum.Custom &&
@@ -1287,7 +1290,7 @@ class Calendar extends React.Component {
 						</View>
 						:
 						<SafeAreaView>
-							<FlatList
+							<FlatList							
 							data={this.state.notes}
 							keyExtractor={(item) => item.id.toString()}
 							renderItem={({item}) => (
@@ -1394,7 +1397,8 @@ const styles = StyleSheet.create({
 	  	justifyContent: 'center',
 	  	padding: 15,
 	  	color: '#000',
-	  	flexDirection: "row"
+		  flexDirection: "row",
+		
 	},
 	noteText: {
 		fontSize: 20,
