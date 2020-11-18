@@ -22,7 +22,7 @@ class Profile extends React.Component {
 			tmpPhoneNumber: "",
 			birthdate: "",
 			civility: "",
-			picture: "https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png",
+			picture: "",
 			modalPictureVisible: false,
 			password : "",
 			confirmPressed: false,
@@ -55,7 +55,7 @@ class Profile extends React.Component {
 				phoneNumber: response.phone_number ? response.phone_number : "",
 				birthdate: response.birthdate,
 				civility: response.civility,
-				picture: response.picture ? response.picture : 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png',
+				picture: response.picture ? response.picture : "",
 			})
 		})
 	}
@@ -64,15 +64,12 @@ class Profile extends React.Component {
 	chooseImage = () => {
 		let options = {
 			title: 'Select Image',
-			customButtons: [
-				{ name: 'customOptionKey', title: 'Choose Photo from Custom Option' },
-			],
 			storageOptions: {
 				skipBackup: true,
 				path: 'images',
 			},
 		};
-		ImagePicker.showImagePicker(options, (response) => {
+		ImagePicker.launchImageLibrary(options, (response) => {
 			if (response.didCancel) {
 			} else if (response.error) {
 			} else if (response.customButton) {
@@ -217,32 +214,6 @@ class Profile extends React.Component {
 		this.setModalMailVisible(!this.state.modalMailVisible)
 	}
 
-
-	renderFileData() {
-		if (this.state.fileData) {
-			return <Image source={{ uri: 'data:image/jpeg;base64,' + this.state.fileData }}
-				style={styles.images}
-			/>
-		} else {
-			return <Image source={require('../../assets/photo-1532274402911-5a369e4c4bb5.jpeg')}
-				style={styles.images}
-			/>
-		}
-	}
-
-	renderFileUri() {
-		if (this.state.fileUri) {
-			return <Image
-				source={{ uri: this.state.fileUri }}
-				style={styles.images}
-			/>
-		} else {
-			return <Image
-				source={require('../../assets/photo-1532274402911-5a369e4c4bb5.jpeg')}
-				style={styles.images}
-			/>
-		}
-	}
 
 	render() {
 		let { navigate } = this.props.navigation;
@@ -425,10 +396,17 @@ class Profile extends React.Component {
           	</View>
 			<View style={{ flex: 2.5, alignItems: "center", justifyContent : "center" , flexDirection: 'row'}}>
 				<TouchableOpacity onPress={() => this.chooseImage()}>
+					{ this.state.picture ?
 					<Image
-					 	source={{uri: 'data:image/jpeg;base64,'+ this.state.picture }}
-						style={{ width: 140, height: 140, borderRadius: 140 / 2, borderWidth : 1, borderColor: colors.primary}}
+					 	source={{uri: 'data:image/jpeg;base64,' + this.state.picture }}
+						style={{ width: 140, height: 140, borderRadius: 140 / 2, borderWidth : 2, borderColor: "black"}}
 					/>
+					:
+					<Image
+					 	source={{uri: 'https://scontent-cdt1-1.xx.fbcdn.net/v/t1.0-9/118963341_107148524459460_1961865992722379461_n.png?_nc_cat=103&ccb=2&_nc_sid=85a577&efg=eyJpIjoidCJ9&_nc_ohc=WzS6lvFcgKcAX-FS0QT&_nc_ht=scontent-cdt1-1.xx&oh=d5cfd640968255af3cc1e8d075bf8fb4&oe=5FD84C90' }}
+						style={{ width: 140, height: 140, borderRadius: 140 / 2, borderWidth : 2, borderColor: "black"}}
+					/>
+					}
 				</TouchableOpacity>
 			</View>
 			<View style={{flex: 7}}>
