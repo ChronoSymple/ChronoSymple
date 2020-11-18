@@ -89,8 +89,13 @@ class Note extends React.Component {
 										fieldsJSON: []
 									})
 								}
-							}
-							else {
+							} else if (data.status == 401) {
+								showMessage({
+									message: "Un probleme est survenus, vous allez être déconnecté",
+									type: "danger",
+								});
+								this.props.navigation.navigate("Logout");
+							} else {
 								return (null);
 							}
 						}).catch(error => {
@@ -123,7 +128,18 @@ class Note extends React.Component {
 						this.setState({ isSend: true })
 						console.log(this.state.pageToReturn)
 						navigate(this.state.pageToReturn)
-					}
+					} else if (data.status == 404) {
+						showMessage({
+							message: "La note n'a pas pu etre ajouté. Recommencez. Si le probleme persiste contactez nous",
+							type: "danger",
+						});
+					} else if (data.status == 401) {
+						showMessage({
+							message: "Un probleme est survenus, vous allez être déconnecté",
+							type: "danger",
+						});
+						this.props.navigation.navigate("Logout");
+					} 
 				}).catch(error => {
 					this.setState({ error })
 				})

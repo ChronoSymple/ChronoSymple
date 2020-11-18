@@ -40,6 +40,12 @@ class ModulePlace extends React.Component {
 						Dmodules: [ ...this.state.Dmodules, ...response.modules ],
 						loading: false,
 					})
+				} else if (data.status == 401) {
+					showMessage({
+						message: "Un probleme est survenus, vous allez être déconnecté",
+						type: "danger",
+					});
+					this.props.navigation.navigate("Logout");
 				}
 			})
 		}).catch(error => {
@@ -53,34 +59,47 @@ class ModulePlace extends React.Component {
 				if (data.status == 200 || data.status == 422)
 				{
 					APIGetPatientModules(this.props.token.token).then(async data => {
-						let response = await data.json()
-						for (var i = 0; i < response.length; i++) {
-							if (response[i].general_unit.name == moduleName)
-								this.props.saveUserCurrentModule(response[i].id.toString())
-								.then(() => {
-									this.props.saveUserCurrentModuleName(moduleName)
+						if (data.status == 200) {
+							let response = await data.json()
+							for (var i = 0; i < response.length; i++) {
+								if (response[i].general_unit.name == moduleName)
+									this.props.saveUserCurrentModule(response[i].id.toString())
 									.then(() => {
-										showMessage({
-											message: "Le module " + moduleName + " a été ajouté",
-											type: "success",
-										});
-										this.props.navigation.navigate('Module', {idModule: idModule})
-									})
-									.catch((error) => {
-										showMessage({
-											message: "Une erreur est survenue : Le module " + moduleName + " n'a été ajouté",
-											type: "danger",
-										});
-										this.setState({ error })
-									})
-								})
-								.catch((error) => {
-									showMessage({
-										message: "Une erreur est survenue : Le module " + moduleName + " n'a été ajouté",
-										type: "danger",
-									});
-									this.setState({ error })
-								})
+										this.props.saveUserCurrentModuleName(moduleName)
+											.then(() => {
+												showMessage({
+													message: "Le module " + moduleName + " a été ajouté",
+													type: "success",
+												});
+												this.props.navigation.navigate('Module', {idModule: idModule})
+											})
+											.catch((error) => {
+												showMessage({
+													message: "Une erreur est survenue : Le module " + moduleName + " n'a été ajouté",
+													type: "danger",
+												});
+												this.setState({ error })
+											})
+										})
+										.catch((error) => {
+											showMessage({
+												message: "Une erreur est survenue : Le module " + moduleName + " n'a été ajouté",
+												type: "danger",
+											});
+											this.setState({ error })
+										})
+							}
+						} else if (data.status == 404 || data.status == 500) {
+							showMessage({
+								message: "Un probleme est survenus, si le probleme persiste contactez nous",
+								type: "danger",
+							});
+						} else if (data.status == 401) {
+							showMessage({
+								message: "Un probleme est survenus, vous allez etre déconnecté",
+								type: "danger",
+							});
+							this.props.navigation.navigate("Logout")
 						}
 					})
 				}

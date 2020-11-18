@@ -14,6 +14,8 @@ import Modal from "react-native-modal";
 import CalendarPicker from 'react-native-calendar-picker'
 import NetInfo from "@react-native-community/netinfo";
 import Icon2 from 'react-native-vector-icons/FontAwesome5';
+import { showMessage } from "react-native-flash-message";
+
 
 class Statistic extends React.Component {
   
@@ -428,7 +430,18 @@ class Statistic extends React.Component {
 				 	if (data.status == 200) {
             this._createStats(response)
             this._averageMaker()
-					}
+					} else if (data.status == 422) {
+            showMessage({
+              message: "Des parametres sont absents. Recommencez. Si le probleme persiste contactez nous",
+              type: "danger",
+            });
+          } else if (data.status == 401) {
+            showMessage({
+              message: "Un probleme est survenus, vous allez être déconnecté",
+              type: "danger",
+            });
+            this.props.navigation.navigate("Logout")
+          }
 					}).catch(error => {
 						this.setState({ error })
 					})
