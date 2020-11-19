@@ -102,6 +102,7 @@ class SignIn extends React.Component {
 	}
 
 	createAccount = () => {
+		birthDate = this.state.PickerDay + "/" + this.state.PickerMonth + "/" + this.state.PickerYear;
 		SiginAPatientWithApi(this.state.fname, this.state.lname, this.state.mail, this.state.password, this.state.Gender, birthDate, this.state.phoneNumber).then(async data => {
 			if (data.status == 201) {
 				let response = await data.json()
@@ -138,34 +139,39 @@ class SignIn extends React.Component {
 	}
 
 	checkSignIn = () => {
-		this.setModalValidationVisible(true)
-		/*let { navigate } = this.props.navigation;
+		this.setState({ isInvalid: false})
+		let { navigate } = this.props.navigation;
 		if (!this.verification()) {
 			this.setState({ isInvalid: true})
 			return;
 		}
 		if (this.state.password != this.state.rePassword) {
 			this.setState({ errorMessage: "Les deux mots de passe ne sont pas identiques" })
+		} else {
+			confirmPatientEmail(this.state.mail, this.state.lname + " " + this.state.fname).then(async data => {
+				let response = await data.json()
+				if (data.status == 200) {
+					this.setModalValidationVisible(true)
+					this.setState({ confirmationToken: response.confirmation_token })
+					showMessage({
+						message: "Un code de validation de compte vient de vous etre envoye par mail.",
+						type: "info"
+					});
+				} else {
+					showMessage({
+						message: "un erreur est survenue. Reessayez. si le probleme persiste contactez nous",
+						type: "danger"
+					});
+				}
+			})
 		}
-		birthDate = this.state.PickerDay + "/" + this.state.PickerMonth + "/" + this.state.PickerYear;
-		confirmPatientEmail(this.state.mail, this.state.lname + " " + this.state.fname).then(async data => {
-			let response = await data.json()
-			if (data.status == 200) {
-				this.setModalValidationVisible(true)
-				this.setState({ confirmationToken: response.confirmation_token })
-			} else {
-				showMessage({
-					message: "un erreur est survenue. Reessayez. si le probleme persiste contactez nous",
-					type: "danger"
-				});
-			}
-		})
-*/
+
 	}
 
 	checkCodeValidation = () => {
 		if (this.state.code == this.state.confirmationToken) {
 			this.createAccount()
+			this.setModalValidationVisible(false)
 		} else {
 			this.setCode("")
 			showMessage({
@@ -327,7 +333,7 @@ class SignIn extends React.Component {
 						<View style={{ flex: 1, justifyContent: "center", width:"80%"}}>
 							<Button 
 								color={colors.primary}
-								/*onPress={() => this.checkCodeValidation()}*/
+								onPress={() => this.checkCodeValidation()}
 								title={login}
 								style={{flex: 1}}
 							/>
