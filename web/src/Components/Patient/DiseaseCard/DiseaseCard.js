@@ -31,6 +31,7 @@ class DiseaseCard extends PureComponent {
     const {
       diseaseName,
       defaultOpen,
+      unitId,
     } = this.props;
     const {
       data,
@@ -47,7 +48,7 @@ class DiseaseCard extends PureComponent {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <Request loading={!loaded} error={error}>
-              {(() => <Component data={data}/>)()}
+              {(() => <Component data={data} unitID={unitId} />)()}
             </Request>
           </ExpansionPanelDetails>
         </ExpansionPanel>

@@ -27,7 +27,6 @@ class MyAppBar extends PureComponent {
     const {
       classes,
       openProfile,
-      openSettings,
       disconnect,
       openMenu,
       closeMenu,
@@ -40,7 +39,7 @@ class MyAppBar extends PureComponent {
       <div>
         <AppBar position="fixed">
           <Toolbar className={classes.root} style={{ background: '#62BE87' }}>
-            {back && <IconButton onClick={back} color=" "><ArrowBack/></IconButton>}
+            {back && <IconButton onClick={back} ><ArrowBack/></IconButton>}
             <Typography variant="h6" color="inherit" noWrap className={classes.title}>
               {title}
             </Typography>
@@ -68,7 +67,6 @@ class MyAppBar extends PureComponent {
             >
               <MenuItem onClick={openProfile}>{i18n.t('profile')}</MenuItem>
               <MenuItem onClick={disconnect}>{i18n.t('disconnect')}</MenuItem>
-              <MenuItem onClick={openSettings}>{i18n.t('settings')}</MenuItem>
             </Menu>
           </Toolbar>
         </AppBar>

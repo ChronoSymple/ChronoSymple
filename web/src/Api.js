@@ -126,10 +126,10 @@ const getPatient = (token, ID) =>
   loggedRequest(`${prefix}/doctors/patients/${ID}/profile`, token);
 
 const getLimits = (token, unitID) =>
-  loggedRequest(`${prefix}/doctors/doctor_units/${unitID}/get_fields_limits`, token);
+  loggedRequest(`${prefix}/doctors/units/${unitID}/get_fields_limits`, token);
 
 const setLimits = (token, unitID, obj) =>
-  loggedRequest(`${prefix}/doctors/doctor_units/${unitID}/set_fields_limits`, token, {
+  loggedRequest(`${prefix}/doctors/units/${unitID}/set_fields_limits`, token, {
     method: 'POST',
     body: JSON.stringify(obj)
   });
@@ -143,13 +143,13 @@ const getDoctorUnits = (token, doctorID) =>
 const addDoctorUnit = (token, doctorID, unit) =>
   loggedRequest(`${prefix}/admins/doctors/${doctorID}/add_unit`, token, {
     method: 'PATCH',
-    body: unit.toString()
+    body: JSON.stringify({'unit_id': unit}),
   });
 
 const removeDoctorUnit = (token, doctorID, unit) =>
   loggedRequest(`${prefix}/admins/doctors/${doctorID}/remove_unit`, token, {
     method: 'PATCH',
-    body: unit.toString()
+    body: JSON.stringify({'unit_id': unit}),
   });
 
 const getPatientUnits = (token, patientID) =>
@@ -158,13 +158,13 @@ const getPatientUnits = (token, patientID) =>
 const addPatientUnit = (token, patientID, unit) =>
   loggedRequest(`${prefix}/admins/patients/${patientID}/add_unit`, token, {
     method: 'PATCH',
-    body: unit.toString()
+    body: JSON.stringify({'unit_id': unit}),
   });
 
 const removePatientUnit = (token, patientID, unit) =>
   loggedRequest(`${prefix}/admins/patients/${patientID}/remove_unit`, token, {
     method: 'PATCH',
-    body: unit.toString()
+    body: JSON.stringify({'unit_id': unit}),
   });
 
 export default {
