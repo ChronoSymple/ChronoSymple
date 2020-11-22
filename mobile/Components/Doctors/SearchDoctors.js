@@ -128,7 +128,7 @@ class SearchDoctors extends React.Component {
 				<SearchBar					
 					round
 					lightTheme
-					placeholder="Search here ..."
+					placeholder="Rechercher ..."
 					onChangeText={(text) => this.updateSearch(text)}
 					value={this.state.search}>
 				</SearchBar>

@@ -19,14 +19,15 @@ import { showMessage } from "react-native-flash-message";
 import { colors } from '../StyleSheet'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { SearchBar } from 'react-native-elements'
+import { ScrollView } from 'react-native-gesture-handler';
 
 class ModulePlace extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
+			search: "",
 			Dmodules: [],
 			loading: true,
-			search: false
 		}
 		this._bootstrapAsync();
 	}
@@ -111,7 +112,14 @@ class ModulePlace extends React.Component {
 		})
 	}
 
-	_searchModule = () => {
+	updateSearch = (value) => {
+		this.setState({ search: value })
+	}
+
+	checkSearch = (module_name) => {
+		if (module_name.indexOf(this.state.search.toLowerCase()) != -1 || this.state.search.length == 0)
+			return(true)
+		return(false)
 	}
 
 	render() {
@@ -130,15 +138,13 @@ class ModulePlace extends React.Component {
             		<View style={{flex: 6, justifyContent: "center", alignItems: "center"}}>
             			<Text style={{color: "white", fontWeight: "bold", fontSize:22}}>Tous les modules</Text>
             		</View>
-            		<View style={{flex: 2}}>
-            		</View>
           		</View>
 				{this.state.loading
 					?	
 					<ActivityIndicator style={{flex: 9}} size='large' color='black' />
 					:
 					<SafeAreaView style={{flex: 9, flexDirection: "column"}}>
-						<SearchBar					
+						<SearchBar
 							round
 							lightTheme
 							placeholder="Search here ..."
@@ -146,16 +152,18 @@ class ModulePlace extends React.Component {
 							value={this.state.search}
 							style={{flex: 1, backgroundColor: "green"}}>
 						</SearchBar>
+
 						<FlatList
 							style={styles.list}
 							data={this.state.Dmodules}
 							keyExtractor={(item) => item.id.toString()}
 							renderItem={({item}) => (
-								<ModuleItem
-									dModule={item}
-									triggerModule={this._addModule}
-									generalUnit={false}
-								/>
+								this.checkSearch(item.name) && 
+									<ModuleItem
+										dModule={item}
+										triggerModule={this._addModule}
+										generalUnit={false}
+									/>
 							)}
 						/>
 					</SafeAreaView>

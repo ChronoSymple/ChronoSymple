@@ -71,13 +71,16 @@ class Calendar extends React.Component {
 			editNote: [],
 			displayDoctor: false,
 			doctorOfNote: "",
-			doctorsOfModule: [],
+			doctorsOfModule: this.getDoctors(),
 			displayDoctor: false,
 			finish: false,
 			shared: new Map(),
 			modalVisible: false,
 			modalInternetVisible: false,
-			currentModuleName: null
+			currentModuleName: null,
+			doctorName: "",
+			doctorID: "",
+			doctorsOfModule: ""
 		}
 		this.props.getUserCurrentModuleName().then(() => {
 			this.setState({
@@ -96,6 +99,41 @@ class Calendar extends React.Component {
 			this._bootstrapAsync();
 	  });
 	}
+
+	/* getDoctors = () => {
+		this.props.getUserToken().then(() => {
+			this.props.getUserCurrentModule().then(() => {
+				APIgetDoctorsOfModule(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
+					let response = await data.json()
+					if (data.status == 200) {
+						this.setState({ 
+							finish: true,
+							doctorsOfModule: response
+						})
+					} else if (data.status == 404) {
+						this.setState({ 
+							finish: true,
+							doctorsOfModule: []
+						})
+						showMessage({
+							message: "L'unit n'a pas été trouvé. Recommencez. Si le probleme persiste contactez nous",
+							type: "danger",
+						});
+					} else if (data.status == 401) {
+						showMessage({
+							message: "Un probleme est survenus, vous allez être déconnecté",
+							type: "danger",
+						});
+						this.props.navigation.navigate("Logout");
+					}
+				}).catch(error => {
+					this.setState({ error, finish: true })
+				})
+			})
+		}).catch(error => {
+			this.setState({ error })
+		})
+	} */
 
 	shareNote = () => {
 		let notes = this.state.selectedNotes;
@@ -1025,13 +1063,6 @@ class Calendar extends React.Component {
 						}
             		</View>
             		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
-            			<Icon
-						  	name="person"
-						  	color={"white"}
-						  	size={45}
-							onPress={() => { this.props.navigation.navigate('Infos', {"pageToReturn": "Calendar"})}}
-						  	style={{justifyContent: "flex-end"}}
-						/>
             		</View>
           		</View>
          		<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignContent: "stretch", width: Dimensions.get('window').width}}>
@@ -1067,17 +1098,19 @@ class Calendar extends React.Component {
 						onBackdropPress = {() => this.setModalCheckboxVisible(false)}>
 					    	<View style={styles.modalContent}>
 								<View style={styles.modalContentCenter}>
-									<TouchableOpacity style={{ alignItems: 'center', height: windowSize.y / 10 }} onPress={() => { this.exportPDFPressed() }}>
+									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.exportPDFPressed() }}>
 										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Exporter sous PDF </Text>
-									</TouchableOpacity>
-									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.setModalCheckboxVisible(false), this.showFilterModal()}}>
-										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager </Text>
-									</TouchableOpacity>
-									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.setModalCheckboxVisible(false), this.unshareNote() }}>
-										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Ne plus partager </Text>
 									</TouchableOpacity>
 									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => this._editNote()}>
 										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Editer </Text>
+									</TouchableOpacity>
+									{
+										<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.setModalCheckboxVisible(false), this.showFilterModal()}}>
+											<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager à </Text>
+										</TouchableOpacity>
+									}
+									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.setModalCheckboxVisible(false), this.unshareNote() }}>
+										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Ne plus partager </Text>
 									</TouchableOpacity>
 									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {this._deleteNote()}}>
 										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Supprimer </Text>
@@ -1103,7 +1136,10 @@ class Calendar extends React.Component {
 									<TouchableOpacity style={{ alignItems: 'center', height: windowSize.y / 10 }} onPress={() => { this.selectAllPressed() }}>
 										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Tout Selectionner </Text>
 									</TouchableOpacity>
-									<TouchableOpacity style={{ alignItems: 'center', height: windowSize.y / 10 }} onPress={() => { this.exportPDFPressed() }}>
+									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => this._editNote()}>
+										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Editer </Text>
+									</TouchableOpacity>
+									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.exportPDFPressed() }}>
 										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Exporter sous PDF </Text>
 									</TouchableOpacity>
 									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {  this.showFilterModal() }}>
@@ -1111,9 +1147,6 @@ class Calendar extends React.Component {
 									</TouchableOpacity>
 									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.unshareNote() }}>
 										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Ne plus partager </Text>
-									</TouchableOpacity>
-									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => this._editNote()}>
-										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Editer </Text>
 									</TouchableOpacity>
 									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => {this._deleteNote()}}>
 										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Supprimer </Text>
@@ -1245,6 +1278,7 @@ class Calendar extends React.Component {
           			      />
           			    </View>
           			  </View>
+					{ this.state.selectedNotes.length <= 0 ?
           			  <View style={{flex: 3, alignItems: "center"}}>
           			    <View
           			      style={{
@@ -1252,8 +1286,8 @@ class Calendar extends React.Component {
           			        borderColor:colors.secondary,
           			        alignItems:'center',
           			        justifyContent:'center',
-          			        width:100,
-          			        height:100,
+          			        width:85,
+          			        height:85,
           			        backgroundColor:colors.secondary,
           			        borderRadius:50,
           			        shadowColor: '#000',
@@ -1265,12 +1299,18 @@ class Calendar extends React.Component {
           			      <Icon
           			        name="add"
           			        color={"white"}
-          			        size={100}
-          			        onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "Calendar"}) }}
-          			        style={{justifyContent: "flex-end"}}
+          			        size={80}
+							onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "Calendar"}) }}
+							style={{
+								alignItems:'center',
+								justifyContent:'center',
+							}}
           			      />
           			    </View>
           			  </View>
+					:
+						<View style={{flex: 3}}/>
+					}
 					{ this.state.selectedNotes.length > 0 ?
 						<View style={{flex: 3, alignItems: "flex-start", justifyContent: "flex-end"}}>
 							<View
@@ -1279,8 +1319,8 @@ class Calendar extends React.Component {
 									borderColor:colors.secondary,
 									alignItems:'center',
 									justifyContent:'center',
-									width:70,
-									height:70,
+									width:65,
+									height:65,
 									backgroundColor:colors.secondary,
 									borderRadius:50,
 									shadowColor: '#000',

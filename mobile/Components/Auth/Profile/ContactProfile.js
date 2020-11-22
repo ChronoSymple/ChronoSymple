@@ -86,7 +86,6 @@ class ContactProfile extends React.Component {
 			let message = this.state.message
 			let phoneNumber = this.state.phoneNumber
 			sendEmail("victor.zhu@epitech.eu", subject, message, {email: email, phone: phoneNumber}).then(() => {
-				console.log("Your message was succesfully sent !")
 			})
 		}
 	}

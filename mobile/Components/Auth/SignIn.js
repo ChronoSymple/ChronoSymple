@@ -26,7 +26,7 @@ class SignIn extends React.Component {
 			mail: "",
 			password: "",
 			rePassword: "",
-			Gender: "femme",
+			Gender: "Madame",
 			GenderString: "",
 			phoneNumber: "",
 			PickerDay: "Jour",
@@ -287,8 +287,8 @@ class SignIn extends React.Component {
 		let genderFocused 		= "genderFocused"
 		let phoneNumberFocused = "phoneNumberFocused"
 		var Gender = [
-			{label: "Femme", value: "femme"},
-			{label: "Homme", value: "homme"},
+			{label: "Madame", value: "Madame"},
+			{label: "Monsieur", value: "Monsieur"},
 			{label: "Personnalisé", value: "personnalisé"}
 		]
 		let login 					= "Valider le code";
@@ -353,7 +353,11 @@ class SignIn extends React.Component {
 					<View style={{flex:3}}/>
 				</View>
 			</Modal>
-			<ImageBackground source={require("./../../assets/photo-1532274402911-5a369e4c4bb5.jpeg")} style={{width: '100%', height: '100%'}}>
+			<ScrollView
+				contentContainerStyle={{height: windowSize.y * 0.9}} 
+				centerContent={true} 
+				style={{flex: 1, backgroundColor: '#44808A' }}
+			>
     				<View style={[styles.AuthMainContainer, styles.SigninMainContainer]}>
 	      				<View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
 					      	<View style={{flex: 0.25}}></View>
@@ -650,7 +654,7 @@ class SignIn extends React.Component {
 						<View style={{flex: 0.25}}></View>
 					</View>
 				</View>
-			</ImageBackground>
+			</ScrollView>
 			</View>
 	)}
 }

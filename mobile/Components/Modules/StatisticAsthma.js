@@ -41,13 +41,6 @@ class Statistic extends React.Component {
             			<Text style={{color: "white", fontSize:18}}>Asthme</Text>
             		</View>
             		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
-            			<Icon
-						  	name="person"
-						  	color={"white"}
-						  	size={45}
-							onPress={() => { this.props.navigation.navigate('Infos', {"pageToReturn": "StatisticAsthma"})}}
-						  	style={{justifyContent: "flex-end"}}
-						/>
             		</View>
           		</View>
 				  <View style={{position:'absolute', bottom: 10, zIndex: 2, width: "100%", flexDirection: "row"}}>            
@@ -79,31 +72,33 @@ class Statistic extends React.Component {
               				</View>
             			</View>
             			<View style={{flex: 3, alignItems: "center"}}>
-              				<View
-              				  	style={{
-              				    	borderWidth:1,
-              				    	borderColor:colors.secondary,
-              				    	alignItems:'center',
-              				    	justifyContent:'center',
-              				    	width:100,
-              				    	height:100,
-              				    	backgroundColor:colors.secondary,
-              				    	borderRadius:50,
-              				    	shadowColor: '#000',
-              				    	shadowOffset: { width: 1, height: 2 },
-              				    	shadowOpacity: 1,
-              				    	shadowRadius: 1.5,
-              				    	elevation: 10
-              					}}
-							>
-                				<Icon
-                					name="add"
-                					color={"white"}
-                					size={100}
-                					onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "StatisticAsthma"}) }}
-                					style={{justifyContent: "flex-end"}}
-                				/>
-              				</View>
+							<View
+          			    	  style={{
+          			    	    borderWidth:1,
+          			    	    borderColor:colors.secondary,
+          			    	    alignItems:'center',
+          			    	    justifyContent:'center',
+          			    	    width:85,
+          			    	    height:85,
+          			    	    backgroundColor:colors.secondary,
+          			    	    borderRadius:50,
+          			    	    shadowColor: '#000',
+          			    	    shadowOffset: { width: 1, height: 2 },
+          			    	    shadowOpacity: 1,
+          			    	    shadowRadius: 1.5,
+          			    	    elevation: 10
+          			    	}}>
+          			    	  <Icon
+          			    	    name="add"
+          			    	    color={"white"}
+          			    	    size={80}
+								onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "Calendar"}) }}
+								style={{
+									alignItems:'center',
+									justifyContent:'center',
+								}}
+          			    	/>
+          			    	</View>
             			</View>
             			<View style={{flex: 3}}/>
           			</View>

@@ -267,6 +267,40 @@ const StackNavigator = createStackNavigator({
 });
 */
 
+const ProfileStackNavigator = createStackNavigator({
+	Profile: {
+		screen: Profile
+	},
+	PasswordProfile: {
+		screen: PasswordProfile,
+	}
+}, {
+		headerMode: 'none'
+})
+
+const SettingsStackNavigator = createStackNavigator({
+	Paramètres: {
+		screen: Settings
+	},
+	SupportProfile: {
+		screen: SupportProfile,
+	},
+	FAQProfile: {
+		screen: FAQProfile,
+	},
+	ContactProfile: {
+		screen: ContactProfile,
+	},
+	AProposProfile: {
+		screen: AProposProfile,
+	},
+	Settings: {
+		screen: Settings,
+	}
+}, {
+		headerMode: 'none'
+})
+
 const AllDoctorsStackNavigator = createStackNavigator({
 	AllDoctors: {
 		screen: AllDoctors,
@@ -275,9 +309,20 @@ const AllDoctorsStackNavigator = createStackNavigator({
 	headerMode: 'none'
 })
 
+const DoctorsStackNavigator = createStackNavigator({
+	SearchDoctors: {
+		screen: SearchDoctors
+	},
+	DoctorCard: {
+		screen: DoctorCard
+	}
+}, {
+	headerMode: 'none'
+})
+
 const ProfilBottomTabNavigator = createBottomTabNavigator({
 	Infos: {
-		screen : Profile,
+		screen : ProfileStackNavigator,
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
@@ -288,7 +333,7 @@ const ProfilBottomTabNavigator = createBottomTabNavigator({
 		)})
 	},
 	Médecins: {
-		screen : AllDoctors,
+		screen : AllDoctorsStackNavigator,
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
@@ -299,7 +344,7 @@ const ProfilBottomTabNavigator = createBottomTabNavigator({
 		)})
 	},
 	Paramètres: {
-		screen : Settings,
+		screen : SettingsStackNavigator,
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
@@ -332,6 +377,9 @@ const CalendarStackNavigator = createStackNavigator({
 })
 
 const StackNavigtorWhithModule = createStackNavigator({
+	Calendar: {
+		screen: CalendarStackNavigator
+	},
 	Check: {
 		screen: Check
 	},
@@ -343,9 +391,6 @@ const StackNavigtorWhithModule = createStackNavigator({
 	},
 	StatisticHypertension: {
 		screen: StatisticHypertension
-	},
-	Calendar: {
-		screen: CalendarStackNavigator
 	},
 },{
 	headerMode: 'none'
@@ -402,6 +447,9 @@ const StackNavigator = createStackNavigator({
 	},
 	Profil: {
 		screen: ProfilBottomTabNavigator
+	},
+	Doctor: {
+		screen: DoctorsStackNavigator
 	}
 },{
 	headerMode: 'none'

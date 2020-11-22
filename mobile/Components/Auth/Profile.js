@@ -55,11 +55,10 @@ class Profile extends React.Component {
 				phoneNumber: response.phone_number ? response.phone_number : "",
 				birthdate: response.birthdate,
 				civility: response.civility,
-				picture: response.picture ? response.picture : "",
+				picture: response.picture ? response.picture : '',
 			})
 		})
 	}
-
 
 	chooseImage = () => {
 		let options = {
@@ -87,7 +86,7 @@ class Profile extends React.Component {
 						});
 
 					})
-					.catch(err => console.log(err));
+					.catch(err => err);
 
 			}
 		});
@@ -242,7 +241,6 @@ class Profile extends React.Component {
 		this.setModalMailVisible(!this.state.modalMailVisible)
 	}
 
-
 	render() {
 		let { navigate } = this.props.navigation;
 		let placeholder_password 	= "Mot de passe";
@@ -268,7 +266,7 @@ class Profile extends React.Component {
 					</TouchableHighlight>
 					</View>
 					<View style={{flex: 1}}>
-						<Text style={{textexitAlign: 'center', fontSize: 20, fontWeight: 'bold', color: '#62BE87'}}>
+						<Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', color: '#62BE87'}}>
 							Un probleme est survenue.{'\n'} Ceci peut etre du a un probleme de connexion internet{'\n'}{'\n'}
 						</Text>
 						<Button 
@@ -393,13 +391,24 @@ class Profile extends React.Component {
 		    </Modal>
 			<View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row"}}>
 				<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
-            		<Icon
-					  	name="arrow-back"
-					  	color={"white"}
-					  	size={45}
-					  	onPress={() => { this.props.navigation.navigate(this.state.pageToReturn) }}
-					  	style={{justifyContent: "flex-end"}}
-					/>
+					{ this.state.pageToReturn != undefined
+					?
+						<Icon
+							name="arrow-back"
+							color={"white"}
+							size={45}
+							onPress={() => { this.props.navigation.navigate(this.state.pageToReturn) }}
+							style={{justifyContent: "flex-end"}}
+						/>
+					:
+						<Icon
+							name="arrow-back"
+							color={"white"}
+							size={45}
+							onPress={() => { this.props.navigation.navigate("Home") }}
+							style={{justifyContent: "flex-end"}}
+						/>
+					}
             	</View>
             	<View style={{flex: 6, justifyContent: "center", alignItems: "center"}}>
             		<Text style={{color: "white", fontWeight: "bold", fontSize:22}}>Page de profil</Text>
@@ -424,7 +433,7 @@ class Profile extends React.Component {
           	</View>
 			<View style={{ flex: 2.5, alignItems: "center", justifyContent : "center" , flexDirection: 'row'}}>
 				<TouchableOpacity onPress={() => this.chooseImage()}>
-					{ this.state.picture ?
+				{ this.state.picture ?
 					<Image
 					 	source={{uri: 'data:image/jpeg;base64,' + this.state.picture }}
 						style={{ width: 140, height: 140, borderRadius: 140 / 2, borderWidth : 2, borderColor: "black"}}
