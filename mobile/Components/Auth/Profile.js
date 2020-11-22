@@ -241,33 +241,6 @@ class Profile extends React.Component {
 		this.setModalMailVisible(!this.state.modalMailVisible)
 	}
 
-
-	renderFileData() {
-		if (this.state.fileData) {
-			return <Image source={{ uri: 'data:image/jpeg;base64,' + this.state.fileData }}
-				style={styles.images}
-			/>
-		} else {
-			return <Image source={require('../../assets/photo-1532274402911-5a369e4c4bb5.jpeg')}
-				style={styles.images}
-			/>
-		}
-	}
-
-	renderFileUri() {
-		if (this.state.fileUri) {
-			return <Image
-				source={{ uri: this.state.fileUri }}
-				style={styles.images}
-			/>
-		} else {
-			return <Image
-				source={require('../../assets/photo-1532274402911-5a369e4c4bb5.jpeg')}
-				style={styles.images}
-			/>
-		}
-	}
-
 	render() {
 		let { navigate } = this.props.navigation;
 		let placeholder_password 	= "Mot de passe";
