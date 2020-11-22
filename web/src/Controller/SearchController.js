@@ -6,7 +6,6 @@ import Request from '../Components/Request';
 import Chip from '@material-ui/core/Chip';
 import diseases from '../diseases';
 import FilterIcon from '@material-ui/icons/FilterList';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import { Button } from '@material-ui/core';
 import i18n from 'i18next';
 

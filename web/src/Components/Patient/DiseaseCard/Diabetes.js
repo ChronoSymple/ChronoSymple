@@ -212,7 +212,7 @@ class Diabetes extends PureComponent {
         }
         this.setState({min, max});
         const oldChart = this.chart;
-      this.chart = new Chart(this.ctx, this.convertToGraphData(this.props.data));
+        this.chart = new Chart(this.ctx, this.convertToGraphData(this.props.data));
         oldChart.destroy();
       }
     } catch (e) {
