@@ -120,12 +120,6 @@ class Note extends React.Component {
 		        last = keys.pop();
 		    keys.reduce((r, a) => r[a] = r[a] || {}, note)[last] = value;
 		});
-		var now =  new Date();
-
-		var timer_offset = new Date(this.state.original_dt + this.state.original_dt.getTimezoneOffset() * 60 * 1000);
-		console.log(this.state.original_dt)
-		console.log(timer_offset)
-
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
 				datetime = new Date(this.state.original_dt - (this.state.original_dt.getTimezoneOffset() * 60 * 1000));

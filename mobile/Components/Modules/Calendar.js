@@ -239,7 +239,7 @@ class Calendar extends React.Component {
 									showMessage({
 										duration: 2500,
 										message: "Les notes ne sont plus partagé au docteur " + doctor_names[0] + " !",
-										type: "danger",
+										type: "success",
 									});
 								} else if (data.status == 404 || data.status == 500) {
 									showMessage({
