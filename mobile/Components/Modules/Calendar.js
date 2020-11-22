@@ -990,13 +990,15 @@ class Calendar extends React.Component {
 	}
 
 	displayDate = (created_at) => {
-		var now =  Date.parse(created_at)
-		now = new Date(now)
+		let date = new Date(created_at)
+		let time = created_at.substr(created_at.indexOf("\T") + 1, created_at.length);
+		let time2 = time.split(":")
 		return (
 			<Text style={styles.noteText}>
-				{now.getHours()}h{now.getMinutes()}
+				{time2[0]}h{time2[1]}
 			</Text>
 		);
+
 	}
 
 	render() {
