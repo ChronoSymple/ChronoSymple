@@ -61,7 +61,7 @@ class AdminPatient extends PureComponent {
       }
     });
     const promiseUnits = Api.getPatientUnits(this.props.token, ID).then(resUnits => {
-      const units = resUnits.map(e => e.id);
+      const units = resUnits.map(e => e['general_unit'].id);
       this.setState({units});
     });
     const promiseGeneralUnits = Api.getGeneralUnits(this.props.token).then(resUnits => {
