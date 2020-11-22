@@ -101,13 +101,10 @@ class Calendar extends React.Component {
 	}
 
 	/* getDoctors = () => {
-		console.log("getDoctors")
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
-				console.log("APIgetDocrodsofModule")
 				APIgetDoctorsOfModule(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
 					let response = await data.json()
-					console.log(response)
 					if (data.status == 200) {
 						this.setState({ 
 							finish: true,

@@ -86,7 +86,7 @@ class Profile extends React.Component {
 						});
 
 					})
-					.catch(err => console.log(err));
+					.catch(err => err);
 
 			}
 		});
@@ -391,7 +391,6 @@ class Profile extends React.Component {
 		    </Modal>
 			<View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row"}}>
 				<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
-					{console.log(this.state.pageToReturn)}
 					{ this.state.pageToReturn != undefined
 					?
 						<Icon
