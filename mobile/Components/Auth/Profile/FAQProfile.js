@@ -66,7 +66,7 @@ class FAQProfile extends React.Component {
 								name="arrow-back"
 								color="#FFF"
 								size={35}
-								onPress={() => navigate('SupportProfile')}
+								onPress={() => navigate('Paramètres')}
 		    				/>
 						</TouchableHighlight>
 					</View>
@@ -84,7 +84,7 @@ class FAQProfile extends React.Component {
 				    	<View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: colors.secondary, borderRadius: 15, backgroundColor : 'white', margin: 10}}>
 							<TouchableOpacity style={ styles.module }
 								onPress={() => this.motDePasseQuestionPressed() }>
-									<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}> Comment changer son mot de passe ?</Text>
+									<Text style={{ fontSize: 18, color: "black", textTransform: 'capitalize', textAlign: "center", padding: 10}}> Comment changer son mot de passe ?</Text>
 							</TouchableOpacity>
 						</View>
 				    	{this.state.motDePasseQuestion ?
@@ -101,7 +101,7 @@ class FAQProfile extends React.Component {
 					    <View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: colors.secondary, borderRadius: 15, backgroundColor : 'white', margin: 10}}>
 							<TouchableOpacity style={ styles.module }
 								onPress={() => this.adresseMailQuestionPressed() }>
-									<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}> Comment changer son adresse mail ? </Text>
+									<Text style={{ fontSize: 18, color: "black", textTransform: 'capitalize', textAlign: "center", padding: 10 }}> Comment changer son adresse mail ? </Text>
 							</TouchableOpacity>
 						</View>
 						{this.state.adresseMailQuestion ?
@@ -120,7 +120,7 @@ class FAQProfile extends React.Component {
 					    <View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: colors.secondary, borderRadius: 15, backgroundColor : 'white', margin: 10}}>
 							<TouchableOpacity style={ styles.module }
 								onPress={() => this.numTelephoneQuestionPressed() }>
-									<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}> Comment changer son numero de telephone ? </Text>
+									<Text style={{ fontSize: 18, color: "black", textTransform: 'capitalize', textAlign: "center", padding: 10 }}> Comment changer son numero de telephone ? </Text>
 							</TouchableOpacity>
 						</View>
 						{this.state.numTelephoneQuestion ?
@@ -139,7 +139,7 @@ class FAQProfile extends React.Component {
 						<View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: colors.secondary, borderRadius: 15, backgroundColor : 'white', margin: 10}}>
 							<TouchableOpacity style={ styles.module }
 								onPress={() => this.changeMedecinQuestionPressed() }>
-									<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}> Comment changer de medecin ? </Text>
+									<Text style={{ fontSize: 18, color: "black", textTransform: 'capitalize', textAlign: "center", padding: 10 }}> Comment changer de medecin ? </Text>
 							</TouchableOpacity>
 						</View>
 						{this.state.changeMedecinQuestion ?
@@ -159,7 +159,7 @@ class FAQProfile extends React.Component {
 					    <View style={{flex: 1, justifyContent : 'center', alignItems: 'center', borderWidth: 3, borderColor: colors.secondary, borderRadius: 15, backgroundColor : 'white', margin: 10}}>
 							<TouchableOpacity style={ styles.module }
 								onPress={() => this.symptomeMalDeclareQuestionPressed() }>
-									<Text style={{ fontSize: 18, color: colors.secondary, textTransform: 'capitalize' }}> J'ai mal déclaré mes symptomes, est ce possible de la modifier ? </Text>
+									<Text style={{ fontSize: 18, color: "black", textTransform: 'capitalize', textAlign: "center", padding: 10 }}> J'ai mal déclaré mes symptomes, est ce possible de la modifier ? </Text>
 							</TouchableOpacity>
 						</View>
 						{this.state.symptomeMalDeclareQuestion ?

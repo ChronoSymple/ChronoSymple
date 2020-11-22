@@ -53,7 +53,6 @@ class Note extends React.Component {
 		}
 		this.props.getUserCurrentModule().then(() => {
 		})
-		console.log(this.props.navigation.getParam("pageToReturn"))
 		this.getJson();
 	}
 
@@ -127,7 +126,6 @@ class Note extends React.Component {
 				APIAddPatientNotes(this.props.token.token, note, datetime, this.props.currentModule.currentModule).then(data => {
 					if (data.status == 200) {
 						this.setState({ isSend: true })
-						console.log(this.state.pageToReturn)
 						navigate(this.state.pageToReturn)
 					} else if (data.status == 404) {
 						showMessage({

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Button, TextInput, BackHandler, FlatList, Dimensions, Alert} from 'react-native'
+import { View, Text, Button, TextInput, BackHandler, FlatList, Dimensions, Alert, ScrollView} from 'react-native'
 import { connect } from 'react-redux';
 import { APIEditPatientNotes, APIGetGeneralUnitId } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule, getUserCurrentModuleName } from '../../Redux/Action/action';
@@ -270,8 +270,8 @@ class EditNote extends React.Component {
 	render() {
 		let { navigate } = this.props.navigation;
     	return (
-			<View style={{flex:1}}>
-				<View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row"}}>
+			<ScrollView style={{flex:1}}>
+				<View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row", paddingBottom: 6, paddingTop: 6,}}>
             		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
 						<Icon
 						  	name="clear"
@@ -362,7 +362,7 @@ class EditNote extends React.Component {
 							}
 					</View>
 				</View>
-			</View>
+			</ScrollView>
 		)
 	}
 

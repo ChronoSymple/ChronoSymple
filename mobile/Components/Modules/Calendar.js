@@ -4,7 +4,7 @@ import React from 'react'
 import { ActivityIndicator, View, Text, StyleSheet, Button, FlatList, TouchableOpacity, TouchableHighlight, BackHandler, Dimensions, SafeAreaView, Modal} from 'react-native'
 import { APIGetPatientNotesByDateIntervale,  APIRemovePatientNotes, APIShareNote, APIgetDoctorsOfModule, APIUnshareNote, APIDoctorOfNotes } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule, getUserCurrentModuleName } from '../../Redux/Action/action';
-import { colors, windowSize } from '../StyleSheet';
+import { colors, note_style, windowSize } from '../StyleSheet';
 import ModalFilter from "./ModalFilter"
 import { connect } from 'react-redux'
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -144,14 +144,19 @@ class Calendar extends React.Component {
 				APIgetDoctorsOfModule(token, cur_modl).then(async data => {
 					let response = await data.json();
 					let doctor_ids = [];
+					let doctor_names = [];
+					console.log(response)
 					for (let doc of response) {
 						doctor_ids.push(doc.id)
+						doctor_names.push(doc.user.last_name)
+						console.log(doc.name)
 					}
 					if (data.status == 200 && doctor_ids.length > 0) {
 						APIShareNote(token, cur_modl, notes, doctor_ids).then(async data => {
 							if (data.status == 200) {
 								showMessage({
-						            message: "La note a été partagée !",
+									duration: 2500,
+						            message: "La note a été partagée au docteur " + doctor_names[0] + " !",
 						            type: "success"
 					        	});
 								this.setState({
@@ -216,9 +221,11 @@ class Calendar extends React.Component {
 				APIgetDoctorsOfModule(token, cur_modl).then(async data => {
 					let response = await data.json();
 					let doctor_ids = [];
+					let doctor_names = [];
 					if (data.status == 200) {
 						for (let doc of response) {
 							doctor_ids.push(doc.id)
+							doctor_names.push(doc.user.last_name)
 						}
 						for (let note of notes) {
 							APIUnshareNote(token, note, doctor_ids).then(async data => {
@@ -229,6 +236,11 @@ class Calendar extends React.Component {
 										loading: true
 									})
 									this._bootstrapAsync();
+									showMessage({
+										duration: 2500,
+										message: "Les notes ne sont plus partagé au docteur " + doctor_names[0] + " !",
+										type: "success",
+									});
 								} else if (data.status == 404 || data.status == 500) {
 									showMessage({
 										message: "Un probleme est survenus, si le probleme persiste contactez nous",
@@ -986,6 +998,7 @@ class Calendar extends React.Component {
 				{time2[0]}h{time2[1]}
 			</Text>
 		);
+
 	}
 
 	render() {
@@ -1270,7 +1283,7 @@ class Calendar extends React.Component {
           			        elevation: 10
           			    }}>
           			      <Icon2
-          			        name="notes-medical"
+          			        name="statistic"
           			        color={"white"}
           			        size={40}
           			        onPress={() => { this.props.navigation.navigate('Check') }}
@@ -1461,7 +1474,7 @@ class Calendar extends React.Component {
 												/>
 											</View>
 										}
-								</View>
+								</View>							
 							)}
 							/>
 						</SafeAreaView>
