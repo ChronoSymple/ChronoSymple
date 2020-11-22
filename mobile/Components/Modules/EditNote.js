@@ -26,7 +26,7 @@ class EditNote extends React.Component {
 			whichLunch: "",
 			date: "",
 			time: "",
-			original_dt: new Date(Date.now() - (now.getTimezoneOffset() * 60 * 1000)),
+			original_dt: now,
 			isDateTimePickerVisible: false, 
 			isTimePickerVisible: false,
 			textFiledFocusColor: colors.primary,
@@ -104,7 +104,8 @@ class EditNote extends React.Component {
 		});
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
-				APIEditPatientNotes(this.props.token.token, object, this.props.navigation.getParam('id'), this.state.original_dt).then(async data => {
+				let datetime = new Date(this.state.original_dt - (this.state.original_dt.getTimezoneOffset() * 60 * 1000));
+				APIEditPatientNotes(this.props.token.token, object, this.props.navigation.getParam('id'), datetime).then(async data => {
 					let response = await data.json()
 					if (data.status == 200) {
 						this.setState({ isSend: true })
@@ -192,15 +193,14 @@ class EditNote extends React.Component {
 			})
 		}
 
-		let itemDate = item2.date
-		var now =  Date.parse(item2.date)
-		now = new Date(now)
+		var now = new Date(Date.now())
+		var item_date =  new Date(Date.parse(item2.date) + (now.getTimezoneOffset() * 60 * 1000))
 
-		var annee   = now.getFullYear();
-		var month    = now.getMonth() + 1;
-		var jour    = now.getDate();
-		var heure   = now.getHours();
-		var minute  = now.getMinutes();
+		var annee   = item_date.getFullYear();
+		var month   = item_date.getMonth() + 1;
+		var jour    = item_date.getDate();
+		var heure   = item_date.getHours();
+		var minute  = item_date.getMinutes();
 		if (month < 10)
 			var date = jour + '/' + '0' + month + '/' + annee
 		else
@@ -212,7 +212,7 @@ class EditNote extends React.Component {
 		this.setState({
 			date: date,
 			time: horaire,
-			original_dt: now,
+			original_dt: item_date,
 		})
 	}
 

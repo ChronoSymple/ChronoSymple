@@ -128,7 +128,8 @@ class Note extends React.Component {
 
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
-				APIAddPatientNotes(this.props.token.token, note, this.state.original_dt, this.props.currentModule.currentModule).then(data => {
+				datetime = new Date(this.state.original_dt - (this.state.original_dt.getTimezoneOffset() * 60 * 1000));
+				APIAddPatientNotes(this.props.token.token, note, datetime, this.props.currentModule.currentModule).then(data => {
 					if (data.status == 200) {
 						this.setState({ isSend: true })
 						navigate(this.state.pageToReturn)

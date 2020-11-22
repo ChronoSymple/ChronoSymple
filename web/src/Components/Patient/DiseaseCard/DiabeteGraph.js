@@ -20,7 +20,7 @@ class DiabeteGraph extends PureComponent {
     const meals = {
       'Petit déjeuner': 'rgb(255, 99, 132)',
       'Repas': 'rgb(54, 162, 235)',
-      'Goûter ': 'rgb(255, 205, 86)',
+      'Goûter': 'rgb(255, 205, 86)',
       'Dîner': 'rgb(75, 192, 192)',
     };
     data = data.map(e => e.note).map(({date, ...e}) => ({...e, date: new Date(date)}));

@@ -167,6 +167,13 @@ const removePatientUnit = (token, patientID, unit) =>
     body: JSON.stringify({'unit_id': unit}),
   });
 
+const adminCreateDoctor = (token, info) =>
+  loggedRequest(`${prefix}/admins/doctors/create`, token, {
+    method: 'PATCH',
+    body: JSON.stringify(info),
+  });
+
+
 export default {
   login,
   getPatients,
@@ -192,4 +199,5 @@ export default {
   getPatientUnits,
   addPatientUnit,
   removePatientUnit,
+  adminCreateDoctor,
 };
