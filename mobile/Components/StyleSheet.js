@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
 	SigninMainContainer: {
 		marginTop: 40, 
 		marginBottom: 40,
-		width: windowSize.x / 1.1,
+		width: windowSize.x / 1.2,
 	},
 	AuthMainContainer: {
 		backgroundColor: 'rgba(255,255,255,0.75)',
