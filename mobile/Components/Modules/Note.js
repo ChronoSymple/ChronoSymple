@@ -38,7 +38,7 @@ class Note extends React.Component {
 			insulineCorr: "", 
 			description: "",
 			whichLunch: "",
-			original_dt: new Date(Date.now() - (now.getTimezoneOffset() * 60 * 1000)),
+			original_dt: now,
 			date: date,
 			time: horaire,
 			isDateTimePickerVisible: false,
@@ -53,7 +53,6 @@ class Note extends React.Component {
 		}
 		this.props.getUserCurrentModule().then(() => {
 		})
-		console.log(this.props.navigation.getParam("pageToReturn"))
 		this.getJson();
 	}
 
@@ -121,12 +120,17 @@ class Note extends React.Component {
 		        last = keys.pop();
 		    keys.reduce((r, a) => r[a] = r[a] || {}, note)[last] = value;
 		});
+		var now =  new Date();
+
+		var timer_offset = new Date(this.state.original_dt + this.state.original_dt.getTimezoneOffset() * 60 * 1000);
+		console.log(this.state.original_dt)
+		console.log(timer_offset)
+
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
 				APIAddPatientNotes(this.props.token.token, note, this.state.original_dt, this.props.currentModule.currentModule).then(data => {
 					if (data.status == 200) {
 						this.setState({ isSend: true })
-						console.log(this.state.pageToReturn)
 						navigate(this.state.pageToReturn)
 					} else if (data.status == 404) {
 						showMessage({
