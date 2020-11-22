@@ -71,7 +71,7 @@ class Calendar extends React.Component {
 			editNote: [],
 			displayDoctor: false,
 			doctorOfNote: "",
-			doctorsOfModule: [],
+			doctorsOfModule: this.getDoctors(),
 			displayDoctor: false,
 			finish: false,
 			shared: new Map(),
@@ -82,9 +82,6 @@ class Calendar extends React.Component {
 			doctorID: "",
 			doctorsOfModule: ""
 		}
-		console.log("call getDoctors")
-		this.getDoctors()
-		console.log("quit")
 		this.props.getUserCurrentModuleName().then(() => {
 			this.setState({
 				currentModuleName: this.props.currentModuleName.currentModuleName,
@@ -103,7 +100,7 @@ class Calendar extends React.Component {
 	  });
 	}
 
-	getDoctors = () => {
+	/* getDoctors = () => {
 		console.log("getDoctors")
 		this.props.getUserToken().then(() => {
 			this.props.getUserCurrentModule().then(() => {
@@ -139,7 +136,7 @@ class Calendar extends React.Component {
 		}).catch(error => {
 			this.setState({ error })
 		})
-	}
+	} */
 
 	shareNote = () => {
 		let notes = this.state.selectedNotes;
