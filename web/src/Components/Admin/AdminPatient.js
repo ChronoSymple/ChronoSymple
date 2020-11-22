@@ -67,6 +67,7 @@ class AdminPatient extends PureComponent {
     const promiseGeneralUnits = Api.getGeneralUnits(this.props.token).then(resUnits => {
       const generalUnits = resUnits.modules;
       this.setState({generalUnits});
+
     });
     await Promise.all([patientRequest, promiseUnits, promiseGeneralUnits]);
     this.setState({loading: false});
@@ -104,7 +105,7 @@ class AdminPatient extends PureComponent {
                   label={unit.name}
                   onClick={() => this.chipClick(unit.id)} />)
               }
-              {this.state.load && <CircularProgress />}
+              {this.state.loading && <CircularProgress />}
             </div>
           </CardContent>
         </Card>

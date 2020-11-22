@@ -40,7 +40,7 @@ class MyAppBar extends PureComponent {
       <div>
         <AppBar position="fixed">
           <Toolbar className={classes.root} style={{ background: '#62BE87' }}>
-            {back && <IconButton onClick={back} color=" "><ArrowBack/></IconButton>}
+            {back && <IconButton onClick={back} ><ArrowBack/></IconButton>}
             <Typography variant="h6" color="inherit" noWrap className={classes.title}>
               {title}
             </Typography>

@@ -64,6 +64,7 @@ class AdminDoctor extends PureComponent {
       const units = resUnits.map(e => e.id);
       this.setState({units});
       //console.log(units);
+
     });
     const promiseGeneralUnits = Api.getGeneralUnits(this.props.token).then(resUnits => {
       const generalUnits = resUnits.modules;

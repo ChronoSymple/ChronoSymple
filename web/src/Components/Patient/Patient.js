@@ -57,7 +57,7 @@ class Patient extends PureComponent {
           </CardContent>
         </Card>
         {diseases.map(({name, id}) => 
-          <DiseaseCard key={name} diseaseName={name} token={this.props.token} unitId={id} defaultOpen={JSON.parse(window.localStorage.getItem('selectedDiseases') || window.localStorage.getItem('diseases') || [])[name] === true}/>)
+          <DiseaseCard key={name} diseaseName={name} token={this.props.token} unitId={id} defaultOpen={JSON.parse(window.localStorage.getItem('selectedDiseases') || window.localStorage.getItem('diseases') || '[]')[name] === true}/>)
         }
       </Request>
     );
