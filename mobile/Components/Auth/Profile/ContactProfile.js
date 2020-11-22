@@ -91,7 +91,7 @@ class ContactProfile extends React.Component {
 	}
 
 	returnPressed = () => {
-		this.props.navigation.navigate("SupportProfile")
+		this.props.navigation.navigate("Paramètres")
 	}
 
 

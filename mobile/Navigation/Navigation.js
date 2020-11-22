@@ -279,12 +279,6 @@ const ProfileStackNavigator = createStackNavigator({
 })
 
 const SettingsStackNavigator = createStackNavigator({
-	Paramètres: {
-		screen: Settings
-	},
-	SupportProfile: {
-		screen: SupportProfile,
-	},
 	FAQProfile: {
 		screen: FAQProfile,
 	},
@@ -299,14 +293,6 @@ const SettingsStackNavigator = createStackNavigator({
 	}
 }, {
 		headerMode: 'none'
-})
-
-const AllDoctorsStackNavigator = createStackNavigator({
-	AllDoctors: {
-		screen: AllDoctors,
-	}
-}, {
-	headerMode: 'none'
 })
 
 const DoctorsStackNavigator = createStackNavigator({
@@ -333,7 +319,7 @@ const ProfilBottomTabNavigator = createBottomTabNavigator({
 		)})
 	},
 	Médecins: {
-		screen : AllDoctorsStackNavigator,
+		screen : AllDoctors,
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
@@ -344,7 +330,7 @@ const ProfilBottomTabNavigator = createBottomTabNavigator({
 		)})
 	},
 	Paramètres: {
-		screen : SettingsStackNavigator,
+		screen : Settings,
 		navigationOptions: () => ({
 			tabBarIcon: ({tintColor}) => (
 			    <Icon
@@ -450,6 +436,9 @@ const StackNavigator = createStackNavigator({
 	},
 	Doctor: {
 		screen: DoctorsStackNavigator
+	},
+	Settings: {
+		screen: SettingsStackNavigator
 	}
 },{
 	headerMode: 'none'
