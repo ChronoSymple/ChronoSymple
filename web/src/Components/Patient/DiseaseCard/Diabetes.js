@@ -36,7 +36,7 @@ class Diabetes extends PureComponent {
         if (max === undefined) {
           max = -1;
         }
-        this.setState({min, max});
+        this.setState({min, max, defMin: min, defMax: max});
       }
     } catch (e) {
       // Because of 404
