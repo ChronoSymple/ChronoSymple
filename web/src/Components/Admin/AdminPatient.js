@@ -52,10 +52,10 @@ class AdminPatient extends PureComponent {
     const ID = Number(this.props.patientID);
     const patientRequest = Api.getPatientsAsAdmin(this.props.token).then(rawdata => {
       const tmppatient = rawdata.filter(e => e !== null).filter(e => e.id === ID)[0];
-      if (tmppatient !== undefined) {
-        const {first_name: firstname, last_name: lastname, ...tmp} = tmppatient;
+      if (tmppatient !== undefined && tmppatient.user !== undefined) {
+        const {first_name: firstname, last_name: lastname, ...tmp} = tmppatient.user;
         const patient = {...tmp, firstname, lastname};
-        this.setState({patient, });
+        this.setState({patient});
       } else {
         this.setState({error: 'Patient not found'});
       }

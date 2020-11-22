@@ -52,8 +52,8 @@ class AdminDoctor extends PureComponent {
     const ID = Number(this.props.doctorID);
     const promiseDoctor = Api.getDoctorsAsAdmin(this.props.token).then(rawdata => {
       const tmpdoctor = rawdata.filter(e => e != null).filter(e => e.id === ID)[0];
-      if (tmpdoctor !== undefined) {
-        const {first_name: firstname, last_name: lastname, ...tmp} = tmpdoctor;
+      if (tmpdoctor !== undefined && tmpdoctor.user !== undefined) {
+        const {first_name: firstname, last_name: lastname, ...tmp} = tmpdoctor.user;
         const doctor = {...tmp, firstname, lastname};
         this.setState({doctor});
       } else {
