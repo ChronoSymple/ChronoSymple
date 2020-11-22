@@ -97,6 +97,7 @@ class Profile extends React.Component {
       this.setState({lang: 'Français', value: 'fr'});
     }
     this.forceUpdate();
+    window.location.reload(false);
     //this.props.appController.forceUpdate();
   };
 

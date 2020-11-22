@@ -27,7 +27,6 @@ class MyAppBar extends PureComponent {
     const {
       classes,
       openProfile,
-      openSettings,
       disconnect,
       openMenu,
       closeMenu,
@@ -68,7 +67,6 @@ class MyAppBar extends PureComponent {
             >
               <MenuItem onClick={openProfile}>{i18n.t('profile')}</MenuItem>
               <MenuItem onClick={disconnect}>{i18n.t('disconnect')}</MenuItem>
-              <MenuItem onClick={openSettings}>{i18n.t('settings')}</MenuItem>
             </Menu>
           </Toolbar>
         </AppBar>
