@@ -100,11 +100,12 @@ class AllDoctors extends React.Component {
           		</View>
 				  
                 <View style={{flex: 9}}>
-                    {this.state.loading ? 
+					{this.state.loading && 
                     	<View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
                     	    <ActivityIndicator size='large' color='black' />
                     	</View>
-                    : !this.state.Dmodules
+					}
+                    {!this.state.loading && !this.state.Dmodules
 						?	
 							<View>
 				    			<Text style={{ fontSize: 20 }}>
@@ -127,7 +128,7 @@ class AllDoctors extends React.Component {
 						 	/>
 							:
 							<View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-								<Text>eofjoêfj</Text>
+								<Text></Text>
 							</View>
 				    }
                 </View>

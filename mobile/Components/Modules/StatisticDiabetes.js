@@ -720,13 +720,6 @@ class Statistic extends React.Component {
               <Text style={{color: "white", fontSize:18}}>Diabètes</Text>
             </View>
             <View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
-              <Icon
-						  	name="person"
-						  	color={"white"}
-						  	size={45}
-                onPress={() => { this.props.navigation.navigate('Infos', {"pageToReturn": "StatisticDiabetes"})}}
-						  	style={{justifyContent: "flex-end"}}
-						  />
             </View>
           </View>
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignContent: "stretch", width: Dimensions.get('window').width}}>

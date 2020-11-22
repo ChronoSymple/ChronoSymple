@@ -25,7 +25,7 @@ class SignIn extends React.Component {
 			mail: "",
 			password: "",
 			rePassword: "",
-			Gender: "femme",
+			Gender: "Madame",
 			GenderString: "",
 			phoneNumber: "",
 			PickerDay: "Jour",
@@ -114,6 +114,7 @@ class SignIn extends React.Component {
 			this.setState({ errorMessage: "Les deux mots de passe ne sont pas identiques" })
 		}
 		birthDate = this.state.PickerDay + "/" + this.state.PickerMonth + "/" + this.state.PickerYear;
+		console.log(birthDate)
 		SiginAPatientWithApi(this.state.fname, this.state.lname, this.state.mail, this.state.password, this.state.Gender, birthDate, this.state.phoneNumber).then(async data => {
 			if (data.status == 201) {
 				let response = await data.json()
@@ -229,8 +230,8 @@ class SignIn extends React.Component {
 		let genderFocused 		= "genderFocused"
 		let phoneNumberFocused = "phoneNumberFocused"
 		var Gender = [
-			{label: "Femme", value: "femme"},
-			{label: "Homme", value: "homme"},
+			{label: "Madame", value: "Madame"},
+			{label: "Monsieur", value: "Monsieur"},
 			{label: "Personnalisé", value: "personnalisé"}
 		]
 		return (

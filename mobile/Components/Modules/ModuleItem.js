@@ -61,7 +61,6 @@ class ModuleItem extends React.Component {
 				APIgetDoctorsOfModule(this.props.token.token, this.state.dModule.id).then(async data => {
 					let response = await data.json()
 					if (data.status == 200) {
-						console.log(response)
 						this.setState({ 
 							finish: true,
 							doctorsOfModule: response
@@ -93,7 +92,6 @@ class ModuleItem extends React.Component {
 
 
 	render() {
-		console.log(this.state)
 		return (
 			<View>
 				<Modal

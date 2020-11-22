@@ -35,13 +35,6 @@ class Statistic extends React.Component {
             			<Text style={{color: "white", fontSize:18}}>Hypertension</Text>
             		</View>
             		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
-            			<Icon
-						  	name="person"
-						  	color={"white"}
-						  	size={45}
-							onPress={() => { this.props.navigation.navigate('Infos', {"pageToReturn": "StatisticHypertension"})}}
-						  	style={{justifyContent: "flex-end"}}
-						/>
             		</View>
           		</View>
 				<View

@@ -27,17 +27,18 @@ class DoctorsOfModule extends React.Component {
 			modalInternetVisible: false,
             dModule: dModule,
             doctorPressed: doctorpressed,
-			doctorsOfModule: this.getDoctors(),
+			doctorsOfModule: "",
 			displayDoctor: true,
 			finish: false
-        }
+		}
+		this.getDoctors()
 	}
 
-    displayDoctor = () => {
+    displayDoctor = (isActive) => {
 		if (!this.state.displayDoctor == true)
 			this.getDoctors()
 		this.setState({
-			finish: false,
+			finish: isActive,
 			displayDoctor: !this.state.displayDoctor
 		})
 	}
@@ -129,26 +130,29 @@ class DoctorsOfModule extends React.Component {
                     	        name="keyboard-arrow-up"
                     	        color="black"
 								size={35}
-								onPress={() => { this.displayDoctor() }}
+								onPress={() => { this.displayDoctor(true) }}
                     	    />
                     	    :
                     	    <Icon
                     	        name="keyboard-arrow-down"
                     	        color="black"
 								size={35}
-								onPress={() => { this.displayDoctor() }}
+								onPress={() => { this.displayDoctor(false) }}
                     	    />
                     	}
 						</View>
 					</View>
 				</TouchableOpacity>
 
-                {!this.state.finish
+				{!this.state.finish
 				?
                     <ActivityIndicator size='large' color='black' style={{marginBottom: 10}} />
-				: this.state.displayDoctor
+				:
+					<View></View>
+				}
+				{ this.state.finish && this.state.displayDoctor
 					?
-						this.state.doctorsOfModule.length > 0
+					this.state.doctorsOfModule.length > 0
 						?
                 			<View>
                 				<FlatList
@@ -183,7 +187,7 @@ class DoctorsOfModule extends React.Component {
 								<Text style={{textAlign: "center"}}>Vous n'avez pas de médecins rattachés à ce module</Text>
                 	    	</View>
 					:
-						<View><Text>aeindfpief</Text></View>
+						<View></View>
                 }
             </View>
 		)

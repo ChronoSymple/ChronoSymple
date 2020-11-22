@@ -304,12 +304,6 @@ const SettingsStackNavigator = createStackNavigator({
 const AllDoctorsStackNavigator = createStackNavigator({
 	AllDoctors: {
 		screen: AllDoctors,
-	},
-	SearchDoctors: {
-		screen: SearchDoctors
-	},
-	DoctorCard: {
-		screen: DoctorCard
 	}
 }, {
 	headerMode: 'none'

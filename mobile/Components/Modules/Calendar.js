@@ -79,8 +79,12 @@ class Calendar extends React.Component {
 			modalInternetVisible: false,
 			currentModuleName: null,
 			doctorName: "",
-			doctorID: ""
+			doctorID: "",
+			doctorsOfModule: ""
 		}
+		console.log("call getDoctors")
+		this.getDoctors()
+		console.log("quit")
 		this.props.getUserCurrentModuleName().then(() => {
 			this.setState({
 				currentModuleName: this.props.currentModuleName.currentModuleName,
@@ -97,6 +101,44 @@ class Calendar extends React.Component {
 			})
 			this._bootstrapAsync();
 	  });
+	}
+
+	getDoctors = () => {
+		console.log("getDoctors")
+		this.props.getUserToken().then(() => {
+			this.props.getUserCurrentModule().then(() => {
+				console.log("APIgetDocrodsofModule")
+				APIgetDoctorsOfModule(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
+					let response = await data.json()
+					console.log(response)
+					if (data.status == 200) {
+						this.setState({ 
+							finish: true,
+							doctorsOfModule: response
+						})
+					} else if (data.status == 404) {
+						this.setState({ 
+							finish: true,
+							doctorsOfModule: []
+						})
+						showMessage({
+							message: "L'unit n'a pas été trouvé. Recommencez. Si le probleme persiste contactez nous",
+							type: "danger",
+						});
+					} else if (data.status == 401) {
+						showMessage({
+							message: "Un probleme est survenus, vous allez être déconnecté",
+							type: "danger",
+						});
+						this.props.navigation.navigate("Logout");
+					}
+				}).catch(error => {
+					this.setState({ error, finish: true })
+				})
+			})
+		}).catch(error => {
+			this.setState({ error })
+		})
 	}
 
 	shareNote = () => {
@@ -1027,13 +1069,6 @@ class Calendar extends React.Component {
 						}
             		</View>
             		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
-            			<Icon
-						  	name="person"
-						  	color={"white"}
-						  	size={45}
-							onPress={() => { this.props.navigation.navigate('Infos', {"pageToReturn": "Calendar"})}}
-						  	style={{justifyContent: "flex-end"}}
-						/>
             		</View>
           		</View>
          		<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignContent: "stretch", width: Dimensions.get('window').width}}>
@@ -1075,9 +1110,11 @@ class Calendar extends React.Component {
 									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => this._editNote()}>
 										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Editer </Text>
 									</TouchableOpacity>
-									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.setModalCheckboxVisible(false), this.showFilterModal()}}>
-										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager </Text>
-									</TouchableOpacity>
+									{
+										<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.setModalCheckboxVisible(false), this.showFilterModal()}}>
+											<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager à </Text>
+										</TouchableOpacity>
+									}
 									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.setModalCheckboxVisible(false), this.unshareNote() }}>
 										<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Ne plus partager </Text>
 									</TouchableOpacity>
