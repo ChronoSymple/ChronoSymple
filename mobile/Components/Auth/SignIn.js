@@ -1,14 +1,15 @@
 // Components/SignUp.js
 
 import React from 'react'
-import { View, Text, TextInput, Button, ImageBackground, Picker, ToastAndroid} from 'react-native'
+import { View, Text, TextInput, Button, ImageBackground, Picker, ToastAndroid, Modal, TouchableHighlight, TouchableOpacity} from 'react-native'
 import { SiginAPatientWithApi, confirmPatientEmail } from '../../API/APIConnection'
 import { styles, colors, windowSize } from '../StyleSheet'
 import { connect } from 'react-redux';
 import { saveUserToken, saveUserAccountValid } from '../../Redux/Action/action';
 import { ScrollView } from 'react-native-gesture-handler';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
-
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { showMessage } from "react-native-flash-message";
 
 class SignIn extends React.Component {
 	static navigationOptions = {
@@ -39,25 +40,21 @@ class SignIn extends React.Component {
 			rePasswordFocused: false,
 			genderFocused: false,
 			isInvalid: false,
+			code: "",
+			modalValidationVisible: false,
 			textFiledFocusColor: colors.primary,
 			errorMessage: "La requête de connexion n'a pas aboutis, veuillez rééssayer"
 		}
 	}
 
-	_signInAsync = (oui, accountData) => {
-    	this.props.saveUserAccountValid(accountData)
-    	.then(() => {
-			this.props.saveUserToken(oui)
-		    .then(() => {
-				this.props.navigation.navigate('AccountValidation', {matchCode: response.confirmation_token});
-		    })
-		    .catch((error) => {
-				this.setState({ error })
-		    })
-    	})
-    	.catch((error) => {
-    		this.setState({ error })
-    	})
+	_signInAsync = (oui) => {
+		this.props.saveUserToken(oui)
+		.then(() => {
+			this.props.navigation.navigate('AccountValidation', {matchCode: response.confirmation_token});
+		})
+		.catch((error) => {
+			this.setState({ error })
+		})
 	};
 	
 	verification = () => {
@@ -104,32 +101,19 @@ class SignIn extends React.Component {
 		return true
 	}
 
-	checkSignIn = () => {
-		let { navigate } = this.props.navigation;
-		if (!this.verification()) {
-			this.setState({ isInvalid: true})
-			return;
-		}
-		if (this.state.password != this.state.rePassword) {
-			this.setState({ errorMessage: "Les deux mots de passe ne sont pas identiques" })
-		}
+	createAccount = () => {
 		birthDate = this.state.PickerDay + "/" + this.state.PickerMonth + "/" + this.state.PickerYear;
 		SiginAPatientWithApi(this.state.fname, this.state.lname, this.state.mail, this.state.password, this.state.Gender, birthDate, this.state.phoneNumber).then(async data => {
 			if (data.status == 201) {
 				let response = await data.json()
-				accountData = this.state.mail + "," + this.state.password
-				this._signInAsync(response.login_token, accountData)
+				this._signInAsync(response.login_token)
 				if (response.login_token !== null) {
-					confirmPatientEmail(this.state.mail, this.state.password, response.login_token).then(async data => {
-						let response = await data.json()
-						navigate('AccountValidation', {matchCode: response.confirmation_token})
-					})
+					 this.props.navigation.navigate("Home")
 				} else if (data.status == 401) {
 					showMessage({
-						message: "un erreur est survenue. Vous avez été deconnecte",
+						message: "un erreur est survenue. La connexion a ete perdu",
 						type: "danger"
 					});
-					navigate("Logout")
 				}
 				else {
 					showMessage({
@@ -152,6 +136,80 @@ class SignIn extends React.Component {
 				this.setState({ isInvalid: true})
 			}
 		});
+	}
+
+	checkSignIn = () => {
+		this.setState({ isInvalid: false})
+		let { navigate } = this.props.navigation;
+		if (!this.verification()) {
+			this.setState({ isInvalid: true})
+			return;
+		}
+		if (this.state.password != this.state.rePassword) {
+			this.setState({ errorMessage: "Les deux mots de passe ne sont pas identiques" })
+		} else {
+			confirmPatientEmail(this.state.mail, this.state.lname + " " + this.state.fname).then(async data => {
+				let response = await data.json()
+				if (data.status == 200) {
+					this.setModalValidationVisible(true)
+					this.setState({ confirmationToken: response.confirmation_token })
+					showMessage({
+						message: "Un code de validation de compte vient de vous etre envoye par mail.",
+						type: "info"
+					});
+				} else {
+					showMessage({
+						message: "un erreur est survenue. Reessayez. si le probleme persiste contactez nous",
+						type: "danger"
+					});
+				}
+			})
+		}
+
+	}
+
+	checkCodeValidation = () => {
+		if (this.state.code == this.state.confirmationToken) {
+			this.createAccount()
+			this.setModalValidationVisible(false)
+		} else {
+			this.setCode("")
+			showMessage({
+				message: "Le code saisie est incorrect",
+				type: "danger"
+			});
+		}
+	}
+
+	resendCode = () => {
+		confirmPatientEmail(this.state.mail, this.state.lname + " " + this.state.fname).then(async data => {
+			if (data.status == 200) {
+				let response = await data.json()
+				showMessage({
+						message: "Le code a bien été envoyé a l'adresse mail: " + this.state.mail,
+						type: "success"
+					});	
+				this.setState({ confirmationToken: response.confirmation_token })
+			} else if (data.status == 401) {
+				showMessage({
+					message: "un erreur est survenue. La connexion a été perdu",
+					type: "danger"
+				});
+			} else {
+				showMessage({
+					message: "Une erreur est survenue. Si le probleme persiste, contactez nous",
+					type: "danger"
+				});
+			}
+		})
+	}
+
+	setModalValidationVisible = (visible) => {
+		this.setState({ modalValidationVisible: visible })
+	}
+
+	setCode = (text) => {
+		this.setState({ code: text })
 	}
 
 	setFName = (text) => {
@@ -233,7 +291,68 @@ class SignIn extends React.Component {
 			{label: "Homme", value: "homme"},
 			{label: "Personnalisé", value: "personnalisé"}
 		]
+		let login 					= "Valider le code";
+		let errorMessage 			= "Mauvais code de validation";
+		let codeFocused 			= "codeFocused";
 		return (
+			<View>
+			<Modal
+				animationType="slide"
+				transparent={true}
+				visible={this.state.modalValidationVisible}
+			>
+				<View style={{flex: 1}}/>
+				<View style={{ flex: 14, backgroundColor: "#ededed", margin:15, borderRadius:15, borderWidth: 2}}>
+					<TouchableHighlight style={{margin: 10, flex: 1}}>
+						<Icon
+							name="clear"
+							color="#62BE87"
+							size={35}
+							onPress={() => this.setModalValidationVisible(false)}
+						/>
+					</TouchableHighlight>
+					<View style={{flex:1}}/>
+					<View style={{ flex: 2, justifyContent: "center", alignItems: "center"}}>
+		            	<Text style={{ flex: 2, fontSize: 25}}>
+		            	    CODE DE VALIDATION
+		            	</Text>
+		        		<TextInput
+		            	    onFocus={() => this.textFieldFocused(codeFocused)}
+		            	    onBlur={() => this.textFieldBlured(codeFocused)}
+		            	    style={{ width: windowSize.x / 1.5, borderWidth: 2, borderColor: "#ededed", borderBottomColor: colors.secondary}}
+		            	    autoCorrect={true}
+		            	    onChangeText={(text) => this.setCode(text)}
+		            	    value={this.state.code}
+		            	/>
+						<View style={{ flex: 2}}></View>
+					</View>
+					<View  style={{ flex: 2, alignItems: "center"}}>
+						<View style={{ flex: 1, justifyContent: "center"}}>
+							{this.state.isInvalid && <Text style={{ color: colors.errorColor }}>{errorMessage}</Text>}
+						</View>
+						<View style={{ flex: 1, justifyContent: "center", width:"80%"}}>
+							<Button 
+								color={colors.primary}
+								onPress={() => this.checkCodeValidation()}
+								title={login}
+								style={{flex: 1}}
+							/>
+						</View>
+						<View style={{flex: 1}}/>
+						<View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+			            	<Text style={{ width: windowSize.x / 2}}>
+			            	    Vous n'avez pas reçu d'email,
+			            	</Text>
+							<TouchableOpacity onPress={() => this.resendCode()} style={{}}>
+								<View style={{}}>
+									<Text style={{padding: 5, color: colors.secondary }}> Renvoyez-moi un email ! </Text>
+								</View>
+							</TouchableOpacity>
+						</View>
+					</View>
+					<View style={{flex:3}}/>
+				</View>
+			</Modal>
 			<ImageBackground source={require("./../../assets/photo-1532274402911-5a369e4c4bb5.jpeg")} style={{width: '100%', height: '100%'}}>
     				<View style={[styles.AuthMainContainer, styles.SigninMainContainer]}>
 	      				<View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
@@ -532,6 +651,7 @@ class SignIn extends React.Component {
 					</View>
 				</View>
 			</ImageBackground>
+			</View>
 	)}
 }
 
