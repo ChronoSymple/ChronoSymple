@@ -194,7 +194,7 @@ class EditNote extends React.Component {
 
 		let itemDate = item2.date
 		var now =  Date.parse(item2.date)
-		now = new Date(now + (new Date(now).getTimezoneOffset() * 60 * 1000))
+		now = new Date(now)
 
 		var annee   = now.getFullYear();
 		var month    = now.getMonth() + 1;

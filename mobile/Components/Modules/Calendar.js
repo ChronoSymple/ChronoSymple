@@ -4,7 +4,7 @@ import React from 'react'
 import { ActivityIndicator, View, Text, StyleSheet, Button, FlatList, TouchableOpacity, TouchableHighlight, BackHandler, Dimensions, SafeAreaView, Modal} from 'react-native'
 import { APIGetPatientNotesByDateIntervale,  APIRemovePatientNotes, APIShareNote, APIgetDoctorsOfModule, APIUnshareNote, APIDoctorOfNotes } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule, getUserCurrentModuleName } from '../../Redux/Action/action';
-import { colors, windowSize } from '../StyleSheet';
+import { colors, note_style, windowSize } from '../StyleSheet';
 import ModalFilter from "./ModalFilter"
 import { connect } from 'react-redux'
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -978,12 +978,11 @@ class Calendar extends React.Component {
 	}
 
 	displayDate = (created_at) => {
-		let date = new Date(created_at)
-		let time = created_at.substr(created_at.indexOf("\T") + 1, created_at.length);
-		let time2 = time.split(":")
+		var now =  Date.parse(created_at)
+		now = new Date(now)
 		return (
 			<Text style={styles.noteText}>
-				{time2[0]}h{time2[1]}
+				{now.getHours()}h{now.getMinutes()}
 			</Text>
 		);
 	}
