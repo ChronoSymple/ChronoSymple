@@ -6,7 +6,7 @@ import ChartAnnotation from 'chartjs-plugin-annotation';
 class DiabeteGraph extends PureComponent {
   setRef = ref => {
     this.ref = ref;
-    this.ctx = this.ref.getContext('2d');
+    this.ctx = (this.ref == null) ? null : this.ref.getContext('2d');
   }
   setDivRef = ref => this.divref = ref;
   dateToDateOfTheDay = date => {
@@ -151,15 +151,16 @@ class DiabeteGraph extends PureComponent {
     //window.addEventListener('resize', this.onResize);
   }
   componentDidUpdate() {
-    if(this.chart) {
+    if (this.chart) {
       this.chart.destroy();
       this.ctx = this.ref.getContext('2d');
-      this.ctx.canvas.height = this.divref.clientHeight;
-      this.ctx.canvas.width = this.divref.clientWidth;
-      const config = this.convertToGraphData(this.props.data);
-      this.chart = new Chart(this.ctx, config);
+      if (this.ctx) {
+        this.ctx.canvas.height = this.divref.clientHeight;
+        this.ctx.canvas.width = this.divref.clientWidth;
+        const config = this.convertToGraphData(this.props.data);
+        this.chart = new Chart(this.ctx, config);
+      }
     }
-    console.log(this.props.min);
   }
   componentWillUnmount() {
     //window.removeEventListener('resize', this.onResize);
