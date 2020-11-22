@@ -61,11 +61,16 @@ class ModuleItem extends React.Component {
 				APIgetDoctorsOfModule(this.props.token.token, this.state.dModule.id).then(async data => {
 					let response = await data.json()
 					if (data.status == 200) {
+						console.log(response)
 						this.setState({ 
 							finish: true,
 							doctorsOfModule: response
 						})
 					} else if (data.status == 404) {
+						this.setState({ 
+							finish: true,
+							doctorsOfModule: []
+						})
 						showMessage({
 							message: "L'unit n'a pas été trouvé. Recommencez. Si le probleme persiste contactez nous",
 							type: "danger",
@@ -88,6 +93,7 @@ class ModuleItem extends React.Component {
 
 
 	render() {
+		console.log(this.state)
 		return (
 			<View>
 				<Modal
@@ -165,33 +171,37 @@ class ModuleItem extends React.Component {
 				</Modal>
 			{ !this.state.generalUnit
 				?
+				!this.state.dModule.already_added
+				?
 				<TouchableOpacity onPress={() => this.state.triggerModule(this.state.dModule.id, this.state.dModule.name)}
 					style={{
 						flex: 1, 
 						justifyContent : 'center', 
 						alignItems: 'center', 
 						borderWidth: 3, 
-						borderColor: colors.secondary, 
+						borderColor: colors.primary, 
 						borderRadius: 15, 
 						backgroundColor : 'white', 
 						margin: 10}}>					
-					<View style={{
-						flex: 1,
-						alignItems: 'center',
-						flexDirection : 'row', 
-						justifyContent: 'center', 
-						width: "100%", 
-						height: "100%",
-						margin: 20, 
-						}}>
-							<Text style={{ fontSize: 18, textTransform: 'capitalize' }}>{this.state.dModule.name}</Text>
-					</View>
-				</TouchableOpacity>
+						<View style={{
+							flex: 1,
+							alignItems: 'center',
+							flexDirection : 'row', 
+							justifyContent: 'center', 
+							width: "100%", 
+							height: "100%",
+							margin: 20, 
+							}}>
+								<Text style={{ fontSize: 18, textTransform: 'capitalize' }}>{this.state.dModule.name}</Text>
+						</View>
+					</TouchableOpacity>
+					:
+					<View/>
 				:
 				<TouchableOpacity onPress={() => this.state.triggerModule(this.state.dModule.id, this.state.dModule.general_unit.name)}>
 					<View style={styles.moduleBox}>
 						<View style={styles.moduleTitle}>
-							<Text style={{ fontSize: 18, textTransform: 'capitalize', flex: 8 }}>{this.state.dModule.general_unit.name}</Text>
+							<Text style={{ fontSize: 18, textAlign: "center", textTransform: 'capitalize', flex: 8 }}>{this.state.dModule.general_unit.name}</Text>
 						</View>
 						<Icon
 							name="more-vert"
@@ -238,17 +248,13 @@ const styles = StyleSheet.create({
 	},
 	moduleTitle: {
 		flex: 8,
-		paddingLeft: 50,
 		justifyContent: 'center', 
-		width: "100%", 
-		height: "100%",
+		paddingTop: 3
 	},
 	moduleMoreVer: {
 		flex: 2,
 		alignItems: 'center',
 		justifyContent: 'center', 
-		width: "100%", 
-		height: "100%",
 	},
 	moduleBox: {
 		flex: 1, 

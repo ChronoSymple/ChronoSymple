@@ -100,30 +100,35 @@ class AllDoctors extends React.Component {
           		</View>
 				  
                 <View style={{flex: 9}}>
-                    {this.state.loading && 
+                    {this.state.loading ? 
                     	<View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
                     	    <ActivityIndicator size='large' color='black' />
                     	</View>
-                    }
-				    { !this.state.loading && !this.state.Dmodules
-				    ?	
-						<View style={{flex: 1}}>
-				    		<Text style={{ marginBottom : 30, fontSize: 20 }}>
-				    			Aucun module actif
-                    	        POUR UTILISER L'APPLICATION VOUS DEVEZ AJOUTER UN MODULE
-				    		</Text>
-				    	</View>
-					:
-					 	<FlatList 
-					 		data={this.state.Dmodules} 
-					 		keyExtractor={(item) => item.id.toString()} 
-					 		renderItem={({item}) => ( 
-					 	        <DoctorsOfModule 
-					 	            dModule={item} 
-					 	            doctorpressed={this.doctorPressed}> 
-					 	        </DoctorsOfModule> 
-					 		)} 
-					 	/> 
+                    : !this.state.Dmodules
+						?	
+							<View>
+				    			<Text style={{ fontSize: 20 }}>
+				    				Aucun module actif
+                    		        POUR UTILISER L'APPLICATION VOUS DEVEZ AJOUTER UN MODULE
+				    			</Text>
+				    		</View>
+						:
+							this.state.Dmodules.length > 0
+							?
+						 	<FlatList 
+						 		data={this.state.Dmodules} 
+						 		keyExtractor={(item) => item.id.toString()} 
+						 		renderItem={({item}) => ( 
+						 	        <DoctorsOfModule 
+						 	            dModule={item} 
+						 	            doctorpressed={this.doctorPressed}> 
+						 	        </DoctorsOfModule> 
+						 		)}
+						 	/>
+							:
+							<View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+								<Text>eofjoêfj</Text>
+							</View>
 				    }
                 </View>
 			</View>

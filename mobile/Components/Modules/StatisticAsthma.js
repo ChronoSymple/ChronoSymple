@@ -79,31 +79,33 @@ class Statistic extends React.Component {
               				</View>
             			</View>
             			<View style={{flex: 3, alignItems: "center"}}>
-              				<View
-              				  	style={{
-              				    	borderWidth:1,
-              				    	borderColor:colors.secondary,
-              				    	alignItems:'center',
-              				    	justifyContent:'center',
-              				    	width:100,
-              				    	height:100,
-              				    	backgroundColor:colors.secondary,
-              				    	borderRadius:50,
-              				    	shadowColor: '#000',
-              				    	shadowOffset: { width: 1, height: 2 },
-              				    	shadowOpacity: 1,
-              				    	shadowRadius: 1.5,
-              				    	elevation: 10
-              					}}
-							>
-                				<Icon
-                					name="add"
-                					color={"white"}
-                					size={100}
-                					onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "StatisticAsthma"}) }}
-                					style={{justifyContent: "flex-end"}}
-                				/>
-              				</View>
+							<View
+          			    	  style={{
+          			    	    borderWidth:1,
+          			    	    borderColor:colors.secondary,
+          			    	    alignItems:'center',
+          			    	    justifyContent:'center',
+          			    	    width:85,
+          			    	    height:85,
+          			    	    backgroundColor:colors.secondary,
+          			    	    borderRadius:50,
+          			    	    shadowColor: '#000',
+          			    	    shadowOffset: { width: 1, height: 2 },
+          			    	    shadowOpacity: 1,
+          			    	    shadowRadius: 1.5,
+          			    	    elevation: 10
+          			    	}}>
+          			    	  <Icon
+          			    	    name="add"
+          			    	    color={"white"}
+          			    	    size={80}
+								onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "Calendar"}) }}
+								style={{
+									alignItems:'center',
+									justifyContent:'center',
+								}}
+          			    	/>
+          			    	</View>
             			</View>
             			<View style={{flex: 3}}/>
           			</View>

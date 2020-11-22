@@ -44,17 +44,6 @@ class SearchDoctors extends React.Component {
 					this.setState({
 						doctors: [ ...response ],
 					})
-				} else if (data.status == 404) {
-					showMessage({
-						message: "Le module n'a pas été trouver. Recommencez. Si le probleme persiste contactez nous",
-						type: "danger",
-					});
-				} else if (data. status == 401) {
-					showMessage({
-						message: "Un probleme est survenus, vous allez être déconnecté",
-						type: "danger",
-					});
-					this.props.navigation.navigate("Logout");
 				}
 			})
 		}).catch(error => {
@@ -128,7 +117,7 @@ class SearchDoctors extends React.Component {
 				<SearchBar					
 					round
 					lightTheme
-					placeholder="Search here ..."
+					placeholder="Rechercher ..."
 					onChangeText={(text) => this.updateSearch(text)}
 					value={this.state.search}>
 				</SearchBar>

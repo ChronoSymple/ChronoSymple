@@ -142,39 +142,48 @@ class DoctorsOfModule extends React.Component {
 						</View>
 					</View>
 				</TouchableOpacity>
-                {this.state.displayDoctor && !this.state.finish && 
+
+                {!this.state.finish
+				?
                     <ActivityIndicator size='large' color='black' style={{marginBottom: 10}} />
-                }
-                { this.state.finish && this.state.displayDoctor && this.state.doctorsOfModule.length > 0 &&
-                    <View>
-                       <FlatList
-						    data={this.state.doctorsOfModule}
-						    keyExtractor={(item) => item.id.toString()}
-						    renderItem={({item}) => (
-							    <View>
-									<TouchableOpacity
-										onPress={() => {this.state.doctorPressed(item, this.state.dModule.id)}}
-                                        >
-										<View style={{height: windowSize.y / 4, backgroundColor: "#f2f3f4", margin: 3, borderRadius: 15, borderWidth: 1, borderColor: '#e5e6e8', flexDirection: "row", marginBottom: 10}}>
-										<Image
-											source={{
-                                                uri: 'https://image.flaticon.com/icons/png/512/122/122454.png',
-											}}
-											style={{flex: 5, margin: 15, backgroundColor: "white", borderRadius: 15, borderWidth: 1, borderColor: 'white' }}
-                                            />
-										  <View style={{flex: 6, flexDirection: "column" }}>
-											<View style={{flex: 2}}/>
-											  <Text style={{ fontSize: 18, color: "#27292C", textAlign: "center", flex: 3}}> Dr.  </Text>
-											<Text style={{ fontSize: 17, color: "#27292C", textTransform: 'capitalize', flex: 4}}>{item.user.first_name} {item.user.last_name} </Text>
-											<View style={{flex: 1}}/>
-										  </View>
+				: this.state.displayDoctor
+					?
+						this.state.doctorsOfModule.length > 0
+						?
+                			<View>
+                				<FlatList
+									data={this.state.doctorsOfModule}
+									keyExtractor={(item) => item.id.toString()}
+									renderItem={({item}) => (
+										<View>
+											<TouchableOpacity
+												onPress={() => {this.state.doctorPressed(item, this.state.dModule.id)}}
+											>
+												<View style={{height: windowSize.y / 4, backgroundColor: "#f2f3f4", margin: 3, borderRadius: 15, borderWidth: 1, borderColor: '#e5e6e8', flexDirection: "row", marginBottom: 10}}>
+												<Image
+													source={{
+                		                                uri: 'https://image.flaticon.com/icons/png/512/122/122454.png',
+													}}
+													style={{flex: 5, margin: 15, backgroundColor: "white", borderRadius: 15, borderWidth: 1, borderColor: 'white' }}
+                		                            />
+												  <View style={{flex: 6, flexDirection: "column" }}>
+													<View style={{flex: 2}}/>
+													  <Text style={{ fontSize: 18, color: "#27292C", textAlign: "center", flex: 3}}> Dr.  </Text>
+													<Text style={{ fontSize: 17, color: "#27292C", textTransform: 'capitalize', flex: 4}}>{item.user.first_name} {item.user.last_name} </Text>
+													<View style={{flex: 1}}/>
+												  </View>
+												</View>
+											</TouchableOpacity>
 										</View>
-									</TouchableOpacity>
-								{/* 	} */}
-							</View>
-							)}
-                            />
-                    </View>
+									)}
+	            	            />
+	            	        </View>
+						:
+							<View>
+								<Text style={{textAlign: "center"}}>Vous n'avez pas de médecins rattachés à ce module</Text>
+                	    	</View>
+					:
+						<View><Text>aeindfpief</Text></View>
                 }
             </View>
 		)

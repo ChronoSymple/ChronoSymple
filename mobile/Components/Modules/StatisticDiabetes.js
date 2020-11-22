@@ -15,8 +15,6 @@ import CalendarPicker from 'react-native-calendar-picker'
 import NetInfo from "@react-native-community/netinfo";
 import Icon2 from 'react-native-vector-icons/FontAwesome5';
 import { showMessage } from "react-native-flash-message";
-
-
 class Statistic extends React.Component {
   
   constructor (props) {
@@ -430,7 +428,7 @@ class Statistic extends React.Component {
 				 	if (data.status == 200) {
             this._createStats(response)
             this._averageMaker()
-					} else if (data.status == 422) {
+          } else if (data.status == 422) {
             showMessage({
               message: "Des parametres sont absents. Recommencez. Si le probleme persiste contactez nous",
               type: "danger",
@@ -441,7 +439,7 @@ class Statistic extends React.Component {
               type: "danger",
             });
             this.props.navigation.navigate("Logout")
-          }
+					}
 					}).catch(error => {
 						this.setState({ error })
 					})
@@ -718,7 +716,7 @@ class Statistic extends React.Component {
 						  />
             </View>
             <View style={{flex: 6, justifyContent: "center", alignItems: "center"}}>
-              <Text style={{color: "white", fontWeight: "bold", fontSize:22}}>Statistiques</Text>
+            <Text style={{color: "white", fontWeight: "bold", fontSize:22}}>Statistiques</Text>
               <Text style={{color: "white", fontSize:18}}>Diabètes</Text>
             </View>
             <View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
@@ -808,29 +806,32 @@ class Statistic extends React.Component {
             </View>
             <View style={{flex: 3, alignItems: "center"}}>
               <View
-                style={{
-                  borderWidth:1,
-                  borderColor:colors.secondary,
-                  alignItems:'center',
-                  justifyContent:'center',
-                  width:100,
-                  height:100,
-                  backgroundColor:colors.secondary,
-                  borderRadius:50,
-                  shadowColor: '#000',
-                  shadowOffset: { width: 1, height: 2 },
-                  shadowOpacity: 1,
-                  shadowRadius: 1.5,
-                  elevation: 10
-              }}>
-                <Icon
-                  name="add"
-                  color={"white"}
-                  size={100}
-                  onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "StatisticDiabetes"}) }}
-                  style={{justifyContent: "flex-end"}}
-                />
-              </View>
+    	    	    style={{
+    	    	      borderWidth:1,
+    	    	      borderColor:colors.secondary,
+    	    	      alignItems:'center',
+    	    	      justifyContent:'center',
+    	    	      width:85,
+    	    	      height:85,
+    	    	      backgroundColor:colors.secondary,
+    	    	      borderRadius:50,
+    	    	      shadowColor: '#000',
+    	    	      shadowOffset: { width: 1, height: 2 },
+    	    	      shadowOpacity: 1,
+    	    	      shadowRadius: 1.5,
+    	    	      elevation: 10
+    	    	  }}>
+          	  	<Icon
+          	  	  name="add"
+          	  	  color={"white"}
+          	  	  size={80}
+						  		onPress={() => { this.props.navigation.navigate('AddNote', {pageToReturn: "Calendar"}) }}
+						  		style={{
+						  			alignItems:'center',
+						  			justifyContent:'center',
+						  		}}
+          	  	/>
+          	  </View>    
             </View>
             <View style={{flex: 3}}/>
           </View>

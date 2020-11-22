@@ -7,7 +7,7 @@ import { getUserToken, getUserCurrentModule, getUserCurrentModuleName } from '..
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon_Ant from 'react-native-vector-icons/AntDesign';
-import { TouchableHighlight } from 'react-native-gesture-handler';
+import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
 import { APIGetNotesParameters, APIGetGeneralUnitId } from "../../API/APIModule"
 import { Picker } from '@react-native-community/picker';
 
@@ -243,7 +243,7 @@ class Note extends React.Component {
   	render() {
 		let { navigate } = this.props.navigation;
     	return (
-			<View style={{flex:1}}>
+			<View>
 				<View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row"}}>
             		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
 						<Icon
@@ -274,10 +274,10 @@ class Note extends React.Component {
 						/>
             		</View>
           		</View>
-
 				{this.state.fieldsJSON != []
 				?
 				<View style={{flex:9}}>
+					<ScrollView>
 					<View style={{flex:2}}>
 						<View style={note_style.date_time}>
 							<Icon_Ant
@@ -337,11 +337,12 @@ class Note extends React.Component {
 							/>
 						}
 					</View>
+					</ScrollView>
 				</View>
 				:
 				<View/>
 				}
-			</View>
+ 			</View>
 		)
 	}
 
