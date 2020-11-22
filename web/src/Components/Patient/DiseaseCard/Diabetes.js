@@ -1,12 +1,20 @@
 import React, { PureComponent } from 'react';
 import Chart, { helpers } from 'chart.js';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
+import Api from '../../../Api';
 //import { createPalette } from '@material-ui/core';
 //import * as ChartAnnotation from 'chartjs-plugin-annotation';
 
 class Diabetes extends PureComponent {
   setRef = ref => this.ref = ref;
   setDivRef = ref => this.divref = ref;
+
+  state = {
+    min: -1,
+    max: -1,
+  };
 
   dateToDateOfTheDay = date => {
     const divider = 1000 * 60 * 60 * 24;
@@ -105,24 +113,96 @@ class Diabetes extends PureComponent {
     this.chart.resize();
   }
   
+  getLimits = async() => {
+    try {
+      const req = await Api.getLimits(localStorage.getItem('myToken'), this.props.unitID);
+      const insuline = req['Insuline'];
+      if (insuline !== null) {
+        let {'min_limit': min, 'max_limit': max} = insuline;
+        if (min === undefined) {
+          min = -1;
+        }
+        if (max === undefined) {
+          max = -1;
+        }
+        this.setState({min, max});
+      }
+    } catch (e) {
+      // Because of 404
+    }
+  }
+
+  setLimits = async() => {
+    await Api.setLimits(localStorage.getItem('myToken'), this.props.unitID, {
+      'fields_limits': {
+        'Insuline': {'min_limit': this.state.min, 'max_limit': this.state.max}
+      }
+    });
+  }
+
   componentDidMount() {
     this.ctx = this.ref.getContext('2d');
     //this.ctx.canvas.height = window.innerHeight * 0.7;
     this.ctx.canvas.width = this.divref.clientWidth;
-    this.ctx.canvas.width = this.divref.clientHeight;
     this.chart = new Chart(this.ctx, this.convertToGraphData(this.props.data));
+    this.getLimits(this.props.unitID);
+    
     //window.addEventListener('resize', this.onResize);
   }
   componentWillUnmount() {
     //window.removeEventListener('resize', this.onResize);
+    if (this.chart) {
+      this.chart.destroy();
+    }
+  }
+
+  setMin = e => {
+    const min = e.target.value;
+    this.setState({min});
+  }
+
+  setMax = e => {
+    const max = e.target.value;
+    this.setState({max});
   }
 
   changeStep = (e, v) => this.setState({step: v}, this.generateProbsGraph);
 
   render() {
     return (
-      <div ref={this.setDivRef} style={{height: 500, width: '100%', overflow: 'none'}}>
-        <canvas ref={this.setRef}/>
+      <div style={{width: '100%'}}>
+        <div ref={this.setDivRef} style={{height: 500, width: '100%', overflow: 'none'}}>
+          <canvas ref={this.setRef}/>
+        </div>
+        <div>
+          <TextField
+            label="Min Limit"
+            type="number"
+            InputLabelProps={{ shrink: true, }}
+            variant="outlined"
+            size="small"
+            value={this.state.min}
+            onChange={this.setMin}
+          />
+          <TextField
+            label="Max Limit"
+            type="number"
+            InputLabelProps={{ shrink: true, }}
+            variant="outlined"
+            style={{marginLeft: 10}}
+            onChange={this.setMax}
+            value={this.state.max}
+            size="small"
+          />
+          <Button
+            style={{marginLeft: 10}}
+            variant="contained"
+            onClick={this.setLimits}
+            color="primary">
+              Apply
+          </Button>
+          <p style={{color: '#333333', marginTop:10}}>*Negative value are disabled</p>
+        </div>
       </div>
     );
   }
@@ -132,7 +212,8 @@ Diabetes.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
     date: PropTypes.instanceOf(Date),
     data: PropTypes.number
-  }))
+  })),
+  unitID: PropTypes.number.isRequired,
 };
 
 export default Diabetes;

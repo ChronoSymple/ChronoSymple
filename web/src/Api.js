@@ -126,10 +126,10 @@ const getPatient = (token, ID) =>
   loggedRequest(`${prefix}/doctors/patients/${ID}/profile`, token);
 
 const getLimits = (token, unitID) =>
-  loggedRequest(`${prefix}/doctors/doctor_units/${unitID}/get_fields_limits`, token);
+  loggedRequest(`${prefix}/doctors/units/${unitID}/get_fields_limits`, token);
 
 const setLimits = (token, unitID, obj) =>
-  loggedRequest(`${prefix}/doctors/doctor_units/${unitID}/set_fields_limits`, token, {
+  loggedRequest(`${prefix}/doctors/units/${unitID}/set_fields_limits`, token, {
     method: 'POST',
     body: JSON.stringify(obj)
   });
