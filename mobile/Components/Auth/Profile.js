@@ -22,7 +22,7 @@ class Profile extends React.Component {
 			tmpPhoneNumber: "",
 			birthdate: "",
 			civility: "",
-			picture: "https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png",
+			picture: "",
 			modalPictureVisible: false,
 			password : "",
 			confirmPressed: false,
@@ -55,24 +55,20 @@ class Profile extends React.Component {
 				phoneNumber: response.phone_number ? response.phone_number : "",
 				birthdate: response.birthdate,
 				civility: response.civility,
-				picture: response.picture ? response.picture : 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png',
+				picture: response.picture ? response.picture : '',
 			})
 		})
 	}
 
-
 	chooseImage = () => {
 		let options = {
 			title: 'Select Image',
-			customButtons: [
-				{ name: 'customOptionKey', title: 'Choose Photo from Custom Option' },
-			],
 			storageOptions: {
 				skipBackup: true,
 				path: 'images',
 			},
 		};
-		ImagePicker.showImagePicker(options, (response) => {
+		ImagePicker.launchImageLibrary(options, (response) => {
 			if (response.didCancel) {
 			} else if (response.error) {
 			} else if (response.customButton) {
