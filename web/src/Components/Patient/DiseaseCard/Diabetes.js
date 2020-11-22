@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import Api from '../../../Api';
+import ChartAnnotation from 'chartjs-plugin-annotation';
 //import { createPalette } from '@material-ui/core';
 //import * as ChartAnnotation from 'chartjs-plugin-annotation';
 
@@ -81,12 +82,18 @@ class Diabetes extends PureComponent {
     }
     const graphData = {
       datasets: data,
-      labels
+      labels,
     };
-    return {
+    
+    const res = {
       type: 'bar',
+      plugins: [ChartAnnotation],
       data: graphData,
       options: {
+        annotation: {
+          annotations: [],
+          drawTime: 'afterDraw'
+        },
         maintainAspectRatio: false,
         responsive: true,
         legend: {
@@ -103,9 +110,87 @@ class Diabetes extends PureComponent {
             }
           }]
         }
-      }
+      },
+      
     };
+    if (this.state.min >= 0) {
+      const obj = {
+        type: 'line',
+        mode: 'horizontal',
+        scaleID: 'y-axis-0',
+        value: this.state.min,
+        borderColor: 'tomato',
+        borderWidth: 1,
+        label: {
+          backgroundColor: 'red',
+          content: 'Hypoglycémie',
+          position: 'left',
+          enabled: true
+        }
+      };
+      res.options.annotation.annotations = [...res.options.annotation.annotations, obj];
+    }
+    if (this.state.max >= 0) {
+      const obj = {
+        type: 'line',
+        mode: 'horizontal',
+        scaleID: 'y-axis-0',
+        value: this.state.max,
+        borderColor: 'tomato',
+        borderWidth: 1,
+        label: {
+          backgroundColor: 'red',
+          content: 'Hyperglycémie',
+          position: 'left',
+          enabled: true
+        }
+      };
+      res.options.annotation.annotations = [...res.options.annotation.annotations, obj];
+    }
+    return res;
   }
+
+  /*
+  {
+        type: 'line',
+        mode: 'horizontal',
+        scaleID: 'y-axis-0',
+        value: '60',
+        borderColor: 'tomato',
+        borderWidth: 1,
+        label: {
+          backgroundColor: 'red',
+          content: 'Hypoglycémie',
+          enabled: table.some(e => e.data < 60),
+          position : 'left'
+        }
+      }, {
+        type: 'line',
+        mode: 'horizontal',
+        scaleID: 'y-axis-0',
+        value: '110',
+        borderColor: 'tomato',
+        borderWidth: 1,
+        label: {
+          backgroundColor: 'red',
+          content: 'Hyperglycémie à jeun',
+          enabled: true,
+          position : 'left'
+        }
+      }, {
+        type: 'line',
+        mode: 'horizontal',
+        scaleID: 'y-axis-0',
+        value: '140',
+        borderColor: 'tomato',
+        borderWidth: 1,
+        label: {
+          backgroundColor: 'red',
+          content: 'Hyperglycémie après repas',
+          enabled: table.some(e => e.data > 140),
+          position : 'left'
+        }
+      }*/
 
   onResize = () => {
     //this.ctx.canvas.height = window.innerHeight * 0.7;
@@ -126,6 +211,9 @@ class Diabetes extends PureComponent {
           max = -1;
         }
         this.setState({min, max});
+        const oldChart = this.chart;
+      this.chart = new Chart(this.ctx, this.convertToGraphData(this.props.data));
+        oldChart.destroy();
       }
     } catch (e) {
       // Because of 404
@@ -133,6 +221,9 @@ class Diabetes extends PureComponent {
   }
 
   setLimits = async() => {
+    const oldChart = this.chart;
+    this.chart = new Chart(this.ctx, this.convertToGraphData(this.props.data));
+    oldChart.destroy();
     await Api.setLimits(localStorage.getItem('myToken'), this.props.unitID, {
       'fields_limits': {
         'Insuline': {'min_limit': this.state.min, 'max_limit': this.state.max}
@@ -248,19 +339,6 @@ export default Diabetes;
         },
         annotation: {
           annotations: [{
-            type: 'line',
-            mode: 'horizontal',
-            scaleID: 'y-axis-0',
-            value: '60',
-            borderColor: 'tomato',
-            borderWidth: 1,
-            label: {
-              backgroundColor: 'red',
-              content: 'Hypoglycémie',
-              enabled: table.some(e => e.data < 60),
-              position : 'left'
-            }
-          }, {
             type: 'line',
             mode: 'horizontal',
             scaleID: 'y-axis-0',
