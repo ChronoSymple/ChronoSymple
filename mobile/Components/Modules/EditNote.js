@@ -27,7 +27,7 @@ class EditNote extends React.Component {
 			date: "",
 			time: "",
 			original_dt: new Date(Date.now() - (now.getTimezoneOffset() * 60 * 1000)),
-			isDateTimePickerVisible: false,
+			isDateTimePickerVisible: false, 
 			isTimePickerVisible: false,
 			textFiledFocusColor: colors.primary,
 			isInvalid: false,
@@ -193,8 +193,9 @@ class EditNote extends React.Component {
 		}
 
 		let itemDate = item2.date
-		var now =  new Date(item2.date)
-		var oui =  new Date()
+		var now =  Date.parse(item2.date)
+		now = new Date(now + (new Date(now).getTimezoneOffset() * 60 * 1000))
+
 		var annee   = now.getFullYear();
 		var month    = now.getMonth() + 1;
 		var jour    = now.getDate();
@@ -211,7 +212,7 @@ class EditNote extends React.Component {
 		this.setState({
 			date: date,
 			time: horaire,
-			original_dt: new Date(now - (oui.getTimezoneOffset() * 60 * 1000)),
+			original_dt: now,
 		})
 	}
 
