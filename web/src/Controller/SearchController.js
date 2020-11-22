@@ -133,7 +133,7 @@ class SearchController extends PureComponent {
         <SearchBar search={search} setSearchValue={this.setSearchValue}/>
         <br/>
         <div>
-    <Button variant='outlined' size='small' onClick={this.toogleFilters} style={{color: filtersOn ? 'black'  : 'gray'}}><FilterIcon/>{i18n.t('filters')}</Button>
+          <Button variant='outlined' size='small' onClick={this.toogleFilters} style={{color: filtersOn ? 'black'  : 'gray'}}><FilterIcon/>{i18n.t('filters')}</Button>
           {/* <Button variant='outlined' size='small' style={{ color: '#ef6b83' }} onClick={this.favorite}><FavoriteIcon/>Favorite</Button> */}
         </div>
         {
