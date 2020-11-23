@@ -1542,7 +1542,7 @@ class Calendar extends React.Component {
 												/>
 											</View>
 										}
-								</View>
+								</View>							
 							)}
 							/>
 						</SafeAreaView>
