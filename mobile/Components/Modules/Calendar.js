@@ -1282,8 +1282,8 @@ class Calendar extends React.Component {
           			        shadowRadius: 1.5,
           			        elevation: 10
           			    }}>
-          			      <Icon2
-          			        name="statistic"
+          			      <Icon
+          			        name="insert-chart"
           			        color={"white"}
           			        size={40}
           			        onPress={() => { this.props.navigation.navigate('Check') }}
@@ -1409,6 +1409,74 @@ class Calendar extends React.Component {
 							keyExtractor={(item) => item.id.toString()}
 							renderItem={({item}) => (
 								item.id == this.state.selectedNotes[0] ? this.state.editNote = item : this.state.editNote = this.state.editNote,
+								this.state.notes[this.state.notes.length - 1].id == item.id ?
+								<View style={{flex: 1}}>
+									<View style={{
+										flexDirection: "row", 
+										borderWidth: 3.5, 
+										borderColor: '#F1F1F1', 
+										borderRadius: 10,  
+										marginLeft: 12,
+										marginRight: 12,
+										marginTop: 6,
+										marginBottom: 110}}>
+										<TouchableOpacity
+											delayLongPress={800}
+											onLongPress={() => { this.noteChecked(item)	}}
+											onPress={() => { this.showDetailedNote(item) } }
+											style={styles.note}
+											>
+												<View style={{flex: 1, flexDirection: 'row'}}>
+													<CheckBox
+														checked={this.state.selectedNotes.includes(item.id)}
+														onPress={() => { this.noteChecked(item) }}
+														style={{flex: 2}}
+													/>
+													<View style={{flexDirection: "column"}}>
+														{this.displayDate(item.date)}
+														<View>
+															{ !item.data.description
+																?
+																<Text style={styles.description}>Pas de description</Text>
+																: (item.data.description.length > 20)
+																?
+																<Text style={styles.description}>{item.data.description.substr(0, 20)}...</Text>
+																:
+																<Text style={styles.description}>{item.data.description}</Text>
+															}
+														</View>
+													</View>
+												</View>
+										</TouchableOpacity>
+										{ item.doctor_ids.length > 0 ?
+											<View style={{flex: 0.8, backgroundColor: "black",  borderWidth: 3.5, borderColor: 'black', borderBottomRightRadius: 8, borderTopRightRadius: 8}}/>
+										:
+											<View style={{flex: 0.8, backgroundColor: "#F1F1F1",  borderWidth: 3.5, borderColor: '#F1F1F1', borderBottomRightRadius: 8, borderTopRightRadius: 8}}/>
+										}
+									</View>
+										{ this.state.displayedNote.includes(item.id) &&
+											<View style={{
+												flex: 1,  
+												marginLeft: 12,
+												marginRight: 12,
+												marginBottom: 15,
+												borderWidth: 3,
+												borderTopWidth: 0,
+												borderRadius: 10,
+												borderColor: 'lightgrey'
+											}}>
+												<FlatList
+													hide={true}
+													data={this.jsonToArray(item.data)}
+													keyExtractor={(field, index) => index.toString()}
+													renderItem={({item}) => (
+														this.detailedNote(item)
+													)}
+												/>
+											</View>
+										}
+								</View>
+								:					
 								<View style={{flex: 1}}>
 									<View style={{
 										flexDirection: "row", 
@@ -1474,7 +1542,7 @@ class Calendar extends React.Component {
 												/>
 											</View>
 										}
-								</View>							
+								</View>
 							)}
 							/>
 						</SafeAreaView>
