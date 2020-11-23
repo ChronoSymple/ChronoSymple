@@ -1410,7 +1410,7 @@ class Calendar extends React.Component {
 							renderItem={({item}) => (
 								item.id == this.state.selectedNotes[0] ? this.state.editNote = item : this.state.editNote = this.state.editNote,
 								this.state.notes[this.state.notes.length - 1].id == item.id ?
-								<View style={{flex: 1}}>
+								<View style={{flex: 1, marginBottom: 110}}>
 									<View style={{
 										flexDirection: "row", 
 										borderWidth: 3.5, 
@@ -1418,8 +1418,7 @@ class Calendar extends React.Component {
 										borderRadius: 10,  
 										marginLeft: 12,
 										marginRight: 12,
-										marginTop: 6,
-										marginBottom: 110}}>
+										marginTop: 6,}}>
 										<TouchableOpacity
 											delayLongPress={800}
 											onLongPress={() => { this.noteChecked(item)	}}
