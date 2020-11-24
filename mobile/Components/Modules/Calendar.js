@@ -1101,7 +1101,7 @@ class Calendar extends React.Component {
 				    	visible={this.state.modalCheckboxVisible}
 				    	style={styles.view}
 				    	swipeDirection={'down'}
-						animationInTiming="3000"
+						animationInTiming={3000}
 						animationType="slide"
 						animationIn="slideInUp"
 				  		animationOut="slideOutDown"
@@ -1136,7 +1136,7 @@ class Calendar extends React.Component {
 					    visible={this.state.modalCheckboxVisible}
 					    style={styles.view}
 					    swipeDirection={'down'}
-						animationInTiming="3000"
+						animationInTiming={3000}
 						animationType="slide"
 						animationIn="slideInUp"
 				  		animationOut="slideOutDown"
@@ -1283,7 +1283,7 @@ class Calendar extends React.Component {
           			        elevation: 10
           			    }}>
           			      <Icon2
-          			        name="statistic"
+          			        name="chart-bar"
           			        color={"white"}
           			        size={40}
           			        onPress={() => { this.props.navigation.navigate('Check') }}
