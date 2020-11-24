@@ -144,7 +144,7 @@ class DoctorCard extends React.Component {
 						type: "success",
 					});
 					if (this.state.pageToReturn == "AllDoctors")
-						this.props.navigation.navigate("Profile")
+						this.props.navigation.navigate("Profil")
 					else
 						this.props.navigation.navigate("Home")
 				} else if (data.status == 404) {
@@ -215,7 +215,7 @@ class DoctorCard extends React.Component {
 										name="arrow-back"
 										color="#FFF"
 										size={35}
-										onPress={() => navigate("AllDoctors")}
+										onPress={() => navigate("Profil")}
 									/>
 							</TouchableHighlight>
 						}
