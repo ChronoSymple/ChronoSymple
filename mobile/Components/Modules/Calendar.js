@@ -186,7 +186,7 @@ class Calendar extends React.Component {
 					} else if (data.status == 200)
 					{
 						showMessage({
-							message: "Aucun médecin assigné au module \"Diabète\", la note n'a pas été partagé",
+							message: "Aucun médecin assigné au module " + currentModuleName + ", la note n'a pas été partagé",
 							type: "danger"
 						});
 					} else if (data.status == 404 || data.status == 500) {
@@ -1119,7 +1119,7 @@ class Calendar extends React.Component {
 									</TouchableOpacity>
 									{
 										<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.setModalCheckboxVisible(false), this.showFilterModal()}}>
-											<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager à </Text>
+											<Text style={{marginTop: windowSize.y / 30, fontSize: windowSize.y / 40}}> Partager</Text>
 										</TouchableOpacity>
 									}
 									<TouchableOpacity style={{ alignItems: 'center', borderTopWidth: 1, height: windowSize.y / 10 }} onPress={() => { this.setModalCheckboxVisible(false), this.unshareNote() }}>
