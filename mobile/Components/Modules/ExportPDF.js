@@ -121,11 +121,15 @@ class ExportPDF extends React.Component {
 								<th style="border: 1px solid #dddddd; text-align: center"> Insuline(corr) </th>\
 							</tr>'
 		for (var i = 0; i < this.state.pdfData.length; i++) {
+			var now = new Date(Date.now())
+			var tmpDate =  new Date(Date.parse(this.state.pdfData[i].date) + (now.getTimezoneOffset() * 60 * 1000))
+			let date = tmpDate.getFullYear() + "/" + tmpDate.getMonth() + "/" + tmpDate.getDate()
+			let time = tmpDate.getHours() + ":" + tmpDate.getMinutes()
 			patientNote += '<tr>\
-								<th style="border: 1px solid; text-align: center"> ' + this.state.pdfData[i].data.date + ' - ' + this.state.pdfData[i].data.time + ' </th>\
-								<th style="border: 1px solid; text-align: center"> ' + this.state.pdfData[i].data.BloodGlucose + ' </th>\
-								<th style="border: 1px solid; text-align: center"> ' + this.state.pdfData[i].data.InsulineFood + ' </th>\
-								<th style="border: 1px solid; text-align: center"> ' + this.state.pdfData[i].data.InsulineCorr + ' </th>\
+								<th style="border: 1px solid; text-align: center"> ' + date + ' - ' + time + ' </th>\
+								<th style="border: 1px solid; text-align: center"> ' + this.state.pdfData[i].data.bloodGlucose + ' </th>\
+								<th style="border: 1px solid; text-align: center"> ' + this.state.pdfData[i].data.insulineFood + ' </th>\
+								<th style="border: 1px solid; text-align: center"> ' + this.state.pdfData[i].data.insulineCorr + ' </th>\
 							</tr>'
 		}
 		patientNote += '</table>'
@@ -255,19 +259,19 @@ class ExportPDF extends React.Component {
 						renderItem={({item}) => (
 							<View style={{flex: 1, flexDirection: 'row', justifyContent:'space-around'}}>
 								<View style={{flex: 1}}>
-									<Text style={{fontSize: 10}}> {item.data.date} </Text>
+									<Text style={{fontSize: 10}}> {item.date.split("T")[0]} </Text>
 								</View>
 								<View style={{flex: 1}}>
-									<Text style={{fontSize: 10}}> {item.data.time} </Text>
+									<Text style={{fontSize: 10}}> {item.date.split("T")[1].split(".")[0]} </Text>
 								</View>
 								<View style={{flex: 1}}>
-									<Text style={{fontSize: 10}}> {item.data.BloodGlucose} </Text>
+									<Text style={{fontSize: 10}}> {item.data.bloodGlucose} </Text>
 								</View>
 								<View style={{flex: 1}}>
-									<Text style={{fontSize: 10}}> {item.data.InsulineFood} </Text>
+									<Text style={{fontSize: 10}}> {item.data.insulineFood} </Text>
 								</View>
 								<View style={{flex: 1}}>
-									<Text style={{fontSize: 10}}> {item.data.InsulineCorr} </Text>
+									<Text style={{fontSize: 10}}> {item.data.insulineCorr} </Text>
 								</View>
 							</View>
 						)}
