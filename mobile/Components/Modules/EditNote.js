@@ -244,7 +244,7 @@ class EditNote extends React.Component {
 		else if (data.field_type == "select") {
 			let myUsers = data.select_values.map((myValue, myIndex)=>{
 				return(
-					<Picker.Item label={myValue} value={myValue}/>
+					<Picker.Item key={myIndex} label={myValue} value={myValue}/>
 				)
 			});
 			return (
@@ -271,8 +271,8 @@ class EditNote extends React.Component {
 		let { navigate } = this.props.navigation;
     	return (
 			<SafeAreaView style={{flex:1}}>
-				<View style={{flex: 1, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row", paddingBottom: 6, paddingTop: 6,}}>
-            		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
+				<View style={{height: 56, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row", paddingBottom: 6, paddingTop: 6,}}>
+            		<View style={{flex: 1, paddingLeft: 30, justifyContent: "flex-start", alignItems: "flex-start"}}>
 						<Icon
 						  	name="clear"
 						  	color={"white"}
@@ -289,9 +289,7 @@ class EditNote extends React.Component {
 						  	style={{justifyContent: "flex-end"}}
 						/>
             		</View>
-            		<View style={{flex: 6}}>
-            		</View>
-            		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
+            		<View style={{flex: 1, paddingRight: 30, justifyContent: "flex-end", alignItems: "flex-end"}}>
             			<Icon
 						  	name="check"
 						  	color={"white"}
@@ -301,8 +299,8 @@ class EditNote extends React.Component {
 						/>
             		</View>
           		</View>
-				<View style={{flex:9}}>
-					<View style={{flex:2}}>
+				<View style={{flex: 1}}>
+					<View style={{alignItems: "stretch", height: 128}}>
 						<View style={note_style.date_time}>
 							<Icon_Ant
 								name="calendar"
@@ -349,7 +347,7 @@ class EditNote extends React.Component {
 							</View>
 						</View>
 					</View>
-					<View style={{flex: 8, marginTop: 10}}>
+					<View style={{flex: 1, marginTop: 10}}>
 						{this.state.fieldsJSON
 							&&
 							<FlatList
