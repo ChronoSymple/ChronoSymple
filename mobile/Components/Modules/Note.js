@@ -242,8 +242,8 @@ class Note extends React.Component {
   	render() {
 		let { navigate } = this.props.navigation;
     	return (
+    		<View style={{flex: 1}}>
 			<ScrollView>
-				<View>
 				<View style={{flex: 1, paddingBottom: 6, paddingTop: 6, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row"}}>
             		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
 						<Icon
@@ -274,8 +274,6 @@ class Note extends React.Component {
 						/>
             		</View>
           		</View>
-				{this.state.fieldsJSON != []
-				?
 					<View style={{flex:9}}>
 						<View style={{flex:2}}>
 							<View style={note_style.date_time}>
@@ -324,6 +322,10 @@ class Note extends React.Component {
 								</View>
 							</View>
 						</View>
+						</View>
+ 						</ScrollView>
+
+
 						<View style={{flex: 8, marginTop: 10}}>
 							{this.state.fieldsJSON
 								&&
@@ -337,11 +339,6 @@ class Note extends React.Component {
 							}
 						</View>
 					</View>
-				:
-					<View/>
-				}
-				</View>
- 			</ScrollView>
 		)
 	}
 
