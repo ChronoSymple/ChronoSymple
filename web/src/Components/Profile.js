@@ -112,7 +112,6 @@ class Profile extends React.Component {
   save = async() => {
     try {
       this.setState({askingApi: true});
-      console.log(this.state.profile);
       const profile = await Api.updateMyProfile(localStorage.getItem('myToken'), this.state.profile);
       //console.log(profile);
       this.setState({defaultProfile: profile, profile: {}, askingApi: false});
