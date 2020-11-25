@@ -31,7 +31,7 @@ i18n.init({
     fr: {
       translations: {
         profile: 'Profil',
-        disconnect: 'Déconnection',
+        disconnect: 'Déconnexion',
         settings: 'Paramètres',
         search: 'Recherche...',
         lang: 'choisissez la langue du site',

@@ -88,7 +88,7 @@ class App extends PureComponent {
           {token ? <BrowserRouter>
             <Switch>
               <Route path='/profile'>
-                <MyAppBarController title='Profile'
+                <MyAppBarController admin={admin} title='Profile'
                   disconnect={this.disconnect}
                   openProfile={this.openProfile}
                   openSettings={this.openSettings}
@@ -100,7 +100,7 @@ class App extends PureComponent {
                 </main>
               </Route>
               <Route path='/settings'>
-                <MyAppBarController title={i18n.t('settings')}
+                <MyAppBarController admin={admin} title={i18n.t('settings')}
                   disconnect={this.disconnect}
                   openProfile={this.openProfile}
                   openSettings={this.openSettings}
@@ -114,7 +114,7 @@ class App extends PureComponent {
               {(admin === true) ?
                 <Route path='/doctor/add' render={({_, location}) =>
                   <div style={{flexGrow:1}}>
-                    <MyAppBarController title='Doctor'
+                    <MyAppBarController admin={admin} title='Doctor'
                       disconnect={this.disconnect}
                       openProfile={this.openProfile}
                       openSettings={this.openSettings}
@@ -135,7 +135,7 @@ class App extends PureComponent {
               {(admin === true) ?
                 <Route path='/doctor/:id' render={({match}) =>
                   <div style={{flexGrow:1}}>
-                    <MyAppBarController title='Doctor'
+                    <MyAppBarController admin={admin} title='Doctor'
                       disconnect={this.disconnect}
                       openProfile={this.openProfile}
                       openSettings={this.openSettings}
@@ -152,7 +152,7 @@ class App extends PureComponent {
               }
               <Route path='/patient/:id' render={({match}) => 
                 <div style={{flexGrow:1}}>
-                  <MyAppBarController title='Patient'
+                  <MyAppBarController admin={admin} title='Patient'
                     disconnect={this.disconnect}
                     openProfile={this.openProfile}
                     openSettings={this.openSettings}
@@ -172,7 +172,7 @@ class App extends PureComponent {
               }/>
               <Route path='/favorite'>
                 <div style={{flexGrow:1}}>
-                  <MyAppBarController title='Favorite'
+                  <MyAppBarController admin={admin} title='Favorite'
                     disconnect={this.disconnect}
                     openProfile={this.openProfile}
                     openSettings={this.openSettings}
@@ -185,7 +185,7 @@ class App extends PureComponent {
                 </div>
               </Route>
               <Route path='/'>
-                <MyAppBarController title={i18n.t('list')}
+                <MyAppBarController admin={admin} title={i18n.t('list')}
                   disconnect={this.disconnect}
                   openProfile={this.openProfile}
                   openSettings={this.openSettings}

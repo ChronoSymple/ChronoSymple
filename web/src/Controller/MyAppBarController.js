@@ -31,7 +31,8 @@ class MyAppBarController extends React.Component {
   render() {
     const {
       title,
-      back
+      back,
+      admin
     } = this.props;
     return <MyAppBar
       disconnect={this.disconnect}
@@ -42,6 +43,7 @@ class MyAppBarController extends React.Component {
       anchorEl={this.state.anchorEl}
       title={title}
       back={back}
+      admin={admin}
     />;
   }
 }
@@ -52,6 +54,7 @@ MyAppBarController.propTypes = {
   openSettings: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   back: PropTypes.func,
+  admin: PropTypes.bool.isRequired
 };
 
 export default MyAppBarController;

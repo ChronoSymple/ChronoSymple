@@ -32,7 +32,8 @@ class MyAppBar extends PureComponent {
       closeMenu,
       anchorEl,
       title,
-      back
+      back,
+      admin
     } = this.props;
     const open = anchorEl !== null;
     return (
@@ -65,7 +66,7 @@ class MyAppBar extends PureComponent {
               open={open}
               onClose={closeMenu}
             >
-              <MenuItem onClick={openProfile}>{i18n.t('profile')}</MenuItem>
+              {!admin && <MenuItem onClick={openProfile}>{i18n.t('profile')}</MenuItem>}
               <MenuItem onClick={disconnect}>{i18n.t('disconnect')}</MenuItem>
             </Menu>
           </Toolbar>
@@ -87,6 +88,7 @@ MyAppBar.propTypes = {
   closeMenu: PropTypes.func.isRequired,
   anchorEl: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   title: PropTypes.string.isRequired,
-  back: PropTypes.func
+  back: PropTypes.func,
+  admin: PropTypes.bool.isRequired
 };
 export default withStyles(styles)(MyAppBar);
