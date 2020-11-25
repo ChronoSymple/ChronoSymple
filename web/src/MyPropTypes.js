@@ -6,7 +6,6 @@ const PatientPropTypes = PropTypes.shape({
   lastname: PropTypes.string.isRequired,
   birthdate: PropTypes.string.isRequired,
   civility: PropTypes.oneOf(['Mr', 'Mme']),
-  diseases: PropTypes.object.isRequired
 });
 
 const UserPropTypes = PropTypes.shape({

@@ -91,7 +91,7 @@ class SearchController extends PureComponent {
         c[e.id] = [...units, e.unit];
         return c;
       }, {}));
-      const d2 = Object.keys(obj).reduce((c, k) => [...c, { id: k, units: obj[k]}], []);
+      const d2 = Object.keys(obj).reduce((c, k) => [...c, { id: Number(k), units: obj[k]}], []);
       const data = await Promise.all(d2.map(async({id, units}) => {
         const patientData = await Api.getPatient(this.props.token, id);
         const {first_name: firstname, last_name: lastname, ...others} = patientData;
