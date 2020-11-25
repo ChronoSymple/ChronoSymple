@@ -19,6 +19,7 @@ it('renders without crashing', () => {
     title='Hello'
     disconnect={() => 0}
     anchorEl={null}
+    admin={false}
   />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
