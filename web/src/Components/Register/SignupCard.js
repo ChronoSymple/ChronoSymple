@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -18,42 +18,40 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { IconButton } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
-function ScrollDialog() {
-  const [open, setOpen] = React.useState(false);
-  const [scroll, setScroll] = React.useState('paper');
-
-  const handleClickOpen = scrollType => () => {
-    setOpen(true);
-    setScroll(scrollType);
+class ScrollDialog extends PureComponent {
+  state = {
+    open: false
   };
-
-  function handleClose() {
-    setOpen(false);
+  handleClose = () => this.setState(({open: false}));
+  handleOpen = () => this.setState(({open: true}));
+  render() {
+    const {
+      open
+    } = this.state;
+    return (
+      <div>
+        <Button onClick={this.handleOpen}>{'Condition général d\'utilisation'}</Button>
+        <Dialog style={{ position: 'relative', bottom: '10vmin', zIndex: 200000}}
+          open={open}
+          onClose={this.handleClose}
+          scroll='paper'
+          aria-labelledby="scroll-dialog-title"
+        >
+          <DialogTitle id="scroll-dialog-title">{'Termes d\'utilisation'}</DialogTitle>
+          <DialogContent dividers={true}>
+            <DialogContentText>
+              {'Chronosymple, une startup (projet étudiant) a mis en place pour les medecins un site web qui leur permettent de suivre un patient atteint de maladie chronique de manière fluide et chronologique.\n'}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
   }
-
-  return (
-    <div>
-      <Button onClick={handleClickOpen('paper')}>{'Condition général d\'utilisation'}</Button>
-      <Dialog style={{ position: 'relative', bottom: '10vmin' }}
-        open={open}
-        onClose={handleClose}
-        scroll={scroll}
-        aria-labelledby="scroll-dialog-title"
-      >
-        <DialogTitle id="scroll-dialog-title">{'Termes d\'utilisation'}</DialogTitle>
-        <DialogContent dividers={scroll === 'paper'}>
-          <DialogContentText>
-            {'Chronosymple, une startup (projet étudiant) a mis en place pour les medecins un site web qui leur permettent de suivre un patient atteint de maladie chronique de manière fluide et chronologique.\n'}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
 }
 
 class SignupCard extends Component {
