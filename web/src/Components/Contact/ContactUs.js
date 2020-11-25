@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PopPop from 'reactjs-popup';
 import Button from '@material-ui/core/Button';
 // import Dialog from 'react-dialog'
+import '../../assets/CSS/bootstrap.css';
 //import gecko from '../../assets/Img/Gecko.png';
 import i18n from 'i18next';
 import Api from '../../Api';
