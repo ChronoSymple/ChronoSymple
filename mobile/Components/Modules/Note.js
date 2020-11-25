@@ -7,7 +7,7 @@ import { getUserToken, getUserCurrentModule, getUserCurrentModuleName } from '..
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon_Ant from 'react-native-vector-icons/AntDesign';
-import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 import { APIGetNotesParameters, APIGetGeneralUnitId } from "../../API/APIModule"
 import { Picker } from '@react-native-community/picker';
 
@@ -216,7 +216,7 @@ class Note extends React.Component {
 		else if (data.field_type == "select") {
 			let myUsers = data.select_values.map((myValue, myIndex)=>{
 				return(
-					<Picker.Item key={myIndex}  label={myValue} value={myValue}/>
+					<Picker.Item key={myIndex} label={myValue} value={myValue}/>
 				)
 			});
 			return (
@@ -242,10 +242,9 @@ class Note extends React.Component {
   	render() {
 		let { navigate } = this.props.navigation;
     	return (
-    		<View style={{flex: 1}}>
-			<ScrollView>
-				<View style={{flex: 1, paddingBottom: 6, paddingTop: 6, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row"}}>
-            		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
+			<SafeAreaView style={{flex:1}}>
+				<View style={{height: 56, backgroundColor: colors.secondary, justifyContent: 'center', alignContent: "center", width: Dimensions.get('window').width, flexDirection: "row", paddingBottom: 6, paddingTop: 6,}}>
+            		<View style={{flex: 1, paddingLeft: 30, justifyContent: "flex-start", alignItems: "flex-start"}}>
 						<Icon
 						  	name="clear"
 						  	color={"white"}
@@ -262,9 +261,7 @@ class Note extends React.Component {
 						  	style={{justifyContent: "flex-end"}}
 						/>
             		</View>
-            		<View style={{flex: 6}}>
-            		</View>
-            		<View style={{flex: 2, justifyContent: "center", alignItems: "center"}}>
+            		<View style={{flex: 1, paddingRight: 30, justifyContent: "flex-end", alignItems: "flex-end"}}>
             			<Icon
 						  	name="check"
 						  	color={"white"}
@@ -274,59 +271,55 @@ class Note extends React.Component {
 						/>
             		</View>
           		</View>
-					<View style={{flex:9}}>
-						<View style={{flex:2}}>
-							<View style={note_style.date_time}>
-								<Icon_Ant
-									name="calendar"
-									color="#000"
-									size={40}
-									style={{paddingRight: 20}}
-									onPress={this.showDateTimePicker}
+				<View style={{flex: 1}}>
+					<View style={{alignItems: "stretch", height: 128}}>
+						<View style={note_style.date_time}>
+							<Icon_Ant
+								name="calendar"
+								color="#000"
+								size={40}
+								style={{paddingRight: 20}}
+								onPress={this.showDateTimePicker}
+							/>
+							<View style={{width: 150}}>
+								<Button 
+									color={colors.primary} 
+									title={this.state.date} 
+									onPress={this.showDateTimePicker} 
 								/>
-								<View style={{width: 150}}>
-									<Button 
-										color={colors.primary} 
-										title={this.state.date} 
-										onPress={this.showDateTimePicker} 
-									/>
-									<DateTimePicker
-										date={this.state.original_dt}
-									  	isVisible={this.state.isDateTimePickerVisible}
-									  	onConfirm={this.handleDatePicked}
-									  	onCancel={this.hideDateTimePicker}
-			    				 	/>
-			    				</View>
-							</View>
-							<View style={note_style.date_time}>
-								<Icon_Ant
-									name="clockcircleo"
-									color="#000"
-									size={40}
-									style={{paddingRight: 20}}
-									onPress={this.showTimePicker}
+								<DateTimePicker
+									date={this.state.original_dt}
+								  	isVisible={this.state.isDateTimePickerVisible}
+								  	onConfirm={this.handleDatePicked}
+								  	onCancel={this.hideDateTimePicker}
+			    			 	/>
+			    			</View>
+						</View>
+						<View style={note_style.date_time}>
+							<Icon_Ant
+								name="clockcircleo"
+								color="#000"
+								size={40}
+								style={{paddingRight: 20}}
+								onPress={this.showTimePicker}
+							/>
+							<View style={{width: 150}}>
+								<Button
+									color={colors.primary} 
+									title={this.state.time} 
+									onPress={this.showTimePicker} 
 								/>
-								<View style={{width: 150}}>
-									<Button
-										color={colors.primary} 
-										title={this.state.time} 
-										onPress={this.showTimePicker} 
-									/>
-									<DateTimePicker
-										mode="time"
-										date={this.state.original_dt}
-										isVisible={this.state.isTimePickerVisible}
-										onConfirm={this.handleTimePicked}
-										onCancel={this.hideTimePicker}
-									/>
-								</View>
+								<DateTimePicker
+									mode="time"
+									date={this.state.original_dt}
+									isVisible={this.state.isTimePickerVisible}
+									onConfirm={this.handleTimePicked}
+									onCancel={this.hideTimePicker}
+								/>
 							</View>
 						</View>
-						</View>
- 						</ScrollView>
-
-
-						<View style={{flex: 8, marginTop: 10}}>
+					</View>
+						<View style={{flex: 1, marginTop: 10}}>
 							{this.state.fieldsJSON
 								&&
 								<FlatList
@@ -339,6 +332,7 @@ class Note extends React.Component {
 							}
 						</View>
 					</View>
+ 			</SafeAreaView>
 		)
 	}
 
