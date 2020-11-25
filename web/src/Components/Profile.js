@@ -48,7 +48,8 @@ class Profile extends React.Component {
       defaultProfile: {},
       askingApi: true,
       lang: i18n.t('language'),
-      value: 'Fra'
+      value: 'Fra',
+      error: ''
     };
   }
 
@@ -57,8 +58,9 @@ class Profile extends React.Component {
     this.setState(s => ({
       profile: {
         ...s.profile,
-        password
-      }
+        password,
+      },
+      error: '',
     }));
   }
 
@@ -110,11 +112,12 @@ class Profile extends React.Component {
   save = async() => {
     try {
       this.setState({askingApi: true});
+      console.log(this.state.profile);
       const profile = await Api.updateMyProfile(localStorage.getItem('myToken'), this.state.profile);
       //console.log(profile);
       this.setState({defaultProfile: profile, profile: {}, askingApi: false});
-    } catch (err) {
-      //console.error(err);
+    } catch {
+      this.setState({error: 'Mauvais mot de passe ou erreur serveur', askingApi: false});
     }
   }
   
@@ -135,7 +138,8 @@ class Profile extends React.Component {
     const {
       profile,
       defaultProfile,
-      askingApi
+      askingApi,
+      error
     } = this.state;
     return (<Card>
       <CardContent>
@@ -175,6 +179,7 @@ class Profile extends React.Component {
             <Button variant='contained' style={{ background: '#62BE87' }} onClick={this.save} disabled={askingApi || profile.password === '' || profile.password === undefined}>Modifiez</Button>
             {askingApi && <CircularProgress style={{marginLeft: 10}} size={30} />}
             <p>{i18n.t('changePasswd')}</p>
+            <p style={{color: 'red'}}>{error}</p>
           </div>
         </div>
         <Typography variant="h4">{i18n.t('settings')}</Typography>
