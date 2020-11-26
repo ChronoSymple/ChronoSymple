@@ -38,8 +38,8 @@ class AdminDoctor extends PureComponent {
       return;
     }
     try {
-      await Api.updateDoctor(this.props.token, {
-        id: Number(this.props.doctorID),
+      console.log(this.props.doctorID);
+      await Api.updateDoctor(this.props.token, this.props.doctorID, {
         email: this.state.email
       });
     } catch (error) {

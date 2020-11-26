@@ -88,18 +88,18 @@ const getNotesByDateInterval = (token, unit, begin = new Date(0), end = new Date
 
 const myProfileProperties = [...profileProperties, 'password'];
 
-const updateProfile = async(url, token, profile, authorized, idRequired) => {
+const updateProfile = async(url, token, profile, authorized, idRequired, method) => {
+  if (method === undefined) {
+    method = 'POST';
+  }
   if (typeof(profile) !== 'object' && profile !== null) {
     throw Error('Not an object');
-  }
-  if (Object.keys(profile).reduce((p, c) => authorized.includes(c), true) === false) {
-    throw Error('Invalid key in the set');
   }
   if (idRequired && (profile.id === undefined || typeof(profile.id) !== 'number')) {
     throw Error('No ID given');
   }
   return await loggedRequest(url, token, {
-    method: 'POST',
+    method,
     body: JSON.stringify(profile)
   });
 };
@@ -110,11 +110,16 @@ const getMyProfile = token =>
 const updateMyProfile = async(token, profile) =>
   updateProfile(`${prefix}/doctors/profiles/update`, token, profile, myProfileProperties, false);
 
-const updatePatient = async(token, patientProfile) =>
-  updateProfile(`${prefix}/admins/patients/update`, token, patientProfile, profileProperties, true);
-
-const updateDoctor = async(token, doctorProfile) =>
-  updateProfile(`${prefix}/admins/doctors/update`, token, doctorProfile, profileProperties, true);
+const updatePatient = async(token, id, patientProfile) =>
+  loggedRequest(`${prefix}/admins/patients/${id}`, token, {
+    method: 'PATCH',
+    body: JSON.stringify(patientProfile)
+  });
+const updateDoctor = async(token, id, doctorProfile) =>
+  loggedRequest(`${prefix}/admins/doctors/${id}`, token, {
+    method: 'PATCH',
+    body: JSON.stringify(doctorProfile)
+  });
 
 const getPatientsAsAdmin = token =>
   loggedRequest(`${prefix}/admins/patients`, token);
