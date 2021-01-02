@@ -4,6 +4,7 @@ import React from 'react'
 import { ActivityIndicator, View, Text, StyleSheet, Button, FlatList, TouchableOpacity, TouchableHighlight, BackHandler, Dimensions, SafeAreaView, Modal} from 'react-native'
 import { APIGetPatientNotesByDateIntervale,  APIRemovePatientNotes, APIShareNote, APIgetDoctorsOfModule, APIUnshareNote, APIDoctorOfNotes } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule, getUserCurrentModuleName } from '../../Redux/Action/action';
+import { APIGetNotesParameters, APIGetGeneralUnitId } from "../../API/APIModule"
 import { colors, note_style, windowSize } from '../StyleSheet';
 import ModalFilter from "./ModalFilter"
 import { connect } from 'react-redux'
@@ -79,6 +80,7 @@ class Calendar extends React.Component {
 			modalInternetVisible: false,
 			currentModuleName: null,
 			doctorName: "",
+			mytab: new Map(),
 			doctorID: "",
 			doctorsOfModule: ""
 		}
@@ -134,6 +136,49 @@ class Calendar extends React.Component {
 			this.setState({ error })
 		})
 	} */
+
+	getJson = () => {
+		let { navigate } = this.props.navigation;
+		this.props.getUserToken().then(() => {
+			this.props.getUserCurrentModule().then(() => {
+				APIGetGeneralUnitId(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
+					if (data.status == 200) {
+						let response = await data.json()
+						APIGetNotesParameters(this.props.token.token, response.id).then(async data => {
+							if (data.status == 200) {
+								var myTab = new Map()
+								var fieldsJSON = await data.json();
+								if (fieldsJSON[0] != null) {
+									for (var values in fieldsJSON) {
+										myTab = myTab.set(fieldsJSON[values].tag, fieldsJSON[values].name)
+									}
+									this.setState ({ 
+										mytab: new Map(myTab)
+									})
+								}
+							} else if (data.status == 401) {
+								showMessage({
+									message: "Un probleme est survenus, vous allez être déconnecté",
+									type: "danger",
+								});
+								this.props.navigation.navigate("Logout");
+							} else {
+								return (null);
+							}
+						}).catch(error => {
+								this.setState({ error })
+						})
+					}
+					else
+						return (null)
+				}).catch(error => {
+						this.setState({ error })
+				})
+			})
+		}).catch(error => {
+			this.setState({ error })
+		})
+	}
 
 	shareNote = () => {
 		let notes = this.state.selectedNotes;
@@ -938,8 +983,10 @@ class Calendar extends React.Component {
 	}
 
 	detailedNote = (item) => {
-		let key = Object.keys(item)[0]
-		let val = item[key]
+		let tag = Object.keys(item)[0]
+		let key = this.state.mytab.get(tag)
+		let val = item[tag]
+
 		return (
 			<View style={{
 				flex: 1, 
@@ -949,16 +996,16 @@ class Calendar extends React.Component {
 				marginLeft: 20, 
 				marginRight: 20
 			}}>
-				<Text 
+				<Text
 					numberOfLines={1}
 					ellipsizeMode='tail'
-					style={{ color: colors.primary, fontSize: 15, marginRight: 10, flex: 1, fontWeight: 'bold'}}> 
+					style={{ color: colors.primary, fontSize: 15, marginRight: 10, flex: 2, fontWeight: 'bold'}}> 
 					{key}:
 				</Text>
 				<Text
 					numberOfLines={1}
 					ellipsizeMode='tail'
-					style={{flex: 2, marginRight: 20, fontSize: 15 }}> 
+					style={{flex: 3, marginRight: 20, fontSize: 15 }}> 
 					{val || '-'}
 				</Text>
 			</View>
@@ -1553,6 +1600,7 @@ class Calendar extends React.Component {
 	}
 	
 	componentDidMount() {
+		this.getJson()
 		BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
 	}
 	componentWillUnmount() {
