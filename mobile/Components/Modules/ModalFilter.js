@@ -5,7 +5,8 @@ import {
   APIGetGeneralUnitNoteFileds,
   APIPatchChangeFilter,
   APIGetFilter,
-  APIGetGeneralUnitId
+  APIGetGeneralUnitId,
+  APIGetNotesParameters,
   } from '../../API/APIModule'
 import { getUserToken, getUserCurrentModule } from '../../Redux/Action/action';
 import { connect } from 'react-redux'
@@ -28,7 +29,8 @@ class ModalFilter extends React.Component {
     this.state = {
       modalVisible: this.props.modalShow,
       checkedBoxElem: [],
-      noteFields: []
+      noteFields: [],
+      mytab: new Map()
     };
   }
 
@@ -61,6 +63,48 @@ class ModalFilter extends React.Component {
         this.setState({ error })
       })
     
+    }).catch(error => {
+      this.setState({ error })
+    })
+  }
+
+  getJson = () => {
+    this.props.getUserToken().then(() => {
+      this.props.getUserCurrentModule().then(() => {
+        APIGetGeneralUnitId(this.props.token.token, this.props.currentModule.currentModule).then(async data => {
+          if (data.status == 200) {
+            let response = await data.json()
+            APIGetNotesParameters(this.props.token.token, response.id).then(async data => {
+              if (data.status == 200) {
+                var myTab = new Map()
+                var fieldsJSON = await data.json();
+                if (fieldsJSON[0] != null) {
+                  for (var values in fieldsJSON) {
+                    myTab = myTab.set(fieldsJSON[values].tag, fieldsJSON[values].name)
+                  }
+                  this.setState ({ 
+                    mytab: new Map(myTab)
+                  })
+                }
+              } else if (data.status == 401) {
+                showMessage({
+                  message: "Un probleme est survenus, vous allez être déconnecté",
+                  type: "danger",
+                });
+                this.props.navigation.navigate("Logout");
+              } else {
+                return (null);
+              }
+            }).catch(error => {
+                this.setState({ error })
+            })
+          }
+          else
+            return (null)
+        }).catch(error => {
+            this.setState({ error })
+        })
+      })
     }).catch(error => {
       this.setState({ error })
     })
@@ -180,7 +224,7 @@ class ModalFilter extends React.Component {
                       return (
                         <View style={{paddingBottom: 15}}>
                           <CheckBox
-                            title={e}
+                            title={this.state.mytab.get(e)}
                             checkedColor={colors.primary}
                             checked={this.isChecked(e)}
                             onPress={ () => { this.boxChecked(e, i) } }
@@ -221,6 +265,10 @@ class ModalFilter extends React.Component {
         </Modal>
       </View>
     )
+  }
+
+  componentDidMount() {
+    this.getJson()
   }
 
   componentDidUpdate(prevProps) {
